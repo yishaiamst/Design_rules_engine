@@ -1,0 +1,18 @@
+{
+  "total_terminals_checked": 6370,
+  "aerial_terminals": 3775,
+  "mst_terminals": 2595,
+  "terminals_with_fdh": 4758,
+  "terminals_with_stub": 1170,
+  "terminals_missing_stub": 3588,
+  "missing_stub_percentage": 75.41,
+  "aerial_with_fdh": 3775,
+  "aerial_with_stub": 189,
+  "aerial_missing_stub": 3586,
+  "aerial_missing_stub_percentage": 94.99,
+  "mst_with_fdh": 983,
+  "mst_with_stub": 981,
+  "mst_missing_stub": 2,
+  "mst_missing_stub_percentage": 0.2,
+  "virtual_fiber_links_to_reclassify": 12256
+}

@@ -1,0 +1,13 @@
+{
+  "total_aerial_terminals": 3775,
+  "with_fdh_id": 3775,
+  "with_cable_id": 3772,
+  "has_fiber_cable": 3742,
+  "missing_fiber_cable": 33,
+  "has_fiber_cable_percentage": 99.13,
+  "missing_fiber_cable_percentage": 0.87,
+  "has_virtual_link": 3747,
+  "unnecessary_virtual": 3714,
+  "unnecessary_virtual_percentage": 99.12,
+  "fdh_count": 206
+}

@@ -1,0 +1,20 @@
+{
+  "average_total_cable_length_per_ont_m": 5737.69,
+  "max_chain_length_m": 31715.0,
+  "total_onts_processed": 22769,
+  "complete_paths": 22498,
+  "complete_paths_percentage": 98.81,
+  "average_hop_count": 10.2,
+  "max_hop_count": 41,
+  "unreachable_nodes_count": 4,
+  "virtual_connections_total": 2856,
+  "virtual_by_layer": {
+    "drop cable": 2671,
+    "stub cable": 178,
+    "fiber cable": 7
+  },
+  "final_node_type_distribution": {
+    "olt": 22498,
+    "ont": 271
+  }
+}

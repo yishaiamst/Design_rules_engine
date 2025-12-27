@@ -1,0 +1,161 @@
+{
+  "version": "1.0",
+  "description": "Design Engine Configuration File",
+  "last_updated": "2025-11-20",
+  
+  "equipment": {
+    "mst": {
+      "MST4": {
+        "ports": 4,
+        "stub_cable_size": 4,
+        "description": "4-port MST with 4F stub cable"
+      },
+      "MST6": {
+        "ports": 6,
+        "stub_cable_size": 6,
+        "description": "6-port MST with 6F stub cable"
+      },
+      "MST8": {
+        "ports": 8,
+        "stub_cable_size": 8,
+        "description": "8-port MST with 8F stub cable"
+      },
+      "MST12": {
+        "ports": 12,
+        "stub_cable_size": 12,
+        "description": "12-port MST with 12F stub cable"
+      }
+    },
+    "aerial_terminal": {
+      "AER-TRM4": {
+        "ports": 4,
+        "description": "4-port Aerial Terminal"
+      },
+      "AER-TRM6": {
+        "ports": 6,
+        "description": "6-port Aerial Terminal"
+      },
+      "AER-TRM8": {
+        "ports": 8,
+        "description": "8-port Aerial Terminal"
+      },
+      "AER-TRM12": {
+        "ports": 12,
+        "description": "12-port Aerial Terminal"
+      }
+    },
+    "fosc": {
+      "FOSC-12": {
+        "fiber_capacity": 12,
+        "description": "12-fiber FOSC"
+      },
+      "FOSC-24": {
+        "fiber_capacity": 24,
+        "description": "24-fiber FOSC"
+      },
+      "FOSC-48": {
+        "fiber_capacity": 48,
+        "description": "48-fiber FOSC"
+      },
+      "FOSC-96": {
+        "fiber_capacity": 96,
+        "description": "96-fiber FOSC"
+      },
+      "FOSC-144": {
+        "fiber_capacity": 144,
+        "description": "144-fiber FOSC"
+      }
+    },
+    "fdh": {
+      "FDH-96": {
+        "fiber_capacity": 96,
+        "description": "96-fiber FDH"
+      },
+      "FDH-144": {
+        "fiber_capacity": 144,
+        "description": "144-fiber FDH"
+      },
+      "FDH-288": {
+        "fiber_capacity": 288,
+        "description": "288-fiber FDH"
+      },
+      "FDH-432": {
+        "fiber_capacity": 432,
+        "description": "432-fiber FDH"
+      }
+    },
+    "olt": {
+      "OLT-8P-1G": {
+        "ports": 8,
+        "port_capacity_gbps": 1.0,
+        "description": "8-port OLT, 1G per port"
+      },
+      "OLT-16P-1G": {
+        "ports": 16,
+        "port_capacity_gbps": 1.0,
+        "description": "16-port OLT, 1G per port"
+      },
+      "OLT-8P-10G": {
+        "ports": 8,
+        "port_capacity_gbps": 10.0,
+        "description": "8-port OLT, 10G per port"
+      }
+    }
+  },
+  
+  "service": {
+    "service_per_ont_gbps": 1.0,
+    "olt_port_capacity_gbps": 1.0,
+    "oversubscription_ratios": [8, 16, 32, 64],
+    "default_oversubscription": 32,
+    "max_subscribers_per_port": 256,
+    "future_growth_percentage": 10.0,
+    "description": "Service configuration for capacity planning. max_subscribers_per_port is a hard limit regardless of service level."
+  },
+  
+  "cables": {
+    "drop_cable": {
+      "default_size": 1,
+      "configurable": true,
+      "description": "Drop cable from ONT to Terminal (default 1F)"
+    },
+    "stub_cable": {
+      "based_on_mst_type": true,
+      "description": "Stub cable size matches MST type (MST4=4F, MST6=6F, etc.)"
+    },
+    "infrastructure_cable": {
+      "standard_sizes": [12, 24, 48, 72, 96, 144, 288],
+      "default_size_override": null,
+      "max_size": 288,
+      "description": "Infrastructure cables are multiples of 12F. default_size_override: If set (e.g., 96), all infrastructure cables will use this size (takes priority over formula). max_size: Maximum cable size allowed (default 288F)."
+    }
+  },
+  
+  "placement": {
+    "olt": {
+      "max_distance_to_ont_km": 20.0,
+      "max_distance_to_fiber_route_km": 1.0,
+      "pocket_merge_distance_km": 15.0,
+      "pocket_max_diameter_km": 25.0,
+      "pocket_diameter_enforcement": "disabled",
+      "max_distance_from_olt_km": 25.0,
+      "description": "Physical limit: OLT port max distance = 25km. pocket_max_diameter_km is for reference only. Actual validation uses max_distance_from_olt_km during OLT placement. Set pocket_diameter_enforcement to 'strict' (split oversized), 'warning' (keep but warn), or 'disabled' (no check - recommended)"
+    },
+    "terminal": {
+      "fosc_proximity_threshold_m": 1000,
+      "infrastructure_proximity_threshold_m": 10,
+      "far_from_infrastructure_threshold_m": 200,
+      "very_close_to_cable_threshold_m": 1.0,
+      "fosc_close_threshold_m": 200.0,
+      "fosc_far_threshold_m": 300.0,
+      "description": "Two-factor decision: <1m from cable + FOSC distance determines Aerial vs MST. Aerial: 99.9% <1m from cable, mean FOSC 398.9m. MST: 51.3% <1m from cable, mean FOSC 212.9m (when <1m from cable)."
+    },
+    "fosc": {
+      "min_segment_length_m": 1800,
+      "min_cable_connections": 2
+    },
+    "cable_auto_extend": true,
+    "description": "cable_auto_extend: If true, automatically extend cables to reach OLTs if they are within max_distance_to_fiber_route_km but not directly on the cable"
+  }
+}
+

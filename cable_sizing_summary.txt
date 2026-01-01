@@ -1,0 +1,177 @@
+================================================================================
+CABLE SIZING RULES SUMMARY
+================================================================================
+
+Generated: 2025-11-04 22:02:35
+Total Rules: 8
+
+Actionable rules for selecting fiber cable sizes based on downstream ONT counts.
+
+================================================================================
+FEEDER CABLES
+================================================================================
+
+[288F]
+  Placement Context: feeder
+  Recommended ONT Range: 10 - 868 ONTs
+  Statistics:
+    Min ONTs: 1
+    Median ONTs: 19.0
+    Max ONTs: 1718
+    Average ONTs: 55.4
+    Q1 (25th percentile): 10.0
+    Q3 (75th percentile): 868.5
+  Typical Next Size: 144F (probability: 9.6%)
+  Deployment Count: 458 cables (368 with ONTs)
+  Typical Length: 170.2 m (avg: 416.2 m)
+
+  When to Use:
+    Use 288F when serving 10-868 ONTs.
+    When transitioning, typically moves to 144F cables downstream.
+
+[144F]
+  Placement Context: feeder
+  Recommended ONT Range: 12 - 1019 ONTs
+  Statistics:
+    Min ONTs: 1
+    Median ONTs: 24
+    Max ONTs: 2015
+    Average ONTs: 81.4
+    Q1 (25th percentile): 12.5
+    Q3 (75th percentile): 1019.5
+  Typical Next Size: 288F (probability: 4.1%)
+    (Mostly self-transitions, but when transitioning, typically to this size)
+  Deployment Count: 1726 cables (1547 with ONTs)
+  Typical Length: 302.4 m (avg: 580.1 m)
+
+  When to Use:
+    Use 144F when serving 12-1019 ONTs.
+    When transitioning, typically moves to 288F cables downstream.
+
+================================================================================
+DISTRIBUTION CABLES
+================================================================================
+
+[96F]
+  Placement Context: distribution
+  Recommended ONT Range: 8 - 119 ONTs
+  Statistics:
+    Min ONTs: 1
+    Median ONTs: 16.0
+    Max ONTs: 223
+    Average ONTs: 20.9
+    Q1 (25th percentile): 8.5
+    Q3 (75th percentile): 119.5
+  Typical Next Size: 144F (probability: 18.9%)
+  Deployment Count: 673 cables (626 with ONTs)
+  Typical Length: 295.1 m (avg: 600.6 m)
+
+  When to Use:
+    Use 96F when serving 8-119 ONTs.
+    When transitioning, typically moves to 144F cables downstream.
+
+[72F]
+  Placement Context: distribution
+  Recommended ONT Range: 25 - 155 ONTs
+  Statistics:
+    Min ONTs: 14
+    Median ONTs: 37
+    Max ONTs: 273
+    Average ONTs: 45.2
+    Q1 (25th percentile): 25.5
+    Q3 (75th percentile): 155.0
+  Deployment Count: 55 cables (33 with ONTs)
+  Typical Length: 30.0 m (avg: 29.3 m)
+
+  When to Use:
+    Use 72F when serving 25-155 ONTs.
+
+[48F]
+  Placement Context: distribution
+  Recommended ONT Range: 4 - 250 ONTs
+  Statistics:
+    Min ONTs: 1
+    Median ONTs: 8.0
+    Max ONTs: 492
+    Average ONTs: 15.1
+    Q1 (25th percentile): 4.5
+    Q3 (75th percentile): 250.0
+  Typical Next Size: 144F (probability: 28.9%)
+  Deployment Count: 1487 cables (1360 with ONTs)
+  Typical Length: 328.2 m (avg: 590.4 m)
+
+  When to Use:
+    Use 48F when serving 4-250 ONTs.
+    When transitioning, typically moves to 144F cables downstream.
+
+================================================================================
+ACCESS CABLES
+================================================================================
+
+[24F]
+  Placement Context: access
+  Recommended ONT Range: 40 - 242 ONTs
+  Statistics:
+    Min ONTs: 12
+    Median ONTs: 68.5
+    Max ONTs: 417
+    Average ONTs: 80.8
+    Q1 (25th percentile): 40.2
+    Q3 (75th percentile): 242.8
+  Deployment Count: 70 cables (32 with ONTs)
+  Typical Length: 30.0 m (avg: 19.5 m)
+
+  When to Use:
+    Use 24F when serving 40-242 ONTs.
+
+[12F]
+  Placement Context: access
+  Recommended ONT Range: 17 - 100 ONTs
+  Statistics:
+    Min ONTs: 3
+    Median ONTs: 31.0
+    Max ONTs: 169
+    Average ONTs: 44.7
+    Q1 (25th percentile): 17.0
+    Q3 (75th percentile): 100.0
+  Typical Next Size: 144F (probability: 46.2%)
+  Deployment Count: 62 cables (26 with ONTs)
+  Typical Length: 30.0 m (avg: 116.2 m)
+
+  When to Use:
+    Use 12F when serving 17-100 ONTs.
+    When transitioning, typically moves to 144F cables downstream.
+
+[4F]
+  Placement Context: access
+  Recommended ONT Range: 0 - 0 ONTs
+  Statistics:
+    Min ONTs: 0
+    Median ONTs: 0
+    Max ONTs: 0
+    Average ONTs: 0
+    Q1 (25th percentile): 0
+    Q3 (75th percentile): 0
+  Deployment Count: 6 cables (0 with ONTs)
+  Typical Length: 3.5 m (avg: 6.8 m)
+
+  When to Use:
+
+================================================================================
+QUICK REFERENCE TABLE
+================================================================================
+
+Size     Context         ONT Range            Median ONTs     Next Size   
+--------------------------------------------------------------------------------
+288F     feeder          10-868               19.0            144F        
+144F     feeder          12-1019              24.0            288F        
+96F      distribution    8-119                16.0            144F        
+72F      distribution    25-155               37.0            N/A         
+48F      distribution    4-250                8.0             144F        
+24F      access          40-242               68.5            N/A         
+12F      access          17-100               31.0            144F        
+4F       access          0-0                  0.0             N/A         
+
+================================================================================
+END OF SUMMARY
+================================================================================

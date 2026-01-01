@@ -1,0 +1,363 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::32617"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          388555.20657942694,
+          5069338.730068893
+        ]
+      },
+      "properties": {
+        "id": "T0003235",
+        "type": "MST",
+        "connected_onts": 8,
+        "connected_cable_id": "48FOC/F1000509/T1002415",
+        "connected_fosc_id": "F1000390",
+        "stub_cable_id": "stub_T0003235_F1000390",
+        "stub_cable_length": 2340.7625688046755,
+        "marker-color": "#800080",
+        "marker-size": "medium",
+        "marker-symbol": "triangle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          392876.2711081014,
+          5063158.167034049
+        ]
+      },
+      "properties": {
+        "id": "T0004266",
+        "type": "MST",
+        "connected_onts": 12,
+        "connected_cable_id": "48FOC/F1000406/F1000394",
+        "connected_fosc_id": "F1000397",
+        "stub_cable_id": "stub_T0004266_F1000397",
+        "stub_cable_length": 2327.742752981865,
+        "marker-color": "#800080",
+        "marker-size": "medium",
+        "marker-symbol": "triangle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390996.0963944411,
+          5069298.443432263
+        ]
+      },
+      "properties": {
+        "id": "T0004271",
+        "type": "MST",
+        "connected_onts": 4,
+        "connected_cable_id": "144FOC/F1000390/F1000502",
+        "connected_fosc_id": "F1000390",
+        "stub_cable_id": "stub_T0004271_F1000390",
+        "stub_cable_length": 555.6189400962394,
+        "marker-color": "#800080",
+        "marker-size": "medium",
+        "marker-symbol": "triangle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          389024.6184527319,
+          5062292.542221931
+        ]
+      },
+      "properties": {
+        "id": "T0004288",
+        "type": "MST",
+        "connected_onts": 6,
+        "connected_cable_id": "48FOC/F1000398/T1001731",
+        "connected_fosc_id": "F0000962",
+        "stub_cable_id": "stub_T0004288_F0000962",
+        "stub_cable_length": 852.8880515340808,
+        "marker-color": "#800080",
+        "marker-size": "medium",
+        "marker-symbol": "triangle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390923.4136520078,
+          5067209.942299987
+        ]
+      },
+      "properties": {
+        "id": "T0004289",
+        "type": "MST",
+        "connected_onts": 4,
+        "connected_cable_id": "144FOC/F1000391/F1000392",
+        "connected_fosc_id": "F0000171",
+        "stub_cable_id": "stub_T0004289_F0000171",
+        "stub_cable_length": 657.0249805746553,
+        "marker-color": "#800080",
+        "marker-size": "medium",
+        "marker-symbol": "triangle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390843.6087425388,
+          5062304.634102861
+        ]
+      },
+      "properties": {
+        "id": "T0004301",
+        "type": "MST",
+        "connected_onts": 2,
+        "connected_cable_id": "12FOC/F1000397/T1001719",
+        "connected_fosc_id": "F0000962",
+        "stub_cable_id": "stub_T0004301_F0000962",
+        "stub_cable_length": 624.293031770144,
+        "marker-color": "#800080",
+        "marker-size": "medium",
+        "marker-symbol": "triangle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          395602.30341665045,
+          5065154.786341899
+        ]
+      },
+      "properties": {
+        "id": "T0004463",
+        "type": "MST",
+        "connected_onts": 12,
+        "connected_cable_id": "144FOC/F1000396/F1000399",
+        "connected_fosc_id": "F1000399",
+        "stub_cable_id": "stub_T0004463_F1000399",
+        "stub_cable_length": 660.6997411835221,
+        "marker-color": "#800080",
+        "marker-size": "medium",
+        "marker-symbol": "triangle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          394413.39293539984,
+          5063131.7080200715
+        ]
+      },
+      "properties": {
+        "id": "T0004476",
+        "type": "MST",
+        "connected_onts": 3,
+        "connected_cable_id": "48FOC/F1000406/F1000394",
+        "connected_fosc_id": "F0000961",
+        "stub_cable_id": "stub_T0004476_F0000961",
+        "stub_cable_length": 409.65978020016917,
+        "marker-color": "#800080",
+        "marker-size": "medium",
+        "marker-symbol": "triangle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          395427.7752813863,
+          5063107.950118854
+        ]
+      },
+      "properties": {
+        "id": "T0004512",
+        "type": "MST",
+        "connected_onts": 11,
+        "connected_cable_id": "96FOC/F1000395/F1000406",
+        "connected_fosc_id": "F0000961",
+        "stub_cable_id": "stub_T0004512_F0000961",
+        "stub_cable_length": 607.8758023654975,
+        "marker-color": "#800080",
+        "marker-size": "medium",
+        "marker-symbol": "triangle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390797.8242968553,
+          5065249.846846382
+        ]
+      },
+      "properties": {
+        "id": "T0004536",
+        "type": "MST",
+        "connected_onts": 6,
+        "connected_cable_id": "48FOC/F1000391/F1000412",
+        "connected_fosc_id": "F0000157",
+        "stub_cable_id": "stub_T0004536_F0000157",
+        "stub_cable_length": 76.26835517812206,
+        "marker-color": "#800080",
+        "marker-size": "medium",
+        "marker-symbol": "triangle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          392866.8606741564,
+          5067225.446470044
+        ]
+      },
+      "properties": {
+        "id": "T0004562",
+        "type": "MST",
+        "connected_onts": 9,
+        "connected_cable_id": "48FOC/F1000392/T1001700",
+        "connected_fosc_id": "F0000171",
+        "stub_cable_id": "stub_T0004562_F0000171",
+        "stub_cable_length": 1915.4251717117727,
+        "marker-color": "#800080",
+        "marker-size": "medium",
+        "marker-symbol": "triangle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390933.73330779135,
+          5067234.199151389
+        ]
+      },
+      "properties": {
+        "id": "T0004574",
+        "type": "MST",
+        "connected_onts": 3,
+        "connected_cable_id": "144FOC/F1000391/F1000392",
+        "connected_fosc_id": "F0000171",
+        "stub_cable_id": "stub_T0004574_F0000171",
+        "stub_cable_length": 34.501289294053976,
+        "marker-color": "#800080",
+        "marker-size": "medium",
+        "marker-symbol": "triangle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390917.8634426061,
+          5069297.066313264
+        ]
+      },
+      "properties": {
+        "id": "T0004614",
+        "type": "MST",
+        "connected_onts": 4,
+        "connected_cable_id": "144FOC/F1000390/F1000502",
+        "connected_fosc_id": "F1000390",
+        "stub_cable_id": "stub_T0004614_F1000390",
+        "stub_cable_length": 643.4128594696356,
+        "marker-color": "#800080",
+        "marker-size": "medium",
+        "marker-symbol": "triangle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          391350.1981943462,
+          5065246.601831825
+        ]
+      },
+      "properties": {
+        "id": "T0004704",
+        "type": "MST",
+        "connected_onts": 4,
+        "connected_cable_id": "144FOC/F1000393/F1000391",
+        "connected_fosc_id": "F0000157",
+        "stub_cable_id": "stub_T0004704_F0000157",
+        "stub_cable_length": 476.37517377806506,
+        "marker-color": "#800080",
+        "marker-size": "medium",
+        "marker-symbol": "triangle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          389764.9588662584,
+          5062609.060083543
+        ]
+      },
+      "properties": {
+        "id": "T0000033",
+        "type": "MST",
+        "connected_onts": 10,
+        "connected_cable_id": "48FOC/F1000398/T1001731",
+        "connected_fosc_id": "F0000962",
+        "stub_cable_id": "stub_T0000033_F0000962",
+        "stub_cable_length": 165.0617877078165,
+        "marker-color": "#800080",
+        "marker-size": "medium",
+        "marker-symbol": "triangle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390759.9565216268,
+          5063221.175584647
+        ]
+      },
+      "properties": {
+        "id": "T0004456",
+        "type": "MST",
+        "connected_onts": 4,
+        "connected_cable_id": "48FOC/F1000397/F1000398",
+        "connected_fosc_id": "F1000397",
+        "stub_cable_id": "stub_T0004456_F1000397",
+        "stub_cable_length": 74.39170075809552,
+        "marker-color": "#800080",
+        "marker-size": "medium",
+        "marker-symbol": "triangle"
+      }
+    }
+  ]
+}

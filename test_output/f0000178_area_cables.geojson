@@ -1,0 +1,2790 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::32617"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "96FOC/F1000175/F1000179",
+        "Size": "96F",
+        "Owner": "Rock Networks",
+        "CableCateg": "Distribution",
+        "CableType": "Loose Tube",
+        "FiberCount": "96",
+        "BufCount": "8",
+        "FibPerBuf": "12",
+        "SheathType": "Jacketed",
+        "CoreType": "Non-Metallic",
+        "MeasLength": "1236",
+        "CalcLength": "1272",
+        "ExistStran": "No",
+        "StrndLengt": "1236",
+        "StranOwner": "Rock Networks",
+        "FrmStrucID": "P480/CGVXVP",
+        "ToStrucID": "P455/CGVYLV",
+        "From_ID": "F1000175",
+        "To_ID": "F1000179",
+        "Placement": "Aerial",
+        "Status": "Proposed",
+        "Trunk_ID": "TRUNK10194",
+        "FDH_ID": "FDH102011",
+        "Lot_No": null,
+        "FSA_No": "ASSIGINACK FSA1",
+        "OLT_ID": "102",
+        "Subdiv": "1",
+        "Comments": null,
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "AsBuilLeng": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": "ANR96i-D-SJ-GY-M",
+        "PON_ID": null,
+        "layer": "fiber cable",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT2-Assiginack_HLD_v1.3/PomeGran_Rock _SD1_OLT2-Assiginack_HLD_v1.3/fiber cable.shp",
+        "ConStartDt": null
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              422347.04106745275,
+              5072866.05921648
+            ],
+            [
+              422362.64498985733,
+              5072865.9297233485
+            ],
+            [
+              422390.4860132346,
+              5072865.864976783
+            ],
+            [
+              422431.70589353936,
+              5072866.608485779
+            ],
+            [
+              422434.7303509718,
+              5072866.450847662
+            ],
+            [
+              422516.29865626385,
+              5072866.209591115
+            ],
+            [
+              422593.63850736665,
+              5072864.183608319
+            ],
+            [
+              422665.9792971631,
+              5072862.418126103
+            ],
+            [
+              422741.87153923186,
+              5072861.470064813
+            ],
+            [
+              422816.9617512735,
+              5072859.561143846
+            ],
+            [
+              422877.8046667054,
+              5072858.394835726
+            ],
+            [
+              422934.0590227573,
+              5072854.493378141
+            ],
+            [
+              422935.9916771237,
+              5072854.359341071
+            ],
+            [
+              423015.5395102095,
+              5072856.2280935375
+            ],
+            [
+              423091.6087841061,
+              5072856.273075511
+            ],
+            [
+              423166.8238940871,
+              5072854.3574469555
+            ],
+            [
+              423239.89372354513,
+              5072854.558683361
+            ],
+            [
+              423316.8585461377,
+              5072852.551708727
+            ],
+            [
+              423393.2712966427,
+              5072849.571002658
+            ],
+            [
+              423467.4658777423,
+              5072849.713444393
+            ],
+            [
+              423544.0035514978,
+              5072846.72609657
+            ],
+            [
+              423557.47151996853,
+              5072846.739893394
+            ],
+            [
+              423581.7257076755,
+              5072846.7647398105
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "96FOC/F1000184/F1000210",
+        "Size": "96F",
+        "Owner": "Rock Networks",
+        "CableCateg": "Feeder",
+        "CableType": "Loose Tube",
+        "FiberCount": "96",
+        "BufCount": "8",
+        "FibPerBuf": "12",
+        "SheathType": "Jacketed",
+        "CoreType": "Non-Metallic",
+        "MeasLength": "1833",
+        "CalcLength": "1899",
+        "ExistStran": "Yes",
+        "StrndLengt": "1822",
+        "StranOwner": "Bell",
+        "FrmStrucID": "BELL-P1000062_P1365/NO#",
+        "ToStrucID": "41",
+        "From_ID": "F1000184",
+        "To_ID": "F1000210",
+        "Placement": "Aerial",
+        "Status": "Proposed",
+        "Trunk_ID": "TRUNK10201",
+        "FDH_ID": "FDH102011",
+        "Lot_No": null,
+        "FSA_No": "ASSIGINACK FSA1",
+        "OLT_ID": "102",
+        "Subdiv": "1",
+        "Comments": null,
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "AsBuilLeng": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": "ANR96i-D-SJ-GY-M",
+        "PON_ID": null,
+        "layer": "fiber cable",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT2-Assiginack_HLD_v1.3/PomeGran_Rock _SD1_OLT2-Assiginack_HLD_v1.3/fiber cable.shp",
+        "ConStartDt": null
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              425763.53679115494,
+              5071733.601814148
+            ],
+            [
+              425745.2092061447,
+              5071740.50966176
+            ],
+            [
+              425631.01842529647,
+              5071768.924240825
+            ],
+            [
+              425493.16794472886,
+              5071794.08822272
+            ],
+            [
+              425480.95737773215,
+              5071797.4903644165
+            ],
+            [
+              425411.2350759042,
+              5071809.007807194
+            ],
+            [
+              425326.04368647945,
+              5071809.439902606
+            ],
+            [
+              425240.16527753964,
+              5071815.922984509
+            ],
+            [
+              425165.8252004478,
+              5071805.763970566
+            ],
+            [
+              425089.2883892787,
+              5071808.752216302
+            ],
+            [
+              425015.88434311154,
+              5071812.57960798
+            ],
+            [
+              425013.17869596824,
+              5071812.7206842825
+            ],
+            [
+              424950.9618467695,
+              5071813.9596751435
+            ],
+            [
+              424899.9199613618,
+              5071815.618489617
+            ],
+            [
+              424836.9011574734,
+              5071815.896621222
+            ],
+            [
+              424766.8334098317,
+              5071816.577322604
+            ],
+            [
+              424766.0089238561,
+              5071816.585332406
+            ],
+            [
+              424716.64379874273,
+              5071819.159183073
+            ],
+            [
+              424655.2496580292,
+              5071819.352584075
+            ],
+            [
+              424600.7498515008,
+              5071817.1814640565
+            ],
+            [
+              424531.8050157493,
+              5071816.765944397
+            ],
+            [
+              424465.9283457738,
+              5071816.437142983
+            ],
+            [
+              424461.6105248644,
+              5071816.415592021
+            ],
+            [
+              424404.986043045,
+              5071814.355123152
+            ],
+            [
+              424336.9487239558,
+              5071820.81696683
+            ],
+            [
+              424334.7814439045,
+              5071821.02280423
+            ],
+            [
+              424262.00136761565,
+              5071819.972037371
+            ],
+            [
+              424195.0692861108,
+              5071821.288978363
+            ],
+            [
+              424129.7801498139,
+              5071823.690228091
+            ],
+            [
+              424071.9501428526,
+              5071825.795928261
+            ],
+            [
+              424057.74229167507,
+              5071826.443250127
+            ],
+            [
+              424037.96414185746,
+              5071837.96151408
+            ],
+            [
+              424036.94490665686,
+              5071838.555089322
+            ],
+            [
+              423961.192928221,
+              5071838.599942736
+            ],
+            [
+              423955.82567154255,
+              5071838.603120736
+            ],
+            [
+              423954.4848447744,
+              5071839.082833487
+            ],
+            [
+              423946.80904583214,
+              5071841.829033602
+            ],
+            [
+              423945.0186541606,
+              5071842.469588918
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "96FOC/F1000210/F1000218",
+        "Size": "96F",
+        "Owner": "Rock Networks",
+        "CableCateg": "Feeder",
+        "CableType": "Loose Tube",
+        "FiberCount": "96",
+        "BufCount": "8",
+        "FibPerBuf": "12",
+        "SheathType": "Armor Cored",
+        "CoreType": "Metallic",
+        "MeasLength": "393",
+        "CalcLength": "423",
+        "ExistStran": null,
+        "StrndLengt": null,
+        "StranOwner": null,
+        "FrmStrucID": "41",
+        "ToStrucID": "42",
+        "From_ID": "F1000210",
+        "To_ID": "F1000218",
+        "Placement": "Buried",
+        "Status": "Ready",
+        "Trunk_ID": "TRUNK10199",
+        "FDH_ID": "FDH102011",
+        "Lot_No": null,
+        "FSA_No": "ASSIGINACK FSA1",
+        "OLT_ID": "102",
+        "Subdiv": "1",
+        "Comments": null,
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "AsBuilLeng": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": "UDG96i-D-SJSA-YF-M",
+        "PON_ID": null,
+        "layer": "fiber cable",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT2-Assiginack_HLD_v1.3/PomeGran_Rock _SD1_OLT2-Assiginack_HLD_v1.3/fiber cable.shp",
+        "ConStartDt": null
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              423945.0186541606,
+              5071842.469588918
+            ],
+            [
+              423925.53590174357,
+              5071841.783576494
+            ],
+            [
+              423730.4150474585,
+              5071843.912580521
+            ],
+            [
+              423683.1795445925,
+              5071844.669559734
+            ],
+            [
+              423664.8606476477,
+              5071844.366768049
+            ],
+            [
+              423646.23895901785,
+              5071847.546080742
+            ],
+            [
+              423613.53745703376,
+              5071858.90076893
+            ],
+            [
+              423592.3420390811,
+              5071871.99650931
+            ],
+            [
+              423574.09884005756,
+              5071891.82936468
+            ],
+            [
+              423572.2820899475,
+              5071898.112292145
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "48FOC/F1000175/F1000195",
+        "Size": "48F",
+        "Owner": "Rock Networks",
+        "CableCateg": "Distribution",
+        "CableType": "Loose Tube",
+        "FiberCount": "48",
+        "BufCount": "4",
+        "FibPerBuf": "12",
+        "SheathType": "Jacketed",
+        "CoreType": "Non-Metallic",
+        "MeasLength": "800",
+        "CalcLength": "836",
+        "ExistStran": "Yes",
+        "StrndLengt": "799",
+        "StranOwner": "Bell",
+        "FrmStrucID": "P480/CGVXVP",
+        "ToStrucID": "P492/CGVXFN",
+        "From_ID": "F1000175",
+        "To_ID": "F1000195",
+        "Placement": "Aerial",
+        "Status": "Proposed",
+        "Trunk_ID": "TRUNK10195",
+        "FDH_ID": "FDH102011",
+        "Lot_No": null,
+        "FSA_No": "ASSIGINACK FSA1",
+        "OLT_ID": "102",
+        "Subdiv": "1",
+        "Comments": null,
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "AsBuilLeng": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": "ANR48i-D-SJ-GY-M",
+        "PON_ID": null,
+        "layer": "fiber cable",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT2-Assiginack_HLD_v1.3/PomeGran_Rock _SD1_OLT2-Assiginack_HLD_v1.3/fiber cable.shp",
+        "ConStartDt": null
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              422347.04106745275,
+              5072866.05921648
+            ],
+            [
+              422329.9139331671,
+              5072866.324994639
+            ],
+            [
+              422268.3739897701,
+              5072867.289401233
+            ],
+            [
+              422265.4198714094,
+              5072867.241859245
+            ],
+            [
+              422197.5512075824,
+              5072866.146731072
+            ],
+            [
+              422130.7839795288,
+              5072866.146731072
+            ],
+            [
+              422097.00761710166,
+              5072866.932227874
+            ],
+            [
+              422037.7026086541,
+              5072868.503221476
+            ],
+            [
+              421958.76018019073,
+              5072870.85971188
+            ],
+            [
+              421904.3517755351,
+              5072872.027232195
+            ],
+            [
+              421842.2120923971,
+              5072873.265295835
+            ],
+            [
+              421836.23126508534,
+              5072873.492446173
+            ],
+            [
+              421771.68488673185,
+              5072874.156992419
+            ],
+            [
+              421697.8183266899,
+              5072874.106846626
+            ],
+            [
+              421623.6328496451,
+              5072875.484868009
+            ],
+            [
+              421567.78918866394,
+              5072876.201764043
+            ],
+            [
+              421548.04139978753,
+              5072876.045255873
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "48FOC/F1000195/T1000882",
+        "Size": "48F",
+        "Owner": "Rock Networks",
+        "CableCateg": "Distribution",
+        "CableType": "Loose Tube",
+        "FiberCount": "48",
+        "BufCount": "4",
+        "FibPerBuf": "12",
+        "SheathType": "Jacketed",
+        "CoreType": "Non-Metallic",
+        "MeasLength": "938",
+        "CalcLength": "962",
+        "ExistStran": "Yes",
+        "StrndLengt": "937",
+        "StranOwner": "Bell",
+        "FrmStrucID": "P492/CGVXFN",
+        "ToStrucID": "P100695",
+        "From_ID": "F1000195",
+        "To_ID": "T1000882",
+        "Placement": "Aerial",
+        "Status": "Proposed",
+        "Trunk_ID": "TRUNK10195",
+        "FDH_ID": "FDH102011",
+        "Lot_No": null,
+        "FSA_No": "ASSIGINACK FSA1",
+        "OLT_ID": "102",
+        "Subdiv": "1",
+        "Comments": null,
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "AsBuilLeng": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": "ANR48i-D-SJ-GY-M",
+        "PON_ID": null,
+        "layer": "fiber cable",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT2-Assiginack_HLD_v1.3/PomeGran_Rock _SD1_OLT2-Assiginack_HLD_v1.3/fiber cable.shp",
+        "ConStartDt": null
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              421548.04139978753,
+              5072876.045255873
+            ],
+            [
+              421524.14074741496,
+              5072877.488937577
+            ],
+            [
+              421484.6545915183,
+              5072879.874037361
+            ],
+            [
+              421424.4050625001,
+              5072878.001081292
+            ],
+            [
+              421419.69350829616,
+              5072878.00237452
+            ],
+            [
+              421366.3843876496,
+              5072878.017006814
+            ],
+            [
+              421292.97069694847,
+              5072880.840131428
+            ],
+            [
+              421215.32861805835,
+              5072881.878420434
+            ],
+            [
+              421141.10237113916,
+              5072878.728590168
+            ],
+            [
+              421065.13704840833,
+              5072880.681996572
+            ],
+            [
+              420992.4626698037,
+              5072878.453756374
+            ],
+            [
+              420984.2579913222,
+              5072878.771841607
+            ],
+            [
+              420917.29921956226,
+              5072881.367750338
+            ],
+            [
+              420838.90724227845,
+              5072882.444931058
+            ],
+            [
+              420764.9931042392,
+              5072882.914767357
+            ],
+            [
+              420702.33999744576,
+              5072915.685624608
+            ],
+            [
+              420638.3405451425,
+              5072961.931917037
+            ],
+            [
+              420635.1436616761,
+              5072964.241999426
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "144FOC/F1000179/F1000218",
+        "Size": "144F",
+        "Owner": "Rock Networks",
+        "CableCateg": "Feeder",
+        "CableType": "Loose Tube",
+        "FiberCount": "144",
+        "BufCount": "12",
+        "FibPerBuf": "12",
+        "SheathType": "Jacketed",
+        "CoreType": "Non-Metallic",
+        "MeasLength": "950",
+        "CalcLength": "1010",
+        "ExistStran": "No",
+        "StrndLengt": "938",
+        "StranOwner": "Rock Networks",
+        "FrmStrucID": "P455/CGVYLV",
+        "ToStrucID": "42",
+        "From_ID": "F1000179",
+        "To_ID": "F1000218",
+        "Placement": "Aerial",
+        "Status": "Proposed",
+        "Trunk_ID": "TRUNK10161",
+        "FDH_ID": "FDH102011",
+        "Lot_No": null,
+        "FSA_No": "ASSIGINACK FSA1",
+        "OLT_ID": "102",
+        "Subdiv": "1",
+        "Comments": null,
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "AsBuilLeng": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": "ANR144i-D-SJ-GY-M",
+        "PON_ID": null,
+        "layer": "fiber cable",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT2-Assiginack_HLD_v1.3/PomeGran_Rock _SD1_OLT2-Assiginack_HLD_v1.3/fiber cable.shp",
+        "ConStartDt": null
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              423581.7257076755,
+              5072846.7647398105
+            ],
+            [
+              423581.73729354143,
+              5072845.0286532175
+            ],
+            [
+              423581.7488794073,
+              5072843.2925666245
+            ],
+            [
+              423581.75744583947,
+              5072842.00892774
+            ],
+            [
+              423582.0670383697,
+              5072795.617967805
+            ],
+            [
+              423582.6891026023,
+              5072735.433846957
+            ],
+            [
+              423582.1034667645,
+              5072683.332960042
+            ],
+            [
+              423574.84144735587,
+              5072618.547282602
+            ],
+            [
+              423578.3794171068,
+              5072554.2011403935
+            ],
+            [
+              423574.11834176525,
+              5072496.120037655
+            ],
+            [
+              423573.6169171013,
+              5072489.285308136
+            ],
+            [
+              423575.10267186334,
+              5072412.013404475
+            ],
+            [
+              423575.38526184857,
+              5072400.433643667
+            ],
+            [
+              423574.52354555816,
+              5072349.413294285
+            ],
+            [
+              423573.9622996622,
+              5072298.7875990905
+            ],
+            [
+              423574.6259023257,
+              5072234.59150352
+            ],
+            [
+              423571.8423199746,
+              5072171.577654972
+            ],
+            [
+              423570.06924461015,
+              5072113.523797553
+            ],
+            [
+              423570.0872070518,
+              5072051.366443709
+            ],
+            [
+              423573.4734917429,
+              5071981.275135886
+            ],
+            [
+              423573.58327898517,
+              5071979.002695116
+            ],
+            [
+              423572.7632067964,
+              5071917.9465650935
+            ],
+            [
+              423572.6116032857,
+              5071909.879450482
+            ],
+            [
+              423572.5848816325,
+              5071906.666157246
+            ],
+            [
+              423572.3511154096,
+              5071899.216699539
+            ],
+            [
+              423572.2820899475,
+              5071898.112292145
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "24FOC/F1000376/FDH104008",
+        "Size": "24F",
+        "Owner": "Rock Networks",
+        "CableCateg": "Feeder",
+        "CableType": "Loose Tube",
+        "FiberCount": "24",
+        "BufCount": "2",
+        "FibPerBuf": "12",
+        "SheathType": "Jacketed",
+        "CoreType": "Non-Metallic",
+        "MeasLength": "6",
+        "CalcLength": "6",
+        "ExistStran": null,
+        "StrndLengt": null,
+        "StranOwner": null,
+        "FrmStrucID": "P2875/AN6UCG",
+        "ToStrucID": "P2875/AN6UCG",
+        "From_ID": "F1000376",
+        "To_ID": "FDH104008",
+        "Placement": "Aerial",
+        "Status": "Proposed",
+        "Trunk_ID": "TRUNK10388",
+        "FDH_ID": "FDH104008",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "Comments": "FDH Tail cable",
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "AsBuilLeng": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": null,
+        "PON_ID": null,
+        "layer": "fiber cable",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/fiber cable.shp",
+        "ConStartDt": null
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              418706.51582298597,
+              5068556.395052948
+            ],
+            [
+              418705.38094400713,
+              5068558.811195537
+            ],
+            [
+              418706.53807106445,
+              5068560.546886123
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "144FOC/FDH104008/F1000376",
+        "Size": "144F",
+        "Owner": "Rock Networks",
+        "CableCateg": "Distribution",
+        "CableType": "Loose Tube",
+        "FiberCount": "144",
+        "BufCount": "12",
+        "FibPerBuf": "12",
+        "SheathType": "Jacketed",
+        "CoreType": "Non-Metallic",
+        "MeasLength": "6",
+        "CalcLength": "6",
+        "ExistStran": null,
+        "StrndLengt": null,
+        "StranOwner": null,
+        "FrmStrucID": "P2875/AN6UCG",
+        "ToStrucID": "P2875/AN6UCG",
+        "From_ID": "FDH104008",
+        "To_ID": "F1000376",
+        "Placement": "Aerial",
+        "Status": "Proposed",
+        "Trunk_ID": "TRUNK10388",
+        "FDH_ID": "FDH104008",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "Comments": "FDH Tail cable",
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "AsBuilLeng": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": null,
+        "PON_ID": null,
+        "layer": "fiber cable",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/fiber cable.shp",
+        "ConStartDt": null
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              418706.53807106445,
+              5068560.546886123
+            ],
+            [
+              418707.69705546834,
+              5068558.663536467
+            ],
+            [
+              418706.51582298597,
+              5068556.395052948
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "24FOC/F1000378/FDH104009",
+        "Size": "24F",
+        "Owner": "Rock Networks",
+        "CableCateg": "Feeder",
+        "CableType": "Loose Tube",
+        "FiberCount": "24",
+        "BufCount": "2",
+        "FibPerBuf": "12",
+        "SheathType": "Jacketed",
+        "CoreType": "Non-Metallic",
+        "MeasLength": "6",
+        "CalcLength": "6",
+        "ExistStran": null,
+        "StrndLengt": null,
+        "StranOwner": null,
+        "FrmStrucID": "P3059/AN6UJP",
+        "ToStrucID": "P3059/AN6UJP",
+        "From_ID": "F1000378",
+        "To_ID": "FDH104009",
+        "Placement": "Aerial",
+        "Status": "Proposed",
+        "Trunk_ID": "TRUNK10387",
+        "FDH_ID": "FDH104009",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "Comments": "FDH Tail cable",
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "AsBuilLeng": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": null,
+        "PON_ID": null,
+        "layer": "fiber cable",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/fiber cable.shp",
+        "ConStartDt": null
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              422636.01989836677,
+              5068493.72704897
+            ],
+            [
+              422634.5168948876,
+              5068492.7378928345
+            ],
+            [
+              422634.73528000846,
+              5068490.82381148
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "144FOC/F1000378/FDH104009",
+        "Size": "144F",
+        "Owner": "Rock Networks",
+        "CableCateg": "Distribution",
+        "CableType": "Loose Tube",
+        "FiberCount": "144",
+        "BufCount": "12",
+        "FibPerBuf": "12",
+        "SheathType": "Jacketed",
+        "CoreType": "Non-Metallic",
+        "MeasLength": "6",
+        "CalcLength": "6",
+        "ExistStran": null,
+        "StrndLengt": null,
+        "StranOwner": null,
+        "FrmStrucID": "P3059/AN6UJP",
+        "ToStrucID": "P3059/AN6UJP",
+        "From_ID": "F1000378",
+        "To_ID": "FDH104009",
+        "Placement": "Aerial",
+        "Status": "Proposed",
+        "Trunk_ID": "TRUNK10387",
+        "FDH_ID": "FDH104009",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "Comments": "FDH Tail cable",
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "AsBuilLeng": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": null,
+        "PON_ID": null,
+        "layer": "fiber cable",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/fiber cable.shp",
+        "ConStartDt": null
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              422636.01989836677,
+              5068493.72704897
+            ],
+            [
+              422636.15264724183,
+              5068492.115130548
+            ],
+            [
+              422634.73528000846,
+              5068490.82381148
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "144FOC/F1000376/F1000377",
+        "Size": "144F",
+        "Owner": "Rock Networks",
+        "CableCateg": "Feeder",
+        "CableType": "Loose Tube",
+        "FiberCount": "144",
+        "BufCount": "12",
+        "FibPerBuf": "12",
+        "SheathType": "Jacketed",
+        "CoreType": "Non-Metallic",
+        "MeasLength": "1642",
+        "CalcLength": "1681",
+        "ExistStran": "Yes",
+        "StrndLengt": "1642",
+        "StranOwner": "Bell",
+        "FrmStrucID": "P2875/AN6UCG",
+        "ToStrucID": "P2923/AN6TBX",
+        "From_ID": "F1000376",
+        "To_ID": "F1000377",
+        "Placement": "Aerial",
+        "Status": "Proposed",
+        "Trunk_ID": "TRUNK10388",
+        "FDH_ID": "FDH104008",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "Comments": null,
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "AsBuilLeng": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": "ANR144i-D-SJ-GY-M",
+        "PON_ID": null,
+        "layer": "fiber cable",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/fiber cable.shp",
+        "ConStartDt": null
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              418706.51582298597,
+              5068556.395052948
+            ],
+            [
+              418707.6602392031,
+              5068556.48954448
+            ],
+            [
+              418708.5183996313,
+              5068556.560400601
+            ],
+            [
+              418709.1701294728,
+              5068556.614212274
+            ],
+            [
+              418783.5554230947,
+              5068562.7560164835
+            ],
+            [
+              418864.923149904,
+              5068559.8656251775
+            ],
+            [
+              418946.7276469551,
+              5068558.221313678
+            ],
+            [
+              419024.62690419727,
+              5068557.296388458
+            ],
+            [
+              419102.474776705,
+              5068556.474232709
+            ],
+            [
+              419107.6640428714,
+              5068556.418806635
+            ],
+            [
+              419179.4491087293,
+              5068555.65207696
+            ],
+            [
+              419238.38739900413,
+              5068554.2646891335
+            ],
+            [
+              419323.27498011506,
+              5068553.339763916
+            ],
+            [
+              419399.6326953272,
+              5068552.312069228
+            ],
+            [
+              419481.4371923784,
+              5068549.434524106
+            ],
+            [
+              419562.0341481728,
+              5068547.970059176
+            ],
+            [
+              419650.00481334334,
+              5068547.636058405
+            ],
+            [
+              419708.32648680644,
+              5068547.0708263265
+            ],
+            [
+              419714.3291272111,
+              5068546.776735574
+            ],
+            [
+              419789.97682965465,
+              5068546.325747678
+            ],
+            [
+              419877.1767238104,
+              5068545.246668258
+            ],
+            [
+              419961.08799496887,
+              5068543.653741493
+            ],
+            [
+              420053.1442338679,
+              5068541.863759069
+            ],
+            [
+              420127.5745341937,
+              5068540.416503228
+            ],
+            [
+              420209.2270722309,
+              5068539.256860923
+            ],
+            [
+              420290.256677365,
+              5068538.064080762
+            ],
+            [
+              420331.7470186163,
+              5068538.09082158
+            ],
+            [
+              420347.27573282283,
+              5068538.100829946
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "48FOC/F1000373/F1000375",
+        "Size": "48F",
+        "Owner": "Rock Networks",
+        "CableCateg": "Feeder",
+        "CableType": "Loose Tube",
+        "FiberCount": "48",
+        "BufCount": "4",
+        "FibPerBuf": "12",
+        "SheathType": "Jacketed",
+        "CoreType": "Non-Metallic",
+        "MeasLength": "1268",
+        "CalcLength": "1304",
+        "ExistStran": "Yes",
+        "StrndLengt": "1268",
+        "StranOwner": "Bell",
+        "FrmStrucID": "P239/AND3CQ",
+        "ToStrucID": "P2848/ANBJFN",
+        "From_ID": "F1000373",
+        "To_ID": "F1000375",
+        "Placement": "Aerial",
+        "Status": "Proposed",
+        "Trunk_ID": "TRUNK10389",
+        "FDH_ID": "FDH104006",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "Comments": null,
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "AsBuilLeng": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": "ANR48i-D-SJ-GY-M",
+        "PON_ID": null,
+        "layer": "fiber cable",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/fiber cable.shp",
+        "ConStartDt": null
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              417893.6852265693,
+              5066466.42929946
+            ],
+            [
+              417894.1440779079,
+              5066468.308887485
+            ],
+            [
+              417894.60532304144,
+              5066470.1982811885
+            ],
+            [
+              417900.6932015713,
+              5066495.135995486
+            ],
+            [
+              417897.21431694354,
+              5066550.371534262
+            ],
+            [
+              417898.6714756201,
+              5066593.484593245
+            ],
+            [
+              417897.92088835896,
+              5066677.732977963
+            ],
+            [
+              417897.6484594886,
+              5066763.959682683
+            ],
+            [
+              417897.19910208817,
+              5066849.195080318
+            ],
+            [
+              417920.5873485964,
+              5066907.692262319
+            ],
+            [
+              417923.25365760893,
+              5066998.211061693
+            ],
+            [
+              417927.37013352796,
+              5067089.080374498
+            ],
+            [
+              417928.573008541,
+              5067177.378981568
+            ],
+            [
+              417928.3218470919,
+              5067273.630783475
+            ],
+            [
+              417924.23566473386,
+              5067364.39978103
+            ],
+            [
+              417920.2276554562,
+              5067456.481224946
+            ],
+            [
+              417910.5620091291,
+              5067546.229438251
+            ],
+            [
+              417905.4582102368,
+              5067628.699694272
+            ],
+            [
+              417913.65357672446,
+              5067723.649613745
+            ],
+            [
+              417913.72657249775,
+              5067724.495328553
+            ],
+            [
+              417913.8563076448,
+              5067725.998414692
+            ],
+            [
+              417913.98604279186,
+              5067727.50150083
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "48FOC/F1000378/T1001674",
+        "Size": "48F",
+        "Owner": "Rock Networks",
+        "CableCateg": "Distribution",
+        "CableType": "Loose Tube",
+        "FiberCount": "48",
+        "BufCount": "4",
+        "FibPerBuf": "12",
+        "SheathType": "Jacketed",
+        "CoreType": "Non-Metallic",
+        "MeasLength": "1008",
+        "CalcLength": "1035",
+        "ExistStran": "Yes",
+        "StrndLengt": "1008",
+        "StranOwner": "Bell",
+        "FrmStrucID": "P3059/AN6UJP",
+        "ToStrucID": "P3072/ANBLVX",
+        "From_ID": "F1000378",
+        "To_ID": "T1001674",
+        "Placement": "Aerial",
+        "Status": "Proposed",
+        "Trunk_ID": "TRUNK10387",
+        "FDH_ID": "FDH104009",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "Comments": null,
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "AsBuilLeng": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": "ANR48i-D-SJ-GY-M",
+        "PON_ID": null,
+        "layer": "fiber cable",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/fiber cable.shp",
+        "ConStartDt": null
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              422636.01989836677,
+              5068493.72704897
+            ],
+            [
+              422644.24145585933,
+              5068493.675664235
+            ],
+            [
+              422724.2474872089,
+              5068493.367355831
+            ],
+            [
+              422805.61652049405,
+              5068494.611001245
+            ],
+            [
+              422870.74040728674,
+              5068482.58192527
+            ],
+            [
+              422876.62396841415,
+              5068481.495168824
+            ],
+            [
+              422863.24265507894,
+              5068525.299808049
+            ],
+            [
+              422838.8968974049,
+              5068608.773353231
+            ],
+            [
+              422820.81734728283,
+              5068685.39426461
+            ],
+            [
+              422819.49776549323,
+              5068690.986636028
+            ],
+            [
+              422799.26524863153,
+              5068769.232289808
+            ],
+            [
+              422760.18305802566,
+              5068882.545806309
+            ],
+            [
+              422774.43476465734,
+              5068988.211689183
+            ],
+            [
+              422774.85223664704,
+              5068991.306935773
+            ],
+            [
+              422779.17444995244,
+              5069044.963769572
+            ],
+            [
+              422795.29972860136,
+              5069075.697703783
+            ],
+            [
+              422761.88919805735,
+              5069134.083805223
+            ],
+            [
+              422717.3943324495,
+              5069196.15237853
+            ],
+            [
+              422714.1102503016,
+              5069200.733542913
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "48FOC/F1000376/F1000384",
+        "Size": "48F",
+        "Owner": "Rock Networks",
+        "CableCateg": "Distribution",
+        "CableType": "Loose Tube",
+        "FiberCount": "48",
+        "BufCount": "4",
+        "FibPerBuf": "12",
+        "SheathType": "Jacketed",
+        "CoreType": "Non-Metallic",
+        "MeasLength": "860",
+        "CalcLength": "914",
+        "ExistStran": "Yes",
+        "StrndLengt": "857",
+        "StranOwner": "Bell",
+        "FrmStrucID": "P2875/AN6UCG",
+        "ToStrucID": "29",
+        "From_ID": "F1000376",
+        "To_ID": "F1000384",
+        "Placement": "Aerial",
+        "Status": "Proposed",
+        "Trunk_ID": "TRUNK10391",
+        "FDH_ID": "FDH104008",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "Comments": null,
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "AsBuilLeng": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": "ANR48i-D-SJ-GY-M",
+        "PON_ID": null,
+        "layer": "fiber cable",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/fiber cable.shp",
+        "ConStartDt": null
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              418706.51582298597,
+              5068556.395052948
+            ],
+            [
+              418700.59155772335,
+              5068557.736696937
+            ],
+            [
+              418665.26776467025,
+              5068565.736331074
+            ],
+            [
+              418595.46647166915,
+              5068551.152020729
+            ],
+            [
+              418519.77434165415,
+              5068551.08395454
+            ],
+            [
+              418436.3137528106,
+              5068553.424401416
+            ],
+            [
+              418354.4243442268,
+              5068554.682424283
+            ],
+            [
+              418277.5449019944,
+              5068560.691071972
+            ],
+            [
+              418259.2881624223,
+              5068592.7192729935
+            ],
+            [
+              418233.36659330386,
+              5068641.185477857
+            ],
+            [
+              418208.1630268047,
+              5068686.60881064
+            ],
+            [
+              418184.5948230373,
+              5068736.957847537
+            ],
+            [
+              418158.7985080726,
+              5068807.55572601
+            ],
+            [
+              418152.58942409005,
+              5068824.548391708
+            ],
+            [
+              418121.34750561835,
+              5068877.988515409
+            ],
+            [
+              418084.0351592491,
+              5068936.257457403
+            ],
+            [
+              418083.4255716838,
+              5068937.209421724
+            ],
+            [
+              418083.0387696419,
+              5068937.567213613
+            ],
+            [
+              418082.5740370719,
+              5068937.99709124
+            ],
+            [
+              418082.31050196016,
+              5068938.243442754
+            ],
+            [
+              418081.5500288808,
+              5068938.969348876
+            ],
+            [
+              418081.3802313146,
+              5068939.133545148
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "48FOC/F1000375/F1000376",
+        "Size": "48F",
+        "Owner": "Rock Networks",
+        "CableCateg": "Feeder",
+        "CableType": "Loose Tube",
+        "FiberCount": "48",
+        "BufCount": "4",
+        "FibPerBuf": "12",
+        "SheathType": "Jacketed",
+        "CoreType": "Non-Metallic",
+        "MeasLength": "1148",
+        "CalcLength": "1178",
+        "ExistStran": "Yes",
+        "StrndLengt": "1148",
+        "StranOwner": "Bell",
+        "FrmStrucID": "P2848/ANBJFN",
+        "ToStrucID": "P2875/AN6UCG",
+        "From_ID": "F1000375",
+        "To_ID": "F1000376",
+        "Placement": "Aerial",
+        "Status": "Proposed",
+        "Trunk_ID": "TRUNK10390",
+        "FDH_ID": "FDH104008",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "Comments": null,
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "AsBuilLeng": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": "ANR48i-D-SJ-GY-M",
+        "PON_ID": null,
+        "layer": "fiber cable",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/fiber cable.shp",
+        "ConStartDt": null
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              417913.98604279186,
+              5067727.50150083
+            ],
+            [
+              417929.2342206649,
+              5067744.245744734
+            ],
+            [
+              417959.3089675691,
+              5067777.271257796
+            ],
+            [
+              418014.2234491132,
+              5067835.563419778
+            ],
+            [
+              418063.6495103822,
+              5067887.12441994
+            ],
+            [
+              418108.67085325136,
+              5067935.906880936
+            ],
+            [
+              418172.92630212836,
+              5068002.736422728
+            ],
+            [
+              418237.67204420874,
+              5068064.526992311
+            ],
+            [
+              418298.33536754805,
+              5068134.549981179
+            ],
+            [
+              418360.914960337,
+              5068200.463245221
+            ],
+            [
+              418418.3604754746,
+              5068261.631336159
+            ],
+            [
+              418471.47358154843,
+              5068319.015124474
+            ],
+            [
+              418526.16007797956,
+              5068375.314175594
+            ],
+            [
+              418576.90905512,
+              5068425.802764938
+            ],
+            [
+              418633.09464124276,
+              5068482.02444311
+            ],
+            [
+              418666.8892631227,
+              5068517.356512011
+            ],
+            [
+              418704.0568145328,
+              5068553.972533747
+            ],
+            [
+              418706.51582298597,
+              5068556.395052948
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "48FOC/F1000377/F1000381",
+        "Size": "48F",
+        "Owner": "Rock Networks",
+        "CableCateg": "Feeder",
+        "CableType": "Loose Tube",
+        "FiberCount": "48",
+        "BufCount": "4",
+        "FibPerBuf": "12",
+        "SheathType": "Jacketed",
+        "CoreType": "Non-Metallic",
+        "MeasLength": "818",
+        "CalcLength": "851",
+        "ExistStran": "Yes",
+        "StrndLengt": "818",
+        "StranOwner": "Bell",
+        "FrmStrucID": "P2923/AN6TBX",
+        "ToStrucID": "P3028/AN6VPX",
+        "From_ID": "F1000377",
+        "To_ID": "F1000381",
+        "Placement": "Aerial",
+        "Status": "Proposed",
+        "Trunk_ID": "TRUNK10392",
+        "FDH_ID": "FDH104009",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "Comments": null,
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "AsBuilLeng": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": "ANR48i-D-SJ-GY-M",
+        "PON_ID": null,
+        "layer": "fiber cable",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/fiber cable.shp",
+        "ConStartDt": null
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              420347.27573282283,
+              5068538.100829946
+            ],
+            [
+              420351.61161026027,
+              5068537.915777264
+            ],
+            [
+              420430.8729285682,
+              5068534.532951134
+            ],
+            [
+              420508.87495527894,
+              5068532.194945722
+            ],
+            [
+              420590.7511159122,
+              5068531.888329092
+            ],
+            [
+              420597.83107874775,
+              5068531.686518972
+            ],
+            [
+              420677.3398067753,
+              5068529.42017007
+            ],
+            [
+              420742.15843758464,
+              5068527.551050358
+            ],
+            [
+              420833.2121868149,
+              5068525.701199918
+            ],
+            [
+              420896.5787048685,
+              5068524.71516012
+            ],
+            [
+              420946.69537257974,
+              5068523.234732668
+            ],
+            [
+              420988.6253157919,
+              5068522.515346391
+            ],
+            [
+              421090.9323218402,
+              5068521.333497498
+            ],
+            [
+              421149.43111700116,
+              5068521.433652252
+            ],
+            [
+              421164.4124919301,
+              5068521.436266968
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "48FOC/F1000381/F1000378",
+        "Size": "48F",
+        "Owner": "Rock Networks",
+        "CableCateg": "Feeder",
+        "CableType": "Loose Tube",
+        "FiberCount": "48",
+        "BufCount": "4",
+        "FibPerBuf": "12",
+        "SheathType": "Jacketed",
+        "CoreType": "Non-Metallic",
+        "MeasLength": "1472",
+        "CalcLength": "1508",
+        "ExistStran": "Yes",
+        "StrndLengt": "1472",
+        "StranOwner": "Bell",
+        "FrmStrucID": "P3028/AN6VPX",
+        "ToStrucID": "P3059/AN6UJP",
+        "From_ID": "F1000381",
+        "To_ID": "F1000378",
+        "Placement": "Aerial",
+        "Status": "Proposed",
+        "Trunk_ID": "TRUNK10442",
+        "FDH_ID": "FDH104009",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "Comments": null,
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "AsBuilLeng": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": "ANR48i-D-SJ-GY-M",
+        "PON_ID": null,
+        "layer": "fiber cable",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/fiber cable.shp",
+        "ConStartDt": null
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              421164.4124919301,
+              5068521.436266968
+            ],
+            [
+              421185.4742370182,
+              5068520.820201298
+            ],
+            [
+              421220.62739128567,
+              5068519.791955469
+            ],
+            [
+              421269.769500063,
+              5068518.551079064
+            ],
+            [
+              421346.7769140622,
+              5068516.323485899
+            ],
+            [
+              421430.9451088925,
+              5068514.833328605
+            ],
+            [
+              421508.2534416898,
+              5068513.523017878
+            ],
+            [
+              421587.7970104305,
+              5068511.775936912
+            ],
+            [
+              421660.5064095055,
+              5068510.95378116
+            ],
+            [
+              421737.42935679544,
+              5068509.617778068
+            ],
+            [
+              421815.4827682407,
+              5068508.127620773
+            ],
+            [
+              421888.16647494846,
+              5068506.817310046
+            ],
+            [
+              421987.3133198356,
+              5068504.81330541
+            ],
+            [
+              421994.8176859768,
+              5068504.690401533
+            ],
+            [
+              422040.6506740688,
+              5068503.939764929
+            ],
+            [
+              422116.57161903905,
+              5068502.822146948
+            ],
+            [
+              422179.9289964661,
+              5068501.537528589
+            ],
+            [
+              422258.1365621143,
+              5068499.99598656
+            ],
+            [
+              422330.84596118925,
+              5068498.865522404
+            ],
+            [
+              422411.72553302255,
+              5068497.683673516
+            ],
+            [
+              422416.8199767327,
+              5068497.547247257
+            ],
+            [
+              422484.64047103486,
+              5068495.731053612
+            ],
+            [
+              422560.2787999664,
+              5068494.703358923
+            ],
+            [
+              422629.8514433937,
+              5068493.80656094
+            ],
+            [
+              422636.01989836677,
+              5068493.72704897
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "48FOC/F1000380/T1001643",
+        "Size": "48F",
+        "Owner": "Rock Networks",
+        "CableCateg": "Distribution",
+        "CableType": "Loose Tube",
+        "FiberCount": "48",
+        "BufCount": "4",
+        "FibPerBuf": "12",
+        "SheathType": "Jacketed",
+        "CoreType": "Non-Metallic",
+        "MeasLength": "1161",
+        "CalcLength": "1191",
+        "ExistStran": "Yes",
+        "StrndLengt": "1161",
+        "StranOwner": "Bell",
+        "FrmStrucID": "P2949/AYA92U",
+        "ToStrucID": "P3016/BBLFEZ",
+        "From_ID": "F1000380",
+        "To_ID": "T1001643",
+        "Placement": "Aerial",
+        "Status": "Proposed",
+        "Trunk_ID": "TRUNK10385",
+        "FDH_ID": "FDH104008",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "Comments": null,
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "AsBuilLeng": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": "ANR48i-D-SJ-GY-M",
+        "PON_ID": null,
+        "layer": "fiber cable",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/fiber cable.shp",
+        "ConStartDt": null
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              420385.9467126355,
+              5070367.65973937
+            ],
+            [
+              420413.32468897966,
+              5070369.708656085
+            ],
+            [
+              420457.0262113913,
+              5070372.979196559
+            ],
+            [
+              420524.3459605882,
+              5070373.481957139
+            ],
+            [
+              420606.3204878254,
+              5070375.805506167
+            ],
+            [
+              420611.568540244,
+              5070375.954260999
+            ],
+            [
+              420681.9820991752,
+              5070409.378986682
+            ],
+            [
+              420743.7925452662,
+              5070441.246305685
+            ],
+            [
+              420819.55866876314,
+              5070428.276048937
+            ],
+            [
+              420830.2868516641,
+              5070427.757698704
+            ],
+            [
+              420832.43045726814,
+              5070427.605331087
+            ],
+            [
+              420911.550716964,
+              5070464.586434291
+            ],
+            [
+              420954.5101276634,
+              5070411.21993708
+            ],
+            [
+              420970.90304898197,
+              5070406.112232295
+            ],
+            [
+              420977.69263326447,
+              5070403.996734303
+            ],
+            [
+              421017.8298793239,
+              5070387.870717607
+            ],
+            [
+              421052.0731154909,
+              5070374.056694834
+            ],
+            [
+              421091.58489275933,
+              5070357.963059275
+            ],
+            [
+              421089.4705552835,
+              5070287.019457055
+            ],
+            [
+              421089.4071832747,
+              5070284.893098972
+            ],
+            [
+              421151.7687845081,
+              5070257.583807982
+            ],
+            [
+              421213.01651270746,
+              5070235.3441282995
+            ],
+            [
+              421194.21604602254,
+              5070151.110212489
+            ],
+            [
+              421182.3797183718,
+              5070063.8795909425
+            ],
+            [
+              421180.5762024229,
+              5070050.588152767
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "48FOC/F1000380/T1001670",
+        "Size": "48F",
+        "Owner": "Rock Networks",
+        "CableCateg": "Distribution",
+        "CableType": "Loose Tube",
+        "FiberCount": "48",
+        "BufCount": "4",
+        "FibPerBuf": "12",
+        "SheathType": "Jacketed",
+        "CoreType": "Non-Metallic",
+        "MeasLength": "1957",
+        "CalcLength": "1993",
+        "ExistStran": "Yes",
+        "StrndLengt": "1957",
+        "StranOwner": "Bell",
+        "FrmStrucID": "P2949/AYA92U",
+        "ToStrucID": "HYDRO1-P1000632_P2986/NO#",
+        "From_ID": "F1000380",
+        "To_ID": "T1001670",
+        "Placement": "Aerial",
+        "Status": "Proposed",
+        "Trunk_ID": "TRUNK10383",
+        "FDH_ID": "FDH104008",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "Comments": null,
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "AsBuilLeng": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": "ANR48i-D-SJ-GY-M",
+        "PON_ID": null,
+        "layer": "fiber cable",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/fiber cable.shp",
+        "ConStartDt": null
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              420385.9467126355,
+              5070367.65973937
+            ],
+            [
+              420395.8907405596,
+              5070389.992246028
+            ],
+            [
+              420409.50523691927,
+              5070420.567967748
+            ],
+            [
+              420409.4546821432,
+              5070503.778009109
+            ],
+            [
+              420411.27871467685,
+              5070574.861704216
+            ],
+            [
+              420413.0806919273,
+              5070623.891619284
+            ],
+            [
+              420416.1541309946,
+              5070706.939217861
+            ],
+            [
+              420376.1837137137,
+              5070731.077753349
+            ],
+            [
+              420295.69018736976,
+              5070778.3792952085
+            ],
+            [
+              420190.9601889754,
+              5070759.775351045
+            ],
+            [
+              420147.2149614184,
+              5070732.975897095
+            ],
+            [
+              420115.21320562175,
+              5070724.232483331
+            ],
+            [
+              420105.53930475295,
+              5070722.119895364
+            ],
+            [
+              420010.5991170603,
+              5070662.90405909
+            ],
+            [
+              419965.3896682872,
+              5070629.762912282
+            ],
+            [
+              419959.5254261234,
+              5070625.464082817
+            ],
+            [
+              419909.2851387821,
+              5070591.990778182
+            ],
+            [
+              419845.15112531633,
+              5070549.217187257
+            ],
+            [
+              419775.0752566991,
+              5070491.186557281
+            ],
+            [
+              419762.6503360611,
+              5070448.641927864
+            ],
+            [
+              419759.7303911026,
+              5070439.380343379
+            ],
+            [
+              419738.40624430793,
+              5070398.287922374
+            ],
+            [
+              419737.4421264477,
+              5070396.430031533
+            ],
+            [
+              419683.9526672568,
+              5070315.006314614
+            ],
+            [
+              419637.4607222646,
+              5070243.705571332
+            ],
+            [
+              419632.74304212176,
+              5070236.470466395
+            ],
+            [
+              419587.3875214983,
+              5070195.724755205
+            ],
+            [
+              419550.84254830773,
+              5070160.535786536
+            ],
+            [
+              419480.62377080735,
+              5070173.792131373
+            ],
+            [
+              419477.50381267234,
+              5070174.381219489
+            ],
+            [
+              419403.10219023825,
+              5070182.26634643
+            ],
+            [
+              419337.9123747404,
+              5070111.245681296
+            ],
+            [
+              419335.4793475125,
+              5070108.595033941
+            ],
+            [
+              419296.11253763764,
+              5070062.525415836
+            ],
+            [
+              419247.0906911192,
+              5070013.951257587
+            ],
+            [
+              419215.54529969295,
+              5069989.645746174
+            ],
+            [
+              419184.9139302003,
+              5069968.266198564
+            ],
+            [
+              419179.9217720105,
+              5069964.781859292
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "96FOC/F1000378/F1000379",
+        "Size": "96F",
+        "Owner": "Rock Networks",
+        "CableCateg": "Distribution",
+        "CableType": "Loose Tube",
+        "FiberCount": "96",
+        "BufCount": "8",
+        "FibPerBuf": "12",
+        "SheathType": "Jacketed",
+        "CoreType": "Non-Metallic",
+        "MeasLength": "2030",
+        "CalcLength": "2078",
+        "ExistStran": "Yes",
+        "StrndLengt": "2057",
+        "StranOwner": "Bell",
+        "FrmStrucID": "P3059/AN6UJP",
+        "ToStrucID": "P3191/ANBH4T",
+        "From_ID": "F1000378",
+        "To_ID": "F1000379",
+        "Placement": "Aerial",
+        "Status": "Proposed",
+        "Trunk_ID": "TRUNK10386",
+        "FDH_ID": "FDH104009",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "Comments": null,
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "AsBuilLeng": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": "ANR96i-D-SJ-GY-M",
+        "PON_ID": null,
+        "layer": "fiber cable",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/fiber cable.shp",
+        "ConStartDt": null
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              422636.01989836677,
+              5068493.72704897
+            ],
+            [
+              422638.5526754629,
+              5068490.524621008
+            ],
+            [
+              422667.1901688619,
+              5068454.315548466
+            ],
+            [
+              422699.6089695906,
+              5068417.538713081
+            ],
+            [
+              422752.43914892175,
+              5068363.658353996
+            ],
+            [
+              422801.48705573234,
+              5068316.968740262
+            ],
+            [
+              422839.0322804698,
+              5068250.450785571
+            ],
+            [
+              422841.95706737187,
+              5068245.269012283
+            ],
+            [
+              422842.535145633,
+              5068173.047768181
+            ],
+            [
+              422834.5061119995,
+              5068091.716926669
+            ],
+            [
+              422821.33894272253,
+              5068020.280953019
+            ],
+            [
+              422805.56382928364,
+              5067953.58356786
+            ],
+            [
+              422798.0771389956,
+              5067903.833063611
+            ],
+            [
+              422796.84180794575,
+              5067893.182707307
+            ],
+            [
+              422782.4573616978,
+              5067828.771230375
+            ],
+            [
+              422748.2237327956,
+              5067763.388460029
+            ],
+            [
+              422718.9805519399,
+              5067713.051626465
+            ],
+            [
+              422677.9601017962,
+              5067642.497108594
+            ],
+            [
+              422676.621965196,
+              5067639.804035063
+            ],
+            [
+              422653.84447313007,
+              5067601.894952395
+            ],
+            [
+              422633.36883905414,
+              5067552.836934462
+            ],
+            [
+              422617.4657427233,
+              5067526.598488469
+            ],
+            [
+              422682.26615926233,
+              5067452.351176848
+            ],
+            [
+              422729.7484664954,
+              5067394.434483254
+            ],
+            [
+              422775.88177969755,
+              5067341.906807123
+            ],
+            [
+              422808.0291443869,
+              5067301.469522764
+            ],
+            [
+              422809.4874301928,
+              5067299.635185226
+            ],
+            [
+              422765.9718914834,
+              5067203.417831386
+            ],
+            [
+              422748.6225748295,
+              5067169.897854264
+            ],
+            [
+              422727.46004027856,
+              5067126.89218191
+            ],
+            [
+              422709.53556558245,
+              5067094.530917574
+            ],
+            [
+              422706.64821570116,
+              5067089.3180288095
+            ],
+            [
+              422717.0334975922,
+              5067078.313915614
+            ],
+            [
+              422646.02861487155,
+              5067035.900188338
+            ],
+            [
+              422589.69636222743,
+              5066981.69383471
+            ],
+            [
+              422624.6975439991,
+              5066948.793894861
+            ],
+            [
+              422668.4518013924,
+              5066909.480919442
+            ],
+            [
+              422691.46162098635,
+              5066888.173012535
+            ],
+            [
+              422725.31168604724,
+              5066858.70170631
+            ],
+            [
+              422757.15742208814,
+              5066830.722922489
+            ],
+            [
+              422758.6844998149,
+              5066829.38919466
+            ],
+            [
+              422759.58701297845,
+              5066828.6090707695
+            ],
+            [
+              422760.9743630192,
+              5066827.409858443
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "96FOC/F1000377/F1000380",
+        "Size": "96F",
+        "Owner": "Rock Networks",
+        "CableCateg": "Distribution",
+        "CableType": "Loose Tube",
+        "FiberCount": "96",
+        "BufCount": "8",
+        "FibPerBuf": "12",
+        "SheathType": "Jacketed",
+        "CoreType": "Non-Metallic",
+        "MeasLength": "1874",
+        "CalcLength": "1904",
+        "ExistStran": "Yes",
+        "StrndLengt": "1874",
+        "StranOwner": "Bell",
+        "FrmStrucID": "P2923/AN6TBX",
+        "ToStrucID": "P2949/AYA92U",
+        "From_ID": "F1000377",
+        "To_ID": "F1000380",
+        "Placement": "Aerial",
+        "Status": "Proposed",
+        "Trunk_ID": "TRUNK10384",
+        "FDH_ID": "FDH104008",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "Comments": null,
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "AsBuilLeng": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": "ANR96i-D-SJ-GY-M",
+        "PON_ID": null,
+        "layer": "fiber cable",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/fiber cable.shp",
+        "ConStartDt": null
+      },
+      "geometry": {
+        "type": "MultiLineString",
+        "coordinates": [
+          [
+            [
+              420347.27573282283,
+              5068538.100829946
+            ],
+            [
+              420348.05336932,
+              5068546.10950215
+            ],
+            [
+              420353.7647758841,
+              5068604.929764784
+            ],
+            [
+              420354.9942639697,
+              5068679.050002916
+            ],
+            [
+              420356.9640925528,
+              5068760.150220044
+            ],
+            [
+              420357.49610149965,
+              5068835.309494622
+            ],
+            [
+              420362.7451637152,
+              5068919.246618221
+            ],
+            [
+              420365.82230303955,
+              5069006.118461159
+            ],
+            [
+              420369.23532463453,
+              5069082.315804292
+            ],
+            [
+              420369.9028319594,
+              5069162.481092684
+            ],
+            [
+              420373.9757076056,
+              5069233.446470991
+            ],
+            [
+              420377.36133621156,
+              5069310.462665481
+            ],
+            [
+              420379.91786981473,
+              5069394.228227848
+            ],
+            [
+              420385.19503397914,
+              5069470.4549809
+            ],
+            [
+              420359.9408115054,
+              5069538.938368433
+            ],
+            [
+              420338.3420304885,
+              5069610.238821895
+            ],
+            [
+              420309.19273755007,
+              5069680.930237026
+            ],
+            [
+              420291.34300034854,
+              5069740.005486331
+            ],
+            [
+              420265.0159957891,
+              5069809.547377008
+            ],
+            [
+              420256.8622407603,
+              5069879.145104642
+            ],
+            [
+              420260.68532268587,
+              5069950.123970272
+            ],
+            [
+              420268.88644394686,
+              5070010.362085709
+            ],
+            [
+              420280.73511751456,
+              5070094.443146915
+            ],
+            [
+              420301.5546997457,
+              5070164.536660234
+            ],
+            [
+              420329.6958259927,
+              5070233.246289313
+            ],
+            [
+              420358.4617293508,
+              5070301.923382639
+            ],
+            [
+              420379.43224838295,
+              5070352.078971444
+            ],
+            [
+              420385.9467126355,
+              5070367.65973937
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

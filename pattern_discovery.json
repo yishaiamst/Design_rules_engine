@@ -1,0 +1,661 @@
+{
+  "distance_patterns": {
+    "drop_cable": {
+      "count": 20403,
+      "mean": 115.47,
+      "median": 90.0,
+      "min": 5.0,
+      "max": 1464.0,
+      "stdev": 96.29,
+      "p25": 54.0,
+      "p75": 145.0
+    },
+    "stub_cable": {
+      "count": 9313,
+      "mean": 307.61,
+      "median": 212.0,
+      "min": 1.0,
+      "max": 2944.0,
+      "stdev": 333.44,
+      "p25": 100.0,
+      "p75": 414.5
+    },
+    "fiber_cable": {
+      "count": 185219,
+      "mean": 663.24,
+      "median": 422.0,
+      "min": 1.0,
+      "max": 2699.0,
+      "stdev": 644.27,
+      "p25": 142.0,
+      "p75": 1065.0
+    },
+    "inter_layer_distances": {
+      "ont\u2192terminal": {
+        "count": 19820,
+        "mean": 114.06,
+        "median": 90.0,
+        "min": 5.0,
+        "max": 1464.0,
+        "stdev": 94.76,
+        "p25": 53.0,
+        "p75": 144.0
+      },
+      "terminal\u2192splice closure": {
+        "count": 28956,
+        "mean": 574.48,
+        "median": 260.9,
+        "min": 1.0,
+        "max": 2944.0,
+        "stdev": 656.73,
+        "p25": 104.0,
+        "p75": 839.0
+      },
+      "splice closure\u2192splice closure": {
+        "count": 119383,
+        "mean": 861.72,
+        "median": 736.0,
+        "min": 38.1,
+        "max": 2699.0,
+        "stdev": 627.04,
+        "p25": 284.0,
+        "p75": 1284.0
+      },
+      "splice closure\u2192fdh": {
+        "count": 14355,
+        "mean": 18.09,
+        "median": 13.0,
+        "min": 3.0,
+        "max": 46.5,
+        "stdev": 11.7,
+        "p25": 6.0,
+        "p75": 30.0
+      },
+      "terminal\u2192terminal": {
+        "count": 16949,
+        "mean": 250.14,
+        "median": 195.6,
+        "min": 3.0,
+        "max": 1721.6,
+        "stdev": 200.24,
+        "p25": 131.35,
+        "p75": 291.0
+      },
+      "splice closure\u2192olt": {
+        "count": 7958,
+        "mean": 1.7,
+        "median": 1.0,
+        "min": 1.0,
+        "max": 41.5,
+        "stdev": 4.55,
+        "p25": 1.0,
+        "p75": 1.0
+      },
+      "splice closure\u2192terminal": {
+        "count": 6931,
+        "mean": 243.37,
+        "median": 165.5,
+        "min": 16.5,
+        "max": 2501.3,
+        "stdev": 264.2,
+        "p25": 100.6,
+        "p75": 272.5
+      },
+      "terminal\u2192ont": {
+        "count": 288,
+        "mean": 83.72,
+        "median": 80.0,
+        "min": 78.0,
+        "max": 464.7,
+        "stdev": 32.47,
+        "p25": 80.0,
+        "p75": 80.0
+      },
+      "ont\u2192splice closure": {
+        "count": 295,
+        "mean": 240.79,
+        "median": 223.0,
+        "min": 19.0,
+        "max": 974.0,
+        "stdev": 142.0,
+        "p25": 132.0,
+        "p75": 312.0
+      }
+    }
+  },
+  "branching_patterns": {
+    "out_degree_by_layer": {
+      "ont": {
+        "count": 22485,
+        "mean": 1.01,
+        "median": 1,
+        "min": 1,
+        "max": 258,
+        "stdev": 1.72,
+        "p25": 1.0,
+        "p75": 1.0
+      },
+      "terminal": {
+        "count": 6283,
+        "mean": 7.38,
+        "median": 4,
+        "min": 1,
+        "max": 289,
+        "stdev": 13.31,
+        "p25": 2.0,
+        "p75": 7.0
+      },
+      "splice closure": {
+        "count": 1925,
+        "mean": 77.21,
+        "median": 24,
+        "min": 1,
+        "max": 2015,
+        "stdev": 163.09,
+        "p25": 9.0,
+        "p75": 65.0
+      },
+      "fdh": {
+        "count": 181,
+        "mean": 80.33,
+        "median": 69,
+        "min": 3,
+        "max": 417,
+        "stdev": 61.38,
+        "p25": 37.5,
+        "p75": 112.5
+      }
+    },
+    "in_degree_by_layer": {
+      "terminal": {
+        "count": 6283,
+        "mean": 7.38,
+        "median": 4,
+        "min": 1,
+        "max": 289,
+        "stdev": 13.31,
+        "p25": 2.0,
+        "p75": 7.0
+      },
+      "splice closure": {
+        "count": 1925,
+        "mean": 77.21,
+        "median": 24,
+        "min": 1,
+        "max": 2015,
+        "stdev": 163.09,
+        "p25": 9.0,
+        "p75": 65.0
+      },
+      "fdh": {
+        "count": 181,
+        "mean": 80.33,
+        "median": 69,
+        "min": 3,
+        "max": 417,
+        "stdev": 61.38,
+        "p25": 37.5,
+        "p75": 112.5
+      },
+      "olt": {
+        "count": 17,
+        "mean": 1323.41,
+        "median": 1440,
+        "min": 312,
+        "max": 2488,
+        "stdev": 649.86,
+        "p25": 662.5,
+        "p75": 1862.0
+      },
+      "ont": {
+        "count": 5,
+        "mean": 57.6,
+        "median": 9,
+        "min": 2,
+        "max": 256,
+        "stdev": 111.13,
+        "p25": 2.0,
+        "p75": 137.5
+      }
+    }
+  },
+  "capacity_patterns": {
+    "fiber_counts_by_cable_type": {
+      "drop cable": {
+        "count": 15947,
+        "unique_values": [
+          1
+        ],
+        "most_common": [
+          [
+            1,
+            15947
+          ]
+        ]
+      },
+      "fiber cable": {
+        "count": 185172,
+        "unique_values": [
+          12,
+          24,
+          48,
+          72,
+          96,
+          144,
+          288
+        ],
+        "most_common": [
+          [
+            144,
+            125893
+          ],
+          [
+            48,
+            20572
+          ],
+          [
+            288,
+            20339
+          ],
+          [
+            96,
+            13118
+          ],
+          [
+            24,
+            2587
+          ]
+        ]
+      },
+      "stub cable": {
+        "count": 231,
+        "unique_values": [
+          4,
+          6,
+          8,
+          12,
+          48,
+          144
+        ],
+        "most_common": [
+          [
+            4,
+            81
+          ],
+          [
+            12,
+            62
+          ],
+          [
+            6,
+            60
+          ],
+          [
+            8,
+            25
+          ],
+          [
+            144,
+            2
+          ]
+        ]
+      }
+    }
+  },
+  "cable_transitions": {
+    "transition_counts": {
+      "drop cable\u2192stub cable": 9431,
+      "stub cable\u2192fiber cable": 9279,
+      "drop cable\u2192fiber cable": 13343,
+      "fiber cable\u2192stub cable": 42,
+      "fiber cable\u2192drop cable": 260,
+      "stub cable\u2192drop cable": 16
+    },
+    "transition_examples": {
+      "drop cable\u2192stub cable": [
+        {
+          "from_layer": "ont",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "splice closure"
+        },
+        {
+          "from_layer": "ont",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "terminal"
+        },
+        {
+          "from_layer": "ont",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "splice closure"
+        },
+        {
+          "from_layer": "ont",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "splice closure"
+        },
+        {
+          "from_layer": "ont",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "splice closure"
+        }
+      ],
+      "stub cable\u2192fiber cable": [
+        {
+          "from_layer": "terminal",
+          "to_layer": "splice closure",
+          "next_from_layer": "splice closure",
+          "next_to_layer": "splice closure"
+        },
+        {
+          "from_layer": "terminal",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "splice closure"
+        },
+        {
+          "from_layer": "terminal",
+          "to_layer": "splice closure",
+          "next_from_layer": "splice closure",
+          "next_to_layer": "splice closure"
+        },
+        {
+          "from_layer": "terminal",
+          "to_layer": "splice closure",
+          "next_from_layer": "splice closure",
+          "next_to_layer": "splice closure"
+        },
+        {
+          "from_layer": "terminal",
+          "to_layer": "splice closure",
+          "next_from_layer": "splice closure",
+          "next_to_layer": "splice closure"
+        }
+      ],
+      "drop cable\u2192fiber cable": [
+        {
+          "from_layer": "ont",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "splice closure"
+        },
+        {
+          "from_layer": "ont",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "splice closure"
+        },
+        {
+          "from_layer": "ont",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "splice closure"
+        },
+        {
+          "from_layer": "ont",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "splice closure"
+        },
+        {
+          "from_layer": "ont",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "splice closure"
+        }
+      ],
+      "fiber cable\u2192stub cable": [
+        {
+          "from_layer": "splice closure",
+          "to_layer": "splice closure",
+          "next_from_layer": "splice closure",
+          "next_to_layer": "terminal"
+        },
+        {
+          "from_layer": "splice closure",
+          "to_layer": "splice closure",
+          "next_from_layer": "splice closure",
+          "next_to_layer": "terminal"
+        },
+        {
+          "from_layer": "splice closure",
+          "to_layer": "splice closure",
+          "next_from_layer": "splice closure",
+          "next_to_layer": "terminal"
+        },
+        {
+          "from_layer": "splice closure",
+          "to_layer": "splice closure",
+          "next_from_layer": "splice closure",
+          "next_to_layer": "terminal"
+        },
+        {
+          "from_layer": "splice closure",
+          "to_layer": "splice closure",
+          "next_from_layer": "splice closure",
+          "next_to_layer": "terminal"
+        }
+      ],
+      "fiber cable\u2192drop cable": [
+        {
+          "from_layer": "terminal",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "ont"
+        },
+        {
+          "from_layer": "terminal",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "ont"
+        },
+        {
+          "from_layer": "terminal",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "ont"
+        },
+        {
+          "from_layer": "terminal",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "ont"
+        },
+        {
+          "from_layer": "terminal",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "ont"
+        }
+      ],
+      "stub cable\u2192drop cable": [
+        {
+          "from_layer": "splice closure",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "ont"
+        },
+        {
+          "from_layer": "splice closure",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "ont"
+        },
+        {
+          "from_layer": "splice closure",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "ont"
+        },
+        {
+          "from_layer": "splice closure",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "ont"
+        },
+        {
+          "from_layer": "splice closure",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "ont"
+        }
+      ]
+    }
+  },
+  "placement_logic": {
+    "terminal_placement": {
+      "terminals_per_fosc_stats": {
+        "count": 1646,
+        "mean": 21.8,
+        "median": 12.0,
+        "min": 1,
+        "max": 384,
+        "stdev": 31.63,
+        "p25": 5.0,
+        "p75": 25.25
+      },
+      "terminal_to_fosc_distance_stats": {
+        "count": 35887,
+        "mean": 510.53,
+        "median": 229.0,
+        "min": 1.0,
+        "max": 2944.0,
+        "stdev": 615.27,
+        "p25": 104.0,
+        "p75": 628.2
+      },
+      "terminal_to_fdh_distance_stats": {}
+    },
+    "fosc_placement": {
+      "foscs_per_fdh_stats": {
+        "count": 174,
+        "mean": 82.54,
+        "median": 70.0,
+        "min": 12,
+        "max": 417,
+        "stdev": 60.21,
+        "p25": 40.75,
+        "p75": 113.0
+      },
+      "fosc_to_fdh_distance_stats": {
+        "count": 14355,
+        "mean": 18.09,
+        "median": 13.0,
+        "min": 3.0,
+        "max": 46.5,
+        "stdev": 11.7,
+        "p25": 6.0,
+        "p75": 30.0
+      },
+      "fosc_to_fosc_distance_stats": {}
+    }
+  },
+  "next_hop_decisions": {
+    "layer_transitions": {
+      "terminal\u2192splice closure": {
+        "stub cable": 8182,
+        "fiber cable": 20774
+      },
+      "splice closure\u2192splice closure": {
+        "fiber cable": 119383
+      },
+      "splice closure\u2192fdh": {
+        "fiber cable": 14362
+      },
+      "fdh\u2192olt": {
+        "null": 14540
+      },
+      "terminal\u2192terminal": {
+        "stub cable": 1101,
+        "fiber cable": 15848
+      },
+      "terminal\u2192fdh": {
+        "stub cable": 178
+      },
+      "splice closure\u2192olt": {
+        "fiber cable": 7958
+      },
+      "splice closure\u2192terminal": {
+        "stub cable": 30,
+        "fiber cable": 6901
+      },
+      "terminal\u2192ont": {
+        "drop cable": 288
+      },
+      "ont\u2192terminal": {
+        "drop cable": 288
+      }
+    },
+    "most_common_transitions": [
+      [
+        "splice closure\u2192splice closure",
+        119383
+      ],
+      [
+        "terminal\u2192splice closure",
+        28956
+      ],
+      [
+        "terminal\u2192terminal",
+        16949
+      ],
+      [
+        "fdh\u2192olt",
+        14540
+      ],
+      [
+        "splice closure\u2192fdh",
+        14362
+      ],
+      [
+        "splice closure\u2192olt",
+        7958
+      ],
+      [
+        "splice closure\u2192terminal",
+        6931
+      ],
+      [
+        "terminal\u2192ont",
+        288
+      ],
+      [
+        "ont\u2192terminal",
+        288
+      ],
+      [
+        "terminal\u2192fdh",
+        178
+      ]
+    ]
+  },
+  "path_analysis": {
+    "hop_count_stats": {
+      "count": 22769,
+      "mean": 10.2,
+      "median": 7,
+      "min": 0,
+      "max": 41,
+      "stdev": 7.58,
+      "p25": 5.0,
+      "p75": 13.0
+    },
+    "path_length_stats": {
+      "count": 22769,
+      "mean": 5624.54,
+      "median": 2538.8,
+      "min": 0,
+      "max": 31715.0,
+      "stdev": 6295.72,
+      "p25": 1124.0,
+      "p75": 8362.0
+    },
+    "hop_vs_length_correlation": {
+      "pearson_correlation": 0.8341
+    }
+  }
+}

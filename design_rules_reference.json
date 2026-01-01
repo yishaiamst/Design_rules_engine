@@ -1,0 +1,592 @@
+{
+  "version": "1.0",
+  "generated_at": "2025-11-20T17:27:26.476943",
+  "total_rules": 31,
+  "rules": [
+    {
+      "rule_id": "CABLE_LAYER_CONSISTENCY",
+      "category": "Cable Management",
+      "description": "Drop cables only used for ONT\u2192Terminal connections",
+      "applies_to": [],
+      "validation_criteria": [],
+      "examples": [],
+      "confidence_score": 1.0,
+      "source_files": [
+        "rules_summary.txt"
+      ]
+    },
+    {
+      "rule_id": "PATTERN_FOSC_CABLE_ID_TRANSITION",
+      "category": "Cable Management",
+      "description": "Fiber cable ID transition point",
+      "applies_to": [
+        "splice closure"
+      ],
+      "validation_criteria": [],
+      "examples": [
+        "F1000323",
+        "F1000325",
+        "F4000078"
+      ],
+      "confidence_score": 0.75,
+      "source_files": [
+        "design_intent_summary_condensed.json"
+      ]
+    },
+    {
+      "rule_id": "PATTERN_FOSC_MULTI_CABLE_JUNCTION",
+      "category": "Cable Management",
+      "description": "Junction of multiple fiber cables",
+      "applies_to": [
+        "splice closure"
+      ],
+      "validation_criteria": [],
+      "examples": [
+        "F1000338",
+        "F1000336",
+        "F1000337"
+      ],
+      "confidence_score": 0.85,
+      "source_files": [
+        "design_intent_summary_condensed.json"
+      ]
+    },
+    {
+      "rule_id": "CONNECTIVITY_ONT_TERMINAL",
+      "category": "Connectivity & Hierarchy",
+      "description": "ONT must connect to Terminal via drop cable",
+      "applies_to": [
+        "ont",
+        "terminal"
+      ],
+      "validation_criteria": [],
+      "examples": [],
+      "confidence_score": 1.0,
+      "source_files": [
+        "rules_summary.txt"
+      ]
+    },
+    {
+      "rule_id": "HIERARCHY_FDH_OLT",
+      "category": "Connectivity & Hierarchy",
+      "description": "FDH must connect to OLT",
+      "applies_to": [
+        "fdh",
+        "olt"
+      ],
+      "validation_criteria": [],
+      "examples": [],
+      "confidence_score": 1.0,
+      "source_files": [
+        "rules_summary.txt"
+      ]
+    },
+    {
+      "rule_id": "HIERARCHY_FOSC_FDH",
+      "category": "Connectivity & Hierarchy",
+      "description": "FOSC must connect to FDH or another FOSC",
+      "applies_to": [
+        "fdh",
+        "splice closure"
+      ],
+      "validation_criteria": [],
+      "examples": [],
+      "confidence_score": 0.7,
+      "source_files": [
+        "rules_summary.txt"
+      ]
+    },
+    {
+      "rule_id": "HIERARCHY_TERMINAL_FOSC_FDH",
+      "category": "Connectivity & Hierarchy",
+      "description": "Terminal must connect to FOSC (splice closure) or FDH",
+      "applies_to": [
+        "fdh",
+        "splice closure",
+        "terminal"
+      ],
+      "validation_criteria": [],
+      "examples": [],
+      "confidence_score": 0.7,
+      "source_files": [
+        "rules_summary.txt"
+      ]
+    },
+    {
+      "rule_id": "R14_CABLE_HIERARCHY_REFINED",
+      "category": "Connectivity & Hierarchy",
+      "description": "Cable Hierarchy: Maintain 288/144 \u2192 96 \u2192 48 \u2192 12 \u2192 1F cascade",
+      "applies_to": [
+        "all"
+      ],
+      "validation_criteria": [],
+      "examples": [
+        "NETWORK_WIDE"
+      ],
+      "confidence_score": 0.9,
+      "source_files": [
+        "placement_rules_analysis.json"
+      ]
+    },
+    {
+      "rule_id": "R14_CABLE_SIZE_HIERARCHY",
+      "category": "Connectivity & Hierarchy",
+      "description": "Cable size hierarchy: 288F/144F (feeder/trunk) \u2192 96F (mid-distribution) \u2192 48F/24F/12F (distribution) \u2192 4F/1F (access)",
+      "applies_to": [
+        "all"
+      ],
+      "validation_criteria": [],
+      "examples": [
+        "NETWORK_WIDE"
+      ],
+      "confidence_score": 0.95,
+      "source_files": [
+        "placement_rules_analysis.json"
+      ]
+    },
+    {
+      "rule_id": "PATTERN_ONT_END_USER",
+      "category": "Design Patterns",
+      "description": "Optical Network Terminal - end user access point",
+      "applies_to": [
+        "ont"
+      ],
+      "validation_criteria": [],
+      "examples": [
+        "O1004701",
+        "O1004702",
+        "O1004703"
+      ],
+      "confidence_score": 0.9,
+      "source_files": [
+        "design_intent_summary_condensed.json"
+      ]
+    },
+    {
+      "rule_id": "PATTERN_FDH_FEEDER_ROOT",
+      "category": "FDH Placement",
+      "description": "Feeder distribution hub connecting to multiple FOSCs",
+      "applies_to": [
+        "fdh"
+      ],
+      "validation_criteria": [],
+      "examples": [
+        "FDH103009",
+        "FDH103012",
+        "FDH103015"
+      ],
+      "confidence_score": 0.9500000000000001,
+      "source_files": [
+        "design_intent_summary_condensed.json"
+      ]
+    },
+    {
+      "rule_id": "R13_FDH_ASSOCIATION",
+      "category": "FDH Placement",
+      "description": "FOSC within \u226450m of FDH serves as feeder splice point between 144F/288F feeders and 96F distributors",
+      "applies_to": [
+        "splice closure"
+      ],
+      "validation_criteria": [
+        "FOSC within 5.0m of FDH",
+        "FOSC within 10.0m of FDH",
+        "FOSC within 19.0m of FDH",
+        "FOSC within 8.0m of FDH",
+        "FOSC within 17.0m of FDH",
+        "FOSC within 3.0m of FDH",
+        "FOSC within 6.0m of FDH",
+        "FOSC within 4.0m of FDH",
+        "FOSC within 20.0m of FDH",
+        "FOSC within 11.0m of FDH"
+      ],
+      "examples": [
+        "F1000256",
+        "F1000263",
+        "F1000266"
+      ],
+      "confidence_score": 0.9,
+      "source_files": [
+        "placement_rules_analysis.json"
+      ]
+    },
+    {
+      "rule_id": "PATTERN_FOSC_FEEDER_JUNCTION",
+      "category": "FOSC Placement",
+      "description": "Feeder splice point between 144F/288F feeders and 96F distributors",
+      "applies_to": [
+        "splice closure"
+      ],
+      "validation_criteria": [],
+      "examples": [
+        "F1000326",
+        "F1000335",
+        "F1000256"
+      ],
+      "confidence_score": 0.9,
+      "source_files": [
+        "design_intent_summary_condensed.json"
+      ]
+    },
+    {
+      "rule_id": "PATTERN_FOSC_LONG_SEGMENT_SPLICE",
+      "category": "FOSC Placement",
+      "description": "Splice point for long fiber cable segment",
+      "applies_to": [
+        "splice closure"
+      ],
+      "validation_criteria": [],
+      "examples": [
+        "F1000308",
+        "F1000729",
+        "F1000630"
+      ],
+      "confidence_score": 0.8,
+      "source_files": [
+        "design_intent_summary_condensed.json"
+      ]
+    },
+    {
+      "rule_id": "R12_FOSC_ADAPTIVE",
+      "category": "FOSC Placement",
+      "description": "Place FOSC at intersections of \u22652 fiber cables, fiber count transitions, or branching points to stub cables. Spacing ~800-900m",
+      "applies_to": [
+        "splice closure"
+      ],
+      "validation_criteria": [
+        "Min fiber connections: \u22652",
+        "Fiber length threshold: \u22651800m"
+      ],
+      "examples": [],
+      "confidence_score": 0.622,
+      "source_files": [
+        "adaptive_rules_summary.json"
+      ]
+    },
+    {
+      "rule_id": "R12_FOSC_PLACEMENT",
+      "category": "FOSC Placement",
+      "description": "Place FOSC at intersections of \u22652 fiber cables, fiber count transitions, or branching points to stub cables. Spacing ~800-900m",
+      "applies_to": [
+        "splice closure"
+      ],
+      "validation_criteria": [
+        "intersection of 47 fiber cables",
+        "branches to stub cables (MST fan-outs)",
+        "spacing 1939.0m",
+        "Full Splice (all fibers spliced)",
+        "intersection of 402 fiber cables",
+        "fiber count transition (in: 233F, out: 288F)",
+        "intersection of 123 fiber cables",
+        "spacing 1653.0m",
+        "intersection of 140 fiber cables",
+        "spacing 1582.0m"
+      ],
+      "examples": [
+        "F1000338",
+        "F1000326",
+        "F1000336"
+      ],
+      "confidence_score": 0.9310129870129871,
+      "source_files": [
+        "placement_rules_analysis.json"
+      ]
+    },
+    {
+      "rule_id": "R12_FOSC_REFINED",
+      "category": "FOSC Placement",
+      "description": "FOSC: \u22652 fiber connections OR \u22651800m segment OR fiber ID change OR fiber count transition",
+      "applies_to": [
+        "splice closure"
+      ],
+      "validation_criteria": [
+        "FOSC: \u22652 fiber connections OR \u22651800m segment OR fiber ID change OR fiber count transition"
+      ],
+      "examples": [],
+      "confidence_score": 0.94,
+      "source_files": [
+        "rules_summary.txt"
+      ]
+    },
+    {
+      "rule_id": "R13_FDH_FOSC_ASSOCIATION_REFINED",
+      "category": "FOSC Placement",
+      "description": "FDH-FOSC: Pair nearest FOSC in same chain using fdh_id",
+      "applies_to": [
+        "fdh",
+        "splice closure"
+      ],
+      "validation_criteria": [],
+      "examples": [],
+      "confidence_score": 0.55,
+      "source_files": [
+        "rules_summary.txt"
+      ]
+    },
+    {
+      "rule_id": "PATH_COMPLETENESS",
+      "category": "General Rules",
+      "description": "ONT paths should reach OLT (\u226590% completion rate)",
+      "applies_to": [],
+      "validation_criteria": [],
+      "examples": [],
+      "confidence_score": 1.0,
+      "source_files": [
+        "rules_summary.txt"
+      ]
+    },
+    {
+      "rule_id": "VIRTUAL_LINK_LIMITS",
+      "category": "General Rules",
+      "description": "Virtual links should be <20% of total links",
+      "applies_to": [],
+      "validation_criteria": [],
+      "examples": [],
+      "confidence_score": 1.0,
+      "source_files": [
+        "rules_summary.txt"
+      ]
+    },
+    {
+      "rule_id": "PATTERN_OLT_FEEDER_ROOT",
+      "category": "OLT Placement",
+      "description": "Optical Line Terminal - root of feeder \u2192 FDH \u2192 FOSC \u2192 Terminal \u2192 ONT chain",
+      "applies_to": [
+        "olt"
+      ],
+      "validation_criteria": [],
+      "examples": [
+        "103",
+        "401",
+        "403"
+      ],
+      "confidence_score": 0.98,
+      "source_files": [
+        "design_intent_summary_condensed.json"
+      ]
+    },
+    {
+      "rule_id": "PATTERN_AERIAL_INLINE_DISTRIBUTION",
+      "category": "Terminal Placement",
+      "description": "Inline ONT distribution along continuous fiber cable segment",
+      "applies_to": [
+        "terminal"
+      ],
+      "validation_criteria": [],
+      "examples": [
+        "T1001411",
+        "T1001433",
+        "T1001435"
+      ],
+      "confidence_score": 0.7944293443666455,
+      "source_files": [
+        "design_intent_summary_condensed.json"
+      ]
+    },
+    {
+      "rule_id": "R10_AERIAL_TERMINAL_ADAPTIVE",
+      "category": "Terminal Placement",
+      "description": "Place Aerial Terminal when fiber cable segment continues within same trunk, serving \u226412 drops within ~150m, without requiring fiber splicing",
+      "applies_to": [
+        "terminal"
+      ],
+      "validation_criteria": [
+        "ONT count: 1-35",
+        "Max drop length: \u2264259.9m"
+      ],
+      "examples": [],
+      "confidence_score": 0.557,
+      "source_files": [
+        "adaptive_rules_summary.json"
+      ]
+    },
+    {
+      "rule_id": "R10_AERIAL_TERMINAL_PLACEMENT",
+      "category": "Terminal Placement",
+      "description": "Place Aerial Terminal when fiber cable segment continues within same trunk, serving \u226412 drops within ~150m, without requiring fiber splicing",
+      "applies_to": [
+        "terminal"
+      ],
+      "validation_criteria": [
+        "cable_id exists in fiber cable layer",
+        "downstream ONTs > 12 (16)",
+        "no stub cable originates",
+        "downstream ONTs \u2264 12 (1)",
+        "stub cable present (may be MST)",
+        "average drop distance \u2264 150m (80.0m)"
+      ],
+      "examples": [
+        "T1001435",
+        "T1001493",
+        "T1001009"
+      ],
+      "confidence_score": 0.937402106400216,
+      "source_files": [
+        "placement_rules_analysis.json"
+      ]
+    },
+    {
+      "rule_id": "R10_AERIAL_TERMINAL_REFINED",
+      "category": "Terminal Placement",
+      "description": "Aerial Terminal: Direct connection to infrastructure cable (288F/144F/96F/72F/48F) for small ONT groups. Use when communities are near infrastructure cable (<50m) AND nearest FOSC is >1km away. May cause mid-cable splicing (acceptable when FOSC is far). Typically serves 1-12 ONTs (median 3). Objective: Minimize mid-cable splicing by using Aerial Terminal only when FOSC is not nearby.",
+      "applies_to": [
+        "terminal"
+      ],
+      "validation_criteria": [
+        "Residential (ONTs) within <50m of infrastructure cable",
+        "Nearest FOSC is >1km away (key decision factor)",
+        "ONT count: 1-12 (typically \u22646, median 3)",
+        "Infrastructure cable size: 288F, 144F, 96F, 72F, or 48F",
+        "Direct connection to infrastructure cable (no stub cable)",
+        "May cause mid-cable splicing (acceptable when FOSC is far)",
+        "Average drop length \u2264 150m"
+      ],
+      "examples": [],
+      "confidence_score": 0.95,
+      "source_files": [
+        "rules_summary.txt",
+        "terminal_placement_analysis.json",
+        "fosc_proximity_analysis.json",
+        "TERMINAL_PLACEMENT_RULES_ENHANCED.md"
+      ]
+    },
+    {
+      "rule_id": "R11_MST_ADAPTIVE",
+      "category": "Terminal Placement",
+      "description": "Place MST when stub cable branches from FOSC, typically \u2264500m away, to serve small clusters of ONTs (1-12)",
+      "applies_to": [],
+      "validation_criteria": [
+        "ONT count: 1-43",
+        "Max stub length: \u2264500m"
+      ],
+      "examples": [],
+      "confidence_score": 0.999,
+      "source_files": [
+        "adaptive_rules_summary.json"
+      ]
+    },
+    {
+      "rule_id": "R11_MST_LONG_REACH",
+      "category": "Terminal Placement",
+      "description": "MST Long-Reach: Stub length 500-2500m from FOSC, serving 6-48 ONTs",
+      "applies_to": [
+        "terminal"
+      ],
+      "validation_criteria": [
+        "Max stub length: \u22642500m"
+      ],
+      "examples": [],
+      "confidence_score": 1.0,
+      "source_files": [
+        "mst_long_reach_comparison.json"
+      ]
+    },
+    {
+      "rule_id": "R11_MST_PLACEMENT",
+      "category": "Terminal Placement",
+      "description": "Place MST when stub cable branches from FOSC, typically \u2264500m away, to serve small clusters of ONTs (1-12)",
+      "applies_to": [
+        "terminal"
+      ],
+      "validation_criteria": [
+        "stub cable connection present",
+        "connected to FOSC F1000338",
+        "stub distance \u2264 500m (395.0m)",
+        "FOSC category: Full Splice",
+        "serves 1-12 ONTs (5)",
+        "connected to FOSC F1000331",
+        "stub distance > 500m (819.0m)",
+        "FOSC category: Partial Splice",
+        "connected to FOSC F1000253",
+        "connected to FOSC F1000336"
+      ],
+      "examples": [
+        "T1001411",
+        "T1001433",
+        "T1001419"
+      ],
+      "confidence_score": 0.9899999999999999,
+      "source_files": [
+        "placement_rules_analysis.json"
+      ]
+    },
+    {
+      "rule_id": "R11_MST_REFINED",
+      "category": "Terminal Placement",
+      "description": "MST: Always has stub cable (part of product) connecting to FOSC. Primary use case: Communities within \u22641km of FOSC \u2192 use MST to maximize FOSC splicing and minimize mid-cable splicing. Secondary use case: Communities \u2265200m from infrastructure cable \u2192 use MST to connect to nearest FOSC. All splicing done at FOSC, not mid-cable. Typically serves 1-12 ONTs (median 3, similar to Aerial Terminal). Stub cable length: \u2264500m (standard) or 500-2500m (long-reach).",
+      "applies_to": [
+        "terminal"
+      ],
+      "validation_criteria": [
+        "MST always has stub cable (100% of MSTs have stub cable - part of product)",
+        "MST always connects to FOSC via stub cable (100% connect to FOSC)",
+        "Primary use case: Communities within \u22641km of FOSC (key decision factor)",
+        "Secondary use case: Communities \u2265200m from infrastructure cable",
+        "Stub cable length: \u2264500m (standard) or 500-2500m (long-reach)",
+        "ONT count: 1-12 (typically \u22646, median 3, similar to Aerial Terminal)",
+        "Primary distinction: Splicing location (FOSC vs mid-cable), not ONT count",
+        "Used to maximize FOSC splicing (all splicing at FOSC, no mid-cable splicing)",
+        "Objective: Minimize mid-cable splicing by prioritizing FOSC connections when nearby"
+      ],
+      "examples": [],
+      "confidence_score": 0.95,
+      "source_files": [
+        "rules_summary.txt",
+        "terminal_placement_analysis.json",
+        "terminal_vs_mst_analysis.json",
+        "fosc_proximity_analysis.json",
+        "TERMINAL_PLACEMENT_RULES_ENHANCED.md"
+      ]
+    },
+    {
+      "rule_id": "R15_OLT_MAX_DISTANCE",
+      "category": "OLT Placement",
+      "description": "Maximum path length from OLT to any ONT must not exceed 20 km",
+      "applies_to": [
+        "olt",
+        "ont"
+      ],
+      "validation_criteria": [
+        "Path length from OLT to ONT \u2264 20,000 m",
+        "All ONT paths must be complete (reach OLT)"
+      ],
+      "examples": [],
+      "confidence_score": 1.0,
+      "source_files": [
+        "olt_placement_rules.json",
+        "olt_distance_analysis.json"
+      ]
+    },
+    {
+      "rule_id": "R16_OLT_PLACEMENT_STRATEGY",
+      "category": "OLT Placement",
+      "description": "Simplified pocket-based OLT placement: If there is a pocket of ONTs, those pockets need their own OLT. Large communities (\u22652000) and medium communities (500-2000) always get OLT. Isolated small communities (>15km from others) also get OLT. User can review and optimize later.",
+      "applies_to": [
+        "olt"
+      ],
+      "validation_criteria": [
+        "Cluster ONTs into initial pockets by proximity (2 km radius)",
+        "Iteratively merge pockets that are <15km apart",
+        "After merging, validate merged pocket diameter (must be \u226415km)",
+        "If merged pocket diameter >15km, split into smaller pockets",
+        "When adding new community, check distance to all existing pockets and merge if <15km",
+        "Re-validate all pockets after each merge operation",
+        "If pocket \u2265 2000 ONTs \u2192 always place OLT at pocket centroid",
+        "If pocket 500-2000 ONTs \u2192 always place OLT at pocket centroid (user can review/remove later)",
+        "If pocket < 500 ONTs and >15km from nearest pocket \u2192 place OLT (isolated pocket)",
+        "If pocket < 500 ONTs and \u226415km from nearest pocket \u2192 assign to nearest OLT (within 20 km)",
+        "Validate: All ONTs within 20km of assigned OLT (R15)",
+        "User review: Flag OLTs <5km apart for potential merging"
+      ],
+      "examples": [
+        "OLT 301: 313 subscribers (isolated, max distance 19.15 km)",
+        "Pocket with 1200 ONTs: Always gets OLT (user can review if nearby pocket also has OLT)"
+      ],
+      "confidence_score": 0.95,
+      "source_files": [
+        "olt_placement_rules.json",
+        "olt_subscriber_density_analysis.json",
+        "R16_SIMPLIFIED_RULE.md"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "validation_type": "2_cable_junction_foscs",
+  "generated_count": 2993,
+  "matched_count": 1400,
+  "match_rate": 46.775810223855665,
+  "unmatched_generated": 1593,
+  "tolerance_m": 50.0,
+  "status": "\u274c NEEDS WORK",
+  "recommendation": "2-cable junction FOSC placement has significant issues. Debug before proceeding.",
+  "match_distance_stats": {
+    "mean": 6.961433638564796,
+    "median": 4.510065952367442,
+    "min": 0.24032354078759,
+    "max": 49.380651154629135
+  },
+  "unmatched_matching_terminals": 1589,
+  "adjusted_match_rate": 99.86635482793183
+}

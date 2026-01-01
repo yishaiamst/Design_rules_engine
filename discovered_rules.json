@@ -1,0 +1,626 @@
+{
+  "metadata": {
+    "total_rules": 29,
+    "verification_rules": 7,
+    "discovered_rules": 22,
+    "placement_logic_rules": 2,
+    "generation_timestamp": null
+  },
+  "rules": [
+    {
+      "rule_id": "CONNECTIVITY_ONT_TERMINAL",
+      "description": "ONT must connect to Terminal via drop cable",
+      "supporting_data": {
+        "onts_with_terminal": 22190,
+        "onts_without_terminal": 295,
+        "percentage_without": 1.31
+      },
+      "example_instances": [],
+      "confidence_score": 1.0,
+      "rule_type": "verification",
+      "status": "PASS"
+    },
+    {
+      "rule_id": "HIERARCHY_TERMINAL_FOSC_FDH",
+      "description": "Terminal must connect to FOSC (splice closure) or FDH",
+      "supporting_data": {
+        "terminals_to_fosc": 4902,
+        "terminals_to_fdh": 70,
+        "orphaned_terminals": 1311,
+        "percentage_orphaned": 20.87
+      },
+      "example_instances": [],
+      "confidence_score": 0.7,
+      "rule_type": "verification",
+      "status": "WARNING"
+    },
+    {
+      "rule_id": "HIERARCHY_FOSC_FDH",
+      "description": "FOSC must connect to FDH or another FOSC",
+      "supporting_data": {
+        "fosc_to_fdh": 176,
+        "fosc_to_fosc": 1409,
+        "orphaned_fosc": 340,
+        "percentage_orphaned": 17.66
+      },
+      "example_instances": [],
+      "confidence_score": 0.7,
+      "rule_type": "verification",
+      "status": "WARNING"
+    },
+    {
+      "rule_id": "HIERARCHY_FDH_OLT",
+      "description": "FDH must connect to OLT",
+      "supporting_data": {
+        "fdh_to_olt": 181,
+        "orphaned_fdh": 0,
+        "percentage_orphaned": 0.0
+      },
+      "example_instances": [],
+      "confidence_score": 1.0,
+      "rule_type": "verification",
+      "status": "PASS"
+    },
+    {
+      "rule_id": "CABLE_LAYER_CONSISTENCY",
+      "description": "Drop cables only used for ONT\u2192Terminal connections",
+      "supporting_data": {
+        "drop_cable_usage": {
+          "ont\u2192terminal": 22491,
+          "terminal\u2192ont": 288,
+          "ont\u2192splice closure": 295
+        },
+        "stub_cable_usage": {
+          "terminal\u2192splice closure": 8182,
+          "terminal\u2192terminal": 1101,
+          "terminal\u2192fdh": 178,
+          "splice closure\u2192terminal": 30
+        },
+        "fiber_cable_usage": {
+          "splice closure\u2192splice closure": 119383,
+          "splice closure\u2192fdh": 14362,
+          "terminal\u2192splice closure": 20774,
+          "splice closure\u2192olt": 7958,
+          "terminal\u2192terminal": 15848,
+          "splice closure\u2192terminal": 6901
+        }
+      },
+      "example_instances": [],
+      "confidence_score": 1.0,
+      "rule_type": "verification",
+      "status": "PASS"
+    },
+    {
+      "rule_id": "PATH_COMPLETENESS",
+      "description": "ONT paths should reach OLT (\u226590% completion rate)",
+      "supporting_data": {
+        "complete_paths": 22498,
+        "total_paths": 22769,
+        "completeness_rate": 98.81
+      },
+      "example_instances": [],
+      "confidence_score": 1.0,
+      "rule_type": "verification",
+      "status": "PASS"
+    },
+    {
+      "rule_id": "VIRTUAL_LINK_LIMITS",
+      "description": "Virtual links should be <20% of total links",
+      "supporting_data": {
+        "virtual_links": 2856,
+        "total_links": 232331,
+        "virtual_rate": 1.23
+      },
+      "example_instances": [],
+      "confidence_score": 1.0,
+      "rule_type": "verification",
+      "status": "PASS"
+    },
+    {
+      "rule_id": "DISTANCE_DROP_CABLE_TYPICAL",
+      "description": "Typical drop cable length: 115.47m (median: 90.0m, range: 5.0-1464.0m)",
+      "supporting_data": {
+        "count": 20403,
+        "mean": 115.47,
+        "median": 90.0,
+        "min": 5.0,
+        "max": 1464.0,
+        "stdev": 96.29,
+        "p25": 54.0,
+        "p75": 145.0
+      },
+      "example_instances": [],
+      "confidence_score": 0.95,
+      "rule_type": "statistical_discovery"
+    },
+    {
+      "rule_id": "DISTANCE_STUB_CABLE_TYPICAL",
+      "description": "Typical stub cable length: 307.61m (median: 212.0m, range: 1.0-2944.0m)",
+      "supporting_data": {
+        "count": 9313,
+        "mean": 307.61,
+        "median": 212.0,
+        "min": 1.0,
+        "max": 2944.0,
+        "stdev": 333.44,
+        "p25": 100.0,
+        "p75": 414.5
+      },
+      "example_instances": [],
+      "confidence_score": 0.95,
+      "rule_type": "statistical_discovery"
+    },
+    {
+      "rule_id": "DISTANCE_FIBER_CABLE_TYPICAL",
+      "description": "Typical fiber cable length: 663.24m (median: 422.0m, range: 1.0-2699.0m)",
+      "supporting_data": {
+        "count": 185219,
+        "mean": 663.24,
+        "median": 422.0,
+        "min": 1.0,
+        "max": 2699.0,
+        "stdev": 644.27,
+        "p25": 142.0,
+        "p75": 1065.0
+      },
+      "example_instances": [],
+      "confidence_score": 0.95,
+      "rule_type": "statistical_discovery"
+    },
+    {
+      "rule_id": "BRANCHING_ONT_OUTDEGREE",
+      "description": "Ont typically has 1.0 outgoing connections (median: 1, range: 1-258)",
+      "supporting_data": {
+        "count": 22485,
+        "mean": 1.01,
+        "median": 1,
+        "min": 1,
+        "max": 258,
+        "stdev": 1.72,
+        "p25": 1.0,
+        "p75": 1.0
+      },
+      "example_instances": [],
+      "confidence_score": 0.9,
+      "rule_type": "statistical_discovery"
+    },
+    {
+      "rule_id": "BRANCHING_TERMINAL_OUTDEGREE",
+      "description": "Terminal typically has 7.4 outgoing connections (median: 4, range: 1-289)",
+      "supporting_data": {
+        "count": 6283,
+        "mean": 7.38,
+        "median": 4,
+        "min": 1,
+        "max": 289,
+        "stdev": 13.31,
+        "p25": 2.0,
+        "p75": 7.0
+      },
+      "example_instances": [],
+      "confidence_score": 0.9,
+      "rule_type": "statistical_discovery"
+    },
+    {
+      "rule_id": "BRANCHING_SPLICE CLOSURE_OUTDEGREE",
+      "description": "Splice Closure typically has 77.2 outgoing connections (median: 24, range: 1-2015)",
+      "supporting_data": {
+        "count": 1925,
+        "mean": 77.21,
+        "median": 24,
+        "min": 1,
+        "max": 2015,
+        "stdev": 163.09,
+        "p25": 9.0,
+        "p75": 65.0
+      },
+      "example_instances": [],
+      "confidence_score": 0.9,
+      "rule_type": "statistical_discovery"
+    },
+    {
+      "rule_id": "BRANCHING_FDH_OUTDEGREE",
+      "description": "Fdh typically has 80.3 outgoing connections (median: 69, range: 3-417)",
+      "supporting_data": {
+        "count": 181,
+        "mean": 80.33,
+        "median": 69,
+        "min": 3,
+        "max": 417,
+        "stdev": 61.38,
+        "p25": 37.5,
+        "p75": 112.5
+      },
+      "example_instances": [],
+      "confidence_score": 0.9,
+      "rule_type": "statistical_discovery"
+    },
+    {
+      "rule_id": "CAPACITY_DROP_CABLE_FIBER_COUNT",
+      "description": "Drop Cable most commonly uses 1 fibers",
+      "supporting_data": {
+        "count": 15947,
+        "unique_values": [
+          1
+        ],
+        "most_common": [
+          [
+            1,
+            15947
+          ]
+        ]
+      },
+      "example_instances": [
+        [
+          1,
+          15947
+        ]
+      ],
+      "confidence_score": 0.85,
+      "rule_type": "statistical_discovery"
+    },
+    {
+      "rule_id": "CAPACITY_FIBER_CABLE_FIBER_COUNT",
+      "description": "Fiber Cable most commonly uses 144 fibers",
+      "supporting_data": {
+        "count": 185172,
+        "unique_values": [
+          12,
+          24,
+          48,
+          72,
+          96,
+          144,
+          288
+        ],
+        "most_common": [
+          [
+            144,
+            125893
+          ],
+          [
+            48,
+            20572
+          ],
+          [
+            288,
+            20339
+          ],
+          [
+            96,
+            13118
+          ],
+          [
+            24,
+            2587
+          ]
+        ]
+      },
+      "example_instances": [
+        [
+          144,
+          125893
+        ],
+        [
+          48,
+          20572
+        ],
+        [
+          288,
+          20339
+        ]
+      ],
+      "confidence_score": 0.85,
+      "rule_type": "statistical_discovery"
+    },
+    {
+      "rule_id": "CAPACITY_STUB_CABLE_FIBER_COUNT",
+      "description": "Stub Cable most commonly uses 4 fibers",
+      "supporting_data": {
+        "count": 231,
+        "unique_values": [
+          4,
+          6,
+          8,
+          12,
+          48,
+          144
+        ],
+        "most_common": [
+          [
+            4,
+            81
+          ],
+          [
+            12,
+            62
+          ],
+          [
+            6,
+            60
+          ],
+          [
+            8,
+            25
+          ],
+          [
+            144,
+            2
+          ]
+        ]
+      },
+      "example_instances": [
+        [
+          4,
+          81
+        ],
+        [
+          12,
+          62
+        ],
+        [
+          6,
+          60
+        ]
+      ],
+      "confidence_score": 0.85,
+      "rule_type": "statistical_discovery"
+    },
+    {
+      "rule_id": "TRANSITION_DROP_CABLE_TO_FIBER_CABLE",
+      "description": "Cable type transitions from drop cable to fiber cable occur 13343 times",
+      "supporting_data": {
+        "transition": "drop cable\u2192fiber cable",
+        "count": 13343
+      },
+      "example_instances": [
+        {
+          "from_layer": "ont",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "splice closure"
+        },
+        {
+          "from_layer": "ont",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "splice closure"
+        },
+        {
+          "from_layer": "ont",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "splice closure"
+        }
+      ],
+      "confidence_score": 0.8,
+      "rule_type": "statistical_discovery"
+    },
+    {
+      "rule_id": "TRANSITION_DROP_CABLE_TO_STUB_CABLE",
+      "description": "Cable type transitions from drop cable to stub cable occur 9431 times",
+      "supporting_data": {
+        "transition": "drop cable\u2192stub cable",
+        "count": 9431
+      },
+      "example_instances": [
+        {
+          "from_layer": "ont",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "splice closure"
+        },
+        {
+          "from_layer": "ont",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "terminal"
+        },
+        {
+          "from_layer": "ont",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "splice closure"
+        }
+      ],
+      "confidence_score": 0.8,
+      "rule_type": "statistical_discovery"
+    },
+    {
+      "rule_id": "TRANSITION_STUB_CABLE_TO_FIBER_CABLE",
+      "description": "Cable type transitions from stub cable to fiber cable occur 9279 times",
+      "supporting_data": {
+        "transition": "stub cable\u2192fiber cable",
+        "count": 9279
+      },
+      "example_instances": [
+        {
+          "from_layer": "terminal",
+          "to_layer": "splice closure",
+          "next_from_layer": "splice closure",
+          "next_to_layer": "splice closure"
+        },
+        {
+          "from_layer": "terminal",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "splice closure"
+        },
+        {
+          "from_layer": "terminal",
+          "to_layer": "splice closure",
+          "next_from_layer": "splice closure",
+          "next_to_layer": "splice closure"
+        }
+      ],
+      "confidence_score": 0.8,
+      "rule_type": "statistical_discovery"
+    },
+    {
+      "rule_id": "TRANSITION_FIBER_CABLE_TO_DROP_CABLE",
+      "description": "Cable type transitions from fiber cable to drop cable occur 260 times",
+      "supporting_data": {
+        "transition": "fiber cable\u2192drop cable",
+        "count": 260
+      },
+      "example_instances": [
+        {
+          "from_layer": "terminal",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "ont"
+        },
+        {
+          "from_layer": "terminal",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "ont"
+        },
+        {
+          "from_layer": "terminal",
+          "to_layer": "terminal",
+          "next_from_layer": "terminal",
+          "next_to_layer": "ont"
+        }
+      ],
+      "confidence_score": 0.8,
+      "rule_type": "statistical_discovery"
+    },
+    {
+      "rule_id": "TRANSITION_FIBER_CABLE_TO_STUB_CABLE",
+      "description": "Cable type transitions from fiber cable to stub cable occur 42 times",
+      "supporting_data": {
+        "transition": "fiber cable\u2192stub cable",
+        "count": 42
+      },
+      "example_instances": [
+        {
+          "from_layer": "splice closure",
+          "to_layer": "splice closure",
+          "next_from_layer": "splice closure",
+          "next_to_layer": "terminal"
+        },
+        {
+          "from_layer": "splice closure",
+          "to_layer": "splice closure",
+          "next_from_layer": "splice closure",
+          "next_to_layer": "terminal"
+        },
+        {
+          "from_layer": "splice closure",
+          "to_layer": "splice closure",
+          "next_from_layer": "splice closure",
+          "next_to_layer": "terminal"
+        }
+      ],
+      "confidence_score": 0.8,
+      "rule_type": "statistical_discovery"
+    },
+    {
+      "rule_id": "PLACEMENT_TERMINALS_PER_FOSC",
+      "description": "On average, 21.8 terminals connect to each FOSC (median: 12.0, range: 1-384)",
+      "supporting_data": {
+        "count": 1646,
+        "mean": 21.8,
+        "median": 12.0,
+        "min": 1,
+        "max": 384,
+        "stdev": 31.63,
+        "p25": 5.0,
+        "p75": 25.25
+      },
+      "example_instances": [],
+      "confidence_score": 0.9,
+      "rule_type": "statistical_discovery"
+    },
+    {
+      "rule_id": "PLACEMENT_FOSCS_PER_FDH",
+      "description": "On average, 82.5 FOSCs connect to each FDH (median: 70.0, range: 12-417)",
+      "supporting_data": {
+        "count": 174,
+        "mean": 82.54,
+        "median": 70.0,
+        "min": 12,
+        "max": 417,
+        "stdev": 60.21,
+        "p25": 40.75,
+        "p75": 113.0
+      },
+      "example_instances": [],
+      "confidence_score": 0.9,
+      "rule_type": "statistical_discovery"
+    },
+    {
+      "rule_id": "NEXT_HOP_SPLICE CLOSURE_TO_SPLICE CLOSURE",
+      "description": "Most common next hop: splice closure\u2192splice closure (occurs 119383 times)",
+      "supporting_data": {
+        "transition": "splice closure\u2192splice closure",
+        "count": 119383,
+        "cable_types": {
+          "fiber cable": 119383
+        }
+      },
+      "example_instances": [],
+      "confidence_score": 0.85,
+      "rule_type": "statistical_discovery"
+    },
+    {
+      "rule_id": "NEXT_HOP_TERMINAL_TO_SPLICE CLOSURE",
+      "description": "Most common next hop: terminal\u2192splice closure (occurs 28956 times)",
+      "supporting_data": {
+        "transition": "terminal\u2192splice closure",
+        "count": 28956,
+        "cable_types": {
+          "stub cable": 8182,
+          "fiber cable": 20774
+        }
+      },
+      "example_instances": [],
+      "confidence_score": 0.85,
+      "rule_type": "statistical_discovery"
+    },
+    {
+      "rule_id": "NEXT_HOP_TERMINAL_TO_TERMINAL",
+      "description": "Most common next hop: terminal\u2192terminal (occurs 16949 times)",
+      "supporting_data": {
+        "transition": "terminal\u2192terminal",
+        "count": 16949,
+        "cable_types": {
+          "stub cable": 1101,
+          "fiber cable": 15848
+        }
+      },
+      "example_instances": [],
+      "confidence_score": 0.85,
+      "rule_type": "statistical_discovery"
+    },
+    {
+      "rule_id": "NEXT_HOP_FDH_TO_OLT",
+      "description": "Most common next hop: fdh\u2192olt (occurs 14540 times)",
+      "supporting_data": {
+        "transition": "fdh\u2192olt",
+        "count": 14540,
+        "cable_types": {
+          "null": 14540
+        }
+      },
+      "example_instances": [],
+      "confidence_score": 0.85,
+      "rule_type": "statistical_discovery"
+    },
+    {
+      "rule_id": "NEXT_HOP_SPLICE CLOSURE_TO_FDH",
+      "description": "Most common next hop: splice closure\u2192fdh (occurs 14362 times)",
+      "supporting_data": {
+        "transition": "splice closure\u2192fdh",
+        "count": 14362,
+        "cable_types": {
+          "fiber cable": 14362
+        }
+      },
+      "example_instances": [],
+      "confidence_score": 0.85,
+      "rule_type": "statistical_discovery"
+    }
+  ]
+}

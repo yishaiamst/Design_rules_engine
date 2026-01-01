@@ -1,0 +1,89 @@
+================================================================================
+ADAPTIVE RULES REPORT
+================================================================================
+
+Comparing Static (Refined) vs Adaptive (Learned) Thresholds
+
+================================================================================
+STATISTICAL BASELINES
+================================================================================
+
+Drop Cable Lengths:
+  Mean: 115.47m ± 96.29m
+  Range: 5.0-1464.0m
+  Median: 90.0m
+
+Stub Cable Lengths:
+  Mean: 307.61m ± 333.44m
+  Range: 1.0-2944.0m
+  Median: 212.0m
+
+ONTs per Terminal:
+  Mean: 11.0 ± 16.25
+  Range: 1-567
+  Median: 8.0
+
+================================================================================
+ADAPTIVE THRESHOLDS (Learned from Data)
+================================================================================
+
+R10_AERIAL_TERMINAL:
+  ont_count_min: 1
+  ont_count_max: 35
+  drop_length_max: 259.9
+  Original thresholds: {'ont_min': 1, 'ont_max': 12, 'drop_max': 150}
+  Adjustments: {'ont_min_change': 0, 'ont_max_change': 23, 'drop_max_change': 109.9}
+
+R11_MST:
+  ont_count_min: 1
+  ont_count_max: 43
+  stub_length_max: 500
+  Original thresholds: {'ont_min': 6, 'ont_max': 24, 'stub_max': 500}
+  Adjustments: {'ont_min_change': -5, 'ont_max_change': 19, 'stub_max_change': 0}
+
+R12_FOSC:
+  fiber_connections_min: 2
+  fiber_length_threshold: 1800
+  Original thresholds: {'length_threshold': 1800}
+  Adjustments: {'length_threshold_change': 0}
+
+================================================================================
+STATIC vs ADAPTIVE COMPARISON
+================================================================================
+
+R10_AERIAL_TERMINAL_REFINED:
+  Static (Refined):
+    Evaluations: 6283
+    Matches: 1 (0.0%)
+    Avg Confidence: 0.853
+  Adaptive (Learned):
+    Evaluations: 6283
+    Matches: 1 (0.0%)
+    Avg Confidence: 0.557
+  Improvement: 0.0% more matches
+
+R11_MST_REFINED:
+  Static (Refined):
+    Evaluations: 2325
+    Matches: 386 (16.6%)
+    Avg Confidence: 0.793
+  Adaptive (Learned):
+    Evaluations: 1810
+    Matches: 1802 (99.6%)
+    Avg Confidence: 0.999
+  Improvement: 78.2% more matches
+
+R12_FOSC_REFINED:
+  Static (Refined):
+    Evaluations: 1925
+    Matches: 1925 (100.0%)
+    Avg Confidence: 0.937
+  Adaptive (Learned):
+    Evaluations: 1925
+    Matches: 1925 (100.0%)
+    Avg Confidence: 0.622
+  Improvement: 0.0% more matches
+
+================================================================================
+END OF REPORT
+================================================================================

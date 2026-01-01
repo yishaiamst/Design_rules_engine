@@ -1,0 +1,52 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::32617"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "FDH104010",
+        "Size": "144",
+        "Owner": "Rock Networks",
+        "NoOfRes": "58",
+        "NoOfBus": "3",
+        "NoOfResPro": "12",
+        "UsedPorts": "128",
+        "FreePorts": "16",
+        "Location": "JN OF BRITAINVILLE RD & WHITE CHURCH RD",
+        "Struct_ID": "P694/B933XD",
+        "Status": "Proposed",
+        "Placement": "Outdoor",
+        "CabinetSz": "640*506*470",
+        "NoOfSpltt": "5",
+        "Spltt_ID's": "SP1000596,SP1000597,SP1000598,SP1000599,SP1000600",
+        "Permit_ID": "HYDRO1-P1000208",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "PermApplOn": null,
+        "PermApprOn": null,
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "DtInstald": null,
+        "SKU": "FDH144-SCAPC-132-30M",
+        "spltt_ids": null,
+        "layer": "fdh",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/fdh.shp"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390872.9988385977,
+          5065255.530277879
+        ]
+      }
+    }
+  ]
+}

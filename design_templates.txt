@@ -1,0 +1,162 @@
+================================================================================
+DESIGN INTENT TEMPLATES
+================================================================================
+
+Reusable design patterns extracted from network analysis.
+
+================================================================================
+OLT DESIGN PATTERNS
+================================================================================
+
+[OLT_FEEDER_ROOT]
+  Description: Optical Line Terminal - root of feeder → FDH → FOSC → Terminal → ONT chain
+  Instance Count: 17
+  Average Confidence: 0.980
+
+  Example Explanation:
+    OLT 103 serves as feeder root connecting to 2067 FDHs in the OLT → FDH → FOSC → Terminal → ONT hierarchy
+
+  Example Instances:
+    1. OLT 103 serves as feeder root connecting to 2067 FDHs in the OLT → FDH → FOSC → Terminal → ONT hierarchy
+    2. OLT 401 serves as feeder root in the OLT → FDH → FOSC → Terminal → ONT hierarchy
+    3. OLT 403 serves as feeder root in the OLT → FDH → FOSC → Terminal → ONT hierarchy
+
+================================================================================
+FDH DESIGN PATTERNS
+================================================================================
+
+[FDH_FEEDER_ROOT]
+  Description: Feeder distribution hub connecting to multiple FOSCs
+  Instance Count: 181
+  Average Confidence: 0.950
+
+  Example Explanation:
+    FDH FDH103009 serves as feeder root node connecting to 219 FOSCs serving 219 downstream ONTs
+
+  Typical Characteristics:
+    typical_downstream_onts: {'mean': 80.3, 'median': 69, 'range': '3-417'}
+
+  Example Instances:
+    1. FDH FDH103009 serves as feeder root node connecting to 219 FOSCs serving 219 downstream ONTs
+    2. FDH FDH103012 serves as feeder root node connecting to 110 FOSCs serving 110 downstream ONTs
+    3. FDH FDH103015 serves as feeder root node connecting to 24 FOSCs serving 27 downstream ONTs
+
+================================================================================
+SPLICE CLOSURE DESIGN PATTERNS
+================================================================================
+
+[FOSC_MULTI_CABLE_JUNCTION]
+  Description: Junction of multiple fiber cables
+  Instance Count: 1679
+  Average Confidence: 0.850
+
+  Example Explanation:
+    FOSC F1000338 connects 47 fiber cables
+
+  Typical Characteristics:
+    typical_downstream_onts: {'mean': 79.9, 'median': 22, 'range': '2-2015'}
+    typical_path_length_to_olt_m: {'mean': 5717.2, 'median': 2575.9}
+
+  Example Instances:
+    1. FOSC F1000338 connects 47 fiber cables
+    2. FOSC F1000336 connects 64 fiber cables with fiber count transition (48F → 144F)
+    3. FOSC F1000337 connects 70 fiber cables
+
+[FOSC_FEEDER_JUNCTION]
+  Description: Feeder splice point between 144F/288F feeders and 96F distributors
+  Instance Count: 175
+  Average Confidence: 0.900
+
+  Example Explanation:
+    FOSC F1000326 serves as feeder splice point within 8.0m of FDH FDH103009
+
+  Typical Characteristics:
+    typical_downstream_onts: {'mean': 82.0, 'median': 70, 'range': '12-417'}
+
+  Example Instances:
+    1. FOSC F1000326 serves as feeder splice point within 8.0m of FDH FDH103009
+    2. FOSC F1000335 serves as feeder splice point within 26.0m of FDH FDH103012
+    3. FOSC F1000256 serves as feeder splice point within 5.0m of FDH FDH103015
+
+[FOSC_LONG_SEGMENT_SPLICE]
+  Description: Splice point for long fiber cable segment
+  Instance Count: 12
+  Average Confidence: 0.800
+
+  Example Explanation:
+    FOSC F1000308 placed on 1926m fiber cable segment
+
+  Typical Characteristics:
+    typical_downstream_onts: {'mean': 1, 'median': 1.0, 'range': '1-1'}
+    typical_path_length_to_olt_m: {'mean': 4210.5, 'median': 2922.4}
+
+  Example Instances:
+    1. FOSC F1000308 placed on 1926m fiber cable segment
+    2. FOSC F1000729 placed on 2006m fiber cable segment
+    3. FOSC F1000630 placed on 2030m fiber cable segment
+
+[FOSC_CABLE_ID_TRANSITION]
+  Description: Fiber cable ID transition point
+  Instance Count: 59
+  Average Confidence: 0.750
+
+  Example Explanation:
+    FOSC F1000323 marks transition between 2 different fiber cables
+
+  Typical Characteristics:
+    typical_downstream_onts: {'mean': 1.5, 'median': 1, 'range': '1-16'}
+    typical_avg_stub_length_m: {'mean': 487.0, 'median': 487.0}
+    typical_path_length_to_olt_m: {'mean': 8186.5, 'median': 3887.9}
+
+  Example Instances:
+    1. FOSC F1000323 marks transition between 2 different fiber cables
+    2. FOSC F1000325 marks transition between 2 different fiber cables
+    3. FOSC F4000078 marks transition between 2 different fiber cables
+
+================================================================================
+TERMINAL DESIGN PATTERNS
+================================================================================
+
+[AERIAL_INLINE_DISTRIBUTION]
+  Description: Inline ONT distribution along continuous fiber cable segment
+  Instance Count: 6283
+  Average Confidence: 0.794
+
+  Example Explanation:
+    Aerial Terminal T1001411 serves 5 ONTs (short drop cables) along a continuous fiber cable segment using 1F cable
+
+  Typical Characteristics:
+    typical_downstream_onts: {'mean': 7.4, 'median': 4, 'range': '1-289'}
+    typical_avg_drop_length_m: {'mean': 168.7, 'median': 110.0}
+    typical_avg_stub_length_m: {'mean': 349.0, 'median': 241.0}
+    typical_path_length_to_olt_m: {'mean': 5134.1, 'median': 2152.7}
+
+  Example Instances:
+    1. Aerial Terminal T1001411 serves 5 ONTs (short drop cables) along a continuous fiber cable segment using 1F cable
+    2. Aerial Terminal T1001433 serves 7 ONTs (short drop cables) along a continuous fiber cable segment using 1F cable
+    3. Aerial Terminal T1001435 serves 16 ONTs (short drop cables) along a continuous fiber cable segment using 96F cable
+
+================================================================================
+ONT DESIGN PATTERNS
+================================================================================
+
+[ONT_END_USER]
+  Description: Optical Network Terminal - end user access point
+  Instance Count: 22485
+  Average Confidence: 0.900
+
+  Example Explanation:
+    ONT O1004701 serves as end user access point with complete path to OLT (2425m total)
+
+  Typical Characteristics:
+    typical_avg_drop_length_m: {'mean': 112.1, 'median': 90.0}
+    typical_path_length_to_olt_m: {'mean': 5640.8, 'median': 2507.1}
+
+  Example Instances:
+    1. ONT O1004701 serves as end user access point with complete path to OLT (2425m total)
+    2. ONT O1004702 serves as end user access point with complete path to OLT (4633m total)
+    3. ONT O1004703 serves as end user access point with complete path to OLT (2006m total)
+
+================================================================================
+END OF TEMPLATES
+================================================================================

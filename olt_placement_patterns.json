@@ -1,0 +1,565 @@
+{
+  "summary": {
+    "total_olts_analyzed": 17,
+    "placement_type_distribution": {
+      "near_centroid": 16,
+      "offset_from_centroid": 1
+    },
+    "olt_to_centroid_distance": {
+      "mean_km": 3.2,
+      "median_km": 3.07,
+      "min_km": 1.08,
+      "max_km": 7.43
+    },
+    "recommendations": [
+      "Most OLTs are placed at or near cluster centroids. Recommend using centroid placement strategy.",
+      "Average OLT-to-centroid distance is 3.20km. Consider factors beyond centroid (routes, infrastructure)."
+    ]
+  },
+  "detailed_analysis": {
+    "104": {
+      "olt_id": "104",
+      "olt_name": "Central_Manitoulin",
+      "olt_coordinates": {
+        "lat": 0.49729725321248,
+        "lon": -79.81960070241254
+      },
+      "subscriber_count": 1696,
+      "ont_count": 1696,
+      "cluster_centroid": {
+        "lat": 0.49720769722609875,
+        "lon": -79.84562520765498
+      },
+      "olt_to_centroid_distance_km": 2.89,
+      "distance_statistics": {
+        "ont_to_olt": {
+          "mean_km": 7.21,
+          "median_km": 7.25,
+          "min_km": 0.02,
+          "max_km": 20.77,
+          "p95_km": 16.02
+        },
+        "ont_to_centroid": {
+          "mean_km": 7.15,
+          "median_km": 7.03,
+          "min_km": 0.06,
+          "max_km": 17.89
+        }
+      },
+      "placement_type": "near_centroid",
+      "placement_description": "OLT placed near cluster centroid (1-5km)"
+    },
+    "105": {
+      "olt_id": "105",
+      "olt_name": "Gore Bay",
+      "olt_coordinates": {
+        "lat": 0.681572013797414,
+        "lon": -80.01781713907897
+      },
+      "subscriber_count": 1440,
+      "ont_count": 1440,
+      "cluster_centroid": {
+        "lat": 0.6473927098841875,
+        "lon": -80.02556344810169
+      },
+      "olt_to_centroid_distance_km": 3.9,
+      "distance_statistics": {
+        "ont_to_olt": {
+          "mean_km": 6.66,
+          "median_km": 5.78,
+          "min_km": 0.05,
+          "max_km": 21.47,
+          "p95_km": 16.51
+        },
+        "ont_to_centroid": {
+          "mean_km": 6.9,
+          "median_km": 5.19,
+          "min_km": 0.15,
+          "max_km": 21.18
+        }
+      },
+      "placement_type": "near_centroid",
+      "placement_description": "OLT placed near cluster centroid (1-5km)"
+    },
+    "102": {
+      "olt_id": "102",
+      "olt_name": "Assiginack",
+      "olt_coordinates": {
+        "lat": 0.5070254716052531,
+        "lon": -79.56605447400908
+      },
+      "subscriber_count": 2164,
+      "ont_count": 2164,
+      "cluster_centroid": {
+        "lat": 0.5369879508362737,
+        "lon": -79.54610883076644
+      },
+      "olt_to_centroid_distance_km": 4.0,
+      "distance_statistics": {
+        "ont_to_olt": {
+          "mean_km": 7.93,
+          "median_km": 8.65,
+          "min_km": 0.03,
+          "max_km": 20.83,
+          "p95_km": 16.19
+        },
+        "ont_to_centroid": {
+          "mean_km": 7.22,
+          "median_km": 6.53,
+          "min_km": 0.16,
+          "max_km": 21.21
+        }
+      },
+      "placement_type": "near_centroid",
+      "placement_description": "OLT placed near cluster centroid (1-5km)"
+    },
+    "107": {
+      "olt_id": "107",
+      "olt_name": "Tehkummah",
+      "olt_coordinates": {
+        "lat": 0.43980566165780033,
+        "lon": -79.70401182123946
+      },
+      "subscriber_count": 675,
+      "ont_count": 675,
+      "cluster_centroid": {
+        "lat": 0.40021325381628975,
+        "lon": -79.70615922828189
+      },
+      "olt_to_centroid_distance_km": 4.41,
+      "distance_statistics": {
+        "ont_to_olt": {
+          "mean_km": 7.02,
+          "median_km": 6.94,
+          "min_km": 0.03,
+          "max_km": 19.35,
+          "p95_km": 12.79
+        },
+        "ont_to_centroid": {
+          "mean_km": 6.05,
+          "median_km": 6.3,
+          "min_km": 0.38,
+          "max_km": 19.18
+        }
+      },
+      "placement_type": "near_centroid",
+      "placement_description": "OLT placed near cluster centroid (1-5km)"
+    },
+    "403": {
+      "olt_id": "403",
+      "olt_name": "St Joseph OLT",
+      "olt_coordinates": {
+        "lat": 1.020278784138867,
+        "lon": -81.06386173970917
+      },
+      "subscriber_count": 1608,
+      "ont_count": 1980,
+      "cluster_centroid": {
+        "lat": 1.0376438620200499,
+        "lon": -81.05531860424873
+      },
+      "olt_to_centroid_distance_km": 2.15,
+      "distance_statistics": {
+        "ont_to_olt": {
+          "mean_km": 9.37,
+          "median_km": 8.85,
+          "min_km": 0.05,
+          "max_km": 17.62,
+          "p95_km": 14.72
+        },
+        "ont_to_centroid": {
+          "mean_km": 8.94,
+          "median_km": 7.92,
+          "min_km": 1.15,
+          "max_km": 19.47
+        }
+      },
+      "placement_type": "near_centroid",
+      "placement_description": "OLT placed near cluster centroid (1-5km)"
+    },
+    "402": {
+      "olt_id": "402",
+      "olt_name": "Desbarats OLT",
+      "olt_coordinates": {
+        "lat": 1.1437635556785821,
+        "lon": -81.02210365489597
+      },
+      "subscriber_count": 2006,
+      "ont_count": 2006,
+      "cluster_centroid": {
+        "lat": 1.1382305992974844,
+        "lon": -81.00361771530179
+      },
+      "olt_to_centroid_distance_km": 2.15,
+      "distance_statistics": {
+        "ont_to_olt": {
+          "mean_km": 10.02,
+          "median_km": 11.03,
+          "min_km": 0.03,
+          "max_km": 21.8,
+          "p95_km": 16.1
+        },
+        "ont_to_centroid": {
+          "mean_km": 9.91,
+          "median_km": 9.82,
+          "min_km": 0.35,
+          "max_km": 19.68
+        }
+      },
+      "placement_type": "near_centroid",
+      "placement_description": "OLT placed near cluster centroid (1-5km)"
+    },
+    "106": {
+      "olt_id": "106",
+      "olt_name": "Silver_Water",
+      "olt_coordinates": {
+        "lat": 0.6528524366772075,
+        "lon": -80.30939949603884
+      },
+      "subscriber_count": 552,
+      "ont_count": 552,
+      "cluster_centroid": {
+        "lat": 0.6616488662402797,
+        "lon": -80.30528648352892
+      },
+      "olt_to_centroid_distance_km": 1.08,
+      "distance_statistics": {
+        "ont_to_olt": {
+          "mean_km": 10.55,
+          "median_km": 8.51,
+          "min_km": 0.06,
+          "max_km": 25.36,
+          "p95_km": 21.3
+        },
+        "ont_to_centroid": {
+          "mean_km": 10.47,
+          "median_km": 8.11,
+          "min_km": 0.26,
+          "max_km": 25.66
+        }
+      },
+      "placement_type": "near_centroid",
+      "placement_description": "OLT placed near cluster centroid (1-5km)"
+    },
+    "101": {
+      "olt_id": "101",
+      "olt_name": "Little Current",
+      "olt_coordinates": {
+        "lat": 0.7433069035384676,
+        "lon": -79.65009294886009
+      },
+      "subscriber_count": 2237,
+      "ont_count": 2237,
+      "cluster_centroid": {
+        "lat": 0.7256776134920756,
+        "lon": -79.63484468783277
+      },
+      "olt_to_centroid_distance_km": 2.59,
+      "distance_statistics": {
+        "ont_to_olt": {
+          "mean_km": 6.62,
+          "median_km": 4.98,
+          "min_km": 0.03,
+          "max_km": 17.44,
+          "p95_km": 16.17
+        },
+        "ont_to_centroid": {
+          "mean_km": 6.94,
+          "median_km": 5.89,
+          "min_km": 0.46,
+          "max_km": 17.42
+        }
+      },
+      "placement_type": "near_centroid",
+      "placement_description": "OLT placed near cluster centroid (1-5km)"
+    },
+    "103": {
+      "olt_id": "103",
+      "olt_name": "M'Chigeeng",
+      "olt_coordinates": {
+        "lat": 0.5989672981118446,
+        "lon": -79.81025939624088
+      },
+      "subscriber_count": 1927,
+      "ont_count": 1927,
+      "cluster_centroid": {
+        "lat": 0.6178635267476994,
+        "lon": -79.8308390706655
+      },
+      "olt_to_centroid_distance_km": 3.11,
+      "distance_statistics": {
+        "ont_to_olt": {
+          "mean_km": 7.75,
+          "median_km": 7.15,
+          "min_km": 0.03,
+          "max_km": 21.77,
+          "p95_km": 18.75
+        },
+        "ont_to_centroid": {
+          "mean_km": 7.96,
+          "median_km": 7.61,
+          "min_km": 0.77,
+          "max_km": 18.69
+        }
+      },
+      "placement_type": "near_centroid",
+      "placement_description": "OLT placed near cluster centroid (1-5km)"
+    },
+    "401": {
+      "olt_id": "401",
+      "olt_name": "Echo bay OLT",
+      "olt_coordinates": {
+        "lat": 1.286838187905012,
+        "lon": -81.11408654816286
+      },
+      "subscriber_count": 1468,
+      "ont_count": 1468,
+      "cluster_centroid": {
+        "lat": 1.2588574050876657,
+        "lon": -81.09113836731942
+      },
+      "olt_to_centroid_distance_km": 4.02,
+      "distance_statistics": {
+        "ont_to_olt": {
+          "mean_km": 6.43,
+          "median_km": 6.6,
+          "min_km": 0.03,
+          "max_km": 16.18,
+          "p95_km": 12.39
+        },
+        "ont_to_centroid": {
+          "mean_km": 5.94,
+          "median_km": 4.73,
+          "min_km": 0.45,
+          "max_km": 13.7
+        }
+      },
+      "placement_type": "near_centroid",
+      "placement_description": "OLT placed near cluster centroid (1-5km)"
+    },
+    "202": {
+      "olt_id": "202",
+      "olt_name": "Blind River_FX_4_HUB_NNI",
+      "olt_coordinates": {
+        "lat": 0.961205459025237,
+        "lon": -80.35125698304363
+      },
+      "subscriber_count": 880,
+      "ont_count": 888,
+      "cluster_centroid": {
+        "lat": 0.9968329390991001,
+        "lon": -80.36894975860103
+      },
+      "olt_to_centroid_distance_km": 4.42,
+      "distance_statistics": {
+        "ont_to_olt": {
+          "mean_km": 7.02,
+          "median_km": 6.08,
+          "min_km": 0.05,
+          "max_km": 24.05,
+          "p95_km": 19.43
+        },
+        "ont_to_centroid": {
+          "mean_km": 6.63,
+          "median_km": 4.59,
+          "min_km": 0.28,
+          "max_km": 20.43
+        }
+      },
+      "placement_type": "near_centroid",
+      "placement_description": "OLT placed near cluster centroid (1-5km)"
+    },
+    "201": {
+      "olt_id": "201",
+      "olt_name": "Huron Shores",
+      "olt_coordinates": {
+        "lat": 1.0537392663329186,
+        "lon": -80.70564831373919
+      },
+      "subscriber_count": 1496,
+      "ont_count": 1580,
+      "cluster_centroid": {
+        "lat": 1.0662834798597476,
+        "lon": -80.7144390869986
+      },
+      "olt_to_centroid_distance_km": 1.7,
+      "distance_statistics": {
+        "ont_to_olt": {
+          "mean_km": 8.88,
+          "median_km": 7.69,
+          "min_km": 0.08,
+          "max_km": 19.2,
+          "p95_km": 18.03
+        },
+        "ont_to_centroid": {
+          "mean_km": 8.49,
+          "median_km": 6.97,
+          "min_km": 0.24,
+          "max_km": 20.29
+        }
+      },
+      "placement_type": "near_centroid",
+      "placement_description": "OLT placed near cluster centroid (1-5km)"
+    },
+    "301": {
+      "olt_id": "301",
+      "olt_name": "Elliot Lake",
+      "olt_coordinates": {
+        "lat": 1.1727108358726355,
+        "lon": -80.15008558159604
+      },
+      "subscriber_count": 312,
+      "ont_count": 313,
+      "cluster_centroid": {
+        "lat": 1.2394538561896933,
+        "lon": -80.15368672884054
+      },
+      "olt_to_centroid_distance_km": 7.43,
+      "distance_statistics": {
+        "ont_to_olt": {
+          "mean_km": 9.31,
+          "median_km": 9.9,
+          "min_km": 0.05,
+          "max_km": 14.82,
+          "p95_km": 14.07
+        },
+        "ont_to_centroid": {
+          "mean_km": 5.94,
+          "median_km": 7.22,
+          "min_km": 0.27,
+          "max_km": 15.61
+        }
+      },
+      "placement_type": "offset_from_centroid",
+      "placement_description": "OLT placed offset from centroid (7.43km)"
+    },
+    "302": {
+      "olt_id": "302",
+      "olt_name": "Serpent River",
+      "olt_coordinates": {
+        "lat": 0.9837807600251836,
+        "lon": -80.06604302265643
+      },
+      "subscriber_count": 503,
+      "ont_count": 507,
+      "cluster_centroid": {
+        "lat": 0.9885036586878174,
+        "lon": -80.0524622789187
+      },
+      "olt_to_centroid_distance_km": 1.6,
+      "distance_statistics": {
+        "ont_to_olt": {
+          "mean_km": 14.91,
+          "median_km": 17.85,
+          "min_km": 0.12,
+          "max_km": 23.25,
+          "p95_km": 22.77
+        },
+        "ont_to_centroid": {
+          "mean_km": 14.96,
+          "median_km": 16.3,
+          "min_km": 0.74,
+          "max_km": 24.78
+        }
+      },
+      "placement_type": "near_centroid",
+      "placement_description": "OLT placed near cluster centroid (1-5km)"
+    },
+    "303": {
+      "olt_id": "303",
+      "olt_name": "Massey",
+      "olt_coordinates": {
+        "lat": 0.9824834145054098,
+        "lon": -79.72418862789732
+      },
+      "subscriber_count": 824,
+      "ont_count": 836,
+      "cluster_centroid": {
+        "lat": 0.9951742786350217,
+        "lon": -79.7346581010066
+      },
+      "olt_to_centroid_distance_km": 1.83,
+      "distance_statistics": {
+        "ont_to_olt": {
+          "mean_km": 9.07,
+          "median_km": 8.96,
+          "min_km": 0.09,
+          "max_km": 19.68,
+          "p95_km": 18.78
+        },
+        "ont_to_centroid": {
+          "mean_km": 9.1,
+          "median_km": 9.66,
+          "min_km": 0.38,
+          "max_km": 19.67
+        }
+      },
+      "placement_type": "near_centroid",
+      "placement_description": "OLT placed near cluster centroid (1-5km)"
+    },
+    "501": {
+      "olt_id": "501",
+      "olt_name": "Espanola_FX_4_HUB_NNI",
+      "olt_coordinates": {
+        "lat": 1.0199477772188814,
+        "lon": -79.53666789473048
+      },
+      "subscriber_count": 816,
+      "ont_count": 810,
+      "cluster_centroid": {
+        "lat": 1.011833985376325,
+        "lon": -79.5102982046205
+      },
+      "olt_to_centroid_distance_km": 3.07,
+      "distance_statistics": {
+        "ont_to_olt": {
+          "mean_km": 8.72,
+          "median_km": 7.62,
+          "min_km": 0.04,
+          "max_km": 17.63,
+          "p95_km": 16.86
+        },
+        "ont_to_centroid": {
+          "mean_km": 8.76,
+          "median_km": 7.09,
+          "min_km": 1.31,
+          "max_km": 17.21
+        }
+      },
+      "placement_type": "near_centroid",
+      "placement_description": "OLT placed near cluster centroid (1-5km)"
+    },
+    "502": {
+      "olt_id": "502",
+      "olt_name": "Lively_FX_4",
+      "olt_coordinates": {
+        "lat": 1.1265923256432941,
+        "lon": -79.25342444228069
+      },
+      "subscriber_count": 1693,
+      "ont_count": 1690,
+      "cluster_centroid": {
+        "lat": 1.1190054680633255,
+        "lon": -79.21857260115246
+      },
+      "olt_to_centroid_distance_km": 3.97,
+      "distance_statistics": {
+        "ont_to_olt": {
+          "mean_km": 10.66,
+          "median_km": 11.12,
+          "min_km": 0.04,
+          "max_km": 24.42,
+          "p95_km": 18.03
+        },
+        "ont_to_centroid": {
+          "mean_km": 9.99,
+          "median_km": 10.43,
+          "min_km": 0.87,
+          "max_km": 27.97
+        }
+      },
+      "placement_type": "near_centroid",
+      "placement_description": "OLT placed near cluster centroid (1-5km)"
+    }
+  }
+}

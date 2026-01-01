@@ -1,0 +1,108 @@
+================================================================================
+FIBER CABLE SIZE THRESHOLDS
+================================================================================
+
+Inferred placement logic based on downstream ONT counts.
+
+THRESHOLD RANGES:
+--------------------------------------------------------------------------------
+
+288F:
+  ONT Range: 1 - 1718 ONTs
+  Statistics:
+    Total Cables: 458
+    Cables with ONTs: 368
+    Average ONTs: 55.4
+    Median ONTs: 19.0
+    Min ONTs: 1
+    Max ONTs: 1718
+    Average Length: 416.2 m
+    Median Length: 170.2 m
+
+144F:
+  ONT Range: 1 - 2015 ONTs
+  Statistics:
+    Total Cables: 1726
+    Cables with ONTs: 1547
+    Average ONTs: 81.4
+    Median ONTs: 24
+    Min ONTs: 1
+    Max ONTs: 2015
+    Average Length: 580.1 m
+    Median Length: 302.4 m
+
+96F:
+  ONT Range: 1 - 223 ONTs
+  Statistics:
+    Total Cables: 673
+    Cables with ONTs: 626
+    Average ONTs: 20.9
+    Median ONTs: 16.0
+    Min ONTs: 1
+    Max ONTs: 223
+    Average Length: 600.6 m
+    Median Length: 295.1 m
+
+72F:
+  ONT Range: 14 - 273 ONTs
+  Statistics:
+    Total Cables: 55
+    Cables with ONTs: 33
+    Average ONTs: 45.2
+    Median ONTs: 37
+    Min ONTs: 14
+    Max ONTs: 273
+    Average Length: 29.3 m
+    Median Length: 30.0 m
+
+48F:
+  ONT Range: 1 - 492 ONTs
+  Statistics:
+    Total Cables: 1487
+    Cables with ONTs: 1360
+    Average ONTs: 15.1
+    Median ONTs: 8.0
+    Min ONTs: 1
+    Max ONTs: 492
+    Average Length: 590.4 m
+    Median Length: 328.2 m
+
+24F:
+  ONT Range: 12 - 417 ONTs
+  Statistics:
+    Total Cables: 70
+    Cables with ONTs: 32
+    Average ONTs: 80.8
+    Median ONTs: 68.5
+    Min ONTs: 12
+    Max ONTs: 417
+    Average Length: 19.5 m
+    Median Length: 30.0 m
+
+12F:
+  ONT Range: 3 - 169 ONTs
+  Statistics:
+    Total Cables: 62
+    Cables with ONTs: 26
+    Average ONTs: 44.7
+    Median ONTs: 31.0
+    Min ONTs: 3
+    Max ONTs: 169
+    Average Length: 116.2 m
+    Median Length: 30.0 m
+
+4F:
+  ONT Range: 0 - 0 ONTs
+  Statistics:
+    Total Cables: 6
+    Cables with ONTs: 0
+    Average ONTs: 0
+    Median ONTs: 0
+    Min ONTs: 0
+    Max ONTs: 0
+    Average Length: 6.8 m
+    Median Length: 3.5 m
+
+================================================================================
+END OF THRESHOLDS
+================================================================================

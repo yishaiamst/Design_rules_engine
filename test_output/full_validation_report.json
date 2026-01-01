@@ -1,0 +1,60 @@
+{
+  "fosc": {
+    "actual": 2109,
+    "generated": 2411,
+    "matched": 1580,
+    "match_rate": 74.91702228544334,
+    "difference": 302,
+    "difference_pct": 14.319582740635372
+  },
+  "terminal": {
+    "actual": 6370,
+    "generated": 6815,
+    "matched": 4255,
+    "match_rate": 66.79748822605966,
+    "type_matched": 2791,
+    "type_match_rate": 43.81475667189953,
+    "actual_by_type": {
+      "Aerial Terminal": 3775,
+      "MST": 2595
+    },
+    "generated_by_type": {
+      "Aerial Terminal": 4029,
+      "MST": 2786
+    },
+    "matched_by_type": {
+      "Aerial Terminal": 2198,
+      "MST": 593
+    }
+  },
+  "drop_cable": {
+    "actual": 20110,
+    "generated": 22747,
+    "difference": 2637,
+    "difference_pct": 13.112879164594728,
+    "actual_sizes": {
+      "1F": 20110
+    },
+    "generated_sizes": {
+      "1F": 22747
+    }
+  },
+  "stub_cable": {
+    "actual": 2602,
+    "generated": 2786,
+    "difference": 184,
+    "difference_pct": 7.071483474250577,
+    "actual_sizes": {
+      "12F": 196,
+      "4F": 1460,
+      "6F": 593,
+      "8F": 353
+    },
+    "generated_sizes": {
+      "4F": 1599,
+      "6F": 607,
+      "12F": 226,
+      "8F": 354
+    }
+  }
+}

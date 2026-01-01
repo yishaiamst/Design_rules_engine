@@ -1,0 +1,351 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::32617"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          414590.96362338087,
+          5074698.885848341
+        ]
+      },
+      "properties": {
+        "layer": "olt",
+        "olt_id": "OLT_POCKET_0001_MERGED",
+        "ont_count": 10062,
+        "marker-color": "#FF00FF",
+        "marker-size": "large",
+        "marker-symbol": "star",
+        "marker-opacity": 1.0,
+        "description": "OLT: OLT_POCKET_0001_MERGED (10062 ONTs)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          270393.30501080013,
+          5159623.613233345
+        ]
+      },
+      "properties": {
+        "layer": "olt",
+        "olt_id": "OLT_POCKET_0002_MERGED",
+        "ont_count": 82,
+        "marker-color": "#FF00FF",
+        "marker-size": "large",
+        "marker-symbol": "star",
+        "marker-opacity": 1.0,
+        "description": "OLT: OLT_POCKET_0002_MERGED (82 ONTs)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          290006.0187433355,
+          5132189.29694532
+        ]
+      },
+      "properties": {
+        "layer": "olt",
+        "olt_id": "OLT_POCKET_0003_MERGED",
+        "ont_count": 7937,
+        "marker-color": "#FF00FF",
+        "marker-size": "large",
+        "marker-symbol": "star",
+        "marker-opacity": 1.0,
+        "description": "OLT: OLT_POCKET_0003_MERGED (7937 ONTs)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          272334.9928587389,
+          5105633.435743747
+        ]
+      },
+      "properties": {
+        "layer": "olt",
+        "olt_id": "OLT_POCKET_0005",
+        "ont_count": 2,
+        "marker-color": "#FF00FF",
+        "marker-size": "large",
+        "marker-symbol": "star",
+        "marker-opacity": 1.0,
+        "description": "OLT: OLT_POCKET_0005 (2 ONTs)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          440876.3968079873,
+          5102110.746311911
+        ]
+      },
+      "properties": {
+        "layer": "olt",
+        "olt_id": "OLT_POCKET_0006_MERGED",
+        "ont_count": 453,
+        "marker-color": "#FF00FF",
+        "marker-size": "large",
+        "marker-symbol": "star",
+        "marker-opacity": 1.0,
+        "description": "OLT: OLT_POCKET_0006_MERGED (453 ONTs)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          428697.3110535887,
+          5062864.973240017
+        ]
+      },
+      "properties": {
+        "layer": "olt",
+        "olt_id": "OLT_POCKET_0008",
+        "ont_count": 45,
+        "marker-color": "#FF00FF",
+        "marker-size": "large",
+        "marker-symbol": "star",
+        "marker-opacity": 1.0,
+        "description": "OLT: OLT_POCKET_0008 (45 ONTs)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          394394.5543333463,
+          5089605.374813913
+        ]
+      },
+      "properties": {
+        "layer": "olt",
+        "olt_id": "OLT_POCKET_0009",
+        "ont_count": 1,
+        "marker-color": "#FF00FF",
+        "marker-size": "large",
+        "marker-symbol": "star",
+        "marker-opacity": 1.0,
+        "description": "OLT: OLT_POCKET_0009 (1 ONTs)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          347303.23516455374,
+          5087726.71844532
+        ]
+      },
+      "properties": {
+        "layer": "olt",
+        "olt_id": "OLT_POCKET_0012_MERGED",
+        "ont_count": 265,
+        "marker-color": "#FF00FF",
+        "marker-size": "large",
+        "marker-symbol": "star",
+        "marker-opacity": 1.0,
+        "description": "OLT: OLT_POCKET_0012_MERGED (265 ONTs)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          369185.09241202194,
+          5070791.284448717
+        ]
+      },
+      "properties": {
+        "layer": "olt",
+        "olt_id": "OLT_POCKET_0017",
+        "ont_count": 1,
+        "marker-color": "#FF00FF",
+        "marker-size": "large",
+        "marker-symbol": "star",
+        "marker-opacity": 1.0,
+        "description": "OLT: OLT_POCKET_0017 (1 ONTs)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          320049.09346639673,
+          5135121.276008183
+        ]
+      },
+      "properties": {
+        "layer": "olt",
+        "olt_id": "OLT_POCKET_0018_MERGED",
+        "ont_count": 7,
+        "marker-color": "#FF00FF",
+        "marker-size": "large",
+        "marker-symbol": "star",
+        "marker-opacity": 1.0,
+        "description": "OLT: OLT_POCKET_0018_MERGED (7 ONTs)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          409931.82156112255,
+          5118798.138166168
+        ]
+      },
+      "properties": {
+        "layer": "olt",
+        "olt_id": "OLT_POCKET_0020_MERGED",
+        "ont_count": 884,
+        "marker-color": "#FF00FF",
+        "marker-size": "large",
+        "marker-symbol": "star",
+        "marker-opacity": 1.0,
+        "description": "OLT: OLT_POCKET_0020_MERGED (884 ONTs)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          438685.4233257344,
+          5125398.431243283
+        ]
+      },
+      "properties": {
+        "layer": "olt",
+        "olt_id": "OLT_POCKET_0021_MERGED",
+        "ont_count": 655,
+        "marker-color": "#FF00FF",
+        "marker-size": "large",
+        "marker-symbol": "star",
+        "marker-opacity": 1.0,
+        "description": "OLT: OLT_POCKET_0021_MERGED (655 ONTs)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          371751.824155491,
+          5147526.50301677
+        ]
+      },
+      "properties": {
+        "layer": "olt",
+        "olt_id": "OLT_POCKET_0023_MERGED",
+        "ont_count": 314,
+        "marker-color": "#FF00FF",
+        "marker-size": "large",
+        "marker-symbol": "star",
+        "marker-opacity": 1.0,
+        "description": "OLT: OLT_POCKET_0023_MERGED (314 ONTs)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          375252.70800466667,
+          5118719.9944207305
+        ]
+      },
+      "properties": {
+        "layer": "olt",
+        "olt_id": "OLT_POCKET_0024_MERGED",
+        "ont_count": 192,
+        "marker-color": "#FF00FF",
+        "marker-size": "large",
+        "marker-symbol": "star",
+        "marker-opacity": 1.0,
+        "description": "OLT: OLT_POCKET_0024_MERGED (192 ONTs)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          475899.60783442366,
+          5134015.888529634
+        ]
+      },
+      "properties": {
+        "layer": "olt",
+        "olt_id": "OLT_POCKET_0035",
+        "ont_count": 1676,
+        "marker-color": "#FF00FF",
+        "marker-size": "large",
+        "marker-symbol": "star",
+        "marker-opacity": 1.0,
+        "description": "OLT: OLT_POCKET_0035 (1676 ONTs)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          449245.8909649762,
+          5135910.951169202
+        ]
+      },
+      "properties": {
+        "layer": "olt",
+        "olt_id": "OLT_POCKET_0036",
+        "ont_count": 139,
+        "marker-color": "#FF00FF",
+        "marker-size": "large",
+        "marker-symbol": "star",
+        "marker-opacity": 1.0,
+        "description": "OLT: OLT_POCKET_0036 (139 ONTs)"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          445928.8041763795,
+          5112676.079614875
+        ]
+      },
+      "properties": {
+        "layer": "olt",
+        "olt_id": "OLT_POCKET_0038_MERGED",
+        "ont_count": 80,
+        "marker-color": "#FF00FF",
+        "marker-size": "large",
+        "marker-symbol": "star",
+        "marker-opacity": 1.0,
+        "description": "OLT: OLT_POCKET_0038_MERGED (80 ONTs)"
+      }
+    }
+  ]
+}

@@ -1,0 +1,200 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::32617"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390873.9014238837,
+          5065255.244322152
+        ]
+      },
+      "properties": {
+        "id": "F0000157",
+        "type": "FOSC",
+        "merged": false,
+        "connected_cables": [
+          "144FOC/F1000392/F1000390",
+          "48FOC/F1000392/T1001700",
+          "144FOC/F1000393/F1000391",
+          "144FOC/F1000396/F1000399",
+          "96FOC/F1000395/F1000406",
+          "48FOC/F1000391/F1000412",
+          "24FOC/F1000391/FDH104010",
+          "48FOC/F1000398/T1001731",
+          "48FOC/F1000397/F1000398",
+          "144FOC/F1000399/F1000393",
+          "144FOC/F1000391/FDH104010",
+          "48FOC/F1000406/F1000394",
+          "144FOC/F1000391/F1000392",
+          "96FOC/F1000391/F1000397",
+          "12FOC/F1000397/T1001719"
+        ],
+        "marker-color": "#0000FF",
+        "marker-size": "medium",
+        "marker-symbol": "circle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390951.98819000466,
+          5067263.4753915565
+        ]
+      },
+      "properties": {
+        "id": "F0000171",
+        "type": "FOSC",
+        "merged": false,
+        "connected_cables": [
+          "144FOC/F1000392/F1000390",
+          "144FOC/F1000391/F1000392",
+          "48FOC/F1000392/T1001700",
+          "144FOC/F1000390/F1000502"
+        ],
+        "marker-color": "#0000FF",
+        "marker-size": "medium",
+        "marker-symbol": "circle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          394820.0422374255,
+          5063121.123515518
+        ]
+      },
+      "properties": {
+        "id": "F0000961",
+        "type": "FOSC",
+        "merged": false,
+        "connected_cables": [
+          "48FOC/F1000406/F1000394"
+        ],
+        "marker-color": "#0000FF",
+        "marker-size": "medium",
+        "marker-symbol": "circle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          389808.09665968735,
+          5062629.558434709
+        ]
+      },
+      "properties": {
+        "id": "F0000962",
+        "type": "FOSC",
+        "merged": false,
+        "connected_cables": [
+          "48FOC/F1000397/F1000398"
+        ],
+        "marker-color": "#0000FF",
+        "marker-size": "medium",
+        "marker-symbol": "circle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390923.5721204817,
+          5069299.145389276
+        ]
+      },
+      "properties": {
+        "id": "F1000390",
+        "type": "FOSC",
+        "merged": false,
+        "connected_cables": [
+          "144FOC/F1000390/F1000502",
+          "144FOC/F1000392/F1000390"
+        ],
+        "marker-color": "#0000FF",
+        "marker-size": "medium",
+        "marker-symbol": "circle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          394945.34168686776,
+          5065174.718011148
+        ]
+      },
+      "properties": {
+        "id": "F1000399",
+        "type": "FOSC",
+        "merged": false,
+        "connected_cables": [
+          "144FOC/F1000396/F1000399",
+          "144FOC/F1000399/F1000393"
+        ],
+        "marker-color": "#0000FF",
+        "marker-size": "medium",
+        "marker-symbol": "circle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390832.7173903163,
+          5063205.6842603255
+        ]
+      },
+      "properties": {
+        "id": "F1000397",
+        "type": "FOSC",
+        "merged": false,
+        "connected_cables": [
+          "48FOC/F1000397/F1000398",
+          "96FOC/F1000391/F1000397",
+          "12FOC/F1000397/T1001719"
+        ],
+        "marker-color": "#0000FF",
+        "marker-size": "medium",
+        "marker-symbol": "circle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          389808.21264196356,
+          5062629.058500166
+        ]
+      },
+      "properties": {
+        "id": "F0004300",
+        "type": "FOSC",
+        "merged": false,
+        "connected_cables": [
+          "48FOC/F1000397/F1000398"
+        ],
+        "marker-color": "#0000FF",
+        "marker-size": "medium",
+        "marker-symbol": "circle"
+      }
+    }
+  ]
+}

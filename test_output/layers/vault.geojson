@@ -1,0 +1,221 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::32617"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "34",
+        "Size": "30X48X24",
+        "Owner": "Rock Networks",
+        "Status": "Proposed",
+        "Struct_1": "Medium",
+        "Subtype": "Vault",
+        "Struct_2": "Splice",
+        "Permit_ID": "MC-P1000069",
+        "Trunk_ID": "TRUNK10417",
+        "FDH_ID": "FDH104010",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "Comments": null,
+        "SKU": "VLT-SGL-3048",
+        "PON_ID": null,
+        "layer": "vault",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/vault.shp",
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "ConStartDt": null,
+        "DtInstald": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390923.5721204817,
+          5069299.145389276
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "35",
+        "Size": "30X48X24",
+        "Owner": "Rock Networks",
+        "Status": "Proposed",
+        "Struct_1": "Medium",
+        "Subtype": "Vault",
+        "Struct_2": "Splice",
+        "Permit_ID": "MC-P1000070",
+        "Trunk_ID": "TRUNK10417",
+        "FDH_ID": "FDH104010",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "Comments": null,
+        "SKU": "VLT-SGL-3048",
+        "PON_ID": null,
+        "layer": "vault",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/vault.shp",
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "ConStartDt": null,
+        "DtInstald": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          392069.8988618528,
+          5069279.375934014
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "38",
+        "Size": "30X48X24",
+        "Owner": "Rock Networks",
+        "Status": "Proposed",
+        "Struct_1": "Medium",
+        "Subtype": "Vault",
+        "Struct_2": "Splice",
+        "Permit_ID": "MC-P1000070",
+        "Trunk_ID": "TRUNK10417",
+        "FDH_ID": "FDH104010",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "Comments": null,
+        "SKU": "VLT-SGL-3048",
+        "PON_ID": null,
+        "layer": "vault",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/vault.shp",
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "ConStartDt": null,
+        "DtInstald": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          391375.81068629416,
+          5069289.358877519
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "62",
+        "Size": "30X48X24",
+        "Owner": "Rock Networks",
+        "Status": "Proposed",
+        "Struct_1": "Medium",
+        "Subtype": "Vault",
+        "Struct_2": "Splice",
+        "Permit_ID": "MC-P1000137",
+        "Trunk_ID": "TRUNK10428",
+        "FDH_ID": "FDH104013",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "Comments": null,
+        "SKU": "VLT-SGL-3048",
+        "PON_ID": null,
+        "layer": "vault",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/vault.shp",
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "ConStartDt": null,
+        "DtInstald": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          392845.7158184971,
+          5061945.412216593
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "63",
+        "Size": "30X48X24",
+        "Owner": "Rock Networks",
+        "Status": "Proposed",
+        "Struct_1": "Medium",
+        "Subtype": "Vault",
+        "Struct_2": "Splice",
+        "Permit_ID": "MC-P1000137",
+        "Trunk_ID": "TRUNK10428",
+        "FDH_ID": "FDH104013",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "Comments": null,
+        "SKU": "VLT-SGL-3048",
+        "PON_ID": null,
+        "layer": "vault",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/vault.shp",
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "ConStartDt": null,
+        "DtInstald": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          392857.394531298,
+          5062187.146976214
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": "64",
+        "Size": "30X48X24",
+        "Owner": "Rock Networks",
+        "Status": "Proposed",
+        "Struct_1": "Medium",
+        "Subtype": "Vault",
+        "Struct_2": "Splice",
+        "Permit_ID": "MC-P1000137",
+        "Trunk_ID": "TRUNK10428",
+        "FDH_ID": "FDH104013",
+        "Lot_No": null,
+        "FSA_No": "CENTRAL MANITOULIN FSA9",
+        "OLT_ID": "104",
+        "Subdiv": "1",
+        "Comments": null,
+        "SKU": "VLT-SGL-3048",
+        "PON_ID": null,
+        "layer": "vault",
+        "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/vault.shp",
+        "Contractor": null,
+        "DtAsgCnstr": null,
+        "ConStartDt": null,
+        "DtInstald": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          392876.2711081014,
+          5063158.167034049
+        ]
+      }
+    }
+  ]
+}

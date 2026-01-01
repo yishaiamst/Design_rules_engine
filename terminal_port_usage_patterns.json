@@ -1,0 +1,33 @@
+{
+  "Aerial Terminal_": {
+    "type": "Aerial Terminal",
+    "model": "",
+    "count": 3775,
+    "drop_cable_stats": {
+      "min": 0,
+      "max": 11,
+      "mean": 3.1610596026490065,
+      "median": 3,
+      "mode": 1
+    }
+  },
+  "MST_": {
+    "type": "MST",
+    "model": "",
+    "count": 2595,
+    "drop_cable_stats": {
+      "min": 0,
+      "max": 11,
+      "mean": 3.027360308285164,
+      "median": 2,
+      "mode": 1
+    },
+    "stub_cable_size": 4,
+    "stub_size_distribution": {
+      "4": 1451,
+      "12": 196,
+      "6": 590,
+      "8": 353
+    }
+  }
+}

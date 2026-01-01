@@ -1,0 +1,846 @@
+{
+  "analysis": {
+    "total_paths": 22320,
+    "max_distance_km": 20.0,
+    "max_distance_m": 20000.0,
+    "violations": {
+      "count": 895,
+      "percentage": 4.009856630824372
+    },
+    "distance_statistics": {
+      "mean_km": 5.74,
+      "median_km": 2.62,
+      "min_km": 0.01,
+      "max_km": 31.71,
+      "p95_km": 19.49,
+      "p99_km": 23.49
+    },
+    "olt_statistics": {
+      "103": {
+        "ont_count": 1900,
+        "mean_distance_km": 2.8,
+        "max_distance_km": 8.83,
+        "violations": 0,
+        "violation_percentage": 0.0
+      },
+      "401": {
+        "ont_count": 1466,
+        "mean_distance_km": 10.25,
+        "max_distance_km": 22.34,
+        "violations": 73,
+        "violation_percentage": 4.979536152796726
+      },
+      "403": {
+        "ont_count": 1980,
+        "mean_distance_km": 13.45,
+        "max_distance_km": 25.33,
+        "violations": 155,
+        "violation_percentage": 7.828282828282829
+      },
+      "101": {
+        "ont_count": 2191,
+        "mean_distance_km": 8.55,
+        "max_distance_km": 26.75,
+        "violations": 297,
+        "violation_percentage": 13.555454130534002
+      },
+      "102": {
+        "ont_count": 2113,
+        "mean_distance_km": 2.56,
+        "max_distance_km": 11.8,
+        "violations": 0,
+        "violation_percentage": 0.0
+      },
+      "105": {
+        "ont_count": 1403,
+        "mean_distance_km": 3.68,
+        "max_distance_km": 14.79,
+        "violations": 0,
+        "violation_percentage": 0.0
+      },
+      "107": {
+        "ont_count": 661,
+        "mean_distance_km": 3.57,
+        "max_distance_km": 13.94,
+        "violations": 0,
+        "violation_percentage": 0.0
+      },
+      "402": {
+        "ont_count": 1995,
+        "mean_distance_km": 15.35,
+        "max_distance_km": 31.71,
+        "violations": 370,
+        "violation_percentage": 18.546365914786968
+      },
+      "104": {
+        "ont_count": 1654,
+        "mean_distance_km": 2.24,
+        "max_distance_km": 6.73,
+        "violations": 0,
+        "violation_percentage": 0.0
+      },
+      "106": {
+        "ont_count": 534,
+        "mean_distance_km": 5.07,
+        "max_distance_km": 13.41,
+        "violations": 0,
+        "violation_percentage": 0.0
+      },
+      "201": {
+        "ont_count": 1577,
+        "mean_distance_km": 2.34,
+        "max_distance_km": 12.13,
+        "violations": 0,
+        "violation_percentage": 0.0
+      },
+      "202": {
+        "ont_count": 706,
+        "mean_distance_km": 2.66,
+        "max_distance_km": 12.52,
+        "violations": 0,
+        "violation_percentage": 0.0
+      },
+      "302": {
+        "ont_count": 506,
+        "mean_distance_km": 1.51,
+        "max_distance_km": 11.11,
+        "violations": 0,
+        "violation_percentage": 0.0
+      },
+      "303": {
+        "ont_count": 832,
+        "mean_distance_km": 1.76,
+        "max_distance_km": 6.91,
+        "violations": 0,
+        "violation_percentage": 0.0
+      },
+      "301": {
+        "ont_count": 313,
+        "mean_distance_km": 1.49,
+        "max_distance_km": 19.15,
+        "violations": 0,
+        "violation_percentage": 0.0
+      },
+      "502": {
+        "ont_count": 1688,
+        "mean_distance_km": 1.43,
+        "max_distance_km": 7.52,
+        "violations": 0,
+        "violation_percentage": 0.0
+      },
+      "501": {
+        "ont_count": 801,
+        "mean_distance_km": 2.12,
+        "max_distance_km": 11.67,
+        "violations": 0,
+        "violation_percentage": 0.0
+      }
+    }
+  },
+  "violations": [
+    {
+      "ont_id": "O4000258",
+      "olt_id": "401",
+      "length_m": 20280.0,
+      "length_km": 20.28,
+      "excess_km": 0.28
+    },
+    {
+      "ont_id": "O4000260",
+      "olt_id": "401",
+      "length_m": 20090.0,
+      "length_km": 20.09,
+      "excess_km": 0.09
+    },
+    {
+      "ont_id": "O4000273",
+      "olt_id": "401",
+      "length_m": 20463.0,
+      "length_km": 20.463,
+      "excess_km": 0.463
+    },
+    {
+      "ont_id": "O4000275",
+      "olt_id": "401",
+      "length_m": 20422.0,
+      "length_km": 20.422,
+      "excess_km": 0.422
+    },
+    {
+      "ont_id": "O4000359",
+      "olt_id": "401",
+      "length_m": 20545.0,
+      "length_km": 20.545,
+      "excess_km": 0.545
+    },
+    {
+      "ont_id": "O4000360",
+      "olt_id": "401",
+      "length_m": 20438.0,
+      "length_km": 20.438,
+      "excess_km": 0.438
+    },
+    {
+      "ont_id": "O4000362",
+      "olt_id": "401",
+      "length_m": 20420.0,
+      "length_km": 20.42,
+      "excess_km": 0.42
+    },
+    {
+      "ont_id": "O4000365",
+      "olt_id": "401",
+      "length_m": 20432.0,
+      "length_km": 20.432,
+      "excess_km": 0.432
+    },
+    {
+      "ont_id": "O4000371",
+      "olt_id": "401",
+      "length_m": 21004.0,
+      "length_km": 21.004,
+      "excess_km": 1.004
+    },
+    {
+      "ont_id": "O4000374",
+      "olt_id": "401",
+      "length_m": 20971.0,
+      "length_km": 20.971,
+      "excess_km": 0.971
+    },
+    {
+      "ont_id": "O4000375",
+      "olt_id": "401",
+      "length_m": 20930.0,
+      "length_km": 20.93,
+      "excess_km": 0.93
+    },
+    {
+      "ont_id": "O4000376",
+      "olt_id": "401",
+      "length_m": 20944.0,
+      "length_km": 20.944,
+      "excess_km": 0.944
+    },
+    {
+      "ont_id": "O4000377",
+      "olt_id": "401",
+      "length_m": 20988.0,
+      "length_km": 20.988,
+      "excess_km": 0.988
+    },
+    {
+      "ont_id": "O4000383",
+      "olt_id": "401",
+      "length_m": 20985.0,
+      "length_km": 20.985,
+      "excess_km": 0.985
+    },
+    {
+      "ont_id": "O4000384",
+      "olt_id": "401",
+      "length_m": 20996.0,
+      "length_km": 20.996,
+      "excess_km": 0.996
+    },
+    {
+      "ont_id": "O4000385",
+      "olt_id": "401",
+      "length_m": 20850.0,
+      "length_km": 20.85,
+      "excess_km": 0.85
+    },
+    {
+      "ont_id": "O4000389",
+      "olt_id": "401",
+      "length_m": 20821.0,
+      "length_km": 20.821,
+      "excess_km": 0.821
+    },
+    {
+      "ont_id": "O4000390",
+      "olt_id": "401",
+      "length_m": 20810.0,
+      "length_km": 20.81,
+      "excess_km": 0.81
+    },
+    {
+      "ont_id": "O4000392",
+      "olt_id": "401",
+      "length_m": 20817.0,
+      "length_km": 20.817,
+      "excess_km": 0.817
+    },
+    {
+      "ont_id": "O4000402",
+      "olt_id": "401",
+      "length_m": 20822.0,
+      "length_km": 20.822,
+      "excess_km": 0.822
+    },
+    {
+      "ont_id": "O4000405",
+      "olt_id": "401",
+      "length_m": 20846.0,
+      "length_km": 20.846,
+      "excess_km": 0.846
+    },
+    {
+      "ont_id": "O4000408",
+      "olt_id": "401",
+      "length_m": 20850.0,
+      "length_km": 20.85,
+      "excess_km": 0.85
+    },
+    {
+      "ont_id": "O4000410",
+      "olt_id": "401",
+      "length_m": 20769.0,
+      "length_km": 20.769,
+      "excess_km": 0.769
+    },
+    {
+      "ont_id": "O4000415",
+      "olt_id": "401",
+      "length_m": 20776.0,
+      "length_km": 20.776,
+      "excess_km": 0.776
+    },
+    {
+      "ont_id": "O4000416",
+      "olt_id": "401",
+      "length_m": 20791.0,
+      "length_km": 20.791,
+      "excess_km": 0.791
+    },
+    {
+      "ont_id": "O4000417",
+      "olt_id": "401",
+      "length_m": 20827.0,
+      "length_km": 20.827,
+      "excess_km": 0.827
+    },
+    {
+      "ont_id": "O4000418",
+      "olt_id": "401",
+      "length_m": 20848.0,
+      "length_km": 20.848,
+      "excess_km": 0.848
+    },
+    {
+      "ont_id": "O4000419",
+      "olt_id": "401",
+      "length_m": 20977.0,
+      "length_km": 20.977,
+      "excess_km": 0.977
+    },
+    {
+      "ont_id": "O4000424",
+      "olt_id": "401",
+      "length_m": 20928.0,
+      "length_km": 20.928,
+      "excess_km": 0.928
+    },
+    {
+      "ont_id": "O4000426",
+      "olt_id": "401",
+      "length_m": 21018.0,
+      "length_km": 21.018,
+      "excess_km": 1.018
+    },
+    {
+      "ont_id": "O4000427",
+      "olt_id": "401",
+      "length_m": 21048.0,
+      "length_km": 21.048,
+      "excess_km": 1.048
+    },
+    {
+      "ont_id": "O4000429",
+      "olt_id": "401",
+      "length_m": 21048.0,
+      "length_km": 21.048,
+      "excess_km": 1.048
+    },
+    {
+      "ont_id": "O4000998",
+      "olt_id": "401",
+      "length_m": 22329.0,
+      "length_km": 22.329,
+      "excess_km": 2.329
+    },
+    {
+      "ont_id": "O4000999",
+      "olt_id": "401",
+      "length_m": 22344.0,
+      "length_km": 22.344,
+      "excess_km": 2.344
+    },
+    {
+      "ont_id": "O4001020",
+      "olt_id": "401",
+      "length_m": 22015.0,
+      "length_km": 22.015,
+      "excess_km": 2.015
+    },
+    {
+      "ont_id": "O4001585",
+      "olt_id": "401",
+      "length_m": 20191.0,
+      "length_km": 20.191,
+      "excess_km": 0.191
+    },
+    {
+      "ont_id": "O4001586",
+      "olt_id": "401",
+      "length_m": 20262.0,
+      "length_km": 20.262,
+      "excess_km": 0.262
+    },
+    {
+      "ont_id": "O4001587",
+      "olt_id": "401",
+      "length_m": 20268.0,
+      "length_km": 20.268,
+      "excess_km": 0.268
+    },
+    {
+      "ont_id": "O4001588",
+      "olt_id": "401",
+      "length_m": 20165.0,
+      "length_km": 20.165,
+      "excess_km": 0.165
+    },
+    {
+      "ont_id": "O4001602",
+      "olt_id": "401",
+      "length_m": 20099.0,
+      "length_km": 20.099,
+      "excess_km": 0.099
+    },
+    {
+      "ont_id": "O4001603",
+      "olt_id": "401",
+      "length_m": 20140.0,
+      "length_km": 20.14,
+      "excess_km": 0.14
+    },
+    {
+      "ont_id": "O4001616",
+      "olt_id": "401",
+      "length_m": 20242.0,
+      "length_km": 20.242,
+      "excess_km": 0.242
+    },
+    {
+      "ont_id": "O4001617",
+      "olt_id": "401",
+      "length_m": 20094.0,
+      "length_km": 20.094,
+      "excess_km": 0.094
+    },
+    {
+      "ont_id": "O4001632",
+      "olt_id": "401",
+      "length_m": 20167.0,
+      "length_km": 20.167,
+      "excess_km": 0.167
+    },
+    {
+      "ont_id": "O4001633",
+      "olt_id": "401",
+      "length_m": 20153.0,
+      "length_km": 20.153,
+      "excess_km": 0.153
+    },
+    {
+      "ont_id": "O4001634",
+      "olt_id": "401",
+      "length_m": 20150.0,
+      "length_km": 20.15,
+      "excess_km": 0.15
+    },
+    {
+      "ont_id": "O4001643",
+      "olt_id": "401",
+      "length_m": 20254.0,
+      "length_km": 20.254,
+      "excess_km": 0.254
+    },
+    {
+      "ont_id": "O4001645",
+      "olt_id": "401",
+      "length_m": 20273.0,
+      "length_km": 20.273,
+      "excess_km": 0.273
+    },
+    {
+      "ont_id": "O4001873",
+      "olt_id": "401",
+      "length_m": 20958.0,
+      "length_km": 20.958,
+      "excess_km": 0.958
+    },
+    {
+      "ont_id": "O4001876",
+      "olt_id": "401",
+      "length_m": 21026.0,
+      "length_km": 21.026,
+      "excess_km": 1.026
+    },
+    {
+      "ont_id": "O4001880",
+      "olt_id": "401",
+      "length_m": 21389.0,
+      "length_km": 21.389,
+      "excess_km": 1.389
+    },
+    {
+      "ont_id": "O4001882",
+      "olt_id": "401",
+      "length_m": 21302.0,
+      "length_km": 21.302,
+      "excess_km": 1.302
+    },
+    {
+      "ont_id": "O4001884",
+      "olt_id": "401",
+      "length_m": 21295.0,
+      "length_km": 21.295,
+      "excess_km": 1.295
+    },
+    {
+      "ont_id": "O4001887",
+      "olt_id": "401",
+      "length_m": 21205.0,
+      "length_km": 21.205,
+      "excess_km": 1.205
+    },
+    {
+      "ont_id": "O4001890",
+      "olt_id": "401",
+      "length_m": 21277.0,
+      "length_km": 21.277,
+      "excess_km": 1.277
+    },
+    {
+      "ont_id": "O4001896",
+      "olt_id": "401",
+      "length_m": 20986.0,
+      "length_km": 20.986,
+      "excess_km": 0.986
+    },
+    {
+      "ont_id": "O4001917",
+      "olt_id": "401",
+      "length_m": 20994.0,
+      "length_km": 20.994,
+      "excess_km": 0.994
+    },
+    {
+      "ont_id": "O4001930",
+      "olt_id": "401",
+      "length_m": 21072.0,
+      "length_km": 21.072,
+      "excess_km": 1.072
+    },
+    {
+      "ont_id": "O4001936",
+      "olt_id": "401",
+      "length_m": 20755.0,
+      "length_km": 20.755,
+      "excess_km": 0.755
+    },
+    {
+      "ont_id": "O4001964",
+      "olt_id": "401",
+      "length_m": 21234.0,
+      "length_km": 21.234,
+      "excess_km": 1.234
+    },
+    {
+      "ont_id": "O4001979",
+      "olt_id": "401",
+      "length_m": 21019.0,
+      "length_km": 21.019,
+      "excess_km": 1.019
+    },
+    {
+      "ont_id": "O4001980",
+      "olt_id": "401",
+      "length_m": 20835.0,
+      "length_km": 20.835,
+      "excess_km": 0.835
+    },
+    {
+      "ont_id": "O4001983",
+      "olt_id": "401",
+      "length_m": 20966.0,
+      "length_km": 20.966,
+      "excess_km": 0.966
+    },
+    {
+      "ont_id": "O4001986",
+      "olt_id": "401",
+      "length_m": 20966.0,
+      "length_km": 20.966,
+      "excess_km": 0.966
+    },
+    {
+      "ont_id": "O4001992",
+      "olt_id": "401",
+      "length_m": 21018.0,
+      "length_km": 21.018,
+      "excess_km": 1.018
+    },
+    {
+      "ont_id": "O4001996",
+      "olt_id": "401",
+      "length_m": 21333.0,
+      "length_km": 21.333,
+      "excess_km": 1.333
+    },
+    {
+      "ont_id": "O4002009",
+      "olt_id": "401",
+      "length_m": 21013.0,
+      "length_km": 21.013,
+      "excess_km": 1.013
+    },
+    {
+      "ont_id": "O4002013",
+      "olt_id": "401",
+      "length_m": 20072.0,
+      "length_km": 20.072,
+      "excess_km": 0.072
+    },
+    {
+      "ont_id": "O4002014",
+      "olt_id": "401",
+      "length_m": 20587.0,
+      "length_km": 20.587,
+      "excess_km": 0.587
+    },
+    {
+      "ont_id": "O4002409",
+      "olt_id": "401",
+      "length_m": 20675.0,
+      "length_km": 20.675,
+      "excess_km": 0.675
+    },
+    {
+      "ont_id": "O4002410",
+      "olt_id": "401",
+      "length_m": 20675.0,
+      "length_km": 20.675,
+      "excess_km": 0.675
+    },
+    {
+      "ont_id": "O4002411",
+      "olt_id": "401",
+      "length_m": 21166.0,
+      "length_km": 21.166,
+      "excess_km": 1.166
+    },
+    {
+      "ont_id": "O4002412",
+      "olt_id": "401",
+      "length_m": 20068.0,
+      "length_km": 20.068,
+      "excess_km": 0.068
+    },
+    {
+      "ont_id": "O4005055",
+      "olt_id": "403",
+      "length_m": 20644.0,
+      "length_km": 20.644,
+      "excess_km": 0.644
+    },
+    {
+      "ont_id": "O4005054",
+      "olt_id": "403",
+      "length_m": 24816.0,
+      "length_km": 24.816,
+      "excess_km": 4.816
+    },
+    {
+      "ont_id": "O4005053",
+      "olt_id": "403",
+      "length_m": 21386.0,
+      "length_km": 21.386,
+      "excess_km": 1.386
+    },
+    {
+      "ont_id": "O4005052",
+      "olt_id": "403",
+      "length_m": 21386.0,
+      "length_km": 21.386,
+      "excess_km": 1.386
+    },
+    {
+      "ont_id": "O4005051",
+      "olt_id": "403",
+      "length_m": 21386.0,
+      "length_km": 21.386,
+      "excess_km": 1.386
+    },
+    {
+      "ont_id": "O4005050",
+      "olt_id": "403",
+      "length_m": 25331.0,
+      "length_km": 25.331,
+      "excess_km": 5.331
+    },
+    {
+      "ont_id": "O4005049",
+      "olt_id": "403",
+      "length_m": 21386.0,
+      "length_km": 21.386,
+      "excess_km": 1.386
+    },
+    {
+      "ont_id": "O4005048",
+      "olt_id": "403",
+      "length_m": 25284.0,
+      "length_km": 25.284,
+      "excess_km": 5.284
+    },
+    {
+      "ont_id": "O4005047",
+      "olt_id": "403",
+      "length_m": 22709.0,
+      "length_km": 22.709,
+      "excess_km": 2.709
+    },
+    {
+      "ont_id": "O4005046",
+      "olt_id": "403",
+      "length_m": 25213.0,
+      "length_km": 25.213,
+      "excess_km": 5.213
+    },
+    {
+      "ont_id": "O4005045",
+      "olt_id": "403",
+      "length_m": 25304.0,
+      "length_km": 25.304,
+      "excess_km": 5.304
+    },
+    {
+      "ont_id": "O4005044",
+      "olt_id": "403",
+      "length_m": 25102.0,
+      "length_km": 25.102,
+      "excess_km": 5.102
+    },
+    {
+      "ont_id": "O4005043",
+      "olt_id": "403",
+      "length_m": 20064.0,
+      "length_km": 20.064,
+      "excess_km": 0.064
+    },
+    {
+      "ont_id": "O4005042",
+      "olt_id": "403",
+      "length_m": 20838.0,
+      "length_km": 20.838,
+      "excess_km": 0.838
+    },
+    {
+      "ont_id": "O4005041",
+      "olt_id": "403",
+      "length_m": 20808.0,
+      "length_km": 20.808,
+      "excess_km": 0.808
+    },
+    {
+      "ont_id": "O4005040",
+      "olt_id": "403",
+      "length_m": 20776.0,
+      "length_km": 20.776,
+      "excess_km": 0.776
+    },
+    {
+      "ont_id": "O4005038",
+      "olt_id": "403",
+      "length_m": 25286.0,
+      "length_km": 25.286,
+      "excess_km": 5.286
+    },
+    {
+      "ont_id": "O4005037",
+      "olt_id": "403",
+      "length_m": 22251.0,
+      "length_km": 22.251,
+      "excess_km": 2.251
+    },
+    {
+      "ont_id": "O4005036",
+      "olt_id": "403",
+      "length_m": 22147.0,
+      "length_km": 22.147,
+      "excess_km": 2.147
+    },
+    {
+      "ont_id": "O4005035",
+      "olt_id": "403",
+      "length_m": 22259.0,
+      "length_km": 22.259,
+      "excess_km": 2.259
+    },
+    {
+      "ont_id": "O4004892",
+      "olt_id": "403",
+      "length_m": 20843.0,
+      "length_km": 20.843,
+      "excess_km": 0.843
+    },
+    {
+      "ont_id": "O4004889",
+      "olt_id": "403",
+      "length_m": 20862.0,
+      "length_km": 20.862,
+      "excess_km": 0.862
+    },
+    {
+      "ont_id": "O4004888",
+      "olt_id": "403",
+      "length_m": 23667.0,
+      "length_km": 23.667,
+      "excess_km": 3.667
+    },
+    {
+      "ont_id": "O4004887",
+      "olt_id": "403",
+      "length_m": 23667.0,
+      "length_km": 23.667,
+      "excess_km": 3.667
+    },
+    {
+      "ont_id": "O4004874",
+      "olt_id": "403",
+      "length_m": 21333.0,
+      "length_km": 21.333,
+      "excess_km": 1.333
+    },
+    {
+      "ont_id": "O4004873",
+      "olt_id": "403",
+      "length_m": 21128.0,
+      "length_km": 21.128,
+      "excess_km": 1.128
+    },
+    {
+      "ont_id": "O4004872",
+      "olt_id": "403",
+      "length_m": 21080.0,
+      "length_km": 21.08,
+      "excess_km": 1.08
+    }
+  ],
+  "violation_summary": {
+    "total_violations": 895,
+    "sample_count": 100
+  }
+}

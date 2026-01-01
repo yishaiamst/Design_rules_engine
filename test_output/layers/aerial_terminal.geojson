@@ -1,0 +1,220 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::32617"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          394115.1743233391,
+          5065196.541852355
+        ]
+      },
+      "properties": {
+        "id": "T0004285",
+        "type": "Aerial Terminal",
+        "connected_onts": 1,
+        "connected_cable_id": "144FOC/F1000399/F1000393",
+        "marker-color": "#FF00FF",
+        "marker-size": "medium",
+        "marker-symbol": "circle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          392878.36661641236,
+          5065218.439487889
+        ]
+      },
+      "properties": {
+        "id": "T0004286",
+        "type": "Aerial Terminal",
+        "connected_onts": 1,
+        "connected_cable_id": "144FOC/F1000393/F1000391",
+        "marker-color": "#FF00FF",
+        "marker-size": "medium",
+        "marker-symbol": "circle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390996.63510565256,
+          5069727.697271082
+        ]
+      },
+      "properties": {
+        "id": "T0004290",
+        "type": "Aerial Terminal",
+        "connected_onts": 4,
+        "connected_cable_id": "144FOC/F1000390/F1000502",
+        "marker-color": "#FF00FF",
+        "marker-size": "medium",
+        "marker-symbol": "circle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          393354.0326982822,
+          5065219.1009332845
+        ]
+      },
+      "properties": {
+        "id": "T0004473",
+        "type": "Aerial Terminal",
+        "connected_onts": 5,
+        "connected_cable_id": "144FOC/F1000399/F1000393",
+        "marker-color": "#FF00FF",
+        "marker-size": "medium",
+        "marker-symbol": "circle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          389410.90804422495,
+          5065282.971120687
+        ]
+      },
+      "properties": {
+        "id": "T0004474",
+        "type": "Aerial Terminal",
+        "connected_onts": 6,
+        "connected_cable_id": "48FOC/F1000391/F1000412",
+        "marker-color": "#FF00FF",
+        "marker-size": "medium",
+        "marker-symbol": "circle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          389707.36740379117,
+          5065275.546962532
+        ]
+      },
+      "properties": {
+        "id": "T0004510",
+        "type": "Aerial Terminal",
+        "connected_onts": 2,
+        "connected_cable_id": "48FOC/F1000391/F1000412",
+        "marker-color": "#FF00FF",
+        "marker-size": "medium",
+        "marker-symbol": "circle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390993.85854301957,
+          5069336.393221629
+        ]
+      },
+      "properties": {
+        "id": "T0004541",
+        "type": "Aerial Terminal",
+        "connected_onts": 1,
+        "connected_cable_id": "144FOC/F1000390/F1000502",
+        "marker-color": "#FF00FF",
+        "marker-size": "medium",
+        "marker-symbol": "circle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390987.9412767474,
+          5069037.77617722
+        ]
+      },
+      "properties": {
+        "id": "T0004581",
+        "type": "Aerial Terminal",
+        "connected_onts": 2,
+        "connected_cable_id": "144FOC/F1000392/F1000390",
+        "marker-color": "#FF00FF",
+        "marker-size": "medium",
+        "marker-symbol": "circle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          393685.4084213861,
+          5063146.619379597
+        ]
+      },
+      "properties": {
+        "id": "T0004627",
+        "type": "Aerial Terminal",
+        "connected_onts": 3,
+        "connected_cable_id": "48FOC/F1000406/F1000394",
+        "marker-color": "#FF00FF",
+        "marker-size": "medium",
+        "marker-symbol": "circle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390851.12050463026,
+          5063820.575969741
+        ]
+      },
+      "properties": {
+        "id": "T0004703",
+        "type": "Aerial Terminal",
+        "connected_onts": 1,
+        "connected_cable_id": "96FOC/F1000391/F1000397",
+        "marker-color": "#FF00FF",
+        "marker-size": "medium",
+        "marker-symbol": "circle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390841.218386047,
+          5062181.528428488
+        ]
+      },
+      "properties": {
+        "id": "T0004707",
+        "type": "Aerial Terminal",
+        "connected_onts": 6,
+        "connected_cable_id": "12FOC/F1000397/T1001719",
+        "marker-color": "#FF00FF",
+        "marker-size": "medium",
+        "marker-symbol": "circle"
+      }
+    }
+  ]
+}

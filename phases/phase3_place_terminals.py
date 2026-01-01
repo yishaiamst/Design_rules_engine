@@ -254,8 +254,11 @@ def select_terminal_type(
                     return ("MST", model)
             return ("MST", "MST12")
     else:
-        # Cannot place ON cable (>=1m) → MUST be MST
-        # Aerial terminals are always ON the cable, so if we can't place on cable, use MST
+        # Cannot place ON cable (>=1m) 
+        # CRITICAL: Both MSTs and Aerial Terminals MUST be placed ON the fiber cable
+        # If we can't place on cable, this is a logic error - we should find a way to place on cable
+        # For now, still choose MST but it will be moved to cable in Phase 3b
+        # In practice, if cluster is >200m from cable, we might need to extend cable or use different strategy
         for model in ["MST12", "MST8", "MST6", "MST4"]:
             ports = mst_config.get(model, {}).get("ports", 12)
             if ont_count <= ports:
@@ -269,6 +272,7 @@ def place_terminal_on_cable(
 ) -> Tuple[float, float]:
     """
     Place terminal on infrastructure cable at nearest point to ONT cluster.
+    Returns: (position, distance_to_cable)
     """
     # Calculate centroid of ONT cluster
     ont_positions = [ont.get("position") for ont in onts if ont.get("position")]
@@ -276,15 +280,15 @@ def place_terminal_on_cable(
         # Fallback to first cable point
         coords = cable.get("coordinates", [])
         if coords:
-            return tuple(coords[0][:2])
-        return (0.0, 0.0)
+            return (tuple(coords[0][:2]), 0.0)
+        return ((0.0, 0.0), 0.0)
     
     cluster_centroid = calculate_centroid(ont_positions)
     
     # Find nearest point on cable to cluster centroid
     coords = cable.get("coordinates", [])
     if not coords or len(coords) < 2:
-        return cluster_centroid
+        return (cluster_centroid, 0.0)
     
     min_dist = float('inf')
     nearest_point = coords[0]
@@ -313,7 +317,7 @@ def place_terminal_on_cable(
             min_dist = dist
             nearest_point = (px, py)
     
-    return nearest_point
+    return (nearest_point, min_dist)
 
 def identify_foscs_on_straight_segments(
     foscs: List[Dict[str, Any]],
@@ -460,6 +464,7 @@ def place_terminals(
     print()
     print("  Step 1: Placing terminals at 2-cable junctions (T-cross)...")
     from utils.intersection_utils import find_cable_junctions_geometric
+    from utils.spatial_utils import point_to_line_distance
     
     # Detect junctions
     junctions = find_cable_junctions_geometric(cables, tolerance_m=10.0, max_junctions=5000)
@@ -467,6 +472,51 @@ def place_terminals(
     junctions_3plus = [j for j in junctions if j["cable_count"] >= 3]
     print(f"    Found {len(junctions_2)} 2-cable junctions")
     print(f"    Found {len(junctions_3plus)} 3+ cable junctions")
+    
+    # CRITICAL: Verify all junction positions are ON cables
+    # Junctions are detected at cable endpoints, but we need to ensure they're exactly on cable
+    for junction in junctions_2 + junctions_3plus:
+        junction_pos = junction["position"]
+        # Find nearest point on any cable at this junction
+        min_dist = float('inf')
+        best_pos = junction_pos
+        
+        for cable_idx in junction.get("cable_indices", []):
+            if cable_idx < len(cables):
+                cable = cables[cable_idx]
+                coords = cable.get("coordinates", [])
+                if not coords:
+                    continue
+                
+                # Check distance to all points and segments
+                for coord in coords:
+                    dist = euclidean_distance(junction_pos[0], junction_pos[1], coord[0], coord[1])
+                    if dist < min_dist:
+                        min_dist = dist
+                        best_pos = coord
+                
+                # Check line segments
+                for i in range(len(coords) - 1):
+                    dist = point_to_line_distance(junction_pos, coords[i], coords[i + 1])
+                    if dist < min_dist and dist < 10.0:  # Within 10m
+                        # Project onto segment
+                        x1, y1 = coords[i][0], coords[i][1]
+                        x2, y2 = coords[i + 1][0], coords[i + 1][1]
+                        px, py = junction_pos[0], junction_pos[1]
+                        dx = x2 - x1
+                        dy = y2 - y1
+                        if dx == 0 and dy == 0:
+                            t = 0
+                        else:
+                            t = max(0, min(1, ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy)))
+                        proj_x = x1 + t * dx
+                        proj_y = y1 + t * dy
+                        min_dist = dist
+                        best_pos = (proj_x, proj_y)
+        
+        # Update junction position to be exactly on cable
+        if min_dist < 10.0:
+            junction["position"] = best_pos
     
     # Place FOSCs at 3+ cable junctions (Y, 4+ way)
     # Phase 3 is independent - does not use Phase 2 FOSCs
@@ -496,17 +546,66 @@ def place_terminals(
         else:
             junction_type = "4+ way"
         
-        # Place FOSC at junction
+        # CRITICAL: FOSC must be placed ON the fiber cable at the junction
+        # The junction position should already be on a cable (it's where cables meet)
+        # But verify and snap to nearest cable point if needed
+        fosc_position = junction_pos
+        
+        # Verify FOSC is on a cable (snap to nearest cable if needed)
+        # This ensures FOSCs are always on the cable layer
+        cables_at_junction = []
+        for cable_idx in junction.get("cable_indices", []):
+            if cable_idx < len(cables):
+                cables_at_junction.append(cables[cable_idx])
+        
+        if cables_at_junction:
+            # Find nearest point on any cable at this junction
+            min_snap_dist = float('inf')
+            best_position = junction_pos
+            for cable in cables_at_junction:
+                coords = cable.get("coordinates", [])
+                if not coords:
+                    continue
+                # Check distance to all points on cable
+                for coord in coords:
+                    dist = euclidean_distance(junction_pos[0], junction_pos[1], coord[0], coord[1])
+                    if dist < min_snap_dist:
+                        min_snap_dist = dist
+                        best_position = coord
+                # Also check line segments
+                for i in range(len(coords) - 1):
+                    dist = point_to_line_distance(junction_pos, coords[i], coords[i + 1])
+                    if dist < min_snap_dist and dist < 10.0:  # Within 10m
+                        # Project onto segment
+                        x1, y1 = coords[i][0], coords[i][1]
+                        x2, y2 = coords[i + 1][0], coords[i + 1][1]
+                        px, py = junction_pos[0], junction_pos[1]
+                        dx = x2 - x1
+                        dy = y2 - y1
+                        if dx == 0 and dy == 0:
+                            t = 0
+                        else:
+                            t = max(0, min(1, ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy)))
+                        proj_x = x1 + t * dx
+                        proj_y = y1 + t * dy
+                        min_snap_dist = dist
+                        best_position = (proj_x, proj_y)
+            
+            if min_snap_dist < 10.0:  # Snap if within 10m
+                fosc_position = best_position
+        
+        # Place FOSC at junction (on cable)
         fosc_id = f"F{fosc_id_counter:07d}"
         fosc = {
             "fosc_id": fosc_id,
             "model": default_fosc_model,
-            "position": junction_pos,
+            "position": fosc_position,
             "trigger": "junction",
             "junction_type": junction_type,
             "cable_count": cable_count,
             "cable_indices": junction.get("cable_indices", []),
-            "detection_method": "geometric"  # Same as Phase 3 uses
+            "detection_method": "geometric",
+            "on_cable": True  # Mark that FOSC is on cable
         }
         
         foscs_from_phase3.append(fosc)
@@ -797,14 +896,32 @@ def process_terminal_cluster(
     )
     
     # Place terminal
-    if nearest_cable and terminal_type == "Aerial Terminal":
-        # Place on cable
-        terminal_position = place_terminal_on_cable(cluster, nearest_cable, terminal_type)
-        connected_cable_id = nearest_cable.get("id", "")
+    # KEY FIX: MSTs must ALWAYS be placed ON the fiber cable (like Aerial Terminals)
+    if nearest_cable:
+        if terminal_type == "Aerial Terminal":
+            # Place on cable
+            terminal_position, _ = place_terminal_on_cable(cluster, nearest_cable, terminal_type)
+            connected_cable_id = nearest_cable.get("id", "")
+        elif terminal_type == "MST":
+            # MSTs must also be placed ON the cable
+            # Find nearest point on cable to cluster centroid
+            terminal_position, cable_dist = place_terminal_on_cable(cluster, nearest_cable, terminal_type)
+            connected_cable_id = nearest_cable.get("id", "")
+            # Update distance to cable to 0 (on cable)
+            distance_to_cable = 0.0
+        else:
+            # Unknown type - place on cable if possible
+            terminal_position, _ = place_terminal_on_cable(cluster, nearest_cable, terminal_type)
+            connected_cable_id = nearest_cable.get("id", "")
     else:
-        # Place at cluster centroid (MST or Aerial without cable)
+        # No cable found - CRITICAL: Both MSTs and Aerial Terminals MUST be on cable
+        # This is a logic error - we should always find a cable within reasonable distance
+        # For now, place at centroid but mark as needing refinement
+        # Phase 3b will move it to nearest cable
         terminal_position = cluster_centroid
-        connected_cable_id = nearest_cable.get("id", "") if nearest_cable else ""
+        connected_cable_id = ""
+        # Mark that this terminal needs cable placement fix
+        distance_to_cable = float('inf')
     
     # Get terminal port limit from model
     if terminal_type == "MST":

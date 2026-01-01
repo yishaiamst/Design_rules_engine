@@ -1,0 +1,855 @@
+{
+  "analysis": {
+    "103": {
+      "olt_location": [
+        5076077.03962581,
+        409806.8526185114
+      ],
+      "ont_count": 1927,
+      "geometric_centroid": [
+        5078180.567797554,
+        407516.4574841573
+      ],
+      "bbox_center": [
+        5081135.519890809,
+        409744.9414048778
+      ],
+      "optimal_location": [
+        5077586.652419724,
+        407624.56682725385
+      ],
+      "bbox_diameter_km": 7264.259070126381,
+      "distances": {
+        "olt_to_centroid_km": 8683.787501244007,
+        "olt_to_bbox_center_km": 1811.4906363917585,
+        "olt_to_optimal_km": 7645.204517103373,
+        "olt_to_onts": {
+          "mean_km": 9761.053561117693,
+          "median_km": 9671.863965772747,
+          "min_km": 137.2907531698693,
+          "max_km": 19964.143732480603,
+          "std_km": 5569.022277928482
+        },
+        "centroid_to_onts": {
+          "mean_km": 10063.687962995236,
+          "median_km": 10203.41191209665,
+          "max_km": 19867.644206675788
+        },
+        "optimal_to_onts": {
+          "mean_km": 10002.34590463168,
+          "median_km": 9754.800249123686,
+          "max_km": 19517.30159402908
+        }
+      },
+      "placement_analysis": {
+        "is_at_centroid": false,
+        "is_at_bbox_center": false,
+        "is_at_optimal": false,
+        "closest_to": "bbox_center"
+      }
+    },
+    "401": {
+      "olt_location": [
+        5152650.827077586,
+        264719.23950394575
+      ],
+      "ont_count": 1468,
+      "geometric_centroid": [
+        5149536.006334359,
+        267270.70460662304
+      ],
+      "bbox_center": [
+        5149913.432543175,
+        269980.55670607206
+      ],
+      "optimal_location": [
+        5148690.0980801955,
+        267233.91459915333
+      ],
+      "bbox_diameter_km": 5193.484590599983,
+      "distances": {
+        "olt_to_centroid_km": 13815.175791033098,
+        "olt_to_bbox_center_km": 11202.456177585587,
+        "olt_to_optimal_km": 521.4365047369653,
+        "olt_to_onts": {
+          "mean_km": 9769.234711029345,
+          "median_km": 9558.822386897595,
+          "min_km": 226.76866935309695,
+          "max_km": 19479.964075330947,
+          "std_km": 4181.389605756676
+        },
+        "centroid_to_onts": {
+          "mean_km": 10395.343367381898,
+          "median_km": 10676.789176560611,
+          "max_km": 19873.218831605245
+        },
+        "optimal_to_onts": {
+          "mean_km": 9750.346732640006,
+          "median_km": 9481.50659649172,
+          "max_km": 19706.353147252776
+        }
+      },
+      "placement_analysis": {
+        "is_at_centroid": false,
+        "is_at_bbox_center": false,
+        "is_at_optimal": false,
+        "closest_to": "optimal"
+      }
+    },
+    "403": {
+      "olt_location": [
+        5122977.434250339,
+        270287.33657276316
+      ],
+      "ont_count": 1980,
+      "geometric_centroid": [
+        5124910.514720072,
+        271239.6482204248
+      ],
+      "bbox_center": [
+        5119677.858730227,
+        273026.11264973285
+      ],
+      "optimal_location": [
+        5124910.514720072,
+        271239.6482204248
+      ],
+      "bbox_diameter_km": 5678.093607804509,
+      "distances": {
+        "olt_to_centroid_km": 7642.592994252224,
+        "olt_to_bbox_center_km": 12112.099515761129,
+        "olt_to_optimal_km": 7642.592994252224,
+        "olt_to_onts": {
+          "mean_km": 10093.56531364697,
+          "median_km": 10157.957844800178,
+          "min_km": 119.60271694478776,
+          "max_km": 19646.090220194343,
+          "std_km": 3803.8450052430717
+        },
+        "centroid_to_onts": {
+          "mean_km": 10078.929165973335,
+          "median_km": 9935.15958002468,
+          "max_km": 19676.068272232147
+        },
+        "optimal_to_onts": {
+          "mean_km": 10078.929165973335,
+          "median_km": 9935.15958002468,
+          "max_km": 19676.068272232147
+        }
+      },
+      "placement_analysis": {
+        "is_at_centroid": false,
+        "is_at_bbox_center": false,
+        "is_at_optimal": false,
+        "closest_to": "centroid"
+      }
+    },
+    "101": {
+      "olt_location": [
+        5092144.924501902,
+        427637.7427413724
+      ],
+      "ont_count": 2237,
+      "geometric_centroid": [
+        5090182.431933938,
+        429334.762725452
+      ],
+      "bbox_center": [
+        5089713.452912306,
+        428254.0862834364
+      ],
+      "optimal_location": [
+        5090369.634137401,
+        429281.08584610245
+      ],
+      "bbox_diameter_km": 2262.7027451699964,
+      "distances": {
+        "olt_to_centroid_km": 12615.259234491476,
+        "olt_to_bbox_center_km": 13830.969965475158,
+        "olt_to_optimal_km": 10256.382212698583,
+        "olt_to_onts": {
+          "mean_km": 10475.038497311632,
+          "median_km": 10774.772528502455,
+          "min_km": 228.1692155387743,
+          "max_km": 19821.05291285258,
+          "std_km": 4924.102963385563
+        },
+        "centroid_to_onts": {
+          "mean_km": 9754.230766285713,
+          "median_km": 9565.31147978555,
+          "max_km": 19563.079164007417
+        },
+        "optimal_to_onts": {
+          "mean_km": 10129.77441986574,
+          "median_km": 10355.490648405103,
+          "max_km": 19481.38023009386
+        }
+      },
+      "placement_analysis": {
+        "is_at_centroid": false,
+        "is_at_bbox_center": false,
+        "is_at_optimal": false,
+        "closest_to": "optimal"
+      }
+    },
+    "102": {
+      "olt_location": [
+        5065842.075499097,
+        436989.28320176445
+      ],
+      "ont_count": 2164,
+      "geometric_centroid": [
+        5069177.498687094,
+        439209.84436230146
+      ],
+      "bbox_center": [
+        5068214.389821066,
+        434056.2635079833
+      ],
+      "optimal_location": [
+        5069357.848737434,
+        438994.0764599827
+      ],
+      "bbox_diameter_km": 5980.494556564556,
+      "distances": {
+        "olt_to_centroid_km": 11264.188070807173,
+        "olt_to_bbox_center_km": 15777.334952367873,
+        "olt_to_optimal_km": 6814.241766165177,
+        "olt_to_onts": {
+          "mean_km": 10021.105318851143,
+          "median_km": 9926.148611850389,
+          "min_km": 131.66537778457055,
+          "max_km": 19835.4727270749,
+          "std_km": 5607.055142309699
+        },
+        "centroid_to_onts": {
+          "mean_km": 10093.334560807147,
+          "median_km": 10037.777707574227,
+          "max_km": 19762.816217390726
+        },
+        "optimal_to_onts": {
+          "mean_km": 9956.156325614507,
+          "median_km": 10060.318060979404,
+          "max_km": 19669.86538167127
+        }
+      },
+      "placement_analysis": {
+        "is_at_centroid": false,
+        "is_at_bbox_center": false,
+        "is_at_optimal": false,
+        "closest_to": "optimal"
+      }
+    },
+    "105": {
+      "olt_location": [
+        5085272.596575928,
+        386704.61260131095
+      ],
+      "ont_count": 1440,
+      "geometric_centroid": [
+        5081467.756464308,
+        385841.6098635305
+      ],
+      "bbox_center": [
+        5079740.078481724,
+        380887.90162445785
+      ],
+      "optimal_location": [
+        5081940.299994585,
+        386867.31513376173
+      ],
+      "bbox_diameter_km": 13617.760940076365,
+      "distances": {
+        "olt_to_centroid_km": 17765.932874077116,
+        "olt_to_bbox_center_km": 14601.140090171799,
+        "olt_to_optimal_km": 9698.528775266572,
+        "olt_to_onts": {
+          "mean_km": 10194.123816879352,
+          "median_km": 10376.373727347695,
+          "min_km": 60.63873509370655,
+          "max_km": 19968.425010062103,
+          "std_km": 5812.9785304438465
+        },
+        "centroid_to_onts": {
+          "mean_km": 9923.223419916236,
+          "median_km": 9784.478419385985,
+          "max_km": 19930.87471838145
+        },
+        "optimal_to_onts": {
+          "mean_km": 9870.690348958062,
+          "median_km": 9939.721911842007,
+          "max_km": 19261.420214327525
+        }
+      },
+      "placement_analysis": {
+        "is_at_centroid": false,
+        "is_at_bbox_center": false,
+        "is_at_optimal": false,
+        "closest_to": "optimal"
+      }
+    },
+    "107": {
+      "olt_location": [
+        5058359.166255746,
+        421631.7129184952
+      ],
+      "ont_count": 675,
+      "geometric_centroid": [
+        5053951.73941483,
+        421392.2992932399
+      ],
+      "bbox_center": [
+        5054261.770503773,
+        415800.5118945829
+      ],
+      "optimal_location": [
+        5053789.712693472,
+        421897.92395369115
+      ],
+      "bbox_diameter_km": 11788.45921403522,
+      "distances": {
+        "olt_to_centroid_km": 10013.271918712368,
+        "olt_to_bbox_center_km": 11490.173734426078,
+        "olt_to_optimal_km": 9952.82257441573,
+        "olt_to_onts": {
+          "mean_km": 10000.87244057715,
+          "median_km": 10046.227973886536,
+          "min_km": 970.2003245063836,
+          "max_km": 19472.762947940682,
+          "std_km": 3705.0771281380667
+        },
+        "centroid_to_onts": {
+          "mean_km": 9942.598884707802,
+          "median_km": 9988.051647663819,
+          "max_km": 19956.683284477735
+        },
+        "optimal_to_onts": {
+          "mean_km": 10109.668125110165,
+          "median_km": 10044.345442290973,
+          "max_km": 19621.24214240787
+        }
+      },
+      "placement_analysis": {
+        "is_at_centroid": false,
+        "is_at_bbox_center": false,
+        "is_at_optimal": false,
+        "closest_to": "optimal"
+      }
+    },
+    "402": {
+      "olt_location": [
+        5136723.75901814,
+        274944.2708261685
+      ],
+      "ont_count": 2006,
+      "geometric_centroid": [
+        5136107.830313795,
+        277001.3674753133
+      ],
+      "bbox_center": [
+        5137475.303894624,
+        277085.21931624436
+      ],
+      "optimal_location": [
+        5136306.024223642,
+        275165.24145328236
+      ],
+      "bbox_diameter_km": 8172.190635247547,
+      "distances": {
+        "olt_to_centroid_km": 8162.307174903807,
+        "olt_to_bbox_center_km": 3480.271977757304,
+        "olt_to_optimal_km": 11537.647774458435,
+        "olt_to_onts": {
+          "mean_km": 10356.540408027866,
+          "median_km": 10605.469193365687,
+          "min_km": 219.2449402951009,
+          "max_km": 19847.70710005569,
+          "std_km": 5165.08268230792
+        },
+        "centroid_to_onts": {
+          "mean_km": 10119.180441734872,
+          "median_km": 10153.56636022152,
+          "max_km": 19812.457823776323
+        },
+        "optimal_to_onts": {
+          "mean_km": 9985.95425300413,
+          "median_km": 9992.533464484637,
+          "max_km": 19713.368692732474
+        }
+      },
+      "placement_analysis": {
+        "is_at_centroid": false,
+        "is_at_bbox_center": false,
+        "is_at_optimal": false,
+        "closest_to": "bbox_center"
+      }
+    },
+    "104": {
+      "olt_location": [
+        5064759.130227613,
+        408765.4864127204
+      ],
+      "ont_count": 1696,
+      "geometric_centroid": [
+        5064749.160855209,
+        405868.546646126
+      ],
+      "bbox_center": [
+        5064298.0809287485,
+        405737.70554553706
+      ],
+      "optimal_location": [
+        5064839.199020506,
+        406729.035923494
+      ],
+      "bbox_diameter_km": 19585.762137343718,
+      "distances": {
+        "olt_to_centroid_km": 1104.8268326766386,
+        "olt_to_bbox_center_km": 9362.294785343418,
+        "olt_to_optimal_km": 10478.690076258112,
+        "olt_to_onts": {
+          "mean_km": 10008.33400856653,
+          "median_km": 10059.241237694727,
+          "min_km": 86.89765154304489,
+          "max_km": 19897.135676735204,
+          "std_km": 5790.636624014239
+        },
+        "centroid_to_onts": {
+          "mean_km": 10057.406216758984,
+          "median_km": 10076.719084559376,
+          "max_km": 19955.690065661733
+        },
+        "optimal_to_onts": {
+          "mean_km": 10033.955163609988,
+          "median_km": 10088.597223719706,
+          "max_km": 19665.97637953495
+        }
+      },
+      "placement_analysis": {
+        "is_at_centroid": false,
+        "is_at_bbox_center": false,
+        "is_at_optimal": false,
+        "closest_to": "centroid"
+      }
+    },
+    "106": {
+      "olt_location": [
+        5082075.5332509065,
+        354247.1103737967
+      ],
+      "ont_count": 552,
+      "geometric_centroid": [
+        5083054.751789868,
+        354705.31983935565
+      ],
+      "bbox_center": [
+        5081274.799427526,
+        352403.77615605306
+      ],
+      "optimal_location": [
+        5083054.751789868,
+        354705.31983935565
+      ],
+      "bbox_diameter_km": 8028.496579285283,
+      "distances": {
+        "olt_to_centroid_km": 6795.87581939982,
+        "olt_to_bbox_center_km": 8244.71303800872,
+        "olt_to_optimal_km": 6795.87581939982,
+        "olt_to_onts": {
+          "mean_km": 10272.015864475487,
+          "median_km": 10525.161517154922,
+          "min_km": 303.559503532478,
+          "max_km": 19685.4511725014,
+          "std_km": 4534.110724030867
+        },
+        "centroid_to_onts": {
+          "mean_km": 10499.771040668347,
+          "median_km": 10589.255537586469,
+          "max_km": 19567.60996721102
+        },
+        "optimal_to_onts": {
+          "mean_km": 10499.771040668347,
+          "median_km": 10589.255537586469,
+          "max_km": 19567.60996721102
+        }
+      },
+      "placement_analysis": {
+        "is_at_centroid": false,
+        "is_at_bbox_center": false,
+        "is_at_optimal": false,
+        "closest_to": "centroid"
+      }
+    },
+    "201": {
+      "olt_location": [
+        5126702.255128181,
+        310159.3398038121
+      ],
+      "ont_count": 1580,
+      "geometric_centroid": [
+        5128092.933505674,
+        309256.5548231184
+      ],
+      "bbox_center": [
+        5126560.105460342,
+        358711.36303320614
+      ],
+      "optimal_location": [
+        5128075.059401628,
+        310552.63243187923
+      ],
+      "bbox_diameter_km": 15356.96392282855,
+      "distances": {
+        "olt_to_centroid_km": 1693.3916481120712,
+        "olt_to_bbox_center_km": 14298.399309376658,
+        "olt_to_optimal_km": 7120.879860246211,
+        "olt_to_onts": {
+          "mean_km": 10227.00975674714,
+          "median_km": 10181.008834560706,
+          "min_km": 132.7597774690396,
+          "max_km": 19690.612572562517,
+          "std_km": 5141.1824638318385
+        },
+        "centroid_to_onts": {
+          "mean_km": 10224.351251008069,
+          "median_km": 10215.018631194838,
+          "max_km": 19872.986164943548
+        },
+        "optimal_to_onts": {
+          "mean_km": 10077.552699211457,
+          "median_km": 10056.938616710411,
+          "max_km": 19716.525591030557
+        }
+      },
+      "placement_analysis": {
+        "is_at_centroid": false,
+        "is_at_bbox_center": false,
+        "is_at_optimal": false,
+        "closest_to": "centroid"
+      }
+    },
+    "202": {
+      "olt_location": [
+        5116401.391698689,
+        349599.2395915485
+      ],
+      "ont_count": 888,
+      "geometric_centroid": [
+        5120252.6347074015,
+        348460.70377790596
+      ],
+      "bbox_center": [
+        5121393.931454059,
+        379897.37304330984
+      ],
+      "optimal_location": [
+        5120162.811620894,
+        348568.88810988027
+      ],
+      "bbox_diameter_km": 14613.718579874534,
+      "distances": {
+        "olt_to_centroid_km": 12526.099274341686,
+        "olt_to_bbox_center_km": 5767.443217158269,
+        "olt_to_optimal_km": 17511.37448820609,
+        "olt_to_onts": {
+          "mean_km": 10021.69223066715,
+          "median_km": 9944.063462870043,
+          "min_km": 54.22202401666954,
+          "max_km": 19575.45254046857,
+          "std_km": 5611.043493444623
+        },
+        "centroid_to_onts": {
+          "mean_km": 10038.56293345626,
+          "median_km": 10185.882142791073,
+          "max_km": 19746.10370079708
+        },
+        "optimal_to_onts": {
+          "mean_km": 10009.41663425738,
+          "median_km": 9985.310755895263,
+          "max_km": 19669.730352367278
+        }
+      },
+      "placement_analysis": {
+        "is_at_centroid": false,
+        "is_at_bbox_center": false,
+        "is_at_optimal": false,
+        "closest_to": "bbox_center"
+      }
+    },
+    "302": {
+      "olt_location": [
+        5118914.474206003,
+        381345.58349042095
+      ],
+      "ont_count": 507,
+      "geometric_centroid": [
+        5119440.227285127,
+        382857.27750032773
+      ],
+      "bbox_center": [
+        5121649.285081282,
+        380810.4852952301
+      ],
+      "optimal_location": [
+        5119440.227285127,
+        382857.27750032773
+      ],
+      "bbox_diameter_km": 3185.254307588769,
+      "distances": {
+        "olt_to_centroid_km": 16836.15440428315,
+        "olt_to_bbox_center_km": 19566.753025458813,
+        "olt_to_optimal_km": 16836.15440428315,
+        "olt_to_onts": {
+          "mean_km": 9510.628867616557,
+          "median_km": 9192.950876537614,
+          "min_km": 523.1610167651924,
+          "max_km": 19834.5576843697,
+          "std_km": 5622.654647916821
+        },
+        "centroid_to_onts": {
+          "mean_km": 10437.910564376727,
+          "median_km": 10667.479357003478,
+          "max_km": 19321.35049252998
+        },
+        "optimal_to_onts": {
+          "mean_km": 10437.910564376727,
+          "median_km": 10667.479357003478,
+          "max_km": 19321.35049252998
+        }
+      },
+      "placement_analysis": {
+        "is_at_centroid": false,
+        "is_at_bbox_center": false,
+        "is_at_optimal": false,
+        "closest_to": "centroid"
+      }
+    },
+    "303": {
+      "olt_location": [
+        5118770.053702742,
+        419395.17388267315
+      ],
+      "ont_count": 836,
+      "geometric_centroid": [
+        5120182.800697651,
+        418230.13567592076
+      ],
+      "bbox_center": [
+        5122510.7510227375,
+        418775.9445956325
+      ],
+      "optimal_location": [
+        5120182.800697651,
+        418230.13567592076
+      ],
+      "bbox_diameter_km": 15466.823046856278,
+      "distances": {
+        "olt_to_centroid_km": 2428.1078179210695,
+        "olt_to_bbox_center_km": 17260.55777317907,
+        "olt_to_optimal_km": 2428.1078179210695,
+        "olt_to_onts": {
+          "mean_km": 10020.219136327893,
+          "median_km": 10163.288527504119,
+          "min_km": 126.67822447108074,
+          "max_km": 19885.250520212234,
+          "std_km": 5255.269535584235
+        },
+        "centroid_to_onts": {
+          "mean_km": 10004.022677495192,
+          "median_km": 10179.614537838128,
+          "max_km": 19759.61409238192
+        },
+        "optimal_to_onts": {
+          "mean_km": 10004.022677495192,
+          "median_km": 10179.614537838128,
+          "max_km": 19759.61409238192
+        }
+      },
+      "placement_analysis": {
+        "is_at_centroid": false,
+        "is_at_bbox_center": false,
+        "is_at_optimal": false,
+        "closest_to": "centroid"
+      }
+    },
+    "301": {
+      "olt_location": [
+        5139946.170249342,
+        371999.28910697065
+      ],
+      "ont_count": 313,
+      "geometric_centroid": [
+        5147376.003271037,
+        371601.6964582217
+      ],
+      "bbox_center": [
+        5142468.564276264,
+        371621.25194824126
+      ],
+      "optimal_location": [
+        5147682.047028305,
+        370592.78073206404
+      ],
+      "bbox_diameter_km": 4179.9981120836255,
+      "distances": {
+        "olt_to_centroid_km": 14600.351037991064,
+        "olt_to_bbox_center_km": 1380.819361936767,
+        "olt_to_optimal_km": 17322.72648460181,
+        "olt_to_onts": {
+          "mean_km": 9450.381244231574,
+          "median_km": 8662.001694891178,
+          "min_km": 618.7511021006519,
+          "max_km": 19408.85124921612,
+          "std_km": 4584.924602079585
+        },
+        "centroid_to_onts": {
+          "mean_km": 11020.234454299345,
+          "median_km": 11148.921351824803,
+          "max_km": 19894.64615120982
+        },
+        "optimal_to_onts": {
+          "mean_km": 10487.078359990173,
+          "median_km": 10929.22896328809,
+          "max_km": 18891.408760356844
+        }
+      },
+      "placement_analysis": {
+        "is_at_centroid": false,
+        "is_at_bbox_center": false,
+        "is_at_optimal": false,
+        "closest_to": "bbox_center"
+      }
+    },
+    "502": {
+      "olt_location": [
+        5134812.257690611,
+        471794.24446857977
+      ],
+      "ont_count": 1690,
+      "geometric_centroid": [
+        5133967.688704809,
+        475673.047473273
+      ],
+      "bbox_center": [
+        5131947.22090932,
+        469088.6816822187
+      ],
+      "optimal_location": [
+        5133049.620757428,
+        475313.19997293665
+      ],
+      "bbox_diameter_km": 13029.751688856106,
+      "distances": {
+        "olt_to_centroid_km": 10026.43410853047,
+        "olt_to_bbox_center_km": 11044.320966408997,
+        "olt_to_optimal_km": 8487.625270626928,
+        "olt_to_onts": {
+          "mean_km": 9786.8757115336,
+          "median_km": 9778.72237173863,
+          "min_km": 138.70684602694934,
+          "max_km": 19552.505719787277,
+          "std_km": 4629.355741557027
+        },
+        "centroid_to_onts": {
+          "mean_km": 9923.957157762094,
+          "median_km": 9791.64878008034,
+          "max_km": 19830.717078024813
+        },
+        "optimal_to_onts": {
+          "mean_km": 10020.649145103402,
+          "median_km": 9960.198813861745,
+          "max_km": 19563.516949378645
+        }
+      },
+      "placement_analysis": {
+        "is_at_centroid": false,
+        "is_at_bbox_center": false,
+        "is_at_optimal": false,
+        "closest_to": "optimal"
+      }
+    },
+    "501": {
+      "olt_location": [
+        5122940.586560006,
+        440267.5955544013
+      ],
+      "ont_count": 810,
+      "geometric_centroid": [
+        5122037.359252092,
+        443202.48149919044
+      ],
+      "bbox_center": [
+        5120753.387031591,
+        443518.49412692775
+      ],
+      "optimal_location": [
+        5120435.300636349,
+        442843.0432349985
+      ],
+      "bbox_diameter_km": 13483.600714878632,
+      "distances": {
+        "olt_to_centroid_km": 15478.312240576017,
+        "olt_to_bbox_center_km": 3100.6602134574314,
+        "olt_to_optimal_km": 5386.378902342636,
+        "olt_to_onts": {
+          "mean_km": 10011.124919711316,
+          "median_km": 10357.385271199531,
+          "min_km": 304.9781676173085,
+          "max_km": 19570.514545453738,
+          "std_km": 4477.634084219296
+        },
+        "centroid_to_onts": {
+          "mean_km": 9883.132484629627,
+          "median_km": 10050.08513279541,
+          "max_km": 19553.245627617132
+        },
+        "optimal_to_onts": {
+          "mean_km": 10266.420390280882,
+          "median_km": 10107.673837676266,
+          "max_km": 19311.842754969395
+        }
+      },
+      "placement_analysis": {
+        "is_at_centroid": false,
+        "is_at_bbox_center": false,
+        "is_at_optimal": false,
+        "closest_to": "bbox_center"
+      }
+    }
+  },
+  "summary": {
+    "total_olts_analyzed": 17,
+    "distance_statistics": {
+      "olt_to_centroid": {
+        "mean_km": 10085.415808432545,
+        "median_km": 10026.43410853047,
+        "min_km": 1104.8268326766386,
+        "max_km": 17765.932874077116
+      },
+      "olt_to_bbox_center": {
+        "mean_km": 10254.817572956756,
+        "median_km": 11202.456177585587,
+        "min_km": 1380.819361936767,
+        "max_km": 19566.753025458813
+      },
+      "olt_to_optimal": {
+        "mean_km": 9202.157073116641,
+        "median_km": 8487.625270626928,
+        "min_km": 521.4365047369653,
+        "max_km": 17511.37448820609
+      }
+    },
+    "placement_patterns": {
+      "closest_to_centroid": 6,
+      "closest_to_bbox_center": 5,
+      "closest_to_optimal": 6,
+      "is_at_centroid": 0,
+      "is_at_bbox_center": 0,
+      "is_at_optimal": 0
+    },
+    "recommendations": {
+      "primary_strategy": "bbox_center",
+      "rationale": "Most OLTs are closest to bounding box center"
+    }
+  }
+}

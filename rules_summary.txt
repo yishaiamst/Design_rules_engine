@@ -1,0 +1,138 @@
+================================================================================
+FIBER NETWORK DESIGN RULES SUMMARY
+================================================================================
+
+Total Rules Discovered: 29
+
+Verified Rules: 7
+Discovered Rules: 22
+Placement Logic Rules: 0
+
+================================================================================
+VERIFIED CONNECTIVITY RULES
+================================================================================
+
+[CONNECTIVITY_ONT_TERMINAL]
+  Description: ONT must connect to Terminal via drop cable
+  Status: PASS
+  Confidence: 1.00
+
+[HIERARCHY_TERMINAL_FOSC_FDH]
+  Description: Terminal must connect to FOSC (splice closure) or FDH
+  Status: WARNING
+  Confidence: 0.70
+
+[HIERARCHY_FOSC_FDH]
+  Description: FOSC must connect to FDH or another FOSC
+  Status: WARNING
+  Confidence: 0.70
+
+[HIERARCHY_FDH_OLT]
+  Description: FDH must connect to OLT
+  Status: PASS
+  Confidence: 1.00
+
+[CABLE_LAYER_CONSISTENCY]
+  Description: Drop cables only used for ONT→Terminal connections
+  Status: PASS
+  Confidence: 1.00
+
+[PATH_COMPLETENESS]
+  Description: ONT paths should reach OLT (≥90% completion rate)
+  Status: PASS
+  Confidence: 1.00
+
+[VIRTUAL_LINK_LIMITS]
+  Description: Virtual links should be <20% of total links
+  Status: PASS
+  Confidence: 1.00
+
+================================================================================
+STATISTICALLY DISCOVERED RULES
+================================================================================
+
+DISTANCE PATTERNS:
+  • Typical drop cable length: 115.47m (median: 90.0m, range: 5.0-1464.0m) (confidence: 0.95)
+  • Typical stub cable length: 307.61m (median: 212.0m, range: 1.0-2944.0m) (confidence: 0.95)
+  • Typical fiber cable length: 663.24m (median: 422.0m, range: 1.0-2699.0m) (confidence: 0.95)
+
+BRANCHING PATTERNS:
+  • Ont typically has 1.0 outgoing connections (median: 1, range: 1-258) (confidence: 0.90)
+  • Terminal typically has 7.4 outgoing connections (median: 4, range: 1-289) (confidence: 0.90)
+  • Splice Closure typically has 77.2 outgoing connections (median: 24, range: 1-2015) (confidence: 0.90)
+  • Fdh typically has 80.3 outgoing connections (median: 69, range: 3-417) (confidence: 0.90)
+
+CAPACITY PATTERNS:
+  • Drop Cable most commonly uses 1 fibers (confidence: 0.85)
+  • Fiber Cable most commonly uses 144 fibers (confidence: 0.85)
+  • Stub Cable most commonly uses 4 fibers (confidence: 0.85)
+
+CABLE TRANSITION PATTERNS:
+  • Cable type transitions from drop cable to fiber cable occur 13343 times (confidence: 0.80)
+  • Cable type transitions from drop cable to stub cable occur 9431 times (confidence: 0.80)
+  • Cable type transitions from stub cable to fiber cable occur 9279 times (confidence: 0.80)
+  • Cable type transitions from fiber cable to drop cable occur 260 times (confidence: 0.80)
+  • Cable type transitions from fiber cable to stub cable occur 42 times (confidence: 0.80)
+
+PLACEMENT LOGIC:
+  • On average, 21.8 terminals connect to each FOSC (median: 12.0, range: 1-384) (confidence: 0.90)
+  • On average, 82.5 FOSCs connect to each FDH (median: 70.0, range: 12-417) (confidence: 0.90)
+
+NEXT HOP DECISIONS:
+  • Most common next hop: splice closure→splice closure (occurs 119383 times) (confidence: 0.85)
+  • Most common next hop: terminal→splice closure (occurs 28956 times) (confidence: 0.85)
+  • Most common next hop: terminal→terminal (occurs 16949 times) (confidence: 0.85)
+  • Most common next hop: fdh→olt (occurs 14540 times) (confidence: 0.85)
+  • Most common next hop: splice closure→fdh (occurs 14362 times) (confidence: 0.85)
+
+================================================================================
+PLACEMENT LOGIC RULES (R10-R14)
+================================================================================
+
+[PLACEMENT_TERMINALS_PER_FOSC]
+  Description: On average, 21.8 terminals connect to each FOSC (median: 12.0, range: 1-384)
+  Confidence: 0.90
+
+[PLACEMENT_FOSCS_PER_FDH]
+  Description: On average, 82.5 FOSCs connect to each FDH (median: 70.0, range: 12-417)
+  Confidence: 0.90
+
+================================================================================
+END OF SUMMARY
+================================================================================
+
+================================================================================
+REFINED PLACEMENT LOGIC RULES (R10-R14)
+================================================================================
+
+Refined using only logical graph data (no geometry).
+
+[R10_AERIAL_TERMINAL_REFINED]
+  Description: Aerial Terminal: 1-12 ONTs, no stub, no splice, avg drop ≤ 150m
+  Nodes Analyzed: 6283
+  Matches Criteria: 1 (0.0%)
+  Average Confidence: 0.85
+
+[R11_MST_REFINED]
+  Description: MST: Stub cable from FOSC, ≤500m, 6-24 ONTs served
+  Nodes Analyzed: 2325
+  Matches Criteria: 386 (16.6%)
+  Average Confidence: 0.79
+
+[R12_FOSC_REFINED]
+  Description: FOSC: ≥2 fiber connections OR ≥1800m segment OR fiber ID change OR fiber count transition
+  Nodes Analyzed: 1925
+  Matches Criteria: 1925 (100.0%)
+  Average Confidence: 0.94
+
+[R13_FDH_FOSC_ASSOCIATION_REFINED]
+  Description: FDH-FOSC: Pair nearest FOSC in same chain using fdh_id
+  Nodes Analyzed: 1925
+  Matches Criteria: 176 (9.1%)
+  Average Confidence: 0.55
+
+[R14_CABLE_HIERARCHY_REFINED]
+  Description: Cable Hierarchy: Maintain 288/144 → 96 → 48 → 12 → 1F cascade
+  Confidence: 0.90
+  Matches Criteria: True
+

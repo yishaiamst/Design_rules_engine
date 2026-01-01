@@ -1,0 +1,23 @@
+{
+  "foscs_merged": 23,
+  "msts_consolidated": 15,
+  "foscs_removed": 6,
+  "aerial_converted": 0,
+  "msts_connected": 0,
+  "onts_filtered": 1,
+  "onts_fixed_from_fosc": 0,
+  "foscs_added_at_junctions": 3,
+  "isolated_terminals_removed": 18,
+  "terminals_converted_to_fosc": 2,
+  "terminal_connections_fixed": 1,
+  "msts_added_at_endpoints": 0,
+  "msts_added_near_foscs": 1,
+  "foscs_converted_to_mst": 1,
+  "msts_fixed_placement": 15,
+  "all_on_cables_fixed": 2,
+  "onts_reconnected": 7,
+  "underutilized_msts_merged": 7,
+  "unconnected_onts_found": 22648,
+  "unconnected_onts_connected": 26,
+  "msts_connected_via_stub": 0
+}

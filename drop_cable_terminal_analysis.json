@@ -1,0 +1,23 @@
+{
+  "drop_cables": {
+    "count": 20110,
+    "sizes": {
+      "1": 20110
+    },
+    "lengths": [
+      146.11435852877563
+    ]
+  },
+  "terminals": {
+    "count": 6370,
+    "types": {
+      "Aerial Terminal": 3775,
+      "MST": 2595
+    },
+    "ports": {}
+  },
+  "connections": {
+    "ont_to_terminal": {},
+    "terminal_to_onts": {}
+  }
+}

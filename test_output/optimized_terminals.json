@@ -1,0 +1,837 @@
+[
+  {
+    "terminal_id": "T0003235",
+    "type": "MST",
+    "model": "MST12",
+    "position": [
+      388555.20657942694,
+      5069338.730068893
+    ],
+    "ont_count": 1,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1009171",
+      "O1007588",
+      "O1007858"
+    ],
+    "connected_cable_id": "48FOC/F1000509/T1002415",
+    "nearest_cable_id": "48FOC/F1000509/T1002415",
+    "connected_fosc_id": "",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 19451.193189114416,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004266",
+    "type": "MST",
+    "model": "MST12",
+    "position": [
+      392876.2711081014,
+      5063158.167034049
+    ],
+    "ont_count": 7,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007563",
+      "O1007585",
+      "O1007586",
+      "O1007623",
+      "O1007626",
+      "O1007624",
+      "O1007625",
+      "O1007622",
+      "O1007861",
+      "O1007561",
+      "O1007562",
+      "O1007672"
+    ],
+    "connected_cable_id": "48FOC/F1000406/F1000394",
+    "nearest_cable_id": "48FOC/F1000406/F1000394",
+    "connected_fosc_id": "",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 25168.187282484032,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004271",
+    "type": "MST",
+    "model": "MST12",
+    "position": [
+      390996.0963944411,
+      5069298.443432263
+    ],
+    "ont_count": 2,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007584",
+      "O1007856",
+      "O1007868",
+      "O1007867",
+      "O1007583",
+      "O1007592",
+      "O1007722",
+      "O1007870",
+      "O1007869"
+    ],
+    "connected_cable_id": "144FOC/F1000390/F1000502",
+    "nearest_cable_id": "144FOC/F1000390/F1000502",
+    "connected_fosc_id": "F0000935",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 20492.21508249692,
+    "stub_cable_length": 557.8752520741284,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004278",
+    "type": "MST",
+    "model": "MST12",
+    "position": [
+      393126.7787955654,
+      5063159.888057005
+    ],
+    "ont_count": 1,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007587"
+    ],
+    "connected_cable_id": "48FOC/F1000406/F1000394",
+    "nearest_cable_id": "48FOC/F1000406/F1000394",
+    "connected_fosc_id": "",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 24753.12778366824,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004279",
+    "type": "MST",
+    "model": "MST12",
+    "position": [
+      393634.09664300125,
+      5063147.496814919
+    ],
+    "ont_count": 1,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007609",
+      "O1007862"
+    ],
+    "connected_cable_id": "48FOC/F1000406/F1000394",
+    "nearest_cable_id": "48FOC/F1000400/T1001694",
+    "connected_fosc_id": "",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 24966.17761493913,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004283",
+    "type": "MST",
+    "model": "MST12",
+    "position": [
+      395928.0294986735,
+      5065148.616693889
+    ],
+    "ont_count": 1,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007591",
+      "O1007703"
+    ],
+    "connected_cable_id": "144FOC/F1000396/F1000399",
+    "nearest_cable_id": "144FOC/F1000396/F1000399",
+    "connected_fosc_id": "",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 20671.7261068876,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004284",
+    "type": "MST",
+    "model": "MST12",
+    "position": [
+      395205.583215845,
+      5065167.703685458
+    ],
+    "ont_count": 1,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007573"
+    ],
+    "connected_cable_id": "144FOC/F1000396/F1000399",
+    "nearest_cable_id": "144FOC/F1000396/F1000399",
+    "connected_fosc_id": "F0000943",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 21271.613290789213,
+    "stub_cable_length": 759.2179059950304,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004285",
+    "type": "MST",
+    "model": "AER-TRM12",
+    "position": [
+      394115.1743233391,
+      5065196.541852355
+    ],
+    "ont_count": 1,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007572"
+    ],
+    "connected_cable_id": "144FOC/F1000399/F1000393",
+    "nearest_cable_id": "144FOC/F1000399/F1000393",
+    "connected_fosc_id": "F0000943",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 22553.155208130192,
+    "stub_cable_length": 853.9334813878424,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004286",
+    "type": "MST",
+    "model": "AER-TRM12",
+    "position": [
+      392878.36661641236,
+      5065218.439487889
+    ],
+    "ont_count": 1,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007600"
+    ],
+    "connected_cable_id": "144FOC/F1000393/F1000391",
+    "nearest_cable_id": "144FOC/F1000393/F1000391",
+    "connected_fosc_id": "F0000944",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 23733.29604304792,
+    "stub_cable_length": 45.0472238774244,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004288",
+    "type": "MST",
+    "model": "AER-TRM12",
+    "position": [
+      389024.6184527318,
+      5062292.542221931
+    ],
+    "ont_count": 4,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007565",
+      "O1007642",
+      "O1007645",
+      "O1007641",
+      "O1007639"
+    ],
+    "connected_cable_id": "48FOC/F1000398/T1001731",
+    "nearest_cable_id": "48FOC/F1000398/T1001731",
+    "connected_fosc_id": "F0000962",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 21730.08606424166,
+    "stub_cable_length": 854.8110474068346,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004290",
+    "type": "MST",
+    "model": "AER-TRM12",
+    "position": [
+      390996.63510565256,
+      5069727.697271082
+    ],
+    "ont_count": 1,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007571"
+    ],
+    "connected_cable_id": "144FOC/F1000390/F1000502",
+    "nearest_cable_id": "144FOC/F1000390/F1000502",
+    "connected_fosc_id": "F0000935",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 20135.532608669615,
+    "stub_cable_length": 458.21243841710424,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004298",
+    "type": "MST",
+    "model": "MST12",
+    "position": [
+      390841.218386047,
+      5062181.528428488
+    ],
+    "ont_count": 4,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007567",
+      "O1007653",
+      "O1007652",
+      "O1007655",
+      "O1007566",
+      "O1007589",
+      "O1007568"
+    ],
+    "connected_cable_id": "12FOC/F1000397/T1001719",
+    "nearest_cable_id": "12FOC/F1000397/T1001719",
+    "connected_fosc_id": "",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 23502.7122761932,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004300",
+    "type": "MST",
+    "model": "AER-TRM12",
+    "position": [
+      389808.21264196356,
+      5062629.058500166
+    ],
+    "ont_count": 5,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007564",
+      "O1007611",
+      "O1007650",
+      "O1007651",
+      "O1007646",
+      "O1007643",
+      "O1007647",
+      "O1007644",
+      "O1007640",
+      "O1007649"
+    ],
+    "connected_cable_id": "48FOC/F1000397/F1000398",
+    "nearest_cable_id": "48FOC/F1000397/F1000398",
+    "connected_fosc_id": "F0000962",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 22367.70545507564,
+    "stub_cable_length": 2.020166004998187,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004448",
+    "type": "MST",
+    "model": "MST12",
+    "position": [
+      391837.80729242915,
+      5065238.627097563
+    ],
+    "ont_count": 2,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007720",
+      "O1007719"
+    ],
+    "connected_cable_id": "144FOC/F1000393/F1000391",
+    "nearest_cable_id": "144FOC/F1000393/F1000391",
+    "connected_fosc_id": "F0000157",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 23327.893674506504,
+    "stub_cable_length": 946.7516691513233,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004456",
+    "type": "MST",
+    "model": "AER-TRM12",
+    "position": [
+      390759.9565216268,
+      5063221.175584647
+    ],
+    "ont_count": 2,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007873",
+      "O1007875",
+      "O1007610"
+    ],
+    "connected_cable_id": "48FOC/F1000397/F1000398",
+    "nearest_cable_id": "48FOC/F1000397/F1000398",
+    "connected_fosc_id": "F0000176",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 22858.271602232475,
+    "stub_cable_length": 76.63627656749068,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004463",
+    "type": "MST",
+    "model": "MST12",
+    "position": [
+      395602.30341665045,
+      5065154.786341899
+    ],
+    "ont_count": 2,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007687",
+      "O1007704",
+      "O1007602"
+    ],
+    "connected_cable_id": "144FOC/F1000396/F1000399",
+    "nearest_cable_id": "144FOC/F1000396/F1000399",
+    "connected_fosc_id": "F0000943",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 21230.48534278407,
+    "stub_cable_length": 637.4953076743519,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004473",
+    "type": "MST",
+    "model": "AER-TRM12",
+    "position": [
+      393354.0326982822,
+      5065219.1009332845
+    ],
+    "ont_count": 4,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007726",
+      "O1007728",
+      "O1007727",
+      "O1007733",
+      "O1007570"
+    ],
+    "connected_cable_id": "144FOC/F1000399/F1000393",
+    "nearest_cable_id": "144FOC/F1000399/F1000393",
+    "connected_fosc_id": "F0000944",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 23270.236161743265,
+    "stub_cable_length": 430.62224709845714,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004474",
+    "type": "Aerial Terminal",
+    "model": "AER-TRM12",
+    "position": [
+      389410.90804422495,
+      5065282.971120687
+    ],
+    "ont_count": 4,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007634",
+      "O1007631",
+      "O1007630",
+      "O1007627"
+    ],
+    "connected_cable_id": "48FOC/F1000391/F1000412",
+    "nearest_cable_id": "48FOC/F1000391/F1000412",
+    "connected_fosc_id": "",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 20969.31281252752,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004476",
+    "type": "MST",
+    "model": "MST12",
+    "position": [
+      394413.39293539984,
+      5063131.7080200715
+    ],
+    "ont_count": 3,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007615",
+      "O1007613",
+      "O1007612"
+    ],
+    "connected_cable_id": "48FOC/F1000406/F1000394",
+    "nearest_cable_id": "48FOC/F1000406/F1000394",
+    "connected_fosc_id": "F0000961",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 23233.110596888873,
+    "stub_cable_length": 409.78016929272025,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004510",
+    "type": "Aerial Terminal",
+    "model": "AER-TRM12",
+    "position": [
+      389707.36740379117,
+      5065275.546962532
+    ],
+    "ont_count": 2,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007637",
+      "O1007629"
+    ],
+    "connected_cable_id": "48FOC/F1000391/F1000412",
+    "nearest_cable_id": "48FOC/F1000391/F1000412",
+    "connected_fosc_id": "",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 21243.5245957595,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004512",
+    "type": "MST",
+    "model": "AER-TRM12",
+    "position": [
+      395427.7752813863,
+      5063107.950118854
+    ],
+    "ont_count": 1,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007619",
+      "O1007614"
+    ],
+    "connected_cable_id": "96FOC/F1000395/F1000406",
+    "nearest_cable_id": "96FOC/F1000395/F1000406",
+    "connected_fosc_id": "F0002382",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 22372.24143694272,
+    "stub_cable_length": 492.813079914333,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004519",
+    "type": "MST",
+    "model": "AER-TRM12",
+    "position": [
+      392287.0858693039,
+      5067234.0132427635
+    ],
+    "ont_count": 1,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007659",
+      "O1007660"
+    ],
+    "connected_cable_id": "48FOC/F1000392/T1001700",
+    "nearest_cable_id": "48FOC/F1000392/T1001700",
+    "connected_fosc_id": "F0002379",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 22567.844835427975,
+    "stub_cable_length": 665.1453269251231,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004536",
+    "type": "MST",
+    "model": "AER-TRM12",
+    "position": [
+      390797.8242968553,
+      5065249.846846382
+    ],
+    "ont_count": 4,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007638",
+      "O1007636",
+      "O1007632",
+      "O1007874"
+    ],
+    "connected_cable_id": "48FOC/F1000391/F1000412",
+    "nearest_cable_id": "48FOC/F1000391/F1000412",
+    "connected_fosc_id": "F0000011",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 22307.195392445414,
+    "stub_cable_length": 75.38907825245036,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004547",
+    "type": "MST",
+    "model": "MST12",
+    "position": [
+      388234.03390232514,
+      5069334.318017802
+    ],
+    "ont_count": 1,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007857"
+    ],
+    "connected_cable_id": "48FOC/F1000509/T1002415",
+    "nearest_cable_id": "48FOC/F1000509/T1002415",
+    "connected_fosc_id": "",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 19295.29612512091,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004562",
+    "type": "MST",
+    "model": "MST12",
+    "position": [
+      392866.8606741564,
+      5067225.446470044
+    ],
+    "ont_count": 3,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007657",
+      "O1007658",
+      "O1007662",
+      "O1007661",
+      "O1007656",
+      "O1007590",
+      "O1007664"
+    ],
+    "connected_cable_id": "48FOC/F1000392/T1001700",
+    "nearest_cable_id": "48FOC/F1000392/T1001700",
+    "connected_fosc_id": "F0002379",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 22426.75329383678,
+    "stub_cable_length": 85.1281700542447,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004574",
+    "type": "MST",
+    "model": "AER-TRM12",
+    "position": [
+      390933.7333077913,
+      5067234.199151389
+    ],
+    "ont_count": 4,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007780",
+      "O1007725",
+      "O1007724",
+      "O1007663",
+      "O1007859",
+      "O1007860",
+      "O1007580"
+    ],
+    "connected_cable_id": "144FOC/F1000391/F1000392",
+    "nearest_cable_id": "144FOC/F1000391/F1000392",
+    "connected_fosc_id": "F0000171",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 21981.336560272528,
+    "stub_cable_length": 25.08515893128627,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004581",
+    "type": "MST",
+    "model": "AER-TRM12",
+    "position": [
+      390987.9412767474,
+      5069037.77617722
+    ],
+    "ont_count": 1,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007721",
+      "O1007723"
+    ],
+    "connected_cable_id": "144FOC/F1000392/F1000390",
+    "nearest_cable_id": "144FOC/F1000392/F1000390",
+    "connected_fosc_id": "F0000935",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 20855.343628307717,
+    "stub_cable_length": 246.4717721125805,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004627",
+    "type": "Aerial Terminal",
+    "model": "AER-TRM12",
+    "position": [
+      393685.4084213861,
+      5063146.619379597
+    ],
+    "ont_count": 1,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007616"
+    ],
+    "connected_cable_id": "48FOC/F1000406/F1000394",
+    "nearest_cable_id": "48FOC/F1000406/F1000394",
+    "connected_fosc_id": "",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 23896.35956308083,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004657",
+    "type": "MST",
+    "model": "AER-TRM12",
+    "position": [
+      389186.5729186698,
+      5062502.721341933
+    ],
+    "ont_count": 1,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007648"
+    ],
+    "connected_cable_id": "48FOC/F1000398/T1001731",
+    "nearest_cable_id": "48FOC/F1000398/T1001731",
+    "connected_fosc_id": "F0000962",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 21788.125522724262,
+    "stub_cable_length": 636.2870284197327,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004682",
+    "type": "MST",
+    "model": "MST12",
+    "position": [
+      390875.9523006182,
+      5064997.449786604
+    ],
+    "ont_count": 1,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007871"
+    ],
+    "connected_cable_id": "96FOC/F1000391/F1000397",
+    "nearest_cable_id": "96FOC/F1000391/F1000397",
+    "connected_fosc_id": "F0000157",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 22493.461839387684,
+    "stub_cable_length": 257.01133155105134,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004702",
+    "type": "MST",
+    "model": "AER-TRM12",
+    "position": [
+      390336.8822124485,
+      5065262.424752398
+    ],
+    "ont_count": 1,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007628"
+    ],
+    "connected_cable_id": "48FOC/F1000391/F1000412",
+    "nearest_cable_id": "48FOC/F1000391/F1000412",
+    "connected_fosc_id": "F0000011",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 21869.46650808642,
+    "stub_cable_length": 536.1609558821464,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004703",
+    "type": "MST",
+    "model": "AER-TRM12",
+    "position": [
+      390851.12050463026,
+      5063820.575969741
+    ],
+    "ont_count": 1,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007872"
+    ],
+    "connected_cable_id": "96FOC/F1000391/F1000397",
+    "nearest_cable_id": "96FOC/F1000391/F1000397",
+    "connected_fosc_id": "F0000176",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 22812.797467341574,
+    "stub_cable_length": 590.6653215499858,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004704",
+    "type": "MST",
+    "model": "AER-TRM12",
+    "position": [
+      391350.1981943462,
+      5065246.601831825
+    ],
+    "ont_count": 2,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007718",
+      "O1007717"
+    ],
+    "connected_cable_id": "144FOC/F1000393/F1000391",
+    "nearest_cable_id": "144FOC/F1000393/F1000391",
+    "connected_fosc_id": "F0000157",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 22855.74885787316,
+    "stub_cable_length": 459.15886612090384,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004707",
+    "type": "Aerial Terminal",
+    "model": "AER-TRM12",
+    "position": [
+      390841.218386047,
+      5062181.528428488
+    ],
+    "ont_count": 1,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007654"
+    ],
+    "connected_cable_id": "12FOC/F1000397/T1001719",
+    "nearest_cable_id": "12FOC/F1000397/T1001719",
+    "connected_fosc_id": "",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 23283.955880508074,
+    "removed_distant_onts": []
+  },
+  {
+    "terminal_id": "T0004716",
+    "type": "MST",
+    "model": "MST12",
+    "position": [
+      389296.8302222243,
+      5065285.132390901
+    ],
+    "ont_count": 1,
+    "port_limit": 12,
+    "connected_onts": [
+      "O1007635",
+      "O1007633"
+    ],
+    "connected_cable_id": "48FOC/F1000391/F1000412",
+    "nearest_cable_id": "48FOC/F1000391/F1000412",
+    "connected_fosc_id": "",
+    "nearest_fosc_id": null,
+    "distance_to_cable_m": 0.0,
+    "distance_to_fosc_m": 19659.748764766056,
+    "removed_distant_onts": []
+  }
+]

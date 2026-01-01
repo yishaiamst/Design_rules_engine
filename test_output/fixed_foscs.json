@@ -1,0 +1,294 @@
+[
+  {
+    "position": [
+      390891.0505443153,
+      5065249.8111633025
+    ],
+    "triggers": [
+      "junction",
+      "long_segment"
+    ],
+    "merged_count": 2,
+    "trigger": "junction+long_segment",
+    "fosc_id": "F0000157"
+  },
+  {
+    "position": [
+      390946.9362256098,
+      5067255.373311181
+    ],
+    "triggers": [
+      "junction",
+      "long_segment"
+    ],
+    "merged_count": 2,
+    "trigger": "junction+long_segment",
+    "fosc_id": "F0000171",
+    "distance_to_cable_m": 2.5696530526041657
+  },
+  {
+    "position": [
+      390837.806944098,
+      5063229.734148867
+    ],
+    "triggers": [
+      "junction",
+      "long_segment"
+    ],
+    "merged_count": 2,
+    "trigger": "junction+long_segment",
+    "fosc_id": "F0000176",
+    "distance_to_cable_m": 1.7744635880029245
+  },
+  {
+    "position": [
+      390918.263533215,
+      5069274.054167696
+    ],
+    "triggers": [
+      "junction",
+      "long_segment"
+    ],
+    "merged_count": 2,
+    "trigger": "junction+long_segment",
+    "fosc_id": "F0000935",
+    "distance_to_cable_m": 4.730081577811211
+  },
+  {
+    "position": [
+      394968.89261246653,
+      5065172.762442791
+    ],
+    "triggers": [
+      "junction",
+      "long_segment"
+    ],
+    "merged_count": 2,
+    "trigger": "junction+long_segment",
+    "fosc_id": "F0000943",
+    "distance_to_cable_m": 2.1581748983353886
+  },
+  {
+    "position": [
+      392923.4199516877,
+      5065217.79602571
+    ],
+    "triggers": [
+      "junction",
+      "long_segment"
+    ],
+    "merged_count": 2,
+    "trigger": "junction+long_segment",
+    "fosc_id": "F0000944",
+    "distance_to_cable_m": 1.194917861300498
+  },
+  {
+    "position": [
+      394820.0422374255,
+      5063121.123515518
+    ],
+    "trigger": "junction",
+    "cable_count": 2,
+    "cable_indices": [
+      789,
+      767
+    ],
+    "fosc_id": "F0000961",
+    "distance_to_cable_m": 1.124309174631097
+  },
+  {
+    "position": [
+      389808.09665968735,
+      5062629.558434709
+    ],
+    "trigger": "junction",
+    "cable_count": 2,
+    "cable_indices": [
+      768,
+      769
+    ],
+    "fosc_id": "F0000962",
+    "distance_to_cable_m": 1.9538895188840857
+  },
+  {
+    "position": [
+      392952.19870897714,
+      5067227.439322158
+    ],
+    "trigger": "long_segment",
+    "cable_index": 770,
+    "distance_from_start": 2000.0,
+    "fosc_id": "F0002379"
+  },
+  {
+    "position": [
+      394935.0767316737,
+      5063118.574188025
+    ],
+    "trigger": "long_segment",
+    "cable_index": 789,
+    "distance_from_start": 2000.0,
+    "fosc_id": "F0002382"
+  },
+  {
+    "fosc_id": "F0000011",
+    "position": [
+      390872.9988385977,
+      5065255.530277879
+    ],
+    "connected_cables": [
+      "144FOC/F1000391/FDH104010",
+      "24FOC/F1000391/FDH104010",
+      "144FOC/F1000391/F1000392",
+      "144FOC/F1000393/F1000391",
+      "48FOC/F1000391/F1000412",
+      "96FOC/F1000391/F1000397"
+    ],
+    "junction_cable_count": 6,
+    "restored": true,
+    "nearby_terminal": null
+  },
+  {
+    "fosc_id": "F0000013",
+    "position": [
+      390872.9988385977,
+      5065255.530277879
+    ],
+    "connected_cables": [
+      "144FOC/F1000391/FDH104010",
+      "24FOC/F1000391/FDH104010"
+    ],
+    "junction_cable_count": 2,
+    "restored": true,
+    "nearby_terminal": null
+  },
+  {
+    "fosc_id": "F0000015",
+    "position": [
+      390953.25118110335,
+      5067265.50091165
+    ],
+    "connected_cables": [
+      "144FOC/F1000390/F1000502",
+      "144FOC/F1000392/F1000390"
+    ],
+    "junction_cable_count": 2,
+    "restored": true,
+    "nearby_terminal": null
+  },
+  {
+    "fosc_id": "F0000017",
+    "position": [
+      390872.9988385977,
+      5065255.530277879
+    ],
+    "connected_cables": [
+      "144FOC/F1000396/F1000399",
+      "144FOC/F1000399/F1000393"
+    ],
+    "junction_cable_count": 2,
+    "restored": true,
+    "nearby_terminal": null
+  },
+  {
+    "fosc_id": "F0000019",
+    "position": [
+      390872.9988385977,
+      5065255.530277879
+    ],
+    "connected_cables": [
+      "144FOC/F1000399/F1000393",
+      "144FOC/F1000393/F1000391"
+    ],
+    "junction_cable_count": 2,
+    "restored": true,
+    "nearby_terminal": null
+  },
+  {
+    "fosc_id": "F0000021",
+    "position": [
+      390872.9988385977,
+      5065255.530277879
+    ],
+    "connected_cables": [
+      "144FOC/F1000391/F1000392",
+      "144FOC/F1000392/F1000390",
+      "48FOC/F1000392/T1001700"
+    ],
+    "junction_cable_count": 3,
+    "restored": true,
+    "nearby_terminal": null
+  },
+  {
+    "fosc_id": "F0000023",
+    "position": [
+      390872.9988385977,
+      5065255.530277879
+    ],
+    "connected_cables": [
+      "48FOC/F1000406/F1000394",
+      "96FOC/F1000395/F1000406"
+    ],
+    "junction_cable_count": 2,
+    "restored": true,
+    "nearby_terminal": null
+  },
+  {
+    "fosc_id": "F0000025",
+    "position": [
+      390872.9988385977,
+      5065255.530277879
+    ],
+    "connected_cables": [
+      "48FOC/F1000397/F1000398",
+      "96FOC/F1000391/F1000397",
+      "12FOC/F1000397/T1001719"
+    ],
+    "junction_cable_count": 3,
+    "restored": true,
+    "nearby_terminal": null
+  },
+  {
+    "fosc_id": "F0000027",
+    "position": [
+      390872.9988385977,
+      5065255.530277879
+    ],
+    "connected_cables": [
+      "48FOC/F1000397/F1000398",
+      "48FOC/F1000398/T1001731"
+    ],
+    "junction_cable_count": 2,
+    "restored": true,
+    "nearby_terminal": null
+  },
+  {
+    "fosc_id": "F0000029",
+    "position": [
+      390872.9988385977,
+      5065255.530277879
+    ],
+    "connected_cables": [
+      "144FOC/F1000393/F1000391",
+      "144FOC/F1000399/F1000393"
+    ],
+    "junction_cable_count": 2,
+    "restored": true,
+    "nearby_terminal": "T0004286"
+  },
+  {
+    "fosc_id": "F0000031",
+    "position": [
+      390953.25118110335,
+      5067265.50091165
+    ],
+    "connected_cables": [
+      "48FOC/F1000392/T1001700",
+      "144FOC/F1000391/F1000392",
+      "144FOC/F1000392/F1000390"
+    ],
+    "junction_cable_count": 3,
+    "restored": true,
+    "nearby_terminal": "T0004574"
+  }
+]

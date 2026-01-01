@@ -1,0 +1,217 @@
+{
+  "summary": {
+    "total_terminals": 9808,
+    "aerial_terminals": 7031,
+    "msts": 2777,
+    "terminals_at_2cable_junctions": 2993,
+    "onts_served": 22747
+  },
+  "terminal_count": 9808,
+  "fosc_summary": {
+    "total_foscs": 8,
+    "logical_cables": 7,
+    "total_segments": 4539,
+    "junctions_total": 0,
+    "junctions_tcross": 0,
+    "junctions_y": 0,
+    "junctions_4plus": 0,
+    "long_segment_foscs": 8,
+    "merged": 0,
+    "trigger_distribution": {
+      "long_segment": 8
+    },
+    "junction_type_distribution": {}
+  },
+  "terminals_sample": [
+    {
+      "terminal_id": "T0000001",
+      "type": "Aerial Terminal",
+      "model": "AER-TRM12",
+      "position": [
+        442100.0,
+        5058730.0
+      ],
+      "ont_count": 0,
+      "port_limit": 12,
+      "connected_onts": [],
+      "connected_cable_id": "",
+      "connected_fosc_id": "",
+      "nearest_fosc_id": null,
+      "distance_to_cable_m": 0.0,
+      "distance_to_fosc_m": null,
+      "placement_reason": "2-cable_junction",
+      "junction_type": "T-cross"
+    },
+    {
+      "terminal_id": "T0000002",
+      "type": "Aerial Terminal",
+      "model": "AER-TRM12",
+      "position": [
+        440750.0,
+        5057390.0
+      ],
+      "ont_count": 0,
+      "port_limit": 12,
+      "connected_onts": [],
+      "connected_cable_id": "",
+      "connected_fosc_id": "",
+      "nearest_fosc_id": null,
+      "distance_to_cable_m": 0.0,
+      "distance_to_fosc_m": null,
+      "placement_reason": "2-cable_junction",
+      "junction_type": "T-cross"
+    },
+    {
+      "terminal_id": "T0000003",
+      "type": "Aerial Terminal",
+      "model": "AER-TRM12",
+      "position": [
+        439310.0,
+        5056270.0
+      ],
+      "ont_count": 0,
+      "port_limit": 12,
+      "connected_onts": [],
+      "connected_cable_id": "",
+      "connected_fosc_id": "",
+      "nearest_fosc_id": null,
+      "distance_to_cable_m": 0.0,
+      "distance_to_fosc_m": null,
+      "placement_reason": "2-cable_junction",
+      "junction_type": "T-cross"
+    },
+    {
+      "terminal_id": "T0000004",
+      "type": "Aerial Terminal",
+      "model": "AER-TRM12",
+      "position": [
+        434360.0,
+        5061080.0
+      ],
+      "ont_count": 0,
+      "port_limit": 12,
+      "connected_onts": [],
+      "connected_cable_id": "",
+      "connected_fosc_id": "",
+      "nearest_fosc_id": null,
+      "distance_to_cable_m": 0.0,
+      "distance_to_fosc_m": null,
+      "placement_reason": "2-cable_junction",
+      "junction_type": "T-cross"
+    },
+    {
+      "terminal_id": "T0000005",
+      "type": "Aerial Terminal",
+      "model": "AER-TRM12",
+      "position": [
+        435020.0,
+        5062240.0
+      ],
+      "ont_count": 0,
+      "port_limit": 12,
+      "connected_onts": [],
+      "connected_cable_id": "",
+      "connected_fosc_id": "",
+      "nearest_fosc_id": null,
+      "distance_to_cable_m": 0.0,
+      "distance_to_fosc_m": null,
+      "placement_reason": "2-cable_junction",
+      "junction_type": "T-cross"
+    },
+    {
+      "terminal_id": "T0000006",
+      "type": "Aerial Terminal",
+      "model": "AER-TRM12",
+      "position": [
+        433830.0,
+        5077030.0
+      ],
+      "ont_count": 0,
+      "port_limit": 12,
+      "connected_onts": [],
+      "connected_cable_id": "",
+      "connected_fosc_id": "",
+      "nearest_fosc_id": null,
+      "distance_to_cable_m": 0.0,
+      "distance_to_fosc_m": null,
+      "placement_reason": "2-cable_junction",
+      "junction_type": "T-cross"
+    },
+    {
+      "terminal_id": "T0000007",
+      "type": "Aerial Terminal",
+      "model": "AER-TRM12",
+      "position": [
+        440760.0,
+        5068630.0
+      ],
+      "ont_count": 0,
+      "port_limit": 12,
+      "connected_onts": [],
+      "connected_cable_id": "",
+      "connected_fosc_id": "",
+      "nearest_fosc_id": null,
+      "distance_to_cable_m": 0.0,
+      "distance_to_fosc_m": null,
+      "placement_reason": "2-cable_junction",
+      "junction_type": "T-cross"
+    },
+    {
+      "terminal_id": "T0000008",
+      "type": "Aerial Terminal",
+      "model": "AER-TRM12",
+      "position": [
+        439790.0,
+        5067720.0
+      ],
+      "ont_count": 0,
+      "port_limit": 12,
+      "connected_onts": [],
+      "connected_cable_id": "",
+      "connected_fosc_id": "",
+      "nearest_fosc_id": null,
+      "distance_to_cable_m": 0.0,
+      "distance_to_fosc_m": null,
+      "placement_reason": "2-cable_junction",
+      "junction_type": "T-cross"
+    },
+    {
+      "terminal_id": "T0000009",
+      "type": "Aerial Terminal",
+      "model": "AER-TRM12",
+      "position": [
+        437130.0,
+        5066000.0
+      ],
+      "ont_count": 0,
+      "port_limit": 12,
+      "connected_onts": [],
+      "connected_cable_id": "",
+      "connected_fosc_id": "",
+      "nearest_fosc_id": null,
+      "distance_to_cable_m": 0.0,
+      "distance_to_fosc_m": null,
+      "placement_reason": "2-cable_junction",
+      "junction_type": "T-cross"
+    },
+    {
+      "terminal_id": "T0000010",
+      "type": "Aerial Terminal",
+      "model": "AER-TRM12",
+      "position": [
+        444160.0,
+        5075470.0
+      ],
+      "ont_count": 0,
+      "port_limit": 12,
+      "connected_onts": [],
+      "connected_cable_id": "",
+      "connected_fosc_id": "",
+      "nearest_fosc_id": null,
+      "distance_to_cable_m": 0.0,
+      "distance_to_fosc_m": null,
+      "placement_reason": "2-cable_junction",
+      "junction_type": "T-cross"
+    }
+  ]
+}

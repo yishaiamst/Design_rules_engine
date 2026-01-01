@@ -1,0 +1,35 @@
+{
+  "fosc_validation": {
+    "matches": 676,
+    "only_actual": 1433,
+    "only_generated": 1,
+    "match_rate": 32.053105737316265,
+    "total_actual": 2109,
+    "total_generated": 675
+  },
+  "terminal_validation": {
+    "matches": 2201,
+    "only_actual": 4169,
+    "only_generated": 5792,
+    "match_rate": 34.55259026687598,
+    "total_actual": 6370,
+    "total_generated": 8108
+  },
+  "phase3_summary": {
+    "total_terminals": 8108,
+    "aerial_terminals": 5746,
+    "msts": 2362,
+    "terminals_at_2cable_junctions": 2993,
+    "onts_served": 16334,
+    "foscs_placed": 675,
+    "total_foscs": 675
+  },
+  "actual_types": {
+    "Aerial Terminal": 3775,
+    "MST": 2595
+  },
+  "generated_types": {
+    "Aerial Terminal": 5746,
+    "MST": 2362
+  }
+}

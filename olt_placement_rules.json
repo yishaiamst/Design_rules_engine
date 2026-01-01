@@ -1,0 +1,93 @@
+{
+  "version": "1.0",
+  "generated_at": "2025-11-04",
+  "rules": {
+    "R15_OLT_MAX_DISTANCE": {
+      "rule_id": "R15_OLT_MAX_DISTANCE",
+      "category": "OLT Placement",
+      "description": "Maximum path length from OLT to any ONT must not exceed 20 km",
+      "applies_to": [
+        "olt",
+        "ont"
+      ],
+      "validation_criteria": [
+        "Path length from OLT to ONT \u2264 20,000 m",
+        "All ONT paths must be complete (reach OLT)"
+      ],
+      "thresholds": {
+        "max_distance_m": 20000,
+        "max_distance_km": 20.0
+      },
+      "current_status": {
+        "total_paths": 22320,
+        "violations": 895,
+        "violation_percentage": 4.01,
+        "max_observed_km": 31.71,
+        "p95_distance_km": 19.49
+      },
+      "confidence_score": 1.0,
+      "source_files": [
+        "olt_ont_paths.json"
+      ]
+    },
+    "R16_OLT_PLACEMENT_STRATEGY": {
+      "rule_id": "R16_OLT_PLACEMENT_STRATEGY",
+      "category": "OLT Placement",
+      "description": "Simplified pocket-based OLT placement: If there is a pocket of ONTs, those pockets need their own OLT. Large communities (\u22652000) and medium communities (500-2000) always get OLT. Isolated small communities (>15km from others) also get OLT. User can review and optimize later.",
+      "applies_to": [
+        "olt"
+      ],
+      "validation_criteria": [
+        "Cluster ONTs into initial pockets by proximity (2 km radius)",
+        "Iteratively merge pockets that are <15km apart",
+        "After merging, validate merged pocket diameter (must be \u226415km)",
+        "If merged pocket diameter >15km, split into smaller pockets",
+        "When adding new community, check distance to all existing pockets and merge if <15km",
+        "Re-validate all pockets after each merge operation",
+        "If pocket \u2265 2000 ONTs \u2192 always place OLT at pocket centroid",
+        "If pocket 500-2000 ONTs \u2192 always place OLT at pocket centroid (user can review/remove later)",
+        "If pocket < 500 ONTs and >15km from nearest pocket \u2192 place OLT (isolated pocket)",
+        "If pocket < 500 ONTs and \u226415km from nearest pocket \u2192 assign to nearest OLT (within 20 km)",
+        "Validate: All ONTs within 20km of assigned OLT (R15)",
+        "User review: Flag OLTs <5km apart for potential merging"
+      ],
+      "thresholds": {
+        "large_community_size": 2000,
+        "medium_community_min": 500,
+        "medium_community_max": 2000,
+        "small_community_max": 500,
+        "isolation_distance_km": 15.0,
+        "cluster_radius_km": 2.0,
+        "max_assignment_distance_km": 20.0,
+        "review_distance_km": 5.0,
+        "max_pocket_diameter_km": 15.0,
+        "merge_distance_km": 15.0
+      },
+      "empirical_evidence": {
+        "total_olts_analyzed": 17,
+        "olts_serving_2000_plus": 3,
+        "olts_serving_1000_2000": 7,
+        "olts_serving_500_1000": 6,
+        "olts_serving_under_500": 1,
+        "smallest_olt_example": {
+          "olt_id": "301",
+          "subscriber_count": 313,
+          "mean_distance_km": 1.49,
+          "max_distance_km": 19.15,
+          "rationale": "Isolated community with compact distribution"
+        }
+      },
+      "recommendations": {
+        "current_violation_rate": 0.04,
+        "suggested_olt_count_increase": "Consider additional OLTs if violation rate > 5%",
+        "placement_priority": "Pocket-based placement: Each ONT pocket gets its own OLT (500+ subscribers or isolated). User can review and optimize later.",
+        "simplification_rationale": "Simplified logic: 500-2000 always gets OLT (consistent with 2000+ rule). User can review and remove redundant OLTs during optimization phase."
+      },
+      "confidence_score": 0.95,
+      "source_files": [
+        "olt_ont_paths.json",
+        "olt_subscriber_density_analysis.json"
+      ]
+    }
+  }
+}

@@ -169,6 +169,28 @@ def generate_design(ont_geojson_path: str,
             olts,
             config
         )
+        
+        # Phase 3b: Refine MST placement (fix design issues)
+        try:
+            from phases.phase3b_refine_mst_placement import refine_mst_placement
+            print("Phase 3b: Refining MST placement...")
+            refined_terminals, refined_foscs, new_msts, phase3b_summary = refine_mst_placement(
+                terminals,
+                foscs,
+                ont_geojson,
+                fiber_cable_geojson,
+                config
+            )
+            terminals = refined_terminals
+            foscs = refined_foscs
+            print(f"  ✓ Refined {len(terminals)} terminals and {len(foscs)} FOSCs")
+        except ImportError as e:
+            print(f"  ⏳ Phase 3b not available: {e}")
+        except Exception as e:
+            print(f"  ⚠️  Phase 3b error: {e}")
+            import traceback
+            traceback.print_exc()
+        
         design_state["terminals"] = terminals
         
         # Generate Terminal GeoJSON

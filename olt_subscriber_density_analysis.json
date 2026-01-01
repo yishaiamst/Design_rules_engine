@@ -1,0 +1,413 @@
+{
+  "overall_statistics": {
+    "total_olts": 17,
+    "total_onts": 22769,
+    "subscriber_distribution": {
+      "mean": 1339.35,
+      "median": 1468,
+      "min": 313,
+      "max": 2237,
+      "p25": 742.5,
+      "p75": 1953.5,
+      "p90": 2178.6,
+      "p95": 0
+    }
+  },
+  "olt_statistics": {
+    "101": {
+      "ont_count": 2237,
+      "total_paths": 2237,
+      "complete_paths": 2237,
+      "completion_rate": 100.0,
+      "distance_stats": {
+        "mean_km": 8.55,
+        "median_km": 7.11,
+        "min_km": 0.21,
+        "max_km": 26.75,
+        "p95_km": 23.49
+      }
+    },
+    "102": {
+      "ont_count": 2164,
+      "total_paths": 2164,
+      "complete_paths": 2147,
+      "completion_rate": 99.21441774491682,
+      "distance_stats": {
+        "mean_km": 2.56,
+        "median_km": 1.89,
+        "min_km": 0.06,
+        "max_km": 11.8,
+        "p95_km": 7.59
+      }
+    },
+    "402": {
+      "ont_count": 2006,
+      "total_paths": 2006,
+      "complete_paths": 1995,
+      "completion_rate": 99.45164506480559,
+      "distance_stats": {
+        "mean_km": 15.35,
+        "median_km": 16.31,
+        "min_km": 0.08,
+        "max_km": 31.71,
+        "p95_km": 23.5
+      }
+    },
+    "403": {
+      "ont_count": 1980,
+      "total_paths": 1980,
+      "complete_paths": 1980,
+      "completion_rate": 100.0,
+      "distance_stats": {
+        "mean_km": 13.45,
+        "median_km": 12.7,
+        "min_km": 0.26,
+        "max_km": 25.33,
+        "p95_km": 20.81
+      }
+    },
+    "103": {
+      "ont_count": 1927,
+      "total_paths": 1927,
+      "complete_paths": 1917,
+      "completion_rate": 99.48105864037365,
+      "distance_stats": {
+        "mean_km": 2.8,
+        "median_km": 2.29,
+        "min_km": 0.03,
+        "max_km": 8.83,
+        "p95_km": 7.19
+      }
+    },
+    "104": {
+      "ont_count": 1696,
+      "total_paths": 1696,
+      "complete_paths": 1665,
+      "completion_rate": 98.17216981132076,
+      "distance_stats": {
+        "mean_km": 2.24,
+        "median_km": 2.08,
+        "min_km": 0.01,
+        "max_km": 6.73,
+        "p95_km": 5.05
+      }
+    },
+    "502": {
+      "ont_count": 1690,
+      "total_paths": 1690,
+      "complete_paths": 1688,
+      "completion_rate": 99.88165680473374,
+      "distance_stats": {
+        "mean_km": 1.43,
+        "median_km": 0.97,
+        "min_km": 0.1,
+        "max_km": 7.52,
+        "p95_km": 3.96
+      }
+    },
+    "201": {
+      "ont_count": 1580,
+      "total_paths": 1580,
+      "complete_paths": 1578,
+      "completion_rate": 99.87341772151899,
+      "distance_stats": {
+        "mean_km": 2.34,
+        "median_km": 1.83,
+        "min_km": 0.1,
+        "max_km": 12.13,
+        "p95_km": 6.83
+      }
+    },
+    "401": {
+      "ont_count": 1468,
+      "total_paths": 1468,
+      "complete_paths": 1466,
+      "completion_rate": 99.86376021798365,
+      "distance_stats": {
+        "mean_km": 10.25,
+        "median_km": 10.75,
+        "min_km": 0.18,
+        "max_km": 22.34,
+        "p95_km": 20.03
+      }
+    },
+    "105": {
+      "ont_count": 1440,
+      "total_paths": 1440,
+      "complete_paths": 1440,
+      "completion_rate": 100.0,
+      "distance_stats": {
+        "mean_km": 3.68,
+        "median_km": 2.92,
+        "min_km": 0.22,
+        "max_km": 14.79,
+        "p95_km": 8.47
+      }
+    },
+    "202": {
+      "ont_count": 888,
+      "total_paths": 888,
+      "complete_paths": 706,
+      "completion_rate": 79.5045045045045,
+      "distance_stats": {
+        "mean_km": 2.66,
+        "median_km": 1.48,
+        "min_km": 0.04,
+        "max_km": 12.52,
+        "p95_km": 10.99
+      }
+    },
+    "303": {
+      "ont_count": 836,
+      "total_paths": 836,
+      "complete_paths": 832,
+      "completion_rate": 99.52153110047847,
+      "distance_stats": {
+        "mean_km": 1.76,
+        "median_km": 1.31,
+        "min_km": 0.08,
+        "max_km": 6.91,
+        "p95_km": 4.35
+      }
+    },
+    "501": {
+      "ont_count": 810,
+      "total_paths": 810,
+      "complete_paths": 801,
+      "completion_rate": 98.88888888888889,
+      "distance_stats": {
+        "mean_km": 2.12,
+        "median_km": 1.16,
+        "min_km": 0.16,
+        "max_km": 11.67,
+        "p95_km": 8.71
+      }
+    },
+    "107": {
+      "ont_count": 675,
+      "total_paths": 675,
+      "complete_paths": 675,
+      "completion_rate": 100.0,
+      "distance_stats": {
+        "mean_km": 3.57,
+        "median_km": 3.47,
+        "min_km": 0.12,
+        "max_km": 13.94,
+        "p95_km": 6.44
+      }
+    },
+    "106": {
+      "ont_count": 552,
+      "total_paths": 552,
+      "complete_paths": 552,
+      "completion_rate": 100.0,
+      "distance_stats": {
+        "mean_km": 5.07,
+        "median_km": 4.33,
+        "min_km": 0.75,
+        "max_km": 13.41,
+        "p95_km": 11.52
+      }
+    },
+    "302": {
+      "ont_count": 507,
+      "total_paths": 507,
+      "complete_paths": 506,
+      "completion_rate": 99.80276134122288,
+      "distance_stats": {
+        "mean_km": 1.51,
+        "median_km": 1.39,
+        "min_km": 0.11,
+        "max_km": 11.11,
+        "p95_km": 3.1
+      }
+    },
+    "301": {
+      "ont_count": 313,
+      "total_paths": 313,
+      "complete_paths": 313,
+      "completion_rate": 100.0,
+      "distance_stats": {
+        "mean_km": 1.49,
+        "median_km": 1.34,
+        "min_km": 0.15,
+        "max_km": 19.15,
+        "p95_km": 2.8
+      }
+    }
+  },
+  "categories": {
+    "small": {
+      "min": 0,
+      "max": 500,
+      "count": 1,
+      "olts": [
+        {
+          "olt_id": "301",
+          "ont_count": 313,
+          "mean_distance_km": 1.49,
+          "max_distance_km": 19.15
+        }
+      ]
+    },
+    "medium": {
+      "min": 500,
+      "max": 1000,
+      "count": 6,
+      "olts": [
+        {
+          "olt_id": "106",
+          "ont_count": 552,
+          "mean_distance_km": 5.07,
+          "max_distance_km": 13.41
+        },
+        {
+          "olt_id": "107",
+          "ont_count": 675,
+          "mean_distance_km": 3.57,
+          "max_distance_km": 13.94
+        },
+        {
+          "olt_id": "202",
+          "ont_count": 888,
+          "mean_distance_km": 2.66,
+          "max_distance_km": 12.52
+        },
+        {
+          "olt_id": "302",
+          "ont_count": 507,
+          "mean_distance_km": 1.51,
+          "max_distance_km": 11.11
+        },
+        {
+          "olt_id": "303",
+          "ont_count": 836,
+          "mean_distance_km": 1.76,
+          "max_distance_km": 6.91
+        },
+        {
+          "olt_id": "501",
+          "ont_count": 810,
+          "mean_distance_km": 2.12,
+          "max_distance_km": 11.67
+        }
+      ]
+    },
+    "large": {
+      "min": 1000,
+      "max": 2000,
+      "count": 7,
+      "olts": [
+        {
+          "olt_id": "103",
+          "ont_count": 1927,
+          "mean_distance_km": 2.8,
+          "max_distance_km": 8.83
+        },
+        {
+          "olt_id": "104",
+          "ont_count": 1696,
+          "mean_distance_km": 2.24,
+          "max_distance_km": 6.73
+        },
+        {
+          "olt_id": "105",
+          "ont_count": 1440,
+          "mean_distance_km": 3.68,
+          "max_distance_km": 14.79
+        },
+        {
+          "olt_id": "201",
+          "ont_count": 1580,
+          "mean_distance_km": 2.34,
+          "max_distance_km": 12.13
+        },
+        {
+          "olt_id": "401",
+          "ont_count": 1468,
+          "mean_distance_km": 10.25,
+          "max_distance_km": 22.34
+        },
+        {
+          "olt_id": "403",
+          "ont_count": 1980,
+          "mean_distance_km": 13.45,
+          "max_distance_km": 25.33
+        },
+        {
+          "olt_id": "502",
+          "ont_count": 1690,
+          "mean_distance_km": 1.43,
+          "max_distance_km": 7.52
+        }
+      ]
+    },
+    "very_large": {
+      "min": 2000,
+      "max": Infinity,
+      "count": 3,
+      "olts": [
+        {
+          "olt_id": "101",
+          "ont_count": 2237,
+          "mean_distance_km": 8.55,
+          "max_distance_km": 26.75
+        },
+        {
+          "olt_id": "102",
+          "ont_count": 2164,
+          "mean_distance_km": 2.56,
+          "max_distance_km": 11.8
+        },
+        {
+          "olt_id": "402",
+          "ont_count": 2006,
+          "mean_distance_km": 15.35,
+          "max_distance_km": 31.71
+        }
+      ]
+    }
+  },
+  "recommendations": {
+    "current_threshold_analysis": {
+      "threshold_2000": {
+        "olts_above": 3,
+        "percentage": 17.65,
+        "description": "OLTs serving \u22652000 subscribers"
+      },
+      "threshold_1000": {
+        "olts_above": 10,
+        "percentage": 58.82,
+        "description": "OLTs serving \u22651000 subscribers"
+      },
+      "threshold_500": {
+        "olts_above": 16,
+        "percentage": 94.12,
+        "description": "OLTs serving \u2265500 subscribers"
+      }
+    },
+    "suggested_thresholds": {
+      "large_community": {
+        "threshold": 2000,
+        "rationale": "Very large communities requiring dedicated OLT",
+        "current_count": 3
+      },
+      "medium_community": {
+        "threshold": 1000,
+        "rationale": "Large communities that may benefit from dedicated OLT",
+        "current_count": 10
+      },
+      "small_community": {
+        "threshold": 500,
+        "rationale": "Small communities that may still warrant OLT placement if isolated or far from other OLTs",
+        "current_count": 16
+      }
+    },
+    "refined_rule_suggestion": {
+      "primary_threshold": 2000,
+      "secondary_threshold": 500,
+      "rule_text": "Place OLT at community center if: (1) Community has \u22652000 subscribers, OR (2) Community has \u2265500 subscribers AND is >15km from nearest existing OLT",
+      "rationale": "Current data shows 1 OLTs serving <500 subscribers, suggesting smaller communities may also warrant OLT placement under certain conditions"
+    }
+  }
+}

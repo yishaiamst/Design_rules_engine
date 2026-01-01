@@ -1,0 +1,52 @@
+{
+  "aerial_terminals": {
+    "total": 3770,
+    "ont_count_stats": {
+      "mean": 3.7,
+      "median": 3.0,
+      "min": 1,
+      "max": 22,
+      "distribution": {
+        "1-3": 2236,
+        "4-6": 1007,
+        "7-9": 330,
+        "10-12": 139,
+        "13+": 38
+      }
+    },
+    "cable_patterns": {
+      "fosc_to_terminal": 1264,
+      "fosc_to_fosc": 1210,
+      "direct_to_terminal": 1293,
+      "unknown": 3
+    },
+    "with_fosc_connection": 1,
+    "with_fosc_percentage": 0.0
+  },
+  "mst_terminals": {
+    "total": 2600,
+    "ont_count_stats": {
+      "mean": 3.73,
+      "median": 3,
+      "min": 1,
+      "max": 22,
+      "distribution": {
+        "1-3": 1403,
+        "4-6": 735,
+        "7-9": 245,
+        "10-12": 84,
+        "13-24": 18,
+        "25+": 0
+      }
+    },
+    "cable_patterns": {
+      "fosc_to_fosc": 2,
+      "fosc_to_terminal": 2332,
+      "direct_to_terminal": 263,
+      "unknown": 3
+    },
+    "with_fosc_connection": 2599,
+    "with_fosc_percentage": 100.0,
+    "with_stub_cable": 2595
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "validation_type": "3+_cable_junction_foscs",
+  "generated_count": 675,
+  "matched_count": 674,
+  "match_rate": 99.85185185185185,
+  "unmatched_generated": 1,
+  "tolerance_m": 50.0,
+  "status": "\u2705 EXCELLENT",
+  "recommendation": "3+ junction FOSC placement is highly accurate. Proceed to next validation step.",
+  "match_distance_stats": {
+    "mean": 3.7497943336410398,
+    "median": 3.9103760457192984,
+    "min": 0.3385593033524277,
+    "max": 6.988341386852669
+  },
+  "summary_stats": {
+    "junctions_3plus": 675,
+    "junctions_y": 429,
+    "junctions_4plus": 246
+  }
+}

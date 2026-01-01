@@ -1,0 +1,177 @@
+================================================================================
+ID RELATIONSHIP DISCOVERY SUMMARY
+================================================================================
+
+Generated: 2025-11-04 22:21:37
+Total Relationships: 27455
+
+STATISTICS BY LAYER:
+--------------------------------------------------------------------------------
+
+ONT:
+  Total IDs: 766
+  As source: 7142 relationships
+  As target: 0 relationships
+  Total connections: 7142
+
+TERMINAL:
+  Total IDs: 4847
+  As source: 12946 relationships
+  As target: 4845 relationships
+  Total connections: 17791
+
+FOSC:
+  Total IDs: 860
+  As source: 1648 relationships
+  As target: 5588 relationships
+  Total connections: 7236
+
+FDH:
+  Total IDs: 210
+  As source: 788 relationships
+  As target: 3657 relationships
+  Total connections: 4445
+
+OLT:
+  Total IDs: 17
+  As source: 1010 relationships
+  As target: 6683 relationships
+  Total connections: 7693
+
+FIBER_CABLE:
+  Total IDs: 670
+  As source: 3763 relationships
+  As target: 983 relationships
+  Total connections: 4746
+
+STUB_CABLE:
+  Total IDs: 686
+  As source: 158 relationships
+  As target: 4301 relationships
+  Total connections: 4459
+
+DROP_CABLE:
+  Total IDs: 1669
+  As source: 0 relationships
+  As target: 1398 relationships
+  Total connections: 1398
+
+================================================================================
+MATCH TYPE DISTRIBUTION:
+--------------------------------------------------------------------------------
+
+  field_reference: 19592 (71.4%)
+  cable_id_contains: 4031 (14.7%)
+  exact: 3832 (14.0%)
+
+================================================================================
+CONFIDENCE DISTRIBUTION:
+--------------------------------------------------------------------------------
+
+  0.9-1.0: 23424 (85.3%)
+  0.8-0.9: 4031 (14.7%)
+  0.7-0.8: 0 (0.0%)
+  0.5-0.7: 0 (0.0%)
+
+================================================================================
+RELATIONSHIP TYPE DISTRIBUTION:
+--------------------------------------------------------------------------------
+
+  references_olt: 6473 (23.6%)
+  ont_connects_to_terminal: 4845 (17.6%)
+  terminal_connects_to_fosc: 4845 (17.6%)
+  fiber_cable_connects: 4746 (17.3%)
+  references_fdh: 3229 (11.8%)
+  drop_cable_connects: 1030 (3.8%)
+  related: 961 (3.5%)
+  stub_cable_connects: 906 (3.3%)
+  fosc_connects_to_fdh: 210 (0.8%)
+  fdh_connects_to_olt: 210 (0.8%)
+
+================================================================================
+SAMPLE RELATIONSHIPS (High Confidence):
+--------------------------------------------------------------------------------
+
+  ont::FDH201008 -> terminal::FDH201008
+    Type: ont_connects_to_terminal, Match: exact, Confidence: 1.0
+    Exact ID match
+
+  ont::FDH202007 -> terminal::FDH202007
+    Type: ont_connects_to_terminal, Match: exact, Confidence: 1.0
+    Exact ID match
+
+  ont::FDH301042 -> terminal::FDH301042
+    Type: ont_connects_to_terminal, Match: exact, Confidence: 1.0
+    Exact ID match
+
+  ont::FDH303005 -> terminal::FDH303005
+    Type: ont_connects_to_terminal, Match: exact, Confidence: 1.0
+    Exact ID match
+
+  ont::FDH303035 -> terminal::FDH303035
+    Type: ont_connects_to_terminal, Match: exact, Confidence: 1.0
+    Exact ID match
+
+  ont::FDH303011 -> terminal::FDH303011
+    Type: ont_connects_to_terminal, Match: exact, Confidence: 1.0
+    Exact ID match
+
+  ont::FDH103012 -> fosc::FDH103012
+    Type: related, Match: exact, Confidence: 1.0
+    Exact ID match
+
+  ont::FDH103009 -> fosc::FDH103009
+    Type: related, Match: exact, Confidence: 1.0
+    Exact ID match
+
+  ont::FDH103015 -> fosc::FDH103015
+    Type: related, Match: exact, Confidence: 1.0
+    Exact ID match
+
+  ont::FDH103006 -> fosc::FDH103006
+    Type: related, Match: exact, Confidence: 1.0
+    Exact ID match
+
+  ont::FDH103011 -> fosc::FDH103011
+    Type: related, Match: exact, Confidence: 1.0
+    Exact ID match
+
+  ont::FDH103008 -> fosc::FDH103008
+    Type: related, Match: exact, Confidence: 1.0
+    Exact ID match
+
+  ont::FDH103007 -> fosc::FDH103007
+    Type: related, Match: exact, Confidence: 1.0
+    Exact ID match
+
+  ont::FDH103001 -> fosc::FDH103001
+    Type: related, Match: exact, Confidence: 1.0
+    Exact ID match
+
+  ont::FDH103005 -> fosc::FDH103005
+    Type: related, Match: exact, Confidence: 1.0
+    Exact ID match
+
+  ont::FDH103004 -> fosc::FDH103004
+    Type: related, Match: exact, Confidence: 1.0
+    Exact ID match
+
+  ont::FDH103003 -> fosc::FDH103003
+    Type: related, Match: exact, Confidence: 1.0
+    Exact ID match
+
+  ont::FDH103002 -> fosc::FDH103002
+    Type: related, Match: exact, Confidence: 1.0
+    Exact ID match
+
+  ont::FDH103014 -> fosc::FDH103014
+    Type: related, Match: exact, Confidence: 1.0
+    Exact ID match
+
+  ont::FDH103010 -> fosc::FDH103010
+    Type: related, Match: exact, Confidence: 1.0
+    Exact ID match
+
+================================================================================
+END OF SUMMARY
+================================================================================

@@ -1,0 +1,37 @@
+{
+  "aerial_terminal": {
+    "total": 3775,
+    "connected_to_fosc": 2604,
+    "not_connected_to_fosc": 1171,
+    "connection_rate": 68.98013245033113,
+    "ont_count_stats": {
+      "min": 1,
+      "max": 1,
+      "mean": 1.0,
+      "median": 1
+    },
+    "distance_to_fosc_stats": {
+      "min": 0.0013185500208504578,
+      "max": 499.4217243775742,
+      "mean": 206.98511381916373
+    }
+  },
+  "mst": {
+    "total": 2595,
+    "connected_to_fosc": 2065,
+    "not_connected_to_fosc": 530,
+    "has_stub_cable": 0,
+    "connection_rate": 79.57610789980733,
+    "ont_count_stats": {
+      "min": 0,
+      "max": 0,
+      "mean": 0,
+      "median": 0
+    },
+    "distance_to_fosc_stats": {
+      "min": 4.303038487740844e-09,
+      "max": 499.9938136565513,
+      "mean": 222.23046472480806
+    }
+  }
+}

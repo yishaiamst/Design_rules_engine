@@ -1,0 +1,18 @@
+{
+  "drop_cable_limits": {
+    "by_type": {
+      "Aerial Terminal": {
+        "min": 1,
+        "max": 1,
+        "mean": 1.0,
+        "median": 1,
+        "count": 1
+      }
+    },
+    "by_model": {}
+  },
+  "stub_cable_sizes": {
+    "by_model": {}
+  },
+  "inferred_port_limits": {}
+}

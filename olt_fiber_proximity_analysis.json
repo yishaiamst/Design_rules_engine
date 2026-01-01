@@ -1,0 +1,328 @@
+{
+  "summary": {
+    "total_olts_analyzed": 17,
+    "olts_with_nearby_fiber": 17,
+    "distance_to_fiber_statistics": {
+      "mean_km": 0.0,
+      "median_km": 0.0,
+      "min_km": 0.0,
+      "max_km": 0.01
+    },
+    "nearest_fiber_size_distribution": {
+      "288": 8,
+      "144": 8,
+      "96": 1
+    },
+    "recommendations": [
+      "OLTs are very close to fiber infrastructure (<1km). Current placement strategy is optimal."
+    ]
+  },
+  "detailed_analysis": {
+    "104": {
+      "olt_id": "104",
+      "olt_name": "Central_Manitoulin",
+      "olt_coordinates": {
+        "lat": 0.49729725321248,
+        "lon": -79.81960070241254
+      },
+      "nearest_fiber_cable": {
+        "id": "288FOC/104/F1000360",
+        "fiber_count": 288,
+        "size": "288F",
+        "distance_km": 0.0,
+        "nearest_point": {
+          "lat": 0.49729725321248,
+          "lon": -79.81960070241254
+        }
+      }
+    },
+    "105": {
+      "olt_id": "105",
+      "olt_name": "Gore Bay",
+      "olt_coordinates": {
+        "lat": 0.681572013797414,
+        "lon": -80.01781713907897
+      },
+      "nearest_fiber_cable": {
+        "id": "288FOC/105/F1000490",
+        "fiber_count": 288,
+        "size": "288F",
+        "distance_km": 0.0,
+        "nearest_point": {
+          "lat": 0.681572013797414,
+          "lon": -80.01781713907897
+        }
+      }
+    },
+    "102": {
+      "olt_id": "102",
+      "olt_name": "Assiginack",
+      "olt_coordinates": {
+        "lat": 0.5070254716052531,
+        "lon": -79.56605447400908
+      },
+      "nearest_fiber_cable": {
+        "id": "288FOC/102/F1000100",
+        "fiber_count": 288,
+        "size": "288F",
+        "distance_km": 0.0,
+        "nearest_point": {
+          "lat": 0.5070254716052531,
+          "lon": -79.56605447400908
+        }
+      }
+    },
+    "107": {
+      "olt_id": "107",
+      "olt_name": "Tehkummah",
+      "olt_coordinates": {
+        "lat": 0.43980566165780033,
+        "lon": -79.70401182123946
+      },
+      "nearest_fiber_cable": {
+        "id": "144FOC/107/F1000723",
+        "fiber_count": 144,
+        "size": "144F",
+        "distance_km": 0.0,
+        "nearest_point": {
+          "lat": 0.43980566165780033,
+          "lon": -79.70401182123946
+        }
+      }
+    },
+    "403": {
+      "olt_id": "403",
+      "olt_name": "St Joseph OLT",
+      "olt_coordinates": {
+        "lat": 1.020278784138867,
+        "lon": -81.06386173970917
+      },
+      "nearest_fiber_cable": {
+        "id": "144FOC/403/F4000519",
+        "fiber_count": 144,
+        "size": "144F",
+        "distance_km": 0.0,
+        "nearest_point": {
+          "lat": 1.0202787841388608,
+          "lon": -81.06386173970918
+        }
+      }
+    },
+    "402": {
+      "olt_id": "402",
+      "olt_name": "Desbarats OLT",
+      "olt_coordinates": {
+        "lat": 1.1437635556785821,
+        "lon": -81.02210365489597
+      },
+      "nearest_fiber_cable": {
+        "id": "144FOC/402/F4000335",
+        "fiber_count": 144,
+        "size": "144F",
+        "distance_km": 0.0,
+        "nearest_point": {
+          "lat": 1.143763555678566,
+          "lon": -81.02210365489597
+        }
+      }
+    },
+    "106": {
+      "olt_id": "106",
+      "olt_name": "Silver_Water",
+      "olt_coordinates": {
+        "lat": 0.6528524366772075,
+        "lon": -80.30939949603884
+      },
+      "nearest_fiber_cable": {
+        "id": "144FOC/106/F1000581",
+        "fiber_count": 144,
+        "size": "144F",
+        "distance_km": 0.0,
+        "nearest_point": {
+          "lat": 0.6528524366772075,
+          "lon": -80.30939949603884
+        }
+      }
+    },
+    "101": {
+      "olt_id": "101",
+      "olt_name": "Little Current",
+      "olt_coordinates": {
+        "lat": 0.7433069035384676,
+        "lon": -79.65009294886009
+      },
+      "nearest_fiber_cable": {
+        "id": "288FOC/101/F1000020",
+        "fiber_count": 288,
+        "size": "288F",
+        "distance_km": 0.0,
+        "nearest_point": {
+          "lat": 0.7433069035384676,
+          "lon": -79.65009294886009
+        }
+      }
+    },
+    "103": {
+      "olt_id": "103",
+      "olt_name": "M'Chigeeng",
+      "olt_coordinates": {
+        "lat": 0.5989672981118446,
+        "lon": -79.81025939624088
+      },
+      "nearest_fiber_cable": {
+        "id": "288F/103/F1000283",
+        "fiber_count": 288,
+        "size": "288F",
+        "distance_km": 0.0,
+        "nearest_point": {
+          "lat": 0.5989672981118446,
+          "lon": -79.81025939624088
+        }
+      }
+    },
+    "401": {
+      "olt_id": "401",
+      "olt_name": "Echo bay OLT",
+      "olt_coordinates": {
+        "lat": 1.286838187905012,
+        "lon": -81.11408654816286
+      },
+      "nearest_fiber_cable": {
+        "id": "144FOC/401/F4000121",
+        "fiber_count": 144,
+        "size": "144F",
+        "distance_km": 0.0,
+        "nearest_point": {
+          "lat": 1.286838187905012,
+          "lon": -81.11408654816286
+        }
+      }
+    },
+    "202": {
+      "olt_id": "202",
+      "olt_name": "Blind River_FX_4_HUB_NNI",
+      "olt_coordinates": {
+        "lat": 0.961205459025237,
+        "lon": -80.35125698304363
+      },
+      "nearest_fiber_cable": {
+        "id": "288FOC/F2000068/202",
+        "fiber_count": 288,
+        "size": "288F",
+        "distance_km": 0.0,
+        "nearest_point": {
+          "lat": 0.9612054590277594,
+          "lon": -80.35125698304479
+        }
+      }
+    },
+    "201": {
+      "olt_id": "201",
+      "olt_name": "Huron Shores",
+      "olt_coordinates": {
+        "lat": 1.0537392663329186,
+        "lon": -80.70564831373919
+      },
+      "nearest_fiber_cable": {
+        "id": "288FOC/F2000070/201",
+        "fiber_count": 288,
+        "size": "288F",
+        "distance_km": 0.0,
+        "nearest_point": {
+          "lat": 1.0537392663354908,
+          "lon": -80.70564831374035
+        }
+      }
+    },
+    "301": {
+      "olt_id": "301",
+      "olt_name": "Elliot Lake",
+      "olt_coordinates": {
+        "lat": 1.1727108358726355,
+        "lon": -80.15008558159604
+      },
+      "nearest_fiber_cable": {
+        "id": "144FOC/F3000043/301",
+        "fiber_count": 144,
+        "size": "144F",
+        "distance_km": 0.0,
+        "nearest_point": {
+          "lat": 1.1727108358726355,
+          "lon": -80.15008558159604
+        }
+      }
+    },
+    "302": {
+      "olt_id": "302",
+      "olt_name": "Serpent River",
+      "olt_coordinates": {
+        "lat": 0.9837807600251836,
+        "lon": -80.06604302265643
+      },
+      "nearest_fiber_cable": {
+        "id": "144FOC/F3000045/302",
+        "fiber_count": 144,
+        "size": "144F",
+        "distance_km": 0.0,
+        "nearest_point": {
+          "lat": 0.9837807600251836,
+          "lon": -80.06604302265643
+        }
+      }
+    },
+    "303": {
+      "olt_id": "303",
+      "olt_name": "Massey",
+      "olt_coordinates": {
+        "lat": 0.9824834145054098,
+        "lon": -79.72418862789732
+      },
+      "nearest_fiber_cable": {
+        "id": "96FOC/F3000054/T3000504",
+        "fiber_count": 96,
+        "size": "96F",
+        "distance_km": 0.01,
+        "nearest_point": {
+          "lat": 0.982442810173842,
+          "lon": -79.72421030682875
+        }
+      }
+    },
+    "501": {
+      "olt_id": "501",
+      "olt_name": "Espanola_FX_4_HUB_NNI",
+      "olt_coordinates": {
+        "lat": 1.0199477772188814,
+        "lon": -79.53666789473048
+      },
+      "nearest_fiber_cable": {
+        "id": "144FOC/F5000146/501",
+        "fiber_count": 144,
+        "size": "144F",
+        "distance_km": 0.0,
+        "nearest_point": {
+          "lat": 1.0199477772188659,
+          "lon": -79.53666789473162
+        }
+      }
+    },
+    "502": {
+      "olt_id": "502",
+      "olt_name": "Lively_FX_4",
+      "olt_coordinates": {
+        "lat": 1.1265923256432941,
+        "lon": -79.25342444228069
+      },
+      "nearest_fiber_cable": {
+        "id": "288FOC/F5000176/502",
+        "fiber_count": 288,
+        "size": "288F",
+        "distance_km": 0.0,
+        "nearest_point": {
+          "lat": 1.1265923256458592,
+          "lon": -79.25342444228184
+        }
+      }
+    }
+  }
+}

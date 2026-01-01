@@ -1,0 +1,23 @@
+{
+  "drop_cables": {
+    "actual_count": 1,
+    "generated_count": 22747,
+    "actual_sizes": {
+      "1F": 1
+    },
+    "generated_sizes": {
+      "1F": 22747
+    }
+  },
+  "stub_cables": {
+    "actual_count": 0,
+    "generated_count": 2786,
+    "actual_sizes": {},
+    "generated_sizes": {
+      "4F": 1543,
+      "6F": 631,
+      "12F": 202,
+      "8F": 410
+    }
+  }
+}

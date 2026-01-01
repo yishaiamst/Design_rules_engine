@@ -1,0 +1,119 @@
+{
+  "metadata": {
+    "generation_timestamp": null,
+    "total_evaluations": 10533
+  },
+  "baselines": {
+    "drop_cable_lengths": {
+      "count": 20403,
+      "mean": 115.47,
+      "std": 96.29,
+      "min": 5.0,
+      "max": 1464.0,
+      "median": 90.0,
+      "p25": 54.0,
+      "p75": 145.0
+    },
+    "stub_cable_lengths": {
+      "count": 9313,
+      "mean": 307.61,
+      "std": 333.44,
+      "min": 1.0,
+      "max": 2944.0,
+      "median": 212.0,
+      "p25": 100.0,
+      "p75": 414.5
+    },
+    "fiber_cable_lengths": {
+      "count": 185219,
+      "mean": 663.24,
+      "std": 644.27,
+      "min": 1.0,
+      "max": 2699.0,
+      "median": 422.0,
+      "p25": 142.0,
+      "p75": 1065.0
+    },
+    "onts_per_terminal": {
+      "count": 6284,
+      "mean": 11.0,
+      "std": 16.25,
+      "min": 1,
+      "max": 567,
+      "median": 8.0,
+      "p25": 4.0,
+      "p75": 13.0
+    },
+    "terminal_connection_stats": {
+      "total_terminals": 6284,
+      "with_drops": 5,
+      "with_stubs": 2586,
+      "with_fiber": 3693
+    }
+  },
+  "adaptive_thresholds": {
+    "R10_AERIAL_TERMINAL": {
+      "ont_count_min": 1,
+      "ont_count_max": 35,
+      "drop_length_max": 259.9,
+      "original": {
+        "ont_min": 1,
+        "ont_max": 12,
+        "drop_max": 150
+      },
+      "adjustment": {
+        "ont_min_change": 0,
+        "ont_max_change": 23,
+        "drop_max_change": 109.9
+      }
+    },
+    "R11_MST": {
+      "ont_count_min": 1,
+      "ont_count_max": 43,
+      "stub_length_max": 500,
+      "original": {
+        "ont_min": 6,
+        "ont_max": 24,
+        "stub_max": 500
+      },
+      "adjustment": {
+        "ont_min_change": -5,
+        "ont_max_change": 19,
+        "stub_max_change": 0
+      }
+    },
+    "R12_FOSC": {
+      "fiber_connections_min": 2,
+      "fiber_length_threshold": 1800,
+      "original": {
+        "length_threshold": 1800
+      },
+      "adjustment": {
+        "length_threshold_change": 0
+      }
+    }
+  },
+  "results_summary": {
+    "total_evaluations": 10533,
+    "terminals_processed": 6283,
+    "foscs_processed": 1925,
+    "by_rule": {
+      "R10_AERIAL_TERMINAL_ADAPTIVE": 6283,
+      "R11_MST_ADAPTIVE": 1810,
+      "R12_FOSC_ADAPTIVE": 1925,
+      "R11_MST_LONG_REACH": 515
+    },
+    "matches_by_rule": {
+      "R10_AERIAL_TERMINAL_ADAPTIVE": 1,
+      "R11_MST_ADAPTIVE": 1802,
+      "R12_FOSC_ADAPTIVE": 1925,
+      "R11_MST_LONG_REACH": 515
+    },
+    "avg_confidence_by_rule": {
+      "R10_AERIAL_TERMINAL_ADAPTIVE": 0.557,
+      "R11_MST_ADAPTIVE": 0.999,
+      "R12_FOSC_ADAPTIVE": 0.622,
+      "R11_MST_LONG_REACH": 1.0
+    }
+  }
+}

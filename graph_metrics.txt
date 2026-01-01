@@ -1,0 +1,65 @@
+================================================================================
+DESIGN GRAPH METRICS
+================================================================================
+
+Generated: 2025-11-04 22:26:14
+
+BASIC STATISTICS:
+--------------------------------------------------------------------------------
+
+Total Nodes: 8225
+Total Edges: 27455
+Directed: True
+Multigraph: True
+
+IN-DEGREE DISTRIBUTION:
+--------------------------------------------------------------------------------
+
+Mean: 3.34
+Median: 1
+Min: 0
+Max: 1158
+
+OUT-DEGREE DISTRIBUTION:
+--------------------------------------------------------------------------------
+
+Mean: 3.34
+Median: 3
+Min: 0
+Max: 147
+
+CONNECTIVITY:
+--------------------------------------------------------------------------------
+
+Connected Components: 1
+Largest Component Size: 8225
+
+NODES BY LAYER:
+--------------------------------------------------------------------------------
+
+  terminal: 4847
+  fosc: 860
+  ont: 766
+  fiber_cable: 667
+  stub_cable: 554
+  drop_cable: 304
+  fdh: 210
+  olt: 17
+
+EDGES BY RELATIONSHIP TYPE:
+--------------------------------------------------------------------------------
+
+  references_olt: 6473
+  ont_connects_to_terminal: 4845
+  terminal_connects_to_fosc: 4845
+  fiber_cable_connects: 4746
+  references_fdh: 3229
+  drop_cable_connects: 1030
+  related: 961
+  stub_cable_connects: 906
+  fosc_connects_to_fdh: 210
+  fdh_connects_to_olt: 210
+
+================================================================================
+END OF METRICS
+================================================================================

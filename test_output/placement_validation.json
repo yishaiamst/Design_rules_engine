@@ -1,0 +1,29 @@
+{
+  "fosc_placement": {
+    "actual_count": 2109,
+    "generated_count": 6835,
+    "matched_count": 1978,
+    "match_rate": 93.78852536747273,
+    "unmatched_actual": 131,
+    "unmatched_generated": 4857
+  },
+  "terminal_placement": {
+    "actual_count": 6370,
+    "generated_count": 6815,
+    "matched_count": 4255,
+    "match_rate": 66.79748822605966,
+    "type_match_count": 2791,
+    "actual_by_type": {
+      "Aerial Terminal": 3775,
+      "MST": 2595
+    },
+    "generated_by_type": {
+      "Aerial Terminal": 4029,
+      "MST": 2786
+    },
+    "matched_by_type": {
+      "Aerial Terminal": 2198,
+      "MST": 593
+    }
+  }
+}

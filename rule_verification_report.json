@@ -1,0 +1,99 @@
+{
+  "timestamp": null,
+  "rules_checked": [
+    {
+      "rule_id": "CONNECTIVITY_ONT_TERMINAL",
+      "description": "ONT must connect to Terminal via drop cable",
+      "status": "PASS",
+      "details": {
+        "onts_with_terminal": 22190,
+        "onts_without_terminal": 295,
+        "percentage_without": 1.31
+      }
+    },
+    {
+      "rule_id": "HIERARCHY_TERMINAL_FOSC_FDH",
+      "description": "Terminal must connect to FOSC (splice closure) or FDH",
+      "status": "WARNING",
+      "details": {
+        "terminals_to_fosc": 4902,
+        "terminals_to_fdh": 70,
+        "orphaned_terminals": 1311,
+        "percentage_orphaned": 20.87
+      }
+    },
+    {
+      "rule_id": "HIERARCHY_FOSC_FDH",
+      "description": "FOSC must connect to FDH or another FOSC",
+      "status": "WARNING",
+      "details": {
+        "fosc_to_fdh": 176,
+        "fosc_to_fosc": 1409,
+        "orphaned_fosc": 340,
+        "percentage_orphaned": 17.66
+      }
+    },
+    {
+      "rule_id": "HIERARCHY_FDH_OLT",
+      "description": "FDH must connect to OLT",
+      "status": "PASS",
+      "details": {
+        "fdh_to_olt": 181,
+        "orphaned_fdh": 0,
+        "percentage_orphaned": 0.0
+      }
+    },
+    {
+      "rule_id": "CABLE_LAYER_CONSISTENCY",
+      "description": "Drop cables only used for ONT\u2192Terminal connections",
+      "status": "PASS",
+      "details": {
+        "drop_cable_usage": {
+          "ont\u2192terminal": 22491,
+          "terminal\u2192ont": 288,
+          "ont\u2192splice closure": 295
+        },
+        "stub_cable_usage": {
+          "terminal\u2192splice closure": 8182,
+          "terminal\u2192terminal": 1101,
+          "terminal\u2192fdh": 178,
+          "splice closure\u2192terminal": 30
+        },
+        "fiber_cable_usage": {
+          "splice closure\u2192splice closure": 119383,
+          "splice closure\u2192fdh": 14362,
+          "terminal\u2192splice closure": 20774,
+          "splice closure\u2192olt": 7958,
+          "terminal\u2192terminal": 15848,
+          "splice closure\u2192terminal": 6901
+        }
+      }
+    },
+    {
+      "rule_id": "PATH_COMPLETENESS",
+      "description": "ONT paths should reach OLT (\u226590% completion rate)",
+      "status": "PASS",
+      "details": {
+        "complete_paths": 22498,
+        "total_paths": 22769,
+        "completeness_rate": 98.81
+      }
+    },
+    {
+      "rule_id": "VIRTUAL_LINK_LIMITS",
+      "description": "Virtual links should be <20% of total links",
+      "status": "PASS",
+      "details": {
+        "virtual_links": 2856,
+        "total_links": 232331,
+        "virtual_rate": 1.23
+      }
+    }
+  ],
+  "summary": {
+    "total_rules": 7,
+    "passed": 5,
+    "failed": 0,
+    "warnings": 2
+  }
+}

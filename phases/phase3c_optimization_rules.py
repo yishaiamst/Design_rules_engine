@@ -2764,6 +2764,46 @@ def ensure_all_onts_connected(
     }
 
 
+def validate_stub_cable_routing(
+    terminal: Dict[str, Any],
+    fosc: Dict[str, Any],
+    cables: List[Dict[str, Any]]
+) -> Tuple[bool, str]:
+    """
+    Validate that a stub cable can be routed along fiber cables.
+    
+    Returns:
+        (is_valid, error_message)
+    """
+    from utils.cable_routing import route_stub_cable_along_fiber
+    from utils.spatial_utils import euclidean_distance
+    
+    terminal_pos = terminal.get("position")
+    fosc_pos = fosc.get("position")
+    terminal_cable_id = terminal.get("connected_cable_id")
+    fosc_connected_cables = fosc.get("connected_cables", [])
+    
+    if not terminal_pos or not fosc_pos:
+        return False, "Missing position data"
+    
+    term_pos_utm = (terminal_pos[0], terminal_pos[1]) if isinstance(terminal_pos, list) else terminal_pos
+    fosc_pos_utm = (fosc_pos[0], fosc_pos[1]) if isinstance(fosc_pos, list) else fosc_pos
+    
+    # Try to route
+    path, length, routed = route_stub_cable_along_fiber(
+        term_pos_utm,
+        fosc_pos_utm,
+        cables,
+        terminal_cable_id=terminal_cable_id,
+        fosc_connected_cables=fosc_connected_cables
+    )
+    
+    if not routed or path is None or len(path) <= 2:
+        return False, f"Cannot route stub cable along fiber (path has {len(path) if path else 0} points)"
+    
+    return True, "OK"
+
+
 def ensure_all_msts_connected_via_stub_cables(
     terminals: List[Dict[str, Any]],
     foscs: List[Dict[str, Any]],
@@ -2776,7 +2816,8 @@ def ensure_all_msts_connected_via_stub_cables(
     This rule ensures:
     1. All MSTs have a connected_fosc_id
     2. All MSTs have a stub_cable_length recorded
-    3. Stub cables route along fiber cable infrastructure (handled in visualization)
+    3. Stub cables MUST route along fiber cable infrastructure (VALIDATION)
+    4. If stub cable cannot route along fiber, find alternative FOSC or flag error
     
     Args:
         terminals: List of terminal dictionaries
@@ -2853,15 +2894,65 @@ def ensure_all_msts_connected_via_stub_cables(
         
         # Connect to nearest FOSC if within range
         if nearest_fosc_id and min_fosc_dist <= max_fosc_distance:
-            terminal["connected_fosc_id"] = nearest_fosc_id
-            terminal["stub_cable_length"] = min_fosc_dist
-            connections_made.append({
-                "terminal_id": terminal_id,
-                "fosc_id": nearest_fosc_id,
-                "distance": min_fosc_dist,
-                "action": f"Connected to FOSC {nearest_fosc_id} ({min_fosc_dist:.1f}m)"
-            })
-            print(f"  ✓ {terminal_id}: Connected to FOSC {nearest_fosc_id} ({min_fosc_dist:.1f}m)")
+            # Validate that stub cable can route along fiber
+            fosc = next((f for f in foscs if f.get("fosc_id") == nearest_fosc_id), None)
+            if fosc:
+                is_valid, error_msg = validate_stub_cable_routing(terminal, fosc, cables)
+                
+                if is_valid:
+                    terminal["connected_fosc_id"] = nearest_fosc_id
+                    terminal["stub_cable_length"] = min_fosc_dist
+                    connections_made.append({
+                        "terminal_id": terminal_id,
+                        "fosc_id": nearest_fosc_id,
+                        "distance": min_fosc_dist,
+                        "action": f"Connected to FOSC {nearest_fosc_id} ({min_fosc_dist:.1f}m, routed along fiber)"
+                    })
+                    print(f"  ✓ {terminal_id}: Connected to FOSC {nearest_fosc_id} ({min_fosc_dist:.1f}m, routed along fiber)")
+                else:
+                    # Try to find alternative FOSC that can be routed
+                    alternative_fosc_id = None
+                    alternative_dist = float('inf')
+                    
+                    for alt_fosc_id, alt_fosc_pos in fosc_positions.items():
+                        if alt_fosc_id == nearest_fosc_id:
+                            continue
+                        alt_dist = euclidean_distance(term_pos_utm[0], term_pos_utm[1], alt_fosc_pos[0], alt_fosc_pos[1])
+                        if alt_dist <= max_fosc_distance and alt_dist < alternative_dist:
+                            alt_fosc = next((f for f in foscs if f.get("fosc_id") == alt_fosc_id), None)
+                            if alt_fosc:
+                                alt_valid, _ = validate_stub_cable_routing(terminal, alt_fosc, cables)
+                                if alt_valid:
+                                    alternative_fosc_id = alt_fosc_id
+                                    alternative_dist = alt_dist
+                    
+                    if alternative_fosc_id:
+                        terminal["connected_fosc_id"] = alternative_fosc_id
+                        terminal["stub_cable_length"] = alternative_dist
+                        connections_made.append({
+                            "terminal_id": terminal_id,
+                            "fosc_id": alternative_fosc_id,
+                            "distance": alternative_dist,
+                            "action": f"Connected to alternative FOSC {alternative_fosc_id} ({alternative_dist:.1f}m, routed along fiber)"
+                        })
+                        print(f"  ✓ {terminal_id}: Connected to alternative FOSC {alternative_fosc_id} ({alternative_dist:.1f}m, routed along fiber)")
+                    else:
+                        # No valid FOSC found - flag as error
+                        print(f"  ❌ {terminal_id}: Cannot route stub cable to FOSC {nearest_fosc_id}: {error_msg}")
+                        print(f"    No alternative FOSC found with valid routing")
+                        terminal["connected_fosc_id"] = nearest_fosc_id  # Still set it, but mark as invalid
+                        terminal["stub_cable_length"] = min_fosc_dist
+                        terminal["stub_cable_valid"] = False
+            else:
+                terminal["connected_fosc_id"] = nearest_fosc_id
+                terminal["stub_cable_length"] = min_fosc_dist
+                connections_made.append({
+                    "terminal_id": terminal_id,
+                    "fosc_id": nearest_fosc_id,
+                    "distance": min_fosc_dist,
+                    "action": f"Connected to FOSC {nearest_fosc_id} ({min_fosc_dist:.1f}m)"
+                })
+                print(f"  ✓ {terminal_id}: Connected to FOSC {nearest_fosc_id} ({min_fosc_dist:.1f}m)")
         else:
             if nearest_fosc_id:
                 print(f"  ⚠ {terminal_id}: Nearest FOSC {nearest_fosc_id} is {min_fosc_dist:.1f}m away (beyond {max_fosc_distance}m limit)")

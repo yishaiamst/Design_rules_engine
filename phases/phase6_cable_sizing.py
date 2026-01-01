@@ -31,6 +31,7 @@ from collections import defaultdict, deque, Counter
 from utils.spatial_utils import euclidean_distance, point_to_line_distance
 from utils.geojson_utils import create_feature, create_feature_collection
 from phases.phase1_place_olts import calculate_required_cable_size
+from utils.network_graph import build_network_graph, NetworkGraph
 
 def load_intersection_patterns(pattern_file: str = "intersection_patterns.json") -> Dict[str, int]:
     """
@@ -387,349 +388,83 @@ def size_cables(
     
     print(f"    Indexed {len(cable_by_id)} cables by ID ({time.time() - start_time:.1f}s)")
     
-    # Step 1: Map OLTs to cables (use nearest_cable from Phase 1)
-    print("  Mapping OLTs to cables (using Phase 1 nearest_cable data)...")
-    cable_olt_map = defaultdict(list)  # cable_index -> [olt_info]
-    olt_extensions = []
+    # NEW APPROACH: Build network graph and find ONT→OLT paths
+    print("  Building network graph (tree structure)...")
+    graph = build_network_graph(
+        fiber_cable_geojson,
+        olts,
+        ont_geojson,
+        foscs=foscs,
+        terminals=terminals,
+        config=config,
+        tolerance_m=10.0
+    )
     
-    for olt in olts:
-        olt_pos = olt.get("position")
-        olt_id = olt.get("olt_id")
-        ont_count = olt.get("ont_count", 0)
+    # Find all ONT→OLT paths
+    print("  Finding ONT→OLT paths...")
+    ont_to_olt_paths = graph.find_all_ont_to_olt_paths(ont_geojson, olts)
+    print(f"    Found {len(ont_to_olt_paths)} paths from {len(ont_geojson.get('features', []))} ONTs")
+    
+    # Build ONT count map (each ONT counts as 1)
+    ont_counts = {}
+    for ont_feature in ont_geojson.get("features", []):
+        ont_props = ont_feature.get("properties", {})
+        ont_id = ont_props.get("id") or ont_props.get("ont_id", "")
+        if ont_id:
+            ont_counts[ont_id] = 1
+    
+    # Aggregate requirements along paths using graph
+    print("  Aggregating fiber requirements along paths...")
+    cable_ont_counts = defaultdict(int)  # cable_idx -> total ONT count
+    cable_olt_info = defaultdict(list)  # cable_idx -> [olt_info] (for tracking)
+    
+    # For each path, add ONT count to all cables on that path
+    for ont_id, path in ont_to_olt_paths.items():
+        ont_count = ont_counts.get(ont_id, 1)
+        cable_indices = graph.get_cables_on_path(path)
         
-        if not olt_pos or ont_count == 0:
-            continue
+        # Find OLT for this ONT
+        ont_feature = None
+        for feature in ont_geojson.get("features", []):
+            props = feature.get("properties", {})
+            if (props.get("id") or props.get("ont_id", "")) == ont_id:
+                ont_feature = feature
+                break
         
-        # Calculate required fibers from ONT count (bottom-up approach)
-        required_fibers = calculate_required_fibers_from_onts(ont_count, config)
+        olt_id = None
+        if ont_feature:
+            olt_id = ont_feature.get("properties", {}).get("olt_id") or ont_feature.get("properties", {}).get("oltid", "")
         
-        # Infrastructure minimum: at least 48F
-        required_fibers = max(required_fibers, min_infrastructure_size)
-        
-        # Use nearest_cable from Phase 1
-        nearest_cable_info = olt.get("nearest_cable")
-        if nearest_cable_info:
-            cable_id = nearest_cable_info.get("id")
-            distance_km = nearest_cable_info.get("distance_km", 0)
-            distance_m = distance_km * 1000
-            
-            # Find cable by ID
-            if cable_id in cable_by_id:
-                cable = cable_by_id[cable_id]
-                cable_idx = cable["index"]
-                
-                cable_olt_map[cable_idx].append({
-                    "olt_id": olt_id,
-                    "ont_count": ont_count,
-                    "required_fibers": required_fibers,
-                    "distance_m": distance_m
-                })
-                
-                # Auto-extend cable if needed and enabled
-                if auto_extend and distance_m > 10.0:
-                    # Find nearest point on cable (simplified)
-                    coords = cable["coordinates"]
-                    nearest_point = None
-                    min_dist = float('inf')
-                    
-                    for i in range(len(coords) - 1):
-                        dist = point_to_line_distance(olt_pos, coords[i], coords[i + 1])
-                        if dist < min_dist:
-                            min_dist = dist
-                            px, py = olt_pos
-                            x1, y1 = coords[i]
-                            x2, y2 = coords[i + 1]
-                            dx = x2 - x1
-                            dy = y2 - y1
-                            if dx == 0 and dy == 0:
-                                nearest_point = coords[i]
-                            else:
-                                t = max(0, min(1, ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy)))
-                                nearest_point = (x1 + t * dx, y1 + t * dy)
-                    
-                    if nearest_point:
-                        # Extend cable to OLT
-                        cables[cable_idx]["coordinates"].append(olt_pos)
-                        cables[cable_idx]["extended"] = True
-                        olt_extensions.append({
+        for cable_idx in cable_indices:
+            cable_ont_counts[cable_idx] += ont_count
+            if olt_id:
+                # Add OLT info (avoid duplicates)
+                existing_olt_ids = {o.get("olt_id") for o in cable_olt_info.get(cable_idx, [])}
+                if olt_id not in existing_olt_ids:
+                    # Find OLT data
+                    olt_data = None
+                    for olt in olts:
+                        if olt.get("olt_id") == olt_id:
+                            olt_data = olt
+                            break
+                    if olt_data:
+                        cable_olt_info[cable_idx].append({
                             "olt_id": olt_id,
-                            "cable_index": cable_idx,
-                            "extension_distance_m": distance_m
+                            "ont_count": olt_data.get("ont_count", 0)
                         })
     
-    print(f"    Mapped {len(cable_olt_map)} cables to OLTs")
-    if olt_extensions:
-        print(f"    Extended {len(olt_extensions)} cables to reach OLTs")
+    print(f"    Aggregated ONT counts for {len(cable_ont_counts)} cables")
     
-    # Step 2: Build cable network topology from geometry (NOT from FOSCs!)
-    print("  Building cable network topology from geometry...")
-    cable_connections = build_cable_network_from_geometry(cables, tolerance_m=10.0)
+    # Calculate required fibers for each cable
+    cable_fiber_requirements = {}
+    for cable_idx, total_onts in cable_ont_counts.items():
+        required_fibers = calculate_required_fibers_from_onts(total_onts, config)
+        required_fibers = max(required_fibers, min_infrastructure_size)
+        cable_fiber_requirements[cable_idx] = required_fibers
     
-    print(f"    Found {len(cable_connections)} cable connections")
+    print(f"    Calculated fiber requirements for {len(cable_fiber_requirements)} cables")
     
-    # Step 3: Build intersection map (where multiple cables meet)
-    print("  Identifying cable intersections...")
-    # Map intersection point -> list of cable indices that meet there
-    intersection_map = defaultdict(list)  # (rounded_x, rounded_y) -> [cable_indices]
-    tolerance_m = 10.0
-    grid_size = tolerance_m
-    
-    for cable_idx, cable in enumerate(cables):
-        coords = cable["coordinates"]
-        if not coords or len(coords) < 2:
-            continue
-        
-        # Check start and end points
-        start = coords[0]
-        end = coords[-1]
-        
-        # Round to grid
-        start_key = (int(start[0] / grid_size), int(start[1] / grid_size))
-        end_key = (int(end[0] / grid_size), int(end[1] / grid_size))
-        
-        intersection_map[start_key].append(cable_idx)
-        intersection_map[end_key].append(cable_idx)
-    
-    # Filter to only intersections (≥2 cables)
-    intersections = {pos: cable_list for pos, cable_list in intersection_map.items() if len(cable_list) >= 2}
-    print(f"    Found {len(intersections)} intersections")
-    
-    # Step 4: Determine directionality (which cables are upstream toward OLT)
-    print("  Determining cable directionality (upstream toward OLT)...")
-    # Build OLT position map for distance calculation
-    olt_positions = {}
-    for olt in olts:
-        olt_pos = olt.get("position")
-        if olt_pos:
-            olt_positions[olt.get("olt_id")] = olt_pos
-    
-    def distance_to_nearest_olt(cable_idx: int) -> float:
-        """Calculate minimum distance from cable to any OLT."""
-        cable = cables[cable_idx]
-        coords = cable["coordinates"]
-        if not coords:
-            return float('inf')
-        
-        min_dist = float('inf')
-        for olt_pos in olt_positions.values():
-            # Check distance to cable endpoints and midpoint
-            start = coords[0]
-            end = coords[-1]
-            mid_idx = len(coords) // 2
-            mid = coords[mid_idx] if mid_idx < len(coords) else start
-            
-            for point in [start, mid, end]:
-                dist = euclidean_distance(point[0], point[1], olt_pos[0], olt_pos[1])
-                min_dist = min(min_dist, dist)
-        return min_dist
-    
-    # Step 5: Bidirectional propagation from OLTs
-    # Strategy: 
-    # 1. Start from OLT-connected cables (seed points)
-    # 2. Propagate in BOTH directions:
-    #    - Downstream (farther from OLT): toward ONTs (distribution network)
-    #    - Upstream (closer to OLT): toward backbone (trunk network)
-    # 3. At intersections: aggregate downstream requirements to upstream cable
-    # 4. Use BFS to ensure full network traversal
-    print("  Propagating fiber requirements bidirectionally from OLTs...")
-    cable_fiber_requirements = defaultdict(int)  # cable_idx -> total_required_fibers
-    cable_olt_info = defaultdict(list)  # cable_idx -> [olt_info] (for tracking)
-    cable_effective_ont_count = defaultdict(int)  # cable_idx -> effective ONT count (capacity)
-    
-    # Load intersection patterns from actual design (for multi-factor sizing)
-    print("  Loading intersection patterns from actual design...")
-    patterns = load_intersection_patterns("intersection_patterns.json")
-    print(f"    Loaded {len(patterns)} patterns")
-    
-    # Initialize with direct OLT connections (seed points for propagation)
-    for cable_idx, olt_list in cable_olt_map.items():
-        # Calculate total ONT count from all OLTs connected to this cable
-        total_onts = sum(olt["ont_count"] for olt in olt_list)
-        cable_effective_ont_count[cable_idx] = total_onts
-        
-        # Calculate required fibers from ONT count using service formula
-        total_fibers = calculate_required_fibers_from_onts(total_onts, config)
-        cable_fiber_requirements[cable_idx] = max(total_fibers, min_infrastructure_size)
-        cable_olt_info[cable_idx].extend(olt_list)
-    
-    print(f"    Initialized {len(cable_fiber_requirements)} OLT-connected cables as seed points")
-    
-    # Build intersection-to-cables map for fast lookup
-    intersection_cables = defaultdict(list)  # intersection_pos -> [cable_indices]
-    for intersection_pos, cable_indices in intersections.items():
-        if len(cable_indices) >= 2:
-            intersection_cables[intersection_pos] = cable_indices
-    
-    # Step 6: Bidirectional BFS propagation (iterative until stable)
-    # Key insight: OLTs are in the middle - we need to propagate both:
-    # - Downstream: OLT → ONT (distribution)
-    # - Upstream: Backbone → OLT (trunk)
-    # Strategy:
-    # 1. At intersections: Aggregate effective ONT counts from downstream to upstream
-    # 2. Along segments: Propagate effective ONT count upstream (toward backbone)
-    # 3. Recalculate fiber requirements from effective ONT counts using service formula
-    print("  Running bidirectional BFS propagation...")
-    max_iterations = 50
-    distance_tolerance = 10.0  # Small tolerance for directionality (meters)
-    
-    for iteration in range(max_iterations):
-        changed = False
-        iteration_changes = 0
-        
-        # Phase 1: Process intersections to aggregate at junction points
-        # KEY INSIGHT: Aggregate ONT counts (capacity), not fiber counts!
-        # Then recalculate fibers using service formula to prevent over-aggregation
-        for intersection_pos, cable_indices in intersection_cables.items():
-            if len(cable_indices) < 2:
-                continue
-            
-            # Determine upstream/downstream based on distance to nearest OLT
-            cable_distances = [(cable_idx, distance_to_nearest_olt(cable_idx)) for cable_idx in cable_indices]
-            cable_distances.sort(key=lambda x: x[1])  # Closest to OLT first (upstream)
-            
-            # Identify upstream cable(s) - closest to OLT
-            min_dist = cable_distances[0][1]
-            upstream_candidates = [cd[0] for cd in cable_distances if cd[1] <= min_dist + distance_tolerance]
-            downstream_cable_indices = [cd[0] for cd in cable_distances if cd[0] not in upstream_candidates]
-            
-            # Aggregate effective ONT counts from all downstream cables (capacity-based aggregation)
-            # Use effective_ont_count which includes both direct OLT connections and downstream capacity
-            total_downstream_onts = sum(cable_effective_ont_count.get(cable_idx, 0) for cable_idx in downstream_cable_indices)
-            downstream_olt_info = []
-            downstream_sizes = []  # Collect downstream cable sizes for pattern matching
-            for downstream_cable_idx in downstream_cable_indices:
-                # Collect OLT info for propagation
-                downstream_olt_info.extend(cable_olt_info.get(downstream_cable_idx, []))
-                # Collect downstream cable sizes for pattern-based sizing
-                downstream_fibers = cable_fiber_requirements.get(downstream_cable_idx, 0)
-                if downstream_fibers > 0:
-                    downstream_sizes.append(downstream_fibers)
-            
-            # Update each upstream candidate
-            for upstream_cable_idx in upstream_candidates:
-                # Include upstream cable's own effective ONT count
-                upstream_onts = cable_effective_ont_count.get(upstream_cable_idx, 0)
-                total_onts = total_downstream_onts + upstream_onts
-                
-                # Update effective ONT count for upstream cable (aggregated capacity)
-                cable_effective_ont_count[upstream_cable_idx] = total_onts
-                
-                # Calculate capacity-based fiber requirement
-                if total_onts > 0:
-                    required_fibers_from_capacity = calculate_required_fibers_from_onts(total_onts, config)
-                else:
-                    required_fibers_from_capacity = min_infrastructure_size
-                
-                # Multi-factor sizing: Consider capacity, patterns, and rules
-                current_upstream_fibers = cable_fiber_requirements.get(upstream_cable_idx, 0)
-                required_upstream_fibers = calculate_multi_factor_cable_size(
-                    required_fibers_from_capacity=required_fibers_from_capacity,
-                    downstream_sizes=downstream_sizes,
-                    patterns=patterns,
-                    standard_sizes=standard_sizes,
-                    min_infrastructure_size=min_infrastructure_size,
-                    config=config
-                )
-                
-                # Use the maximum of current and calculated requirement
-                required_upstream_fibers = max(current_upstream_fibers, required_upstream_fibers)
-                
-                if required_upstream_fibers > current_upstream_fibers:
-                    cable_fiber_requirements[upstream_cable_idx] = required_upstream_fibers
-                    changed = True
-                    iteration_changes += 1
-                    
-                    # Propagate OLT info to upstream cable (merge unique OLTs)
-                    for olt_info in downstream_olt_info:
-                        olt_id = olt_info.get("olt_id")
-                        existing_olt_ids = {o.get("olt_id") for o in cable_olt_info.get(upstream_cable_idx, [])}
-                        if olt_id not in existing_olt_ids:
-                            if upstream_cable_idx not in cable_olt_info:
-                                cable_olt_info[upstream_cable_idx] = []
-                            cable_olt_info[upstream_cable_idx].append(olt_info)
-        
-        # Phase 2: BFS propagation through all connected cables (bidirectional)
-        # Key insight: Use capacity-based aggregation (effective ONT counts), not fiber count summation
-        # - Upstream (toward backbone): Propagate effective ONT counts, recalculate fibers
-        # - Downstream (toward ONTs): Only initialize minimum size, don't propagate capacity
-        # Process all cables that have effective_ont_count (not just those with fiber_requirements)
-        cables_to_process = list(cable_effective_ont_count.keys())
-        
-        for cable_idx in cables_to_process:
-            this_onts = cable_effective_ont_count.get(cable_idx, 0)
-            if this_onts == 0:
-                continue  # Skip cables without effective ONT count
-            
-            this_fibers = cable_fiber_requirements.get(cable_idx, 0)
-            
-            # Find all connected cables
-            connected = cable_connections.get(cable_idx, [])
-            this_dist = distance_to_nearest_olt(cable_idx)
-            
-            for other_cable_idx in connected:
-                other_dist = distance_to_nearest_olt(other_cable_idx)
-                other_fibers = cable_fiber_requirements.get(other_cable_idx, 0)
-                other_onts = cable_effective_ont_count.get(other_cable_idx, 0)
-                
-                # Determine direction and propagate accordingly
-                if other_dist <= this_dist + distance_tolerance:
-                    # Upstream (toward backbone): Propagate effective ONT count (pass through, don't aggregate)
-                    # Aggregation happens at intersections (Phase 1), not along segments
-                    # This ensures capacity flows upstream toward backbone
-                    if this_onts > 0:
-                        # Propagate effective ONT count upstream if upstream has less or none
-                        # Use max to preserve any existing capacity from other paths
-                        new_onts = max(other_onts, this_onts)
-                        
-                        if new_onts > other_onts:
-                            cable_effective_ont_count[other_cable_idx] = new_onts
-                            
-                            # Recalculate fibers from propagated ONT count
-                            required_fibers_from_onts = calculate_required_fibers_from_onts(new_onts, config)
-                            required_fibers_from_onts = max(required_fibers_from_onts, min_infrastructure_size)
-                            
-                            # Upstream cable needs max(current, recalculated requirement)
-                            required_fibers = max(other_fibers, required_fibers_from_onts)
-                            
-                            if required_fibers > other_fibers:
-                                cable_fiber_requirements[other_cable_idx] = required_fibers
-                                changed = True
-                                iteration_changes += 1
-                                
-                                # Propagate OLT info upstream (merge unique OLTs)
-                                if cable_idx in cable_olt_info:
-                                    for olt_info in cable_olt_info[cable_idx]:
-                                        olt_id = olt_info.get("olt_id")
-                                        existing_olt_ids = {o.get("olt_id") for o in cable_olt_info.get(other_cable_idx, [])}
-                                        if olt_id not in existing_olt_ids:
-                                            if other_cable_idx not in cable_olt_info:
-                                                cable_olt_info[other_cable_idx] = []
-                                            cable_olt_info[other_cable_idx].append(olt_info)
-                else:
-                    # Downstream (toward ONTs): Only initialize minimum size, don't propagate capacity
-                    # Downstream cables maintain their individual sizes - they get capacity from:
-                    # 1. Their own direct OLT connections
-                    # 2. Intersections where they're downstream (handled in Phase 1)
-                    # We don't propagate capacity along connected segments to prevent over-aggregation
-                    if other_fibers == 0:
-                        # Initialize with minimum infrastructure size if no requirement yet
-                        cable_fiber_requirements[other_cable_idx] = min_infrastructure_size
-                        # Don't set effective_ont_count here - let it come from OLT connections or intersections
-                        changed = True
-                        iteration_changes += 1
-        
-        if not changed:
-            print(f"      Converged after {iteration + 1} iterations")
-            break
-        
-        if (iteration + 1) % 5 == 0:
-            cables_with_req = len([c for c in cable_fiber_requirements.values() if c > 0])
-            print(f"      Iteration {iteration + 1}: {cables_with_req} cables with requirements ({iteration_changes} changes)")
-    
-    cables_with_req = len([c for c in cable_fiber_requirements.values() if c > 0])
-    print(f"    Traced {cables_with_req} cables with fiber requirements (bidirectional propagation)")
-    
-    # Step 4: Size each cable based on fiber requirements
+    # Step 2: Size each cable based on fiber requirements
     print("  Calculating cable sizes from fiber requirements...")
     sized_cables = []
     size_distribution = defaultdict(int)
@@ -737,6 +472,7 @@ def size_cables(
     for cable_idx, cable in enumerate(cables):
         required_fibers = cable_fiber_requirements.get(cable_idx, 0)
         olt_connections = cable_olt_info.get(cable_idx, [])
+        total_onts = cable_ont_counts.get(cable_idx, 0)
         
         if required_fibers > 0:
             # Select smallest standard size that meets fiber requirement
@@ -750,7 +486,8 @@ def size_cables(
                 # Exceeds largest size - use multiple cables or largest size
                 cable_size = max(standard_sizes)
             
-            total_onts = sum(olt["ont_count"] for olt in olt_connections)
+            # Cap at max_size
+            cable_size = min(cable_size, max_size)
             
             sized_cable = {
                 "index": cable_idx,
@@ -760,9 +497,10 @@ def size_cables(
                 "required_fibers": required_fibers,
                 "downstream_onts": total_onts,
                 "olt_connections": olt_connections,
-                "connected_olts": [olt["olt_id"] for olt in olt_connections],
+                "connected_olts": [olt.get("olt_id") for olt in olt_connections],
+                "sizing_method": "graph_path_based",
                 "properties": cable.get("properties", {}),
-                "extended": cable.get("extended", False)
+                "extended": False
             }
         else:
             # No OLT connection - use minimum infrastructure size (48F)
@@ -775,6 +513,7 @@ def size_cables(
                 "downstream_onts": 0,
                 "olt_connections": [],
                 "connected_olts": [],
+                "sizing_method": "minimum_default",
                 "properties": cable.get("properties", {}),
                 "extended": False
             }
@@ -961,8 +700,8 @@ def size_cables(
     summary = {
         "total_cables": len(sized_cables),
         "size_distribution": dict(size_distribution),
-        "cables_with_olts": len(cable_olt_map),
-        "cables_extended": len(olt_extensions) if 'olt_extensions' in locals() else 0,
+        "cables_with_olts": len(cable_fiber_requirements),
+        "cables_extended": 0,  # Graph-based approach doesn't extend cables
         "fosc_aggregations": fosc_aggregations,
         "max_size": max_size,
         "default_size_override": default_size_override,
@@ -975,8 +714,7 @@ def size_cables(
     print(f"    Cables with OLT connections: {summary['cables_with_olts']}")
     print(f"    FOSC aggregations: {fosc_aggregations}")
     print(f"    Max size limit: {max_size}F")
-    if olt_extensions:
-        print(f"    Cables extended: {len(olt_extensions)}")
+    print(f"    ONT paths found: {len(ont_to_olt_paths)}")
     
     return (sized_cables, summary)
 

@@ -450,8 +450,9 @@ def route_stub_cable_along_fiber(
     fosc_pos: Tuple[float, float],
     cables: List[Dict[str, Any]],
     terminal_cable_id: Optional[str] = None,
-    preferred_cable_id: Optional[str] = None
-) -> Tuple[List[Tuple[float, float]], float]:
+    preferred_cable_id: Optional[str] = None,
+    fosc_connected_cables: Optional[List[str]] = None
+) -> Tuple[List[Tuple[float, float]], float, bool]:
     """
     Route a stub cable from terminal to FOSC along fiber cable infrastructure.
     
@@ -460,62 +461,215 @@ def route_stub_cable_along_fiber(
         fosc_pos: FOSC position
         cables: List of fiber cable dictionaries
         terminal_cable_id: Optional cable ID that terminal is connected to
-        preferred_cable_id: Optional preferred cable ID to route along (e.g., "48FOC/F1000398/T1001731")
+        preferred_cable_id: Optional preferred cable ID to route along
+        fosc_connected_cables: Optional list of cable IDs connected to the FOSC
     
     Returns:
-        (path_coordinates, total_length)
-        If no path found along cables, returns straight line path (should be rare)
+        (path_coordinates, total_length, routed_along_cable)
+        routed_along_cable: True if path follows fiber cables, False if straight line
     """
     # First, try using preferred cable if specified
     if preferred_cable_id:
         preferred_cable = next((c for c in cables if c.get("id") == preferred_cable_id), None)
         if preferred_cable:
-            # Check if both terminal and FOSC are near this cable
             nearest_term, term_dist = find_nearest_point_on_cable(terminal_pos, preferred_cable)
             nearest_fosc, fosc_dist = find_nearest_point_on_cable(fosc_pos, preferred_cable)
             
-            if term_dist < 100.0 and fosc_dist < 100.0:  # Both near preferred cable
+            if term_dist < 100.0 and fosc_dist < 100.0:
                 path = route_along_single_cable(nearest_term, nearest_fosc, preferred_cable)
                 if path and len(path) > 2:
                     length = calculate_path_length(path)
-                    return path, length
+                    return path, length, True
     
-    # Then, try using the terminal's connected cable if provided
+    # Try using terminal's connected cable and FOSC's connected cables
+    if terminal_cable_id and fosc_connected_cables:
+        terminal_cable = next((c for c in cables if c.get("id") == terminal_cable_id), None)
+        if terminal_cable:
+            # Check if terminal cable is one of FOSC's connected cables
+            if terminal_cable_id in fosc_connected_cables:
+                nearest_term, term_dist = find_nearest_point_on_cable(terminal_pos, terminal_cable)
+                nearest_fosc, fosc_dist = find_nearest_point_on_cable(fosc_pos, terminal_cable)
+                if term_dist < 100.0 and fosc_dist < 100.0:
+                    path = route_along_single_cable(nearest_term, nearest_fosc, terminal_cable)
+                    if path and len(path) > 2:
+                        length = calculate_path_length(path)
+                        return path, length, True
+            
+            # Try routing: terminal -> terminal cable endpoint -> FOSC position -> FOSC cable
+            # FOSCs are at junctions, so route to FOSC position, then along FOSC cable
+            term_coords = terminal_cable.get("coordinates", [])
+            if term_coords:
+                term_start = term_coords[0]
+                term_end = term_coords[-1]
+                
+                # Find which endpoint is closer to FOSC (likely the junction)
+                dist_to_start = euclidean_distance(fosc_pos[0], fosc_pos[1], term_start[0], term_start[1])
+                dist_to_end = euclidean_distance(fosc_pos[0], fosc_pos[1], term_end[0], term_end[1])
+                
+                junction_on_term_cable = term_end if dist_to_end < dist_to_start else term_start
+                
+                # If FOSC is near an endpoint of terminal cable (within 50m), route through it
+                if min(dist_to_start, dist_to_end) < 50.0:
+                    # Route along terminal cable to junction, then to FOSC position
+                    nearest_term, term_dist = find_nearest_point_on_cable(terminal_pos, terminal_cable)
+                    if term_dist < 100.0:
+                        path1 = route_along_single_cable(nearest_term, junction_on_term_cable, terminal_cable)
+                        if path1:
+                            # Now route from FOSC position along one of FOSC's connected cables
+                            for fosc_cable_id in fosc_connected_cables:
+                                fosc_cable = next((c for c in cables if c.get("id") == fosc_cable_id), None)
+                                if fosc_cable:
+                                    nearest_fosc_on_cable, fosc_dist = find_nearest_point_on_cable(fosc_pos, fosc_cable)
+                                    if fosc_dist < 50.0:  # FOSC is on this cable
+                                        # Route from FOSC position along the cable (short segment)
+                                        # Since FOSC is at junction, just use FOSC position
+                                        combined_path = path1 + [fosc_pos]
+                                        if len(combined_path) > 2:
+                                            length = calculate_path_length(combined_path)
+                                            return combined_path, length, True
+            
+            # Try to find a path through connected cables
+            # Find FOSC cables that might connect to terminal cable via junctions or intermediate cables
+            for fosc_cable_id in fosc_connected_cables:
+                fosc_cable = next((c for c in cables if c.get("id") == fosc_cable_id), None)
+                if fosc_cable:
+                    # Check if cables share endpoints (junction)
+                    term_coords = terminal_cable.get("coordinates", [])
+                    fosc_coords = fosc_cable.get("coordinates", [])
+                    
+                    if term_coords and fosc_coords:
+                        # Check if cables share an endpoint (within 10m)
+                        term_start = term_coords[0]
+                        term_end = term_coords[-1]
+                        fosc_start = fosc_coords[0]
+                        fosc_end = fosc_coords[-1]
+                        
+                        junction_point = None
+                        # Check all combinations
+                        if euclidean_distance(term_start[0], term_start[1], fosc_start[0], fosc_start[1]) < 10.0:
+                            junction_point = term_start
+                        elif euclidean_distance(term_start[0], term_start[1], fosc_end[0], fosc_end[1]) < 10.0:
+                            junction_point = term_start
+                        elif euclidean_distance(term_end[0], term_end[1], fosc_start[0], fosc_start[1]) < 10.0:
+                            junction_point = term_end
+                        elif euclidean_distance(term_end[0], term_end[1], fosc_end[0], fosc_end[1]) < 10.0:
+                            junction_point = term_end
+                        
+                        if junction_point:
+                            # Route: terminal -> junction -> FOSC
+                            nearest_term, term_dist = find_nearest_point_on_cable(terminal_pos, terminal_cable)
+                            nearest_fosc, fosc_dist = find_nearest_point_on_cable(fosc_pos, fosc_cable)
+                            
+                            if term_dist < 100.0 and fosc_dist < 100.0:
+                                path1 = route_along_single_cable(nearest_term, junction_point, terminal_cable)
+                                path2 = route_along_single_cable(junction_point, nearest_fosc, fosc_cable)
+                                
+                                if path1 and path2:
+                                    # Combine paths (remove duplicate junction point)
+                                    combined_path = path1[:-1] + path2 if path1 else path2
+                                    if len(combined_path) > 2:
+                                        length = calculate_path_length(combined_path)
+                                        return combined_path, length, True
+                        
+                        # Try to find intermediate cable that connects terminal cable to FOSC cable
+                        # Check if there's a cable that shares endpoints with both
+                        for intermediate_cable in cables:
+                            if intermediate_cable == terminal_cable or intermediate_cable == fosc_cable:
+                                continue
+                            
+                            inter_coords = intermediate_cable.get("coordinates", [])
+                            if not inter_coords:
+                                continue
+                            
+                            inter_start = inter_coords[0]
+                            inter_end = inter_coords[-1]
+                            
+                            # Check if intermediate cable connects terminal cable to FOSC cable
+                            connects_to_term = False
+                            connects_to_fosc = False
+                            term_junction = None
+                            fosc_junction = None
+                            
+                            # Check terminal cable connection
+                            if euclidean_distance(term_start[0], term_start[1], inter_start[0], inter_start[1]) < 10.0:
+                                connects_to_term = True
+                                term_junction = term_start
+                            elif euclidean_distance(term_start[0], term_start[1], inter_end[0], inter_end[1]) < 10.0:
+                                connects_to_term = True
+                                term_junction = term_start
+                            elif euclidean_distance(term_end[0], term_end[1], inter_start[0], inter_start[1]) < 10.0:
+                                connects_to_term = True
+                                term_junction = term_end
+                            elif euclidean_distance(term_end[0], term_end[1], inter_end[0], inter_end[1]) < 10.0:
+                                connects_to_term = True
+                                term_junction = term_end
+                            
+                            # Check FOSC cable connection
+                            if euclidean_distance(fosc_start[0], fosc_start[1], inter_start[0], inter_start[1]) < 10.0:
+                                connects_to_fosc = True
+                                fosc_junction = fosc_start
+                            elif euclidean_distance(fosc_start[0], fosc_start[1], inter_end[0], inter_end[1]) < 10.0:
+                                connects_to_fosc = True
+                                fosc_junction = fosc_start
+                            elif euclidean_distance(fosc_end[0], fosc_end[1], inter_start[0], inter_start[1]) < 10.0:
+                                connects_to_fosc = True
+                                fosc_junction = fosc_end
+                            elif euclidean_distance(fosc_end[0], fosc_end[1], inter_end[0], inter_end[1]) < 10.0:
+                                connects_to_fosc = True
+                                fosc_junction = fosc_end
+                            
+                            if connects_to_term and connects_to_fosc and term_junction and fosc_junction:
+                                # Found path: terminal -> term_junction -> intermediate -> fosc_junction -> FOSC
+                                nearest_term, term_dist = find_nearest_point_on_cable(terminal_pos, terminal_cable)
+                                nearest_fosc, fosc_dist = find_nearest_point_on_cable(fosc_pos, fosc_cable)
+                                
+                                if term_dist < 100.0 and fosc_dist < 100.0:
+                                    # Find junction points on intermediate cable
+                                    inter_term_junc, _ = find_nearest_point_on_cable(term_junction, intermediate_cable)
+                                    inter_fosc_junc, _ = find_nearest_point_on_cable(fosc_junction, intermediate_cable)
+                                    
+                                    path1 = route_along_single_cable(nearest_term, term_junction, terminal_cable)
+                                    path2 = route_along_single_cable(inter_term_junc, inter_fosc_junc, intermediate_cable)
+                                    path3 = route_along_single_cable(fosc_junction, nearest_fosc, fosc_cable)
+                                    
+                                    if path1 and path2 and path3:
+                                        # Combine paths
+                                        combined_path = path1[:-1] + path2[:-1] + path3
+                                        if len(combined_path) > 2:
+                                            length = calculate_path_length(combined_path)
+                                            return combined_path, length, True
+    
+    # Try using terminal's connected cable if provided
     if terminal_cable_id:
         terminal_cable = next((c for c in cables if c.get("id") == terminal_cable_id), None)
         if terminal_cable:
-            # Check if FOSC is also on this cable
             nearest_fosc, fosc_dist = find_nearest_point_on_cable(fosc_pos, terminal_cable)
             if fosc_dist < 50.0:  # FOSC is on same cable
-                # Find nearest point on cable for terminal
                 nearest_term, term_dist = find_nearest_point_on_cable(terminal_pos, terminal_cable)
-                if term_dist < 50.0:  # Terminal is on cable
+                if term_dist < 50.0:
                     path = route_along_single_cable(nearest_term, nearest_fosc, terminal_cable)
-                    if path:
+                    if path and len(path) > 2:
                         length = calculate_path_length(path)
-                        return path, length
+                        return path, length, True
     
     # Try to find path along fiber cables (general search)
     path = find_path_along_fiber_cable(terminal_pos, fosc_pos, cables, max_search_distance=1000.0)
     
-    if path and len(path) > 2:  # More than just start and end points
+    if path and len(path) > 2:
         length = calculate_path_length(path)
-        return path, length
+        return path, length, True
     
     # Try finding any cable that both points are near
     for cable in cables:
         nearest_term, term_dist = find_nearest_point_on_cable(terminal_pos, cable)
         nearest_fosc, fosc_dist = find_nearest_point_on_cable(fosc_pos, cable)
         
-        # If both are near the same cable (within 50m), route along it
         if term_dist < 50.0 and fosc_dist < 50.0:
             path = route_along_single_cable(nearest_term, nearest_fosc, cable)
             if path and len(path) > 2:
                 length = calculate_path_length(path)
-                return path, length
+                return path, length, True
     
-    # Final fallback: straight line (should be rare - stub cables should always be on cables)
-    # This indicates the MST or FOSC might not be properly placed on cables
-    straight_path = [terminal_pos, fosc_pos]
-    length = euclidean_distance(terminal_pos[0], terminal_pos[1], fosc_pos[0], fosc_pos[1])
-    return straight_path, length
+    # NO FALLBACK TO STRAIGHT LINE - stub cables MUST route along fiber
+    # Return None to indicate failure
+    return None, 0.0, False

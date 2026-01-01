@@ -1,0 +1,289 @@
+{
+  "matches": [
+    {
+      "generated_olt_id": "OLT_POCKET_0001_MERGED",
+      "actual_olt_id": "103",
+      "distance_km": 4.97865704194088,
+      "generated_position": [
+        414590.96362338087,
+        5074698.885848341
+      ],
+      "actual_position": [
+        409806.8526185114,
+        5076077.03962581
+      ],
+      "generated_method": "on_fiber_route",
+      "generated_ont_count": 10062,
+      "generated_cable_distance_km": 0.3542823723067643
+    },
+    {
+      "generated_olt_id": "OLT_POCKET_0002_MERGED",
+      "actual_olt_id": "401",
+      "distance_km": 8.989703340489667,
+      "generated_position": [
+        270393.30501080013,
+        5159623.613233345
+      ],
+      "actual_position": [
+        264719.23950394575,
+        5152650.827077586
+      ],
+      "generated_method": "near_fiber_route",
+      "generated_ont_count": 82,
+      "generated_cable_distance_km": 1.07002989259115
+    },
+    {
+      "generated_olt_id": "OLT_POCKET_0003_MERGED",
+      "actual_olt_id": "402",
+      "distance_km": 14.91527467822199,
+      "generated_position": [
+        289086.7296296843,
+        5131984.953502225
+      ],
+      "actual_position": [
+        274944.2708261685,
+        5136723.75901814
+      ],
+      "generated_method": "near_fiber_route",
+      "generated_ont_count": 7924,
+      "generated_cable_distance_km": 1.4491609786083164
+    },
+    {
+      "generated_olt_id": "OLT_POCKET_0005",
+      "actual_olt_id": "403",
+      "distance_km": 17.46445477139637,
+      "generated_position": [
+        272334.9928587389,
+        5105633.435743747
+      ],
+      "actual_position": [
+        270287.33657276316,
+        5122977.434250339
+      ],
+      "generated_method": "centroid",
+      "generated_ont_count": 2,
+      "generated_cable_distance_km": 2.894566255100593
+    },
+    {
+      "generated_olt_id": "OLT_POCKET_0006_MERGED",
+      "actual_olt_id": "101",
+      "distance_km": 16.57044253616511,
+      "generated_position": [
+        440876.3968079873,
+        5102110.746311911
+      ],
+      "actual_position": [
+        427637.7427413724,
+        5092144.924501902
+      ],
+      "generated_method": "on_fiber_route",
+      "generated_ont_count": 453,
+      "generated_cable_distance_km": 0.06436532053597115
+    },
+    {
+      "generated_olt_id": "OLT_POCKET_0008",
+      "actual_olt_id": "107",
+      "distance_km": 8.198630974332094,
+      "generated_position": [
+        428784.54511796834,
+        5062365.978127978
+      ],
+      "actual_position": [
+        421631.7129184952,
+        5058359.166255746
+      ],
+      "generated_method": "on_fiber_route",
+      "generated_ont_count": 45,
+      "generated_cable_distance_km": 0.3125119071604089
+    },
+    {
+      "generated_olt_id": "OLT_POCKET_0009",
+      "actual_olt_id": "105",
+      "distance_km": 8.826560547668576,
+      "generated_position": [
+        394394.5543333463,
+        5089605.374813913
+      ],
+      "actual_position": [
+        386704.61260131095,
+        5085272.596575928
+      ],
+      "generated_method": "centroid",
+      "generated_ont_count": 1,
+      "generated_cable_distance_km": 5.062098298919104
+    },
+    {
+      "generated_olt_id": "OLT_POCKET_0012_MERGED",
+      "actual_olt_id": "106",
+      "distance_km": 8.952837372760321,
+      "generated_position": [
+        347303.23516455374,
+        5087726.71844532
+      ],
+      "actual_position": [
+        354247.1103737967,
+        5082075.5332509065
+      ],
+      "generated_method": "centroid",
+      "generated_ont_count": 265,
+      "generated_cable_distance_km": 7.753483217627257
+    },
+    {
+      "generated_olt_id": "OLT_POCKET_0017",
+      "actual_olt_id": "106",
+      "distance_km": 18.721046402486678,
+      "generated_position": [
+        369185.09241202194,
+        5070791.284448717
+      ],
+      "actual_position": [
+        354247.1103737967,
+        5082075.5332509065
+      ],
+      "generated_method": "centroid",
+      "generated_ont_count": 1,
+      "generated_cable_distance_km": 4.626508867227161
+    },
+    {
+      "generated_olt_id": "OLT_POCKET_0018_MERGED",
+      "actual_olt_id": "201",
+      "distance_km": 12.239628912561919,
+      "generated_position": [
+        319351.4578169795,
+        5134783.930842364
+      ],
+      "actual_position": [
+        310159.3398038121,
+        5126702.255128181
+      ],
+      "generated_method": "on_fiber_route",
+      "generated_ont_count": 7,
+      "generated_cable_distance_km": 0.8081570968784725
+    },
+    {
+      "generated_olt_id": "OLT_POCKET_0020_MERGED",
+      "actual_olt_id": "303",
+      "distance_km": 8.59209940543875,
+      "generated_position": [
+        410803.3368768428,
+        5118702.904181636
+      ],
+      "actual_position": [
+        419395.17388267315,
+        5118770.053702742
+      ],
+      "generated_method": "near_fiber_route",
+      "generated_ont_count": 871,
+      "generated_cable_distance_km": 1.3743509004921268
+    },
+    {
+      "generated_olt_id": "OLT_POCKET_0021_MERGED",
+      "actual_olt_id": "501",
+      "distance_km": 3.952024751256751,
+      "generated_position": [
+        437964.716377027,
+        5126152.32240359
+      ],
+      "actual_position": [
+        440267.5955544013,
+        5122940.586560006
+      ],
+      "generated_method": "on_fiber_route",
+      "generated_ont_count": 655,
+      "generated_cable_distance_km": 0.939236446737981
+    },
+    {
+      "generated_olt_id": "OLT_POCKET_0023_MERGED",
+      "actual_olt_id": "301",
+      "distance_km": 7.375183931746992,
+      "generated_position": [
+        371625.22994373774,
+        5147311.862190328
+      ],
+      "actual_position": [
+        371999.28910697065,
+        5139946.170249342
+      ],
+      "generated_method": "near_fiber_route",
+      "generated_ont_count": 314,
+      "generated_cable_distance_km": 1.1152582080869173
+    },
+    {
+      "generated_olt_id": "OLT_POCKET_0024_MERGED",
+      "actual_olt_id": "302",
+      "distance_km": 6.095978516348728,
+      "generated_position": [
+        375252.70800466667,
+        5118719.9944207305
+      ],
+      "actual_position": [
+        381345.58349042095,
+        5118914.474206003
+      ],
+      "generated_method": "on_fiber_route",
+      "generated_ont_count": 192,
+      "generated_cable_distance_km": 0.34263420848151044
+    },
+    {
+      "generated_olt_id": "OLT_POCKET_0035",
+      "actual_olt_id": "502",
+      "distance_km": 4.181890984491179,
+      "generated_position": [
+        475899.60783442366,
+        5134015.888529634
+      ],
+      "actual_position": [
+        471794.24446857977,
+        5134812.257690611
+      ],
+      "generated_method": "near_fiber_route",
+      "generated_ont_count": 1676,
+      "generated_cable_distance_km": 1.2376739998956585
+    },
+    {
+      "generated_olt_id": "OLT_POCKET_0036",
+      "actual_olt_id": "501",
+      "distance_km": 15.774667875268602,
+      "generated_position": [
+        449245.8909649762,
+        5135910.951169202
+      ],
+      "actual_position": [
+        440267.5955544013,
+        5122940.586560006
+      ],
+      "generated_method": "on_fiber_route",
+      "generated_ont_count": 139,
+      "generated_cable_distance_km": 0.056277370121380565
+    },
+    {
+      "generated_olt_id": "OLT_POCKET_0038_MERGED",
+      "actual_olt_id": "501",
+      "distance_km": 11.722174964067477,
+      "generated_position": [
+        445928.8041763795,
+        5112676.079614875
+      ],
+      "actual_position": [
+        440267.5955544013,
+        5122940.586560006
+      ],
+      "generated_method": "on_fiber_route",
+      "generated_ont_count": 80,
+      "generated_cable_distance_km": 0.2338391360824883
+    }
+  ],
+  "unmatched_generated": [],
+  "unmatched_actual": [
+    "202",
+    "104",
+    "102"
+  ],
+  "statistics": {
+    "total_matches": 17,
+    "mean_distance_km": 10.444191588626005,
+    "median_distance_km": 8.952837372760321,
+    "min_distance_km": 3.952024751256751,
+    "max_distance_km": 18.721046402486678
+  }
+}

@@ -350,8 +350,11 @@ All rules use **UTM Zone 17N (EPSG:32617)** coordinates - NO transformation duri
 14. **Rule 17**: Optimize ONT-to-terminal connections (connect to nearest with capacity)
 15. **Rule 18**: Merge underutilized MSTs (within 500m, one has 1-2 ONTs)
 16. **Rule 19**: Ensure all ONTs are connected (final cleanup)
-17. **Rule 5**: Filter distant ONTs (final cleanup)
-18. **Rule 6**: Fix ONT-to-FOSC connections (ensure topology)
+17. **Rule 20**: Ensure all MSTs connected via stub cables (routed along fiber)
+18. **Rule 5**: Filter distant ONTs (final cleanup)
+19. **Rule 6**: Fix ONT-to-FOSC connections (ensure topology)
+
+**Note**: Stub cable routing along fiber cables is handled in the visualization step using `route_stub_cable_along_fiber()`, which finds paths along existing fiber cable infrastructure.
 
 ---
 

@@ -782,6 +782,12 @@ def apply_all_optimization_rules(
     summary["unconnected_onts_found"] = ont_connections.get("unconnected_onts", 0)
     summary["unconnected_onts_connected"] = ont_connections.get("connected", 0)
     
+    # Rule 20: Ensure all MSTs are connected to FOSCs via stub cables (routed along fiber)
+    optimized_terminals, stub_connections = ensure_all_msts_connected_via_stub_cables(
+        optimized_terminals, filtered_foscs, cables
+    )
+    summary["msts_connected_via_stub"] = stub_connections.get("connected", 0)
+    
     print()
     print("=" * 80)
     print("OPTIMIZATION SUMMARY")
@@ -806,6 +812,7 @@ def apply_all_optimization_rules(
     print(f"Underutilized MSTs merged: {summary.get('underutilized_msts_merged', 0)}")
     print(f"Unconnected ONTs found: {summary.get('unconnected_onts_found', 0)}")
     print(f"Unconnected ONTs connected: {summary.get('unconnected_onts_connected', 0)}")
+    print(f"MSTs connected via stub cables: {summary.get('msts_connected_via_stub', 0)}")
     print()
     print(f"Final terminals: {len(optimized_terminals)}")
     print(f"Final FOSCs: {len(filtered_foscs)}")
@@ -2752,6 +2759,122 @@ def ensure_all_onts_connected(
     
     return terminals, {
         "unconnected_onts": len(unconnected_onts),
+        "connected": len(connections_made),
+        "details": connections_made
+    }
+
+
+def ensure_all_msts_connected_via_stub_cables(
+    terminals: List[Dict[str, Any]],
+    foscs: List[Dict[str, Any]],
+    cables: List[Dict[str, Any]],
+    max_fosc_distance: float = 1000.0
+) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+    """
+    Rule 20: Ensure all MSTs are connected to FOSCs via stub cables (routed along fiber cables).
+    
+    This rule ensures:
+    1. All MSTs have a connected_fosc_id
+    2. All MSTs have a stub_cable_length recorded
+    3. Stub cables route along fiber cable infrastructure (handled in visualization)
+    
+    Args:
+        terminals: List of terminal dictionaries
+        foscs: List of FOSC dictionaries
+        cables: List of cable dictionaries
+        max_fosc_distance: Maximum distance to connect MST to FOSC (default 1000m)
+    
+    Returns:
+        (updated_terminals, summary)
+    """
+    print()
+    print("=" * 80)
+    print("RULE 20: ENSURING ALL MSTs CONNECTED VIA STUB CABLES")
+    print("=" * 80)
+    print()
+    print("Ensuring all MSTs are connected to FOSCs via stub cables...")
+    print()
+    
+    # Build FOSC position map
+    fosc_positions = {}
+    for fosc in foscs:
+        fosc_id = fosc.get("fosc_id", "")
+        fosc_pos = fosc.get("position")
+        if fosc_pos:
+            fosc_pos_utm = (fosc_pos[0], fosc_pos[1]) if isinstance(fosc_pos, list) else fosc_pos
+            fosc_positions[fosc_id] = fosc_pos_utm
+    
+    connections_made = []
+    updated_terminals = []
+    
+    for terminal in terminals:
+        terminal_id = terminal.get("terminal_id", "")
+        terminal_type = terminal.get("type", "").upper()
+        
+        # Only process MSTs
+        if terminal_type != "MST":
+            updated_terminals.append(terminal)
+            continue
+        
+        terminal_pos = terminal.get("position")
+        if not terminal_pos:
+            updated_terminals.append(terminal)
+            continue
+        
+        term_pos_utm = (terminal_pos[0], terminal_pos[1]) if isinstance(terminal_pos, list) else terminal_pos
+        connected_fosc_id = terminal.get("connected_fosc_id", "")
+        stub_cable_length = terminal.get("stub_cable_length")
+        
+        # Check if MST is already connected to a FOSC
+        if connected_fosc_id and connected_fosc_id in fosc_positions:
+            # Verify stub cable length is set
+            if stub_cable_length is None:
+                fosc_pos = fosc_positions[connected_fosc_id]
+                dist = euclidean_distance(term_pos_utm[0], term_pos_utm[1], fosc_pos[0], fosc_pos[1])
+                terminal["stub_cable_length"] = dist
+                connections_made.append({
+                    "terminal_id": terminal_id,
+                    "fosc_id": connected_fosc_id,
+                    "action": f"Added stub cable length: {dist:.1f}m"
+                })
+                print(f"  ✓ {terminal_id}: Added stub cable length to {connected_fosc_id} ({dist:.1f}m)")
+            updated_terminals.append(terminal)
+            continue
+        
+        # Find nearest FOSC
+        nearest_fosc_id = None
+        min_fosc_dist = float('inf')
+        
+        for fosc_id, fosc_pos in fosc_positions.items():
+            dist = euclidean_distance(term_pos_utm[0], term_pos_utm[1], fosc_pos[0], fosc_pos[1])
+            if dist < min_fosc_dist:
+                min_fosc_dist = dist
+                nearest_fosc_id = fosc_id
+        
+        # Connect to nearest FOSC if within range
+        if nearest_fosc_id and min_fosc_dist <= max_fosc_distance:
+            terminal["connected_fosc_id"] = nearest_fosc_id
+            terminal["stub_cable_length"] = min_fosc_dist
+            connections_made.append({
+                "terminal_id": terminal_id,
+                "fosc_id": nearest_fosc_id,
+                "distance": min_fosc_dist,
+                "action": f"Connected to FOSC {nearest_fosc_id} ({min_fosc_dist:.1f}m)"
+            })
+            print(f"  ✓ {terminal_id}: Connected to FOSC {nearest_fosc_id} ({min_fosc_dist:.1f}m)")
+        else:
+            if nearest_fosc_id:
+                print(f"  ⚠ {terminal_id}: Nearest FOSC {nearest_fosc_id} is {min_fosc_dist:.1f}m away (beyond {max_fosc_distance}m limit)")
+            else:
+                print(f"  ⚠ {terminal_id}: No FOSC found in network")
+        
+        updated_terminals.append(terminal)
+    
+    print()
+    print(f"Connected {len(connections_made)} MSTs to FOSCs via stub cables")
+    print()
+    
+    return updated_terminals, {
         "connected": len(connections_made),
         "details": connections_made
     }

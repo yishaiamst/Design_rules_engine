@@ -9,12 +9,26 @@ All rules use **UTM Zone 17N (EPSG:32617)** coordinates - NO transformation duri
 - **Stub cables** (MST → FOSC) MUST run along fiber cable infrastructure
 - **Drop cables** (ONT → Terminal/MST) are **direct connections** and do NOT route along fiber cables
 
+**CRITICAL VALIDATION RULE**:
+- Stub cables that cannot route along fiber cables are **INVALID** and must be flagged
+- Invalid stub cables are marked with `valid: false` and displayed in red
+- Direct connections over empty space (only 2 path points) are NOT allowed
+- Stub cables must have >2 path points following fiber cable infrastructure
+
 **Implementation**: 
 - Stub cables are routed using `route_stub_cable_along_fiber()` which finds the path along fiber cables between MST and FOSC positions.
+- The function searches for paths through:
+  1. Same cable (if both MST and FOSC are on the same cable)
+  2. Cable junctions (cables sharing endpoints)
+  3. Intermediate cables (cables connecting terminal cable to FOSC cable)
+  4. FOSC positions as junction points
+- If no path can be found along fiber, the stub cable is marked as invalid
 - Drop cables are direct straight-line connections from ONT to Terminal/MST.
 
 **Rationale**: 
 - Stub cables connect MSTs to FOSCs and must follow the fiber infrastructure for proper deployment.
+- Direct connections over empty space violate deployment rules and are physically impossible.
+- Invalid stub cables indicate design issues that need correction (e.g., missing cable segments, incorrect FOSC placement).
 - Drop cables connect ONTs to terminals and can be direct connections (off-cable) as they are typically aerial or buried drops to customer premises.
 
 ---

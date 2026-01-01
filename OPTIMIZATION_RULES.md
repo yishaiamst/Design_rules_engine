@@ -1,0 +1,401 @@
+# Optimization Rules for FOSC and MST Placement
+
+All rules use **UTM Zone 17N (EPSG:32617)** coordinates - NO transformation during calculations.
+
+## Critical Cable Routing Rule
+
+**Rule 11: Stub Cables Must Run on Fiber Cable Infrastructure**
+
+- **Stub cables** (MST → FOSC) MUST run along fiber cable infrastructure
+- **Drop cables** (ONT → Terminal/MST) are **direct connections** and do NOT route along fiber cables
+
+**Implementation**: 
+- Stub cables are routed using `route_stub_cable_along_fiber()` which finds the path along fiber cables between MST and FOSC positions.
+- Drop cables are direct straight-line connections from ONT to Terminal/MST.
+
+**Rationale**: 
+- Stub cables connect MSTs to FOSCs and must follow the fiber infrastructure for proper deployment.
+- Drop cables connect ONTs to terminals and can be direct connections (off-cable) as they are typically aerial or buried drops to customer premises.
+
+---
+
+## Rule 1: Merge Nearby FOSCs
+
+**Purpose**: Consolidate FOSCs that are close together and serve the same cables.
+
+**Criteria**:
+- FOSCs within 100m of each other
+- Serve the same or overlapping cables
+- OR are very close (<50m) regardless of cables
+
+**Action**:
+- Keep the FOSC with more connected cables
+- Merge all cables from removed FOSCs into kept FOSC
+- Update position to weighted average of merged FOSCs
+
+**Example**: F0000015 (11.9m from F0000171) → Merged into F0000171
+
+---
+
+## Rule 2: Consolidate Nearby Terminals
+
+**Purpose**: Reduce equipment cost by consolidating terminals (MSTs and Aerial Terminals) within 250m.
+
+**Rationale**: Drop cables are inexpensive compared to terminal equipment and installation.
+
+**Criteria**:
+- Terminals (MSTs or Aerial Terminals) within 250m of each other
+- **Merging must not exceed 12 ONTs per terminal** (port limit)
+
+**Action**:
+- Prefer MST over Aerial Terminal (if mixed types)
+- Keep terminal with more ONTs
+- **Check if combined ONT count ≤ 12 before merging**
+- Merge all ONTs from removed terminals into kept terminal
+- If keeping Aerial Terminal but removing MST, convert to MST
+- Remove redundant terminals
+- Skip merge if it would exceed 12 ONTs
+
+**Result**: Consolidates nearby terminals while respecting the 12 ONT port limit.
+
+**Example**: 
+- T0004292 and T0004473 within 250m → Merged into T0004473 (if combined ONTs ≤ 12)
+
+---
+
+## Rule 3: Remove Redundant FOSCs
+
+**Purpose**: Remove FOSCs that don't serve a purpose.
+
+**Criteria** (FOSC is redundant if):
+- Very close to terminal(s) (<50m) - terminal can serve directly
+- On single fiber cable (not at junction)
+
+**Exception**: Keep FOSCs at cable junctions (2+ cables) - they're needed for network connectivity.
+
+**Action**: Remove redundant FOSCs, keep junction FOSCs.
+
+---
+
+## Rule 4: Convert Aerial Terminals to MSTs Near FOSCs
+
+**Purpose**: Use MSTs when near FOSCs (<1km) - cheaper than Aerial Terminal + splicing.
+
+**Criteria**:
+- Aerial Terminal within 1km of FOSC
+- OR existing MST without FOSC connection within 1km of FOSC
+
+**Action**:
+- Convert Aerial Terminal → MST
+- Connect MST to nearest FOSC via stub cable
+- Record stub cable length
+
+**Rationale**: MST with stub cable is less expensive than Aerial Terminal requiring splicing work.
+
+---
+
+## Rule 5: Filter Distant ONTs
+
+**Purpose**: Leave ONTs >1km from terminals unconnected for later deployment.
+
+**Criteria**:
+- ONT distance from terminal > 1000m
+
+**Action**:
+- Remove ONT from terminal's connected_onts list
+- Record in terminal["removed_distant_onts"]
+
+**Rationale**: Very long drop cables (>1km) may require special deployment and should be handled separately.
+
+---
+
+## Rule 6: Fix ONT-to-FOSC Connections
+
+**Purpose**: Ensure ONTs are never directly connected to FOSCs.
+
+**Rule**: ONTs must connect to terminals (MST or Aerial Terminal), not FOSCs.
+
+**Action**:
+- Detect ONTs that are near FOSCs (<100m) but not connected to any terminal
+- Find nearest terminal for each such ONT
+- Connect ONT to terminal instead
+
+**Rationale**: Network topology is OLT → Cable → FOSC → Terminal → ONT. ONTs cannot bypass terminals.
+
+---
+
+## Rule 7: Place FOSCs at Cable Junctions
+
+**Purpose**: Ensure FOSCs exist at cable junctions where multiple cables meet.
+
+**Detection Method**:
+- Parse cable IDs: `"SIZEFOC/ID1/ID2"`
+- Find common segment IDs (e.g., `F1000397` appears in multiple cables)
+- Junction exists where 2+ cables share a segment ID
+
+**Action**:
+- Detect junctions by analyzing cable ID patterns
+- Check if FOSC already exists nearby (<50m)
+- If not, create new FOSC at junction point
+- Connect all junction cables to the FOSC
+
+**Example**: 
+- Cables: `96FOC/F1000391/F1000397`, `48FOC/F1000397/F1000398`, `12FOC/F1000397/T1001719`
+- Common segment: `F1000397` → Create FOSC at this junction
+
+---
+
+## Rule 8: Fix Isolated Terminals
+
+**Purpose**: Remove terminals that are not on cables and not connected to FOSCs.
+
+**Criteria**:
+- Terminal is not on any cable (<50m)
+- Terminal is not connected to any FOSC (<1km)
+
+**Action**:
+- Move all ONTs from isolated terminal to nearest properly connected terminal
+- Remove isolated terminal
+
+**Example**: T0004298 was isolated → ONTs moved to T0004707 (269.5m away)
+
+---
+
+## Rule 9: Convert Terminals to FOSCs (Long Non-Straight Cables)
+
+**Purpose**: Convert terminals to FOSCs when they're on long, curved cables.
+
+**Criteria**:
+- Terminal is on a cable
+- Cable length > 500m
+- Cable curvature ratio > 1.2 (total length / straight distance)
+
+**Action**:
+- Convert terminal to FOSC
+- Preserve position and cable connection
+
+**Example**: T0004300 on cable 48FOC/F1000397/F1000398 (1522m, curvature 1.29) → Converted to FOSC F0004300
+
+---
+
+## Rule 10: Fix Incorrect Terminal Connections
+
+**Purpose**: Remove incorrect direct connections between terminals.
+
+**Criteria**:
+- Terminals are very close (<100m)
+- Terminals have incorrect connection metadata
+
+**Action**:
+- Remove incorrect connection references
+- Let Rule 2 (consolidation) handle proper merging
+
+---
+
+## Rule 12: Split Overloaded Terminals at Cable Endpoints
+
+**Purpose**: Split terminals with >12 ONTs by placing MSTs at unconnected cable endpoints.
+
+**Criteria**:
+- Terminal has more than 12 ONTs
+- Find cable endpoints not connected to FOSCs, terminals, or other cables
+- Place new MSTs at those endpoints (within 1km of overloaded terminal)
+
+**Action**:
+- Create new MST at unconnected cable endpoint
+- Redistribute ONTs (up to 12 per MST)
+- Reduce load on original terminal
+
+**Example**: T0004627 had 14 ONTs → Created MST T0000032 at endpoint of 48FOC/F1000406/F1000394 with 12 ONTs, leaving T0004627 with 2 ONTs
+
+---
+
+## Rule 13: Place MST Near FOSC for Specific ONTs
+
+**Purpose**: Place an MST near a specific FOSC to connect a list of ONTs.
+
+**Use Case**: When a FOSC needs to serve specific ONTs that aren't currently connected to terminals, place an MST near the FOSC.
+
+**Action**:
+- Calculate centroid of specified ONTs
+- Find nearest cable to centroid
+- Place MST on cable (or at centroid if no cable nearby)
+- Ensure MST is within max_distance_from_fosc (default 500m)
+- Connect all specified ONTs to the new MST
+- Connect MST to FOSC via stub cable
+- Remove ONTs from any existing terminal connections
+
+**Example**: F0000962 → Created MST T0000033 with 10 ONTs (O1007640, O1007649, etc.), stub cable 165.1m
+
+---
+
+## Rule 14: Enforce MST Placement Rules
+
+**Purpose**: Ensure ALL MSTs follow placement requirements - must be on fiber cables and connected to FOSCs.
+
+**Critical Requirements**:
+1. **ALL MSTs MUST be placed ON fiber cables** (within 50m, snapped to cable if needed)
+2. **ALL MSTs MUST be connected to FOSCs** via stub cables (find nearest FOSC if not connected)
+
+**Action**:
+- For each MST:
+  1. Find nearest fiber cable
+  2. Snap MST position to nearest point on cable (even if far from original position)
+  3. Set `connected_cable_id` to nearest cable
+  4. Find nearest FOSC
+  5. Connect MST to nearest FOSC (even if beyond normal 1000m range)
+  6. Set `connected_fosc_id` and `stub_cable_length`
+
+**Rationale**: MSTs are network infrastructure components that must be properly placed on the fiber network and connected to FOSCs for proper network topology.
+
+**Example**: 
+- T0004266: Was isolated → Snapped to cable 48FOC/F1000406/F1000394, connected to FOSC F1000397 (2327.7m)
+- T0004476: Was on cable but not connected → Connected to FOSC F0000961 (409.7m)
+
+---
+
+## Rule 15: Convert FOSCs to MSTs for ONT Connections
+
+**Purpose**: Convert FOSCs to MSTs when they should serve ONTs directly.
+
+**Use Case**: Some FOSCs should actually be MSTs that connect ONTs. This handles specific cases where a FOSC needs to be converted to an MST.
+
+**Action**:
+- For each specified FOSC:
+  1. Remove FOSC from FOSC list
+  2. Create new MST at FOSC position (convert F0004456 → T0004456)
+  3. Snap MST to nearest fiber cable (MSTs must be on cables)
+  4. Connect specified ONTs to the new MST
+  5. Find nearest FOSC for the new MST to connect to (MSTs must connect to FOSCs)
+  6. Set `connected_fosc_id` and `stub_cable_length`
+
+**Rationale**: Some locations that were initially placed as FOSCs should actually be MSTs that serve ONTs directly, while still connecting to a FOSC for network connectivity.
+
+**Example**: 
+- F0004456 → Converted to MST T0004456
+  - Connected ONTs: O1007875, O1007873
+  - Connected to FOSC: F1000397 (stub: 74.4m)
+  - On cable: 48FOC/F1000397/F1000398
+
+---
+
+## Rule 16: All Terminals and FOSCs Must Be On Fiber Cables
+
+**Purpose**: Ensure ALL terminals (MST and Aerial) and FOSCs are placed ON fiber cables.
+
+**Critical Requirement**: 
+- **ALL MSTs** must be on fiber cables
+- **ALL Aerial Terminals** must be on fiber cables  
+- **ALL FOSCs** must be on fiber cables
+
+**Action**:
+- For each terminal (MST or Aerial):
+  1. Find nearest fiber cable
+  2. Snap terminal position to nearest point on cable (regardless of distance)
+  3. Set `connected_cable_id` and `distance_to_cable_m = 0.0`
+  
+- For each FOSC:
+  1. Find nearest fiber cable
+  2. Snap FOSC position to nearest point on cable (regardless of distance)
+  3. Update `connected_cables` list
+
+**Rationale**: All network infrastructure (terminals and FOSCs) must be physically placed on the fiber cable infrastructure. This prevents isolated islands and ensures proper network connectivity.
+
+**Example**: 
+- T0004284: Was 715.4m from cable → Snapped to cable 144FOC/F1000396/F1000399 (now on cable)
+- All terminals and FOSCs are now guaranteed to be on cables
+
+---
+
+## Rule 17: Optimize ONT-to-Terminal Connections
+
+**Purpose**: Connect each ONT to the nearest terminal with available capacity (≤12 ONTs).
+
+**Criteria**:
+- For each ONT, find the nearest terminal that has capacity (current ONTs < 12)
+- If ONT is connected to a distant terminal but a closer terminal with capacity exists, reconnect it
+- Only reconnect if the new terminal is closer AND has capacity
+
+**Action**:
+- For each ONT:
+  1. Find all terminals with capacity (< 12 ONTs)
+  2. Calculate distance to each terminal
+  3. Find nearest terminal with capacity
+  4. If nearest terminal is closer than current terminal, reconnect ONT
+  5. Update both terminals' `connected_onts` lists
+
+**Rationale**: Minimizes drop cable lengths by connecting ONTs to the nearest available terminal, reducing deployment costs while respecting terminal capacity limits.
+
+**Example**: 
+- O1007861: Was connected to T0004627 (1284.6m) → Reconnected to T0004266 (961.2m, saved 323.5m)
+- O1007672: Was connected to T0004627 (859.0m) → Reconnected to T0004266 (216.5m, saved 642.5m)
+
+---
+
+## Rule Application Order
+
+1. **Rule 1**: Merge nearby FOSCs (consolidate first)
+2. **Rule 3**: Remove redundant FOSCs (but keep junction FOSCs)
+3. **Rule 7**: Place FOSCs at cable junctions (before connecting terminals)
+4. **Rule 4**: Convert Aerial to MST and connect MSTs to FOSCs
+5. **Rule 2**: Consolidate nearby terminals (after conversion)
+6. **Rule 8**: Fix isolated terminals (remove islands)
+7. **Rule 9**: Convert terminals to FOSCs (long non-straight cables)
+8. **Rule 10**: Fix incorrect terminal connections
+9. **Rule 12**: Split overloaded terminals at cable endpoints
+10. **Rule 13**: Place MST near FOSC for specific ONTs
+11. **Rule 15**: Convert FOSCs to MSTs for ONT connections
+12. **Rule 14**: Enforce MST placement rules (ALL MSTs on cables and connected to FOSCs)
+13. **Rule 16**: Enforce all terminals and FOSCs on fiber cables (comprehensive placement)
+14. **Rule 17**: Optimize ONT-to-terminal connections (connect to nearest with capacity)
+15. **Rule 18**: Merge underutilized MSTs (within 500m, one has 1-2 ONTs)
+16. **Rule 19**: Ensure all ONTs are connected (final cleanup)
+17. **Rule 5**: Filter distant ONTs (final cleanup)
+18. **Rule 6**: Fix ONT-to-FOSC connections (ensure topology)
+
+---
+
+## Implementation
+
+All rules are implemented in `phases/phase3c_optimization_rules.py`:
+
+```python
+from phases.phase3c_optimization_rules import apply_all_optimization_rules
+
+optimized_terminals, optimized_foscs, summary = apply_all_optimization_rules(
+    terminals,
+    foscs,
+    cables,
+    ont_geojson,
+    config
+)
+```
+
+---
+
+## Results
+
+Applied to test area (5km radius around 45.731437, -82.401057):
+
+- **FOSCs merged**: 23 pairs
+- **FOSCs removed (redundant)**: 6 (kept junction FOSCs)
+- **FOSCs added at junctions**: 3 (including F1000397 for cables 96FOC/F1000391/F1000397, 48FOC/F1000397/F1000398, 12FOC/F1000397/T1001719)
+- **Aerial Terminals converted to MST**: Variable
+- **MSTs connected to FOSCs**: Variable
+- **MSTs consolidated**: 6 pairs
+- **ONTs filtered (>1km)**: Variable
+- **ONTs fixed (was near FOSC)**: 0 (all ONTs correctly connected to terminals)
+
+**Final state**:
+- 61 terminals (43 MSTs, 18 Aerial)
+- 7 FOSCs (4 original + 3 at cable junctions)
+- All coordinates in UTM Zone 17N
+
+---
+
+## Notes
+
+- All rules preserve cable junction FOSCs (needed for network topology)
+- MST consolidation prioritizes keeping MSTs with more ONTs
+- Rules can be applied to any area by extracting features within radius
+- Rules are idempotent (can be run multiple times safely)

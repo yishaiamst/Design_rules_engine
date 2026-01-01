@@ -346,6 +346,34 @@ All rules use **UTM Zone 17N (EPSG:32617)** coordinates - NO transformation duri
 
 ---
 
+## Rule 21: Optimize Stub Cable Connections
+
+**Purpose**: After all calculations, find shorter paths for stub cables, preferring FOSCs over Aerial Terminals.
+
+**Criteria**:
+- For each MST, check if there's a shorter path to a FOSC or Aerial Terminal
+- Priority: FOSC first, unless Aerial Terminal is < 0.5x FOSC distance
+- Only switch if new connection is shorter AND can route along fiber
+
+**Action**:
+- For each MST:
+  1. Find all FOSCs and Aerial Terminals that can be reached via fiber routing
+  2. Calculate stub cable lengths for each option
+  3. Select best option:
+     - Prefer FOSC if available
+     - Use Aerial Terminal only if its distance is < 0.5x FOSC distance
+  4. Update MST connection if better option found
+  5. Record new stub cable length
+
+**Rationale**: This optimization runs after all other rules to find the most efficient stub cable connections. FOSCs are preferred for network topology, but Aerial Terminals can be used if they're significantly closer (less than half the FOSC distance).
+
+**Example**: 
+- MST finds FOSC at 1000m and Aerial Terminal at 400m
+- Since 400m < 0.5 * 1000m, switch to Aerial Terminal
+- Saves 600m of stub cable length
+
+---
+
 ## Rule Application Order
 
 1. **Rule 1**: Merge nearby FOSCs (consolidate first)
@@ -365,8 +393,9 @@ All rules use **UTM Zone 17N (EPSG:32617)** coordinates - NO transformation duri
 15. **Rule 18**: Merge underutilized MSTs (within 500m, one has 1-2 ONTs)
 16. **Rule 19**: Ensure all ONTs are connected (final cleanup)
 17. **Rule 20**: Ensure all MSTs connected via stub cables (routed along fiber)
-18. **Rule 5**: Filter distant ONTs (final cleanup)
-19. **Rule 6**: Fix ONT-to-FOSC connections (ensure topology)
+18. **Rule 21**: Optimize stub cable connections (prefer shorter paths, FOSC over Aerial Terminal)
+19. **Rule 5**: Filter distant ONTs (final cleanup)
+20. **Rule 6**: Fix ONT-to-FOSC connections (ensure topology)
 
 **Note**: Stub cable routing along fiber cables is handled in the visualization step using `route_stub_cable_along_fiber()`, which finds paths along existing fiber cable infrastructure.
 

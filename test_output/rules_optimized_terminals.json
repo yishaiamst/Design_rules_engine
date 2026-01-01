@@ -54,7 +54,7 @@
     ],
     "connected_cable_id": "48FOC/F1000406/F1000394",
     "nearest_cable_id": "48FOC/F1000406/F1000394",
-    "connected_fosc_id": "F1000397",
+    "connected_fosc_id": null,
     "nearest_fosc_id": null,
     "distance_to_cable_m": 0.0,
     "distance_to_fosc_m": 25168.187282484032,
@@ -62,7 +62,8 @@
     "removed_distant_onts": [
       "O1007862"
     ],
-    "stub_cable_length": 2327.742752981865
+    "stub_cable_length": 834.7756859045195,
+    "connected_aerial_terminal_id": "T0004627"
   },
   {
     "terminal_id": "T0004271",
@@ -82,12 +83,13 @@
     ],
     "connected_cable_id": "144FOC/F1000390/F1000502",
     "nearest_cable_id": "144FOC/F1000390/F1000502",
-    "connected_fosc_id": "F1000390",
+    "connected_fosc_id": null,
     "nearest_fosc_id": null,
     "distance_to_cable_m": 0.0,
     "distance_to_fosc_m": 20492.21508249692,
     "removed_distant_onts": [],
-    "stub_cable_length": 555.6189400962394
+    "stub_cable_length": 38.015713749574836,
+    "connected_aerial_terminal_id": "T0004541"
   },
   {
     "terminal_id": "T0004285",
@@ -223,12 +225,13 @@
     ],
     "connected_cable_id": "12FOC/F1000397/T1001719",
     "nearest_cable_id": "12FOC/F1000397/T1001719",
-    "connected_fosc_id": "F0000962",
+    "connected_fosc_id": null,
     "nearest_fosc_id": null,
     "distance_to_cable_m": 0.0,
     "distance_to_fosc_m": 22793.077033373127,
-    "stub_cable_length": 624.293031770144,
-    "removed_distant_onts": []
+    "stub_cable_length": 123.1754872817848,
+    "removed_distant_onts": [],
+    "connected_aerial_terminal_id": "T0004707"
   },
   {
     "terminal_id": "T0004463",
@@ -534,12 +537,13 @@
     ],
     "connected_cable_id": "144FOC/F1000390/F1000502",
     "nearest_cable_id": "144FOC/F1000390/F1000502",
-    "connected_fosc_id": "F1000390",
+    "connected_fosc_id": null,
     "nearest_fosc_id": null,
     "distance_to_cable_m": 0.0,
     "distance_to_fosc_m": 20684.88228720739,
     "removed_distant_onts": [],
-    "stub_cable_length": 643.4128594696356
+    "stub_cable_length": 116.26110085435946,
+    "connected_aerial_terminal_id": "T0004541"
   },
   {
     "terminal_id": "T0004627",
@@ -644,7 +648,7 @@
       5062609.060083543
     ],
     "connected_cable_id": "48FOC/F1000398/T1001731",
-    "connected_fosc_id": "F0000962",
+    "connected_fosc_id": "F0004300",
     "connected_onts": [
       "O1007564",
       "O1007611",
@@ -658,9 +662,10 @@
       "O1007649"
     ],
     "model": "MST12",
-    "stub_cable_length": 165.0617877078165,
+    "stub_cable_length": 47.65318226724053,
     "created_by": "Rule 13 (MST near F0000962 for specific ONTs)",
-    "distance_to_cable_m": 0.0
+    "distance_to_cable_m": 0.0,
+    "connected_aerial_terminal_id": null
   },
   {
     "terminal_id": "T0004456",

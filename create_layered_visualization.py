@@ -332,11 +332,14 @@ def main():
                 term_pos_utm = (term_pos[0], term_pos[1]) if isinstance(term_pos, list) else term_pos
                 terminal_id = terminal.get("terminal_id", "")
                 connected_fosc_id = terminal.get("connected_fosc_id", "")
+                connected_aerial_id = terminal.get("connected_aerial_terminal_id", "")
                 
                 # Generate stub cable ID (will be set when we create stub cables)
                 stub_cable_id = None
                 if connected_fosc_id:
                     stub_cable_id = f"stub_{terminal_id}_{connected_fosc_id}"
+                elif connected_aerial_id:
+                    stub_cable_id = f"stub_{terminal_id}_{connected_aerial_id}"
                 
                 mst_feature = {
                     "type": "Feature",
@@ -350,6 +353,7 @@ def main():
                         "connected_onts": len(terminal.get("connected_onts", [])),
                         "connected_cable_id": terminal.get("connected_cable_id", ""),
                         "connected_fosc_id": connected_fosc_id,
+                        "connected_aerial_terminal_id": connected_aerial_id,
                         "stub_cable_id": stub_cable_id,
                         "stub_cable_length": terminal.get("stub_cable_length"),
                         "marker-color": "#800080",
@@ -599,65 +603,86 @@ def main():
         terminal_type = terminal.get("type", "")
         terminal_pos = terminal.get("position")
         connected_fosc_id = terminal.get("connected_fosc_id")
+        connected_aerial_id = terminal.get("connected_aerial_terminal_id")  # New field for Aerial Terminal connections
         connected_cable_id = terminal.get("connected_cable_id")
         
-        if terminal_type == "MST" and connected_fosc_id and terminal_pos:
+        # MST can connect to FOSC or Aerial Terminal
+        target_id = connected_fosc_id or connected_aerial_id
+        target_type = "FOSC" if connected_fosc_id else "Aerial Terminal"
+        
+        if terminal_type == "MST" and target_id and terminal_pos:
             term_pos_utm = (terminal_pos[0], terminal_pos[1]) if isinstance(terminal_pos, list) else terminal_pos
             
-            fosc = next((f for f in foscs if f.get("fosc_id") == connected_fosc_id), None)
-            if fosc:
-                fosc_pos = fosc.get("position")
-                if fosc_pos:
-                    fosc_pos_utm = (fosc_pos[0], fosc_pos[1]) if isinstance(fosc_pos, list) else fosc_pos
-                    
-                    # Route stub cable along fiber cable
-                    preferred_cable_id = None
-                    if terminal_id in ["T0004288", "T0004601"] and connected_fosc_id == "F0000962":
-                        preferred_cable_id = "48FOC/F1000398/T1001731"
-                    elif connected_cable_id == "48FOC/F1000398/T1001731" and connected_fosc_id == "F0000962":
-                        preferred_cable_id = "48FOC/F1000398/T1001731"
-                    
-                    # Get FOSC's connected cables
-                    fosc_connected_cables = fosc.get("connected_cables", [])
-                    
-                    path, length, routed = route_stub_cable_along_fiber(
-                        term_pos_utm,
-                        fosc_pos_utm,
-                        cables_list,
-                        terminal_cable_id=connected_cable_id,
-                        preferred_cable_id=preferred_cable_id,
-                        fosc_connected_cables=fosc_connected_cables
-                    )
-                    
-                    if path is None:
-                        # Stub cable cannot be routed along fiber - this is an error
-                        print(f"  ⚠ WARNING: Stub cable {terminal_id} -> {connected_fosc_id} cannot be routed along fiber cables!")
-                        print(f"    Terminal cable: {connected_cable_id}")
-                        print(f"    FOSC cables: {fosc_connected_cables}")
-                        # Still create the stub cable but mark it as invalid
-                        path = [term_pos_utm, fosc_pos_utm]
-                        length = euclidean_distance(term_pos_utm[0], term_pos_utm[1], fosc_pos_utm[0], fosc_pos_utm[1])
-                        routed = False
-                    
-                    stub_cable = {
-                        "type": "Feature",
-                        "geometry": {
-                            "type": "LineString",
-                            "coordinates": [[p[0], p[1]] for p in path]
-                        },
-                        "properties": {
-                            "id": f"stub_{terminal_id}_{connected_fosc_id}",
-                            "terminal_id": terminal_id,
-                            "fosc_id": connected_fosc_id,
-                            "length_m": length,
-                            "routed_along_cable": routed and len(path) > 2,
-                            "valid": routed,  # Mark if valid (routed along fiber)
-                            "stroke": "#00FF00" if routed else "#FF0000",  # Red if invalid
-                            "stroke-width": 3,
-                            "stroke-opacity": 0.8
-                        }
+            # Get target (FOSC or Aerial Terminal)
+            target_pos = None
+            target_connected_cables = []
+            
+            if connected_fosc_id:
+                target = next((f for f in foscs if f.get("fosc_id") == connected_fosc_id), None)
+                if target:
+                    target_pos = target.get("position")
+                    target_connected_cables = target.get("connected_cables", [])
+            elif connected_aerial_id:
+                # Find Aerial Terminal
+                target = next((t for t in terminals if t.get("terminal_id") == connected_aerial_id), None)
+                if target:
+                    target_pos = target.get("position")
+                    # Aerial Terminal is on a cable, use that cable for routing
+                    aerial_cable_id = target.get("connected_cable_id", "")
+                    if aerial_cable_id:
+                        target_connected_cables = [aerial_cable_id]
+            
+            if target_pos:
+                target_pos_utm = (target_pos[0], target_pos[1]) if isinstance(target_pos, list) else target_pos
+                
+                # Route stub cable along fiber cable
+                preferred_cable_id = None
+                if terminal_id in ["T0004288", "T0004601"] and connected_fosc_id == "F0000962":
+                    preferred_cable_id = "48FOC/F1000398/T1001731"
+                elif connected_cable_id == "48FOC/F1000398/T1001731" and connected_fosc_id == "F0000962":
+                    preferred_cable_id = "48FOC/F1000398/T1001731"
+                
+                path, length, routed = route_stub_cable_along_fiber(
+                    term_pos_utm,
+                    target_pos_utm,
+                    cables_list,
+                    terminal_cable_id=connected_cable_id,
+                    preferred_cable_id=preferred_cable_id,
+                    fosc_connected_cables=target_connected_cables if target_connected_cables else None
+                )
+                
+                if path is None:
+                    # Stub cable cannot be routed along fiber - this is an error
+                    print(f"  ⚠ WARNING: Stub cable {terminal_id} -> {target_id} ({target_type}) cannot be routed along fiber cables!")
+                    print(f"    Terminal cable: {connected_cable_id}")
+                    print(f"    Target cables: {target_connected_cables}")
+                    # Still create the stub cable but mark it as invalid
+                    path = [term_pos_utm, target_pos_utm]
+                    length = euclidean_distance(term_pos_utm[0], term_pos_utm[1], target_pos_utm[0], target_pos_utm[1])
+                    routed = False
+                
+                stub_id = f"stub_{terminal_id}_{target_id}"
+                stub_cable = {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "LineString",
+                        "coordinates": [[p[0], p[1]] for p in path]
+                    },
+                    "properties": {
+                        "id": stub_id,
+                        "terminal_id": terminal_id,
+                        "target_type": target_type,
+                        "fosc_id": connected_fosc_id if connected_fosc_id else None,
+                        "aerial_terminal_id": connected_aerial_id if connected_aerial_id else None,
+                        "length_m": length,
+                        "routed_along_cable": routed and len(path) > 2,
+                        "valid": routed,  # Mark if valid (routed along fiber)
+                        "stroke": "#00FF00" if routed else "#FF0000",  # Red if invalid
+                        "stroke-width": 3,
+                        "stroke-opacity": 0.8
                     }
-                    stub_cable_features.append(stub_cable)
+                }
+                stub_cable_features.append(stub_cable)
     
     stub_cable_layer = create_geojson_layer(stub_cable_features, "Stub Cable")
     with open(f"{output_dir}/stub_cable.geojson", "w") as f:

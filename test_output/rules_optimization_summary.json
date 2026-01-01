@@ -19,5 +19,7 @@
   "underutilized_msts_merged": 7,
   "unconnected_onts_found": 22648,
   "unconnected_onts_connected": 26,
-  "msts_connected_via_stub": 0
+  "msts_connected_via_stub": 0,
+  "stub_cables_optimized": 1,
+  "stub_cables_switched_to_aerial": 4
 }

@@ -788,6 +788,13 @@ def apply_all_optimization_rules(
     )
     summary["msts_connected_via_stub"] = stub_connections.get("connected", 0)
     
+    # Rule 21: Optimize stub cable connections (prefer shorter paths, FOSC over Aerial Terminal)
+    optimized_terminals, optimization_results = optimize_stub_cable_connections(
+        optimized_terminals, filtered_foscs, cables
+    )
+    summary["stub_cables_optimized"] = optimization_results.get("optimized", 0)
+    summary["stub_cables_switched_to_aerial"] = optimization_results.get("switched_to_aerial", 0)
+    
     print()
     print("=" * 80)
     print("OPTIMIZATION SUMMARY")
@@ -813,6 +820,8 @@ def apply_all_optimization_rules(
     print(f"Unconnected ONTs found: {summary.get('unconnected_onts_found', 0)}")
     print(f"Unconnected ONTs connected: {summary.get('unconnected_onts_connected', 0)}")
     print(f"MSTs connected via stub cables: {summary.get('msts_connected_via_stub', 0)}")
+    print(f"Stub cables optimized: {summary.get('stub_cables_optimized', 0)}")
+    print(f"Stub cables switched to Aerial Terminals: {summary.get('stub_cables_switched_to_aerial', 0)}")
     print()
     print(f"Final terminals: {len(optimized_terminals)}")
     print(f"Final FOSCs: {len(filtered_foscs)}")
@@ -2968,4 +2977,265 @@ def ensure_all_msts_connected_via_stub_cables(
     return updated_terminals, {
         "connected": len(connections_made),
         "details": connections_made
+    }
+
+
+def optimize_stub_cable_connections(
+    terminals: List[Dict[str, Any]],
+    foscs: List[Dict[str, Any]],
+    cables: List[Dict[str, Any]]
+) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+    """
+    Rule 21: Optimize stub cable connections - find shorter paths to FOSCs or Aerial Terminals.
+    
+    This rule runs AFTER all other rules to optimize stub cable connections:
+    - For each MST, check if there's a shorter path to a FOSC or Aerial Terminal
+    - Priority: FOSC first, unless Aerial Terminal is < 0.5x FOSC distance
+    - Only switch if new connection is shorter AND can route along fiber
+    
+    Args:
+        terminals: List of terminal dictionaries (MSTs and Aerial Terminals)
+        foscs: List of FOSC dictionaries
+        cables: List of cable dictionaries
+    
+    Returns:
+        (updated_terminals, summary)
+    """
+    print()
+    print("=" * 80)
+    print("RULE 21: OPTIMIZING STUB CABLE CONNECTIONS")
+    print("=" * 80)
+    print()
+    print("Finding shorter paths for stub cables (prefer FOSC, fallback to Aerial Terminal)...")
+    print()
+    
+    from utils.cable_routing import route_stub_cable_along_fiber
+    
+    # Build position maps
+    fosc_positions = {}
+    for fosc in foscs:
+        fosc_id = fosc.get("fosc_id", "")
+        fosc_pos = fosc.get("position")
+        if fosc_pos:
+            fosc_pos_utm = (fosc_pos[0], fosc_pos[1]) if isinstance(fosc_pos, list) else fosc_pos
+            fosc_positions[fosc_id] = {
+                "position": fosc_pos_utm,
+                "connected_cables": fosc.get("connected_cables", [])
+            }
+    
+    aerial_positions = {}
+    for terminal in terminals:
+        term_type = terminal.get("type", "").upper()
+        if term_type == "AERIAL" or term_type == "AERIAL TERMINAL":
+            term_id = terminal.get("terminal_id", "")
+            term_pos = terminal.get("position")
+            if term_pos:
+                term_pos_utm = (term_pos[0], term_pos[1]) if isinstance(term_pos, list) else term_pos
+                aerial_positions[term_id] = {
+                    "position": term_pos_utm,
+                    "connected_cable_id": terminal.get("connected_cable_id", "")
+                }
+    
+    optimizations = []
+    switches_to_aerial = []
+    updated_terminals = []
+    
+    for terminal in terminals:
+        term_type = terminal.get("type", "").upper()
+        if term_type != "MST":
+            updated_terminals.append(terminal)
+            continue
+        
+        terminal_id = terminal.get("terminal_id", "")
+        terminal_pos = terminal.get("position")
+        current_fosc_id = terminal.get("connected_fosc_id", "")
+        terminal_cable_id = terminal.get("connected_cable_id", "")
+        
+        if not terminal_pos:
+            updated_terminals.append(terminal)
+            continue
+        
+        term_pos_utm = (terminal_pos[0], terminal_pos[1]) if isinstance(terminal_pos, list) else terminal_pos
+        
+        # Find current stub cable length
+        current_stub_length = terminal.get("stub_cable_length")
+        if current_fosc_id and current_fosc_id in fosc_positions:
+            current_fosc = fosc_positions[current_fosc_id]
+            current_fosc_pos = current_fosc["position"]
+            current_straight_dist = euclidean_distance(
+                term_pos_utm[0], term_pos_utm[1],
+                current_fosc_pos[0], current_fosc_pos[1]
+            )
+            if current_stub_length is None:
+                current_stub_length = current_straight_dist
+        else:
+            current_stub_length = float('inf')
+            current_straight_dist = float('inf')
+        
+        # Find best FOSC (shortest distance that can route along fiber)
+        best_fosc_id = None
+        best_fosc_path = None
+        best_fosc_length = float('inf')
+        best_fosc_straight_dist = float('inf')
+        
+        for fosc_id, fosc_data in fosc_positions.items():
+            fosc_pos = fosc_data["position"]
+            fosc_connected_cables = fosc_data["connected_cables"]
+            
+            straight_dist = euclidean_distance(
+                term_pos_utm[0], term_pos_utm[1],
+                fosc_pos[0], fosc_pos[1]
+            )
+            
+            # Only consider if shorter than current
+            if straight_dist >= current_straight_dist:
+                continue
+            
+            # Try to route along fiber
+            path, length, routed = route_stub_cable_along_fiber(
+                term_pos_utm,
+                fosc_pos,
+                cables,
+                terminal_cable_id=terminal_cable_id,
+                fosc_connected_cables=fosc_connected_cables
+            )
+            
+            if routed and path and len(path) > 2:
+                if length < best_fosc_length:
+                    best_fosc_id = fosc_id
+                    best_fosc_path = path
+                    best_fosc_length = length
+                    best_fosc_straight_dist = straight_dist
+        
+            # Find best Aerial Terminal (shortest distance that can route along fiber)
+        best_aerial_id = None
+        best_aerial_path = None
+        best_aerial_length = float('inf')
+        best_aerial_straight_dist = float('inf')
+        
+        for aerial_id, aerial_data in aerial_positions.items():
+            aerial_pos = aerial_data["position"]
+            aerial_cable_id = aerial_data["connected_cable_id"]
+            
+            straight_dist = euclidean_distance(
+                term_pos_utm[0], term_pos_utm[1],
+                aerial_pos[0], aerial_pos[1]
+            )
+            
+            # Only consider if significantly shorter than best FOSC
+            # (Aerial Terminal is fallback, so only use if much closer - < 0.5x FOSC distance)
+            if best_fosc_id and straight_dist >= best_fosc_straight_dist * 0.5:
+                continue
+            
+            # Try to route along fiber (Aerial Terminals are on cables, so route to them)
+            # For Aerial Terminal, we route MST -> Aerial Terminal along shared cable
+            if aerial_cable_id and terminal_cable_id and aerial_cable_id == terminal_cable_id:
+                # Same cable - route along it
+                from phases.phase3b_refine_mst_placement import find_nearest_point_on_cable
+                terminal_cable = next((c for c in cables if c.get("id") == terminal_cable_id), None)
+                if terminal_cable:
+                    nearest_term, term_dist = find_nearest_point_on_cable(term_pos_utm, terminal_cable)
+                    nearest_aerial, aerial_dist = find_nearest_point_on_cable(aerial_pos, terminal_cable)
+                    
+                    if term_dist < 100.0 and aerial_dist < 100.0:
+                        from utils.cable_routing import route_along_single_cable, calculate_path_length
+                        path = route_along_single_cable(nearest_term, nearest_aerial, terminal_cable)
+                        if path and len(path) > 2:
+                            length = calculate_path_length(path)
+                            if length < best_aerial_length:
+                                best_aerial_id = aerial_id
+                                best_aerial_path = path
+                                best_aerial_length = length
+                                best_aerial_straight_dist = straight_dist
+            else:
+                # Different cables - try to find path through cable network
+                # Use FOSC routing logic but with Aerial Terminal position
+                aerial_connected_cables = [aerial_cable_id] if aerial_cable_id else []
+                path, length, routed = route_stub_cable_along_fiber(
+                    term_pos_utm,
+                    aerial_pos,
+                    cables,
+                    terminal_cable_id=terminal_cable_id,
+                    fosc_connected_cables=aerial_connected_cables
+                )
+                
+                if routed and path and len(path) > 2:
+                    if length < best_aerial_length:
+                        best_aerial_id = aerial_id
+                        best_aerial_path = path
+                        best_aerial_length = length
+                        best_aerial_straight_dist = straight_dist
+        
+        # Decide: FOSC or Aerial Terminal?
+        # Priority: FOSC unless Aerial Terminal is < 0.5x FOSC distance
+        selected_target = None
+        selected_target_id = None
+        selected_path = None
+        selected_length = float('inf')
+        target_type = None
+        
+        if best_fosc_id:
+            if best_aerial_id and best_aerial_straight_dist < best_fosc_straight_dist * 0.5:
+                # Aerial Terminal is less than half the distance - use it
+                selected_target_id = best_aerial_id
+                selected_path = best_aerial_path
+                selected_length = best_aerial_length
+                target_type = "Aerial Terminal"
+            else:
+                # Use FOSC (preferred)
+                selected_target_id = best_fosc_id
+                selected_path = best_fosc_path
+                selected_length = best_fosc_length
+                target_type = "FOSC"
+        elif best_aerial_id:
+            # Only Aerial Terminal available
+            selected_target_id = best_aerial_id
+            selected_path = best_aerial_path
+            selected_length = best_aerial_length
+            target_type = "Aerial Terminal"
+        
+        # Update if we found a better connection
+        if selected_target_id and selected_length < current_stub_length:
+            old_fosc_id = current_fosc_id
+            terminal["connected_fosc_id"] = selected_target_id if target_type == "FOSC" else None
+            terminal["connected_aerial_terminal_id"] = selected_target_id if target_type == "Aerial Terminal" else None
+            terminal["stub_cable_length"] = selected_length
+            
+            if target_type == "Aerial Terminal":
+                switches_to_aerial.append({
+                    "terminal_id": terminal_id,
+                    "old_fosc_id": old_fosc_id,
+                    "new_aerial_id": selected_target_id,
+                    "old_length": current_stub_length,
+                    "new_length": selected_length,
+                    "savings": current_stub_length - selected_length
+                })
+                print(f"  ✓ {terminal_id}: Switched to Aerial Terminal {selected_target_id}")
+                print(f"    Old: FOSC {old_fosc_id} ({current_stub_length:.1f}m)")
+                print(f"    New: Aerial Terminal {selected_target_id} ({selected_length:.1f}m, saved {current_stub_length - selected_length:.1f}m)")
+            else:
+                optimizations.append({
+                    "terminal_id": terminal_id,
+                    "old_fosc_id": old_fosc_id,
+                    "new_fosc_id": selected_target_id,
+                    "old_length": current_stub_length,
+                    "new_length": selected_length,
+                    "savings": current_stub_length - selected_length
+                })
+                print(f"  ✓ {terminal_id}: Optimized to FOSC {selected_target_id}")
+                print(f"    Old: FOSC {old_fosc_id} ({current_stub_length:.1f}m)")
+                print(f"    New: FOSC {selected_target_id} ({selected_length:.1f}m, saved {current_stub_length - selected_length:.1f}m)")
+        
+        updated_terminals.append(terminal)
+    
+    print()
+    print(f"Optimized {len(optimizations)} stub cable connections to FOSCs")
+    print(f"Switched {len(switches_to_aerial)} stub cables to Aerial Terminals")
+    print()
+    
+    return updated_terminals, {
+        "optimized": len(optimizations),
+        "switched_to_aerial": len(switches_to_aerial),
+        "optimizations": optimizations,
+        "switches": switches_to_aerial
     }

@@ -374,6 +374,41 @@ All rules use **UTM Zone 17N (EPSG:32617)** coordinates - NO transformation duri
 
 ---
 
+## Rule 22: Update Cable IDs Based on FOSC and Terminal Positions
+
+**Purpose**: Review and fix fiber cable IDs based on actual FOSC and terminal positions at cable endpoints.
+
+**Format**: `<size>FOC/From/To`
+- Example: `144FOC/T123456/F67890`
+- Example: `48FOC/F0000157/F0000171`
+
+**Criteria**:
+- For each cable, find FOSCs and terminals at start and end points (within 50m tolerance)
+- Extract fiber size from current cable ID or properties
+- Build new cable ID: `<size>FOC/<from_id>/<to_id>`
+- Where `from_id` and `to_id` are:
+  - Terminal IDs (T...) if terminal is at endpoint
+  - FOSC IDs (F...) if FOSC is at endpoint
+  - UNKNOWN if no element found at endpoint
+
+**Action**:
+- For each cable:
+  1. Get start and end point coordinates
+  2. Find nearest FOSC or Terminal at each endpoint (within 50m)
+  3. Extract fiber size from current cable ID
+  4. Build new cable ID: `<size>FOC/<from_id>/<to_id>`
+  5. Update cable properties with new ID and endpoint information
+
+**Rationale**: Cable IDs should accurately reflect the network topology. After FOSCs and terminals are placed and optimized, cable IDs should be updated to match the actual connections at cable endpoints. This ensures cable IDs are consistent with the network design.
+
+**Example**: 
+- Cable `144FOC/F1000391/F1000392` has:
+  - Start point near F0000157 (FOSC, 9.0m)
+  - End point near F0000171 (FOSC, 2.4m)
+- Updated to: `144FOC/F0000157/F0000171`
+
+---
+
 ## Rule Application Order
 
 1. **Rule 1**: Merge nearby FOSCs (consolidate first)
@@ -394,8 +429,9 @@ All rules use **UTM Zone 17N (EPSG:32617)** coordinates - NO transformation duri
 16. **Rule 19**: Ensure all ONTs are connected (final cleanup)
 17. **Rule 20**: Ensure all MSTs connected via stub cables (routed along fiber)
 18. **Rule 21**: Optimize stub cable connections (prefer shorter paths, FOSC over Aerial Terminal)
-19. **Rule 5**: Filter distant ONTs (final cleanup)
-20. **Rule 6**: Fix ONT-to-FOSC connections (ensure topology)
+19. **Rule 22**: Update cable IDs based on FOSC and terminal positions at endpoints
+20. **Rule 5**: Filter distant ONTs (final cleanup)
+21. **Rule 6**: Fix ONT-to-FOSC connections (ensure topology)
 
 **Note**: Stub cable routing along fiber cables is handled in the visualization step using `route_stub_cable_along_fiber()`, which finds paths along existing fiber cable infrastructure.
 

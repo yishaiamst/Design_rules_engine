@@ -795,6 +795,13 @@ def apply_all_optimization_rules(
     summary["stub_cables_optimized"] = optimization_results.get("optimized", 0)
     summary["stub_cables_switched_to_aerial"] = optimization_results.get("switched_to_aerial", 0)
     
+    # Rule 22: Update cable IDs based on FOSC and terminal positions at endpoints
+    from phases.phase3d_update_cable_ids import update_cable_ids
+    # Note: This updates the cable GeoJSON, but we need to pass it through
+    # For now, we'll update it and save it separately
+    # The cables list passed in is a simplified format, so we need to work with the full GeoJSON
+    summary["cable_ids_updated"] = 0  # Will be set if we update cables
+    
     print()
     print("=" * 80)
     print("OPTIMIZATION SUMMARY")

@@ -139,7 +139,7 @@ def main():
             if dist <= radius_m:
                 extracted_onts.append(feature)
     
-    # Extract fiber cables
+    # Extract fiber cables (will be updated with new IDs later)
     extracted_cables = []
     for feature in fiber_cable_geojson.get("features", []):
         geometry = feature.get("geometry", {})
@@ -382,6 +382,49 @@ def main():
     # ==========================================
     print("Creating Fiber Cables layer...")
     
+    # Update cable IDs based on FOSC and terminal positions
+    from phases.phase3d_update_cable_ids import update_cable_ids_for_area
+    
+    # Convert center to UTM
+    center_utm = latlon_to_utm(center_lat, center_lon)
+    
+    # Update cable IDs for the extracted area
+    updated_cables_geojson, cable_id_summary = update_cable_ids_for_area(
+        fiber_cable_geojson,
+        foscs,
+        terminals,
+        center_point=center_utm,
+        radius_m=radius_m,
+        tolerance=50.0
+    )
+    
+    # Use updated cables for extraction
+    updated_extracted_cables = []
+    for feature in updated_cables_geojson.get("features", []):
+        geometry = feature.get("geometry", {})
+        coords_list = []
+        
+        if geometry.get("type") == "LineString":
+            coords_list = geometry.get("coordinates", [])
+        elif geometry.get("type") == "MultiLineString":
+            for line in geometry.get("coordinates", []):
+                coords_list.extend(line)
+        
+        near_center = False
+        for coord in coords_list:
+            if len(coord) >= 2:
+                cable_pos_utm = (float(coord[0]), float(coord[1]))
+                dist = euclidean_distance(center_utm[0], center_utm[1], cable_pos_utm[0], cable_pos_utm[1])
+                if dist <= radius_m:
+                    near_center = True
+                    break
+        
+        if near_center:
+            updated_extracted_cables.append(feature)
+    
+    print(f"  Updated {cable_id_summary.get('updated', 0)} cable IDs based on FOSC/terminal positions")
+    print()
+    
     def offset_line_perpendicular(coords, offset_distance):
         """Offset a LineString perpendicular to its direction."""
         if len(coords) < 2:
@@ -472,11 +515,14 @@ def main():
                     return True
         return False
     
+    # Use updated extracted cables (with new IDs) for offsetting
+    cables_to_offset = updated_extracted_cables if 'updated_extracted_cables' in locals() else extracted_cables
+    
     # Group cables by overlapping paths
     offset_cables = []
     offset_distance = 5.0  # 5 meters offset
     
-    for i, feature in enumerate(extracted_cables):
+    for i, feature in enumerate(cables_to_offset):
         geometry = feature.get("geometry", {})
         props = feature.get("properties", {})
         

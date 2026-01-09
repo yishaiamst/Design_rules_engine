@@ -897,8 +897,14 @@ def main():
                         if isinstance(original_target_pos, list):
                             original_target_pos = (original_target_pos[0], original_target_pos[1])
                 
+                # Initialize path_for_geojson variable
+                path_for_geojson = None
+                path = None
+                length = 0.0
+                routed = False
+                
                 if original_target_pos:
-                    # Route using original positions
+                    # Route using original positions for pathfinding (along fiber cables)
                     path, length, routed = route_stub_cable_along_fiber(
                         original_term_pos,
                         original_target_pos,
@@ -909,33 +915,65 @@ def main():
                     )
                     
                     # Adjust path endpoints to connect to offset positions
+                    # This ensures stub cable visually connects to offset MST and FOSC
                     if path and len(path) >= 2:
+                        # Make a mutable copy of the path
+                        path_list = []
+                        for p in path:
+                            if isinstance(p, (list, tuple)) and len(p) >= 2:
+                                path_list.append([float(p[0]), float(p[1])])
+                            else:
+                                path_list.append([float(p[0]), float(p[1])])
+                        
                         # Update first point (MST end) to offset position
-                        path[0] = (term_pos_utm[0], term_pos_utm[1])
-                        # Update last point (FOSC/Terminal end) to offset position
-                        path[-1] = (target_pos_utm[0], target_pos_utm[1])
+                        path_list[0] = [float(term_pos_utm[0]), float(term_pos_utm[1])]
+                        # Update last point (FOSC/Terminal end) to offset position  
+                        path_list[-1] = [float(target_pos_utm[0]), float(target_pos_utm[1])]
+                        
+                        # Store for GeoJSON
+                        path_for_geojson = path_list
+                        
+                        # Recalculate length with offset endpoints
+                        total_length = 0.0
+                        for i in range(len(path_list) - 1):
+                            x1, y1 = path_list[i][0], path_list[i][1]
+                            x2, y2 = path_list[i+1][0], path_list[i+1][1]
+                            total_length += euclidean_distance(x1, y1, x2, y2)
+                        length = total_length
+                    else:
+                        # No path found - use direct connection with offset positions
+                        path_for_geojson = [[float(term_pos_utm[0]), float(term_pos_utm[1])], 
+                                           [float(target_pos_utm[0]), float(target_pos_utm[1])]]
+                        length = euclidean_distance(term_pos_utm[0], term_pos_utm[1], target_pos_utm[0], target_pos_utm[1])
+                        routed = False
                 else:
-                    # Fallback: direct connection
-                    path = [term_pos_utm, target_pos_utm]
+                    # Fallback: direct connection with offset positions
+                    path_for_geojson = [[float(term_pos_utm[0]), float(term_pos_utm[1])], 
+                                       [float(target_pos_utm[0]), float(target_pos_utm[1])]]
                     length = euclidean_distance(term_pos_utm[0], term_pos_utm[1], target_pos_utm[0], target_pos_utm[1])
                     routed = False
                 
-                if path is None:
+                if path is None or not path_for_geojson:
                     # Stub cable cannot be routed along fiber - this is an error
                     print(f"  ⚠ WARNING: Stub cable {terminal_id} -> {target_id} ({target_type}) cannot be routed along fiber cables!")
                     print(f"    Terminal cable: {connected_cable_id}")
                     print(f"    Target cables: {target_connected_cables}")
                     # Still create the stub cable but mark it as invalid
-                    path = [term_pos_utm, target_pos_utm]
+                    path_for_geojson = [[float(term_pos_utm[0]), float(term_pos_utm[1])], 
+                                       [float(target_pos_utm[0]), float(target_pos_utm[1])]]
                     length = euclidean_distance(term_pos_utm[0], term_pos_utm[1], target_pos_utm[0], target_pos_utm[1])
                     routed = False
                 
                 stub_id = f"stub_{terminal_id}_{target_id}"
+                
+                # Use path_for_geojson (already in correct format)
+                path_coords = path_for_geojson
+                
                 stub_cable = {
                     "type": "Feature",
                     "geometry": {
                         "type": "LineString",
-                        "coordinates": [[p[0], p[1]] for p in path]
+                        "coordinates": path_coords
                     },
                     "properties": {
                         "id": stub_id,

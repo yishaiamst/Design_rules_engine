@@ -877,6 +877,9 @@ def main():
             if terminal_id in mst_positions_map:
                 # Use exact offset position from saved MST GeoJSON file
                 term_pos_utm = mst_positions_map[terminal_id]
+                # Debug for problematic cables
+                if terminal_id in ["T0000034", "T0004300"]:
+                    print(f"  DEBUG {terminal_id}: Found in mst_positions_map: {term_pos_utm}")
             else:
                 # Fallback: try mst_features
                 try:
@@ -885,6 +888,8 @@ def main():
                         mst_coords = mst_feature.get("geometry", {}).get("coordinates", [])
                         if len(mst_coords) >= 2:
                             term_pos_utm = (float(mst_coords[0]), float(mst_coords[1]))
+                            if terminal_id in ["T0000034", "T0004300"]:
+                                print(f"  DEBUG {terminal_id}: Found in mst_features: {term_pos_utm}")
                 except (NameError, TypeError):
                     pass
             
@@ -894,8 +899,12 @@ def main():
                     term_pos_utm = terminal["visualization_position"]
                     if isinstance(term_pos_utm, list):
                         term_pos_utm = (term_pos_utm[0], term_pos_utm[1])
+                    if terminal_id in ["T0000034", "T0004300"]:
+                        print(f"  DEBUG {terminal_id}: Using visualization_position: {term_pos_utm}")
                 else:
                     term_pos_utm = (terminal_pos[0], terminal_pos[1]) if isinstance(terminal_pos, list) else terminal_pos
+                    if terminal_id in ["T0000034", "T0004300"]:
+                        print(f"  DEBUG {terminal_id}: Using original position: {term_pos_utm}")
             
             # Get target (FOSC or Aerial Terminal)
             # Use visualization position if FOSC was offset
@@ -995,6 +1004,14 @@ def main():
                             else:
                                 path_list.append([float(p[0]), float(p[1])])
                         
+                        # Debug before modification
+                        if terminal_id in ["T0000034", "T0004300"]:
+                            print(f"  DEBUG {stub_id} BEFORE modification:")
+                            print(f"    path_list[0] (original): {path_list[0]}")
+                            print(f"    path_list[-1] (original): {path_list[-1]}")
+                            print(f"    term_pos_utm (should use): {term_pos_utm}")
+                            print(f"    target_pos_utm (should use): {target_pos_utm}")
+                        
                         # CRITICAL: Update first point (MST end) to EXACT offset position
                         # This ensures stub cable visually connects to offset MST
                         # Force exact match - overwrite whatever was in path_list[0]
@@ -1009,8 +1026,17 @@ def main():
                         
                         # Final verification: Force endpoints to exact offset positions
                         # This is a safety check to ensure endpoints match exactly
+                        # CRITICAL: These MUST be the exact offset positions from mst_positions_map and fosc_positions_map
                         path_for_geojson[0] = [float(term_pos_utm[0]), float(term_pos_utm[1])]
                         path_for_geojson[-1] = [float(target_pos_utm[0]), float(target_pos_utm[1])]
+                        
+                        # Debug: Verify endpoints are correct (for specific problematic cables)
+                        if terminal_id in ["T0000034", "T0004300"]:
+                            print(f"  DEBUG {stub_id} AFTER modification:")
+                            print(f"    path_list[0]: {path_list[0]}")
+                            print(f"    path_list[-1]: {path_list[-1]}")
+                            print(f"    path_for_geojson[0]: {path_for_geojson[0]}")
+                            print(f"    path_for_geojson[-1]: {path_for_geojson[-1]}")
                         
                         # Recalculate length with offset endpoints
                         total_length = 0.0
@@ -1021,6 +1047,10 @@ def main():
                         length = total_length
                     else:
                         # No path found - use direct connection with offset positions
+                        if terminal_id in ["T0000034", "T0004300"]:
+                            print(f"  DEBUG {stub_id}: No path found, using direct connection")
+                            print(f"    term_pos_utm: {term_pos_utm}")
+                            print(f"    target_pos_utm: {target_pos_utm}")
                         path_for_geojson = [[float(term_pos_utm[0]), float(term_pos_utm[1])], 
                                            [float(target_pos_utm[0]), float(target_pos_utm[1])]]
                         length = euclidean_distance(term_pos_utm[0], term_pos_utm[1], target_pos_utm[0], target_pos_utm[1])
@@ -1045,8 +1075,24 @@ def main():
                 
                 stub_id = f"stub_{terminal_id}_{target_id}"
                 
-                # Use path_for_geojson (already in correct format)
+                # Use path_for_geojson (already in correct format with offset endpoints)
                 path_coords = path_for_geojson
+                
+                # CRITICAL: Final safety check - ensure endpoints are exact offset positions
+                # This is the last chance to fix endpoints before writing to GeoJSON
+                if len(path_coords) >= 2:
+                    # Force first point to exact offset MST position
+                    path_coords[0] = [float(term_pos_utm[0]), float(term_pos_utm[1])]
+                    # Force last point to exact offset FOSC position
+                    path_coords[-1] = [float(target_pos_utm[0]), float(target_pos_utm[1])]
+                
+                # Debug: Verify final coordinates (for problematic cables)
+                if terminal_id in ["T0000034", "T0004300"]:
+                    print(f"  DEBUG {stub_id} FINAL coordinates:")
+                    print(f"    path_coords[0]: {path_coords[0]}")
+                    print(f"    path_coords[-1]: {path_coords[-1]}")
+                    print(f"    term_pos_utm: {term_pos_utm}")
+                    print(f"    target_pos_utm: {target_pos_utm}")
                 
                 stub_cable = {
                     "type": "Feature",

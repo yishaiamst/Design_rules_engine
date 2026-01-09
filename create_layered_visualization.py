@@ -375,6 +375,10 @@ def main():
                 # Store final position
                 aerial_positions[terminal_id] = (term_pos_utm[0] + offset_x, term_pos_utm[1] + offset_y)
                 
+                # Store offset for drop cable adjustment (so drop cables connect to offset position)
+                terminal["visualization_offset"] = (offset_x, offset_y)
+                terminal["visualization_position"] = (term_pos_utm[0] + offset_x, term_pos_utm[1] + offset_y)
+                
                 aerial_feature = {
                     "type": "Feature",
                     "geometry": {
@@ -482,6 +486,10 @@ def main():
                 
                 # Store final position for future overlap checks
                 mst_positions[terminal_id] = (term_pos_utm[0] + offset_x, term_pos_utm[1] + offset_y)
+                
+                # Store offset for drop cable adjustment (so drop cables connect to offset position)
+                terminal["visualization_offset"] = (offset_x, offset_y)
+                terminal["visualization_position"] = (term_pos_utm[0] + offset_x, term_pos_utm[1] + offset_y)
                 
                 # Generate stub cable ID (will be set when we create stub cables)
                 stub_cable_id = None

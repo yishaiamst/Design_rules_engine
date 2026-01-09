@@ -254,24 +254,63 @@ def main():
     # ==========================================
     print("Creating FOSC layer...")
     fosc_features = []
+    # First pass: collect all FOSC positions
+    fosc_positions = {}
     for fosc in foscs:
         fosc_pos = fosc.get("position")
         if fosc_pos:
             fosc_pos_utm = (fosc_pos[0], fosc_pos[1]) if isinstance(fosc_pos, list) else fosc_pos
+            fosc_id = fosc.get("fosc_id", "")
+            fosc_positions[fosc_id] = fosc_pos_utm
+    
+    # Second pass: create features with overlap detection
+    for fosc in foscs:
+        fosc_pos = fosc.get("position")
+        if fosc_pos:
+            fosc_pos_utm = (fosc_pos[0], fosc_pos[1]) if isinstance(fosc_pos, list) else fosc_pos
+            fosc_id = fosc.get("fosc_id", "")
+            
+            # Check for overlapping FOSCs (within 1m) - prioritize F0000962 visibility
+            offset_x, offset_y = 0.0, 0.0
+            overlapping_foscs = []
+            for existing_id, existing_pos in fosc_positions.items():
+                if existing_id == fosc_id:
+                    continue
+                dist = euclidean_distance(fosc_pos_utm[0], fosc_pos_utm[1], existing_pos[0], existing_pos[1])
+                if dist < 1.0:  # Within 1 meter
+                    overlapping_foscs.append(existing_id)
+            
+            # Apply offset: F0000962 gets priority (no offset), others get offset
+            if overlapping_foscs and fosc_id == "F0000962":
+                print(f"  ⚠️  F0000962 overlaps with {overlapping_foscs} - keeping F0000962 at original location")
+            elif overlapping_foscs and "F0000962" in overlapping_foscs:
+                # Offset this FOSC away from F0000962
+                offset_x = -2.0
+                offset_y = -2.0
+                print(f"  ⚠️  {fosc_id} overlaps with F0000962 - applying 2m offset to {fosc_id}")
+            elif overlapping_foscs:
+                # Multiple overlaps - offset this one
+                offset_x = 2.0
+                offset_y = 2.0
+                print(f"  ⚠️  {fosc_id} overlaps with {overlapping_foscs} - applying 2m offset")
+            
             fosc_feature = {
                 "type": "Feature",
                 "geometry": {
                     "type": "Point",
-                    "coordinates": [fosc_pos_utm[0], fosc_pos_utm[1]]
+                    "coordinates": [fosc_pos_utm[0] + offset_x, fosc_pos_utm[1] + offset_y]
                 },
                 "properties": {
-                    "id": fosc.get("fosc_id", ""),
+                    "id": fosc_id,
                     "type": "FOSC",
                     "merged": fosc.get("merged", False),
                     "connected_cables": fosc.get("connected_cables", []),
-                    "marker-color": "#0000FF",
-                    "marker-size": "medium",
-                    "marker-symbol": "circle"
+                    "marker-color": "#FF0000" if fosc_id == "F0000962" else "#0000FF",  # Red for F0000962
+                    "marker-size": "large" if fosc_id == "F0000962" else "medium",  # Larger for F0000962
+                    "marker-symbol": "circle",
+                    "offset_applied": offset_x != 0.0 or offset_y != 0.0,
+                    "offset_distance_m": ((offset_x**2 + offset_y**2)**0.5) if (offset_x != 0.0 or offset_y != 0.0) else 0.0,
+                    "overlaps_with": overlapping_foscs if overlapping_foscs else None
                 }
             }
             fosc_features.append(fosc_feature)

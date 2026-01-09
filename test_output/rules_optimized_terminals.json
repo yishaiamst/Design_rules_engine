@@ -648,7 +648,7 @@
       5062609.060083543
     ],
     "connected_cable_id": "48FOC/F1000398/T1001731",
-    "connected_fosc_id": "F0004300",
+    "connected_fosc_id": "F0000962",
     "connected_onts": [
       "O1007564",
       "O1007611",
@@ -662,10 +662,9 @@
       "O1007649"
     ],
     "model": "MST12",
-    "stub_cable_length": 47.65318226724053,
+    "stub_cable_length": 165.0617877078165,
     "created_by": "Rule 13 (MST near F0000962 for specific ONTs)",
-    "distance_to_cable_m": 0.0,
-    "connected_aerial_terminal_id": null
+    "distance_to_cable_m": 0.0
   },
   {
     "terminal_id": "T0004456",

@@ -706,8 +706,9 @@ def apply_all_optimization_rules(
     summary["isolated_terminals_removed"] = len(removed_isolated)
     
     # Rule 9: Convert terminals to FOSCs (long non-straight cables)
+    # Pass existing FOSCs to prevent duplicates
     optimized_terminals, new_foscs_from_terminals = convert_terminal_to_fosc(
-        optimized_terminals, cables, min_cable_length=500.0
+        optimized_terminals, cables, existing_foscs=filtered_foscs, min_cable_length=500.0, fosc_merge_distance=1.0
     )
     filtered_foscs.extend(new_foscs_from_terminals)
     summary["terminals_converted_to_fosc"] = len(new_foscs_from_terminals)
@@ -794,6 +795,10 @@ def apply_all_optimization_rules(
     )
     summary["stub_cables_optimized"] = optimization_results.get("optimized", 0)
     summary["stub_cables_switched_to_aerial"] = optimization_results.get("switched_to_aerial", 0)
+    
+    # Post-processing: Merge FOSCs within 1m (prevent duplicates from different rules)
+    filtered_foscs, close_merges = merge_very_close_foscs(filtered_foscs, merge_distance=1.0)
+    summary["foscs_merged_post_processing"] = len(close_merges)
     
     # Rule 22: Update cable IDs based on FOSC and terminal positions at endpoints
     from phases.phase3d_update_cable_ids import update_cable_ids
@@ -1304,7 +1309,9 @@ def fix_isolated_terminals(
 def convert_terminal_to_fosc(
     terminals: List[Dict[str, Any]],
     cables: List[Dict[str, Any]],
-    min_cable_length: float = 500.0
+    existing_foscs: List[Dict[str, Any]] = None,
+    min_cable_length: float = 500.0,
+    fosc_merge_distance: float = 1.0
 ) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
     """
     Rule 9: Convert terminals to FOSCs when they're on long, non-straight cables.
@@ -1313,11 +1320,14 @@ def convert_terminal_to_fosc(
     - Terminal is on a cable
     - Cable is long (>min_cable_length)
     - Cable is not straight (has significant curvature)
+    - NO existing FOSC within merge_distance (default 1m)
     
     Args:
         terminals: List of terminal dictionaries
         cables: List of cable dictionaries
+        existing_foscs: List of existing FOSC dictionaries (to check for duplicates)
         min_cable_length: Minimum cable length to consider (default 500m)
+        fosc_merge_distance: Distance threshold to merge with existing FOSC (default 1m)
     
     Returns:
         (updated_terminals, new_foscs)
@@ -1330,8 +1340,21 @@ def convert_terminal_to_fosc(
     print("Detecting terminals on long, non-straight cables...")
     print()
     
+    if existing_foscs is None:
+        existing_foscs = []
+    
+    # Build existing FOSC positions for duplicate checking
+    existing_fosc_positions = {}
+    for fosc in existing_foscs:
+        fosc_id = fosc.get("fosc_id", "")
+        fosc_pos = fosc.get("position")
+        if fosc_pos:
+            fosc_pos_utm = (fosc_pos[0], fosc_pos[1]) if isinstance(fosc_pos, list) else fosc_pos
+            existing_fosc_positions[fosc_id] = fosc_pos_utm
+    
     new_foscs = []
     terminals_to_remove = []
+    merged_with_existing = []
     
     for terminal in terminals:
         terminal_id = terminal.get("terminal_id", "")
@@ -1342,6 +1365,24 @@ def convert_terminal_to_fosc(
             continue
         
         term_pos_utm = (terminal_pos[0], terminal_pos[1]) if isinstance(terminal_pos, list) else terminal_pos
+        
+        # Check if there's an existing FOSC within merge_distance
+        nearby_fosc = None
+        min_dist = float('inf')
+        for existing_id, existing_pos in existing_fosc_positions.items():
+            dist = euclidean_distance(term_pos_utm[0], term_pos_utm[1], existing_pos[0], existing_pos[1])
+            if dist < min_dist:
+                min_dist = dist
+                if dist <= fosc_merge_distance:
+                    nearby_fosc = existing_id
+        
+        if nearby_fosc:
+            # FOSC already exists at this location - don't create duplicate
+            # Just remove the terminal (FOSC will handle the connection)
+            terminals_to_remove.append(terminal_id)
+            merged_with_existing.append((terminal_id, nearby_fosc, min_dist))
+            print(f"  ⊘ Skipped {terminal_id} → FOSC {nearby_fosc} already exists ({min_dist:.2f}m away)")
+            continue
         
         # Find the cable
         cable = next((c for c in cables if c.get("id") == connected_cable_id), None)
@@ -1396,9 +1437,150 @@ def convert_terminal_to_fosc(
     
     print()
     print(f"Converted {len(new_foscs)} terminals to FOSCs")
+    if merged_with_existing:
+        print(f"Merged {len(merged_with_existing)} terminals with existing FOSCs (avoided duplicates)")
     print()
     
     return updated_terminals, new_foscs
+
+
+def merge_very_close_foscs(
+    foscs: List[Dict[str, Any]],
+    merge_distance: float = 1.0
+) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
+    """
+    Post-processing: Merge FOSCs that are very close together (within merge_distance).
+    
+    This prevents duplicate FOSCs created by different rules at the same location.
+    For example, if Rule 7 creates a FOSC at a junction and Rule 9 converts a terminal
+    at the same location, they should be merged.
+    
+    Args:
+        foscs: List of FOSC dictionaries
+        merge_distance: Maximum distance to merge (default 1.0m)
+    
+    Returns:
+        (merged_foscs, merge_summary)
+    """
+    print()
+    print("=" * 80)
+    print("POST-PROCESSING: MERGING VERY CLOSE FOSCs")
+    print("=" * 80)
+    print()
+    print(f"Merging FOSCs within {merge_distance}m (prevent duplicates from different rules)...")
+    print()
+    
+    if not foscs:
+        return foscs, []
+    
+    # Build FOSC position map
+    fosc_positions = {}
+    for fosc in foscs:
+        fosc_id = fosc.get("fosc_id", "")
+        fosc_pos = fosc.get("position")
+        if fosc_pos:
+            fosc_pos_utm = (fosc_pos[0], fosc_pos[1]) if isinstance(fosc_pos, list) else fosc_pos
+            fosc_positions[fosc_id] = fosc_pos_utm
+    
+    # Find FOSCs to merge
+    foscs_to_remove = set()
+    merges = []
+    merged_foscs = []
+    
+    for i, fosc1 in enumerate(foscs):
+        fosc1_id = fosc1.get("fosc_id", "")
+        if fosc1_id in foscs_to_remove:
+            continue
+        
+        fosc1_pos = fosc_positions.get(fosc1_id)
+        if not fosc1_pos:
+            merged_foscs.append(fosc1)
+            continue
+        
+        # Find nearby FOSCs to merge
+        nearby_foscs = []
+        for j, fosc2 in enumerate(foscs):
+            if i >= j:
+                continue
+            
+            fosc2_id = fosc2.get("fosc_id", "")
+            if fosc2_id in foscs_to_remove:
+                continue
+            
+            fosc2_pos = fosc_positions.get(fosc2_id)
+            if not fosc2_pos:
+                continue
+            
+            dist = euclidean_distance(fosc1_pos[0], fosc1_pos[1], fosc2_pos[0], fosc2_pos[1])
+            
+            if dist <= merge_distance:
+                nearby_foscs.append((fosc2_id, fosc2, dist))
+        
+        if nearby_foscs:
+            # Merge all nearby FOSCs into fosc1
+            # Priority: Keep the one created by junction (Rule 7) or the one with more cables
+            # Otherwise, keep the first one (fosc1)
+            
+            # Determine which FOSC to keep
+            keep_fosc = fosc1
+            keep_id = fosc1_id
+            remove_ids = [f[0] for f in nearby_foscs]
+            
+            # Check if any is a junction FOSC (prefer to keep those)
+            for fosc2_id, fosc2, dist in nearby_foscs:
+                trigger = fosc2.get("trigger", "")
+                if trigger == "junction":
+                    keep_fosc = fosc2
+                    keep_id = fosc2_id
+                    remove_ids = [fosc1_id] + [f[0] for f in nearby_foscs if f[0] != fosc2_id]
+                    break
+            
+            # If no junction FOSC, prefer the one with more connected cables
+            if keep_fosc == fosc1:
+                max_cables = len(keep_fosc.get("connected_cables", []))
+                for fosc2_id, fosc2, dist in nearby_foscs:
+                    cable_count = len(fosc2.get("connected_cables", []))
+                    if cable_count > max_cables:
+                        keep_fosc = fosc2
+                        keep_id = fosc2_id
+                        max_cables = cable_count
+                        remove_ids = [fosc1_id] + [f[0] for f in nearby_foscs if f[0] != fosc2_id]
+            
+            # Merge connected cables
+            all_connected_cables = set(keep_fosc.get("connected_cables", []))
+            for fosc2_id, fosc2, dist in nearby_foscs:
+                if fosc2_id != keep_id:
+                    all_connected_cables.update(fosc2.get("connected_cables", []))
+            
+            # Update kept FOSC
+            merged_fosc = keep_fosc.copy()
+            merged_fosc["connected_cables"] = list(all_connected_cables)
+            merged_fosc["merged"] = True
+            merged_fosc["merged_from"] = remove_ids
+            merged_fosc["merge_distance"] = max([f[2] for f in nearby_foscs if f[0] != keep_id], default=0.0)
+            
+            merged_foscs.append(merged_fosc)
+            foscs_to_remove.update(remove_ids)
+            
+            merges.append({
+                "kept": keep_id,
+                "removed": remove_ids,
+                "distance": max([f[2] for f in nearby_foscs], default=0.0)
+            })
+            
+            print(f"  ✓ Merged {len(remove_ids)} FOSCs into {keep_id}")
+            print(f"    Removed: {', '.join(remove_ids)}")
+            print(f"    Distance: {max([f[2] for f in nearby_foscs], default=0.0):.2f}m")
+        else:
+            # No nearby FOSCs, keep as-is
+            merged_foscs.append(fosc1)
+    
+    print()
+    print(f"Merged {len(merges)} groups of very close FOSCs")
+    print(f"Removed {len(foscs_to_remove)} duplicate FOSCs")
+    print()
+    
+    return merged_foscs, merges
 
 
 def fix_incorrect_terminal_connections(

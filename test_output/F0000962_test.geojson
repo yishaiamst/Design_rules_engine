@@ -1,0 +1,32 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::32617"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          389808.09665968735,
+          5062629.558434709
+        ]
+      },
+      "properties": {
+        "id": "F0000962",
+        "type": "FOSC",
+        "merged": false,
+        "connected_cables": [
+          "48FOC/F1000397/F1000398"
+        ],
+        "marker-color": "#0000FF",
+        "marker-size": "medium",
+        "marker-symbol": "circle"
+      }
+    }
+  ]
+}

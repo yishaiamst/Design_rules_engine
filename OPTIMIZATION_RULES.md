@@ -374,6 +374,34 @@ All rules use **UTM Zone 17N (EPSG:32617)** coordinates - NO transformation duri
 
 ---
 
+## Post-Processing: Merge Very Close FOSCs
+
+**Purpose**: Prevent duplicate FOSCs created by different rules at the same location.
+
+**Problem**: 
+- Rule 7 places FOSCs at cable junctions
+- Rule 9 converts terminals to FOSCs on long curved cables
+- If a terminal is at a junction, both rules can create FOSCs at the same location
+
+**Criteria**:
+- FOSCs within 1.0m of each other
+- Applied after all optimization rules
+
+**Action**:
+- For each pair of FOSCs within 1m:
+  1. Priority: Keep junction FOSC (Rule 7) if present
+  2. Otherwise: Keep FOSC with more connected cables
+  3. Merge connected cables from removed FOSC into kept FOSC
+  4. Remove duplicate FOSC
+
+**Rationale**: Prevents duplicate FOSCs at the same location, ensuring clean network topology.
+
+**Example**: 
+- F0000962 (junction FOSC) and F0004300 (converted from T0004300) at 0.51m apart
+- F0004300 is removed, F0000962 is kept with merged cables
+
+---
+
 ## Rule 22: Update Cable IDs Based on FOSC and Terminal Positions
 
 **Purpose**: Review and fix fiber cable IDs based on actual FOSC and terminal positions at cable endpoints.
@@ -429,9 +457,10 @@ All rules use **UTM Zone 17N (EPSG:32617)** coordinates - NO transformation duri
 16. **Rule 19**: Ensure all ONTs are connected (final cleanup)
 17. **Rule 20**: Ensure all MSTs connected via stub cables (routed along fiber)
 18. **Rule 21**: Optimize stub cable connections (prefer shorter paths, FOSC over Aerial Terminal)
-19. **Rule 22**: Update cable IDs based on FOSC and terminal positions at endpoints
-20. **Rule 5**: Filter distant ONTs (final cleanup)
-21. **Rule 6**: Fix ONT-to-FOSC connections (ensure topology)
+19. **Post-processing**: Merge very close FOSCs (within 1m) to prevent duplicates
+20. **Rule 22**: Update cable IDs based on FOSC and terminal positions at endpoints
+21. **Rule 5**: Filter distant ONTs (final cleanup)
+22. **Rule 6**: Fix ONT-to-FOSC connections (ensure topology)
 
 **Note**: Stub cable routing along fiber cables is handled in the visualization step using `route_stub_cable_along_fiber()`, which finds paths along existing fiber cable infrastructure.
 

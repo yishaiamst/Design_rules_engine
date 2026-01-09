@@ -39,7 +39,10 @@
         ],
         "marker-color": "#0000FF",
         "marker-size": "medium",
-        "marker-symbol": "circle"
+        "marker-symbol": "circle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with": null
       }
     },
     {
@@ -63,7 +66,10 @@
         ],
         "marker-color": "#0000FF",
         "marker-size": "medium",
-        "marker-symbol": "circle"
+        "marker-symbol": "circle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with": null
       }
     },
     {
@@ -84,7 +90,10 @@
         ],
         "marker-color": "#0000FF",
         "marker-size": "medium",
-        "marker-symbol": "circle"
+        "marker-symbol": "circle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with": null
       }
     },
     {
@@ -103,9 +112,14 @@
         "connected_cables": [
           "48FOC/F1000397/F1000398"
         ],
-        "marker-color": "#0000FF",
-        "marker-size": "medium",
-        "marker-symbol": "circle"
+        "marker-color": "#FF0000",
+        "marker-size": "large",
+        "marker-symbol": "circle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with": [
+          "F0004300"
+        ]
       }
     },
     {
@@ -127,7 +141,10 @@
         ],
         "marker-color": "#0000FF",
         "marker-size": "medium",
-        "marker-symbol": "circle"
+        "marker-symbol": "circle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with": null
       }
     },
     {
@@ -149,7 +166,10 @@
         ],
         "marker-color": "#0000FF",
         "marker-size": "medium",
-        "marker-symbol": "circle"
+        "marker-symbol": "circle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with": null
       }
     },
     {
@@ -172,7 +192,10 @@
         ],
         "marker-color": "#0000FF",
         "marker-size": "medium",
-        "marker-symbol": "circle"
+        "marker-symbol": "circle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with": null
       }
     },
     {
@@ -180,8 +203,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          389808.21264196356,
-          5062629.058500166
+          389806.21264196356,
+          5062627.058500166
         ]
       },
       "properties": {
@@ -193,7 +216,12 @@
         ],
         "marker-color": "#0000FF",
         "marker-size": "medium",
-        "marker-symbol": "circle"
+        "marker-symbol": "circle",
+        "offset_applied": true,
+        "offset_distance_m": 2.8284271247461903,
+        "overlaps_with": [
+          "F0000962"
+        ]
       }
     }
   ]

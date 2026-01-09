@@ -8,7 +8,7 @@
   "onts_fixed_from_fosc": 0,
   "foscs_added_at_junctions": 3,
   "isolated_terminals_removed": 18,
-  "terminals_converted_to_fosc": 2,
+  "terminals_converted_to_fosc": 1,
   "terminal_connections_fixed": 1,
   "msts_added_at_endpoints": 0,
   "msts_added_near_foscs": 1,
@@ -20,6 +20,8 @@
   "unconnected_onts_found": 22648,
   "unconnected_onts_connected": 26,
   "msts_connected_via_stub": 0,
-  "stub_cables_optimized": 1,
-  "stub_cables_switched_to_aerial": 4
+  "stub_cables_optimized": 0,
+  "stub_cables_switched_to_aerial": 4,
+  "foscs_merged_post_processing": 0,
+  "cable_ids_updated": 0
 }

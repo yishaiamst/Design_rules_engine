@@ -815,6 +815,47 @@ def main():
     print("Creating Stub Cables layer...")
     from utils.cable_routing import route_stub_cable_along_fiber
     
+    # Reload MST and FOSC positions from saved GeoJSON files to ensure we have exact offset positions
+    # This ensures stub cables connect to the exact visual positions
+    mst_positions_map = {}  # terminal_id -> (x, y) offset position
+    fosc_positions_map = {}  # fosc_id -> (x, y) offset position
+    
+    # Load MST positions from saved file
+    try:
+        with open(f"{output_dir}/mst.geojson", "r") as f:
+            mst_geojson = json.load(f)
+            for feature in mst_geojson.get("features", []):
+                terminal_id = feature.get("properties", {}).get("id", "")
+                coords = feature.get("geometry", {}).get("coordinates", [])
+                if terminal_id and len(coords) >= 2:
+                    mst_positions_map[terminal_id] = (float(coords[0]), float(coords[1]))
+    except Exception as e:
+        print(f"  ⚠️  Could not load MST positions: {e}")
+        # Fall back to mst_features if available
+        for feature in mst_features:
+            terminal_id = feature.get("properties", {}).get("id", "")
+            coords = feature.get("geometry", {}).get("coordinates", [])
+            if terminal_id and len(coords) >= 2:
+                mst_positions_map[terminal_id] = (float(coords[0]), float(coords[1]))
+    
+    # Load FOSC positions from saved file
+    try:
+        with open(f"{output_dir}/fosc.geojson", "r") as f:
+            fosc_geojson = json.load(f)
+            for feature in fosc_geojson.get("features", []):
+                fosc_id = feature.get("properties", {}).get("id", "")
+                coords = feature.get("geometry", {}).get("coordinates", [])
+                if fosc_id and len(coords) >= 2:
+                    fosc_positions_map[fosc_id] = (float(coords[0]), float(coords[1]))
+    except Exception as e:
+        print(f"  ⚠️  Could not load FOSC positions: {e}")
+        # Fall back to fosc_features if available
+        for feature in fosc_features:
+            fosc_id = feature.get("properties", {}).get("id", "")
+            coords = feature.get("geometry", {}).get("coordinates", [])
+            if fosc_id and len(coords) >= 2:
+                fosc_positions_map[fosc_id] = (float(coords[0]), float(coords[1]))
+    
     stub_cable_features = []
     stub_cable_coords_map = {}  # Map stub_id -> coordinates for overlap detection
     for terminal in terminals:
@@ -831,20 +872,23 @@ def main():
         
         if terminal_type == "MST" and target_id and terminal_pos:
             # Use visualization position if offset was applied (so stub cable connects to visible MST)
-            # Look up MST position from mst_features (created earlier) to get exact offset position
+            # Look up MST position from saved positions map (exact offset position from GeoJSON file)
             term_pos_utm = None
-            try:
-                mst_feature = next((f for f in mst_features if f.get("properties", {}).get("id") == terminal_id), None)
-                if mst_feature:
-                    # Use offset MST position from GeoJSON feature (this is the exact visual position)
-                    mst_coords = mst_feature.get("geometry", {}).get("coordinates", [])
-                    if len(mst_coords) >= 2:
-                        term_pos_utm = (float(mst_coords[0]), float(mst_coords[1]))
-            except (NameError, TypeError):
-                # mst_features not available, fall through to fallback
-                pass
+            if terminal_id in mst_positions_map:
+                # Use exact offset position from saved MST GeoJSON file
+                term_pos_utm = mst_positions_map[terminal_id]
+            else:
+                # Fallback: try mst_features
+                try:
+                    mst_feature = next((f for f in mst_features if f.get("properties", {}).get("id") == terminal_id), None)
+                    if mst_feature:
+                        mst_coords = mst_feature.get("geometry", {}).get("coordinates", [])
+                        if len(mst_coords) >= 2:
+                            term_pos_utm = (float(mst_coords[0]), float(mst_coords[1]))
+                except (NameError, TypeError):
+                    pass
             
-            # Fallback to visualization_position or original position
+            # Final fallback to visualization_position or original position
             if term_pos_utm is None:
                 if "visualization_position" in terminal and terminal["visualization_position"]:
                     term_pos_utm = terminal["visualization_position"]
@@ -861,22 +905,26 @@ def main():
             if connected_fosc_id:
                 target = next((f for f in foscs if f.get("fosc_id") == connected_fosc_id), None)
                 if target:
-                    # Check if FOSC has visualization offset (from fosc_features)
-                    # FOSC features are created before stub cables, so they have offset positions
-                    fosc_feature = next((f for f in fosc_features if f.get("properties", {}).get("id") == connected_fosc_id), None)
-                    if fosc_feature:
-                        # Use offset FOSC position from GeoJSON feature
-                        fosc_coords = fosc_feature.get("geometry", {}).get("coordinates", [])
-                        if len(fosc_coords) >= 2:
-                            target_pos = (float(fosc_coords[0]), float(fosc_coords[1]))
+                    # Look up FOSC position from saved positions map (exact offset position from GeoJSON file)
+                    if connected_fosc_id in fosc_positions_map:
+                        # Use exact offset position from saved FOSC GeoJSON file
+                        target_pos = fosc_positions_map[connected_fosc_id]
+                    else:
+                        # Fallback: try fosc_features
+                        fosc_feature = next((f for f in fosc_features if f.get("properties", {}).get("id") == connected_fosc_id), None)
+                        if fosc_feature:
+                            # Use offset FOSC position from GeoJSON feature
+                            fosc_coords = fosc_feature.get("geometry", {}).get("coordinates", [])
+                            if len(fosc_coords) >= 2:
+                                target_pos = (float(fosc_coords[0]), float(fosc_coords[1]))
+                            else:
+                                target_pos = target.get("position")
+                                if isinstance(target_pos, list):
+                                    target_pos = (target_pos[0], target_pos[1])
                         else:
                             target_pos = target.get("position")
                             if isinstance(target_pos, list):
                                 target_pos = (target_pos[0], target_pos[1])
-                    else:
-                        target_pos = target.get("position")
-                        if isinstance(target_pos, list):
-                            target_pos = (target_pos[0], target_pos[1])
                     target_connected_cables = target.get("connected_cables", [])
             elif connected_aerial_id:
                 # Find Aerial Terminal
@@ -949,22 +997,20 @@ def main():
                         
                         # CRITICAL: Update first point (MST end) to EXACT offset position
                         # This ensures stub cable visually connects to offset MST
+                        # Force exact match - overwrite whatever was in path_list[0]
                         path_list[0] = [float(term_pos_utm[0]), float(term_pos_utm[1])]
                         # CRITICAL: Update last point (FOSC/Terminal end) to EXACT offset position
                         # This ensures stub cable visually connects to offset FOSC
+                        # Force exact match - overwrite whatever was in path_list[-1]
                         path_list[-1] = [float(target_pos_utm[0]), float(target_pos_utm[1])]
                         
                         # Store for GeoJSON (use modified path_list with offset endpoints)
-                        path_for_geojson = path_list
+                        path_for_geojson = path_list.copy()  # Make explicit copy
                         
-                        # Verify endpoints are set correctly (debug check)
-                        if len(path_for_geojson) >= 2:
-                            # Ensure first point matches offset MST position
-                            if abs(path_for_geojson[0][0] - term_pos_utm[0]) > 0.01 or abs(path_for_geojson[0][1] - term_pos_utm[1]) > 0.01:
-                                path_for_geojson[0] = [float(term_pos_utm[0]), float(term_pos_utm[1])]
-                            # Ensure last point matches offset FOSC position
-                            if abs(path_for_geojson[-1][0] - target_pos_utm[0]) > 0.01 or abs(path_for_geojson[-1][1] - target_pos_utm[1]) > 0.01:
-                                path_for_geojson[-1] = [float(target_pos_utm[0]), float(target_pos_utm[1])]
+                        # Final verification: Force endpoints to exact offset positions
+                        # This is a safety check to ensure endpoints match exactly
+                        path_for_geojson[0] = [float(term_pos_utm[0]), float(term_pos_utm[1])]
+                        path_for_geojson[-1] = [float(target_pos_utm[0]), float(target_pos_utm[1])]
                         
                         # Recalculate length with offset endpoints
                         total_length = 0.0

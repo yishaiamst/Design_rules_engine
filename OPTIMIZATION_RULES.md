@@ -455,26 +455,37 @@ All rules use **UTM Zone 17N (EPSG:32617)** coordinates - NO transformation duri
 - Fiber cables connect to FOSCs or Aerial Terminals (not MSTs)
 - When updating cable IDs, prefer FOSCs over MSTs at the same location
 - MSTs connect to FOSCs via stub cables, not directly via fiber cables
+- **Implementation**: `find_nearest_element_at_point()` skips MSTs and prefers FOSCs
 
 **Rule 2: Stub Cables Connect MST to FOSC/Terminal**
 - Stub cables connect MSTs to FOSCs or Aerial Terminals
+- **Critical**: Stub cable endpoints MUST touch the exact center of offset MST and FOSC
 - When MST or FOSC is offset for visualization:
   - Stub cable routing uses original positions for pathfinding (along fiber cables)
-  - Stub cable endpoints are adjusted to connect to offset positions
+  - Stub cable endpoints are adjusted to connect to exact offset positions
+  - **After overlap offsetting**: Endpoints are restored to exact offset positions
+- **Implementation**:
+  - Load exact offset positions from saved `mst.geojson` and `fosc.geojson` files
+  - Create new `path_coords` list with exact offset endpoints
+  - After `offset_line_perpendicular()` for overlaps, restore endpoints to exact positions
   - Ensures stub cable visually connects to both offset MST and offset FOSC
 
 **Rule 3: Drop Cables Always Connect to MST/Terminal**
 - Drop cables connect ONTs to MSTs or Aerial Terminals
 - When MST or Aerial Terminal is offset for visualization:
-  - Drop cable terminal end uses offset position
+  - Drop cable terminal end uses `visualization_position` (offset position)
   - Drop cable ONT end remains at original position
   - Ensures drop cable visually connects to offset terminal
+- **Implementation**:
+  - Store `visualization_offset` and `visualization_position` in terminal objects
+  - Use `visualization_position` for drop cable terminal endpoint
 
-**Implementation**:
+**Implementation Details**:
 - Store `visualization_offset` and `visualization_position` in terminal objects
 - Apply offsets after all logical connections are established
 - Update visualization features to use offset positions
 - Maintain original positions for routing and logical connections
+- **Critical for Stub Cables**: After overlap offsetting, restore endpoints to exact offset positions
 
 ---
 

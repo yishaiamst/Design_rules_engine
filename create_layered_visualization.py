@@ -831,13 +831,27 @@ def main():
         
         if terminal_type == "MST" and target_id and terminal_pos:
             # Use visualization position if offset was applied (so stub cable connects to visible MST)
-            # Check visualization_position first (set during MST layer creation)
-            if "visualization_position" in terminal and terminal["visualization_position"]:
-                term_pos_utm = terminal["visualization_position"]
-                if isinstance(term_pos_utm, list):
-                    term_pos_utm = (term_pos_utm[0], term_pos_utm[1])
-            else:
-                term_pos_utm = (terminal_pos[0], terminal_pos[1]) if isinstance(terminal_pos, list) else terminal_pos
+            # Look up MST position from mst_features (created earlier) to get exact offset position
+            term_pos_utm = None
+            try:
+                mst_feature = next((f for f in mst_features if f.get("properties", {}).get("id") == terminal_id), None)
+                if mst_feature:
+                    # Use offset MST position from GeoJSON feature (this is the exact visual position)
+                    mst_coords = mst_feature.get("geometry", {}).get("coordinates", [])
+                    if len(mst_coords) >= 2:
+                        term_pos_utm = (float(mst_coords[0]), float(mst_coords[1]))
+            except (NameError, TypeError):
+                # mst_features not available, fall through to fallback
+                pass
+            
+            # Fallback to visualization_position or original position
+            if term_pos_utm is None:
+                if "visualization_position" in terminal and terminal["visualization_position"]:
+                    term_pos_utm = terminal["visualization_position"]
+                    if isinstance(term_pos_utm, list):
+                        term_pos_utm = (term_pos_utm[0], term_pos_utm[1])
+                else:
+                    term_pos_utm = (terminal_pos[0], terminal_pos[1]) if isinstance(terminal_pos, list) else terminal_pos
             
             # Get target (FOSC or Aerial Terminal)
             # Use visualization position if FOSC was offset
@@ -933,13 +947,24 @@ def main():
                             else:
                                 path_list.append([float(p[0]), float(p[1])])
                         
-                        # Update first point (MST end) to offset position
+                        # CRITICAL: Update first point (MST end) to EXACT offset position
+                        # This ensures stub cable visually connects to offset MST
                         path_list[0] = [float(term_pos_utm[0]), float(term_pos_utm[1])]
-                        # Update last point (FOSC/Terminal end) to offset position  
+                        # CRITICAL: Update last point (FOSC/Terminal end) to EXACT offset position
+                        # This ensures stub cable visually connects to offset FOSC
                         path_list[-1] = [float(target_pos_utm[0]), float(target_pos_utm[1])]
                         
-                        # Store for GeoJSON
+                        # Store for GeoJSON (use modified path_list with offset endpoints)
                         path_for_geojson = path_list
+                        
+                        # Verify endpoints are set correctly (debug check)
+                        if len(path_for_geojson) >= 2:
+                            # Ensure first point matches offset MST position
+                            if abs(path_for_geojson[0][0] - term_pos_utm[0]) > 0.01 or abs(path_for_geojson[0][1] - term_pos_utm[1]) > 0.01:
+                                path_for_geojson[0] = [float(term_pos_utm[0]), float(term_pos_utm[1])]
+                            # Ensure last point matches offset FOSC position
+                            if abs(path_for_geojson[-1][0] - target_pos_utm[0]) > 0.01 or abs(path_for_geojson[-1][1] - target_pos_utm[1]) > 0.01:
+                                path_for_geojson[-1] = [float(target_pos_utm[0]), float(target_pos_utm[1])]
                         
                         # Recalculate length with offset endpoints
                         total_length = 0.0

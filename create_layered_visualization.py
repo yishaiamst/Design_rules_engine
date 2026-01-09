@@ -677,12 +677,13 @@ def main():
     print(f"  ✓ Saved: {output_dir}/drop_cable.geojson ({len(drop_cable_features)} features)")
     
     # ==========================================
-    # LAYER 7: Stub Cables
+    # LAYER 7: Stub Cables (with offset for overlapping paths)
     # ==========================================
     print("Creating Stub Cables layer...")
     from utils.cable_routing import route_stub_cable_along_fiber
     
     stub_cable_features = []
+    stub_cable_coords_map = {}  # Map stub_id -> coordinates for overlap detection
     for terminal in terminals:
         terminal_id = terminal.get("terminal_id", "")
         terminal_type = terminal.get("type", "")
@@ -769,10 +770,75 @@ def main():
                 }
                 stub_cable_features.append(stub_cable)
     
-    stub_cable_layer = create_geojson_layer(stub_cable_features, "Stub Cable")
+    # Apply offsets to overlapping stub cables
+    print("  Applying offsets to overlapping stub cables...")
+    offset_stub_cables = []
+    stub_offset_distance = 3.0  # 3 meters offset for stub cables (smaller than fiber cables)
+    
+    for i, feature in enumerate(stub_cable_features):
+        geometry = feature.get("geometry", {})
+        props = feature.get("properties", {})
+        stub_id = props.get("id", "")
+        coords = geometry.get("coordinates", [])
+        
+        if len(coords) < 2:
+            offset_stub_cables.append(feature)
+            continue
+        
+        # Check if this stub cable overlaps with any previous stub cable
+        overlaps = False
+        overlap_count = 0
+        for j in range(i):
+            prev_feature = stub_cable_features[j]
+            prev_props = prev_feature.get("properties", {})
+            prev_stub_id = prev_props.get("id", "")
+            prev_coords = prev_feature.get("geometry", {}).get("coordinates", [])
+            
+            if prev_stub_id in stub_cable_coords_map:
+                prev_coords = stub_cable_coords_map[prev_stub_id]
+            
+            if len(prev_coords) >= 2:
+                # Check if overlapping (within 5m tolerance for stub cables)
+                if are_cables_overlapping(coords, prev_coords, tolerance=5.0):
+                    overlaps = True
+                    overlap_count += 1
+        
+        # Apply offset if overlapping
+        offset_feature = feature.copy()
+        offset_geometry = offset_feature.get("geometry", {})
+        offset_props = offset_feature.get("properties", {})
+        
+        if overlaps:
+            # Calculate offset: stagger based on overlap count
+            # First overlap: offset one direction, second: opposite, etc.
+            offset_multiplier = (overlap_count % 2) * 2 - 1  # -1 or 1
+            actual_offset = stub_offset_distance * offset_multiplier * (overlap_count + 1) / 2
+            
+            offset_coords = offset_line_perpendicular(coords, actual_offset)
+            offset_geometry["coordinates"] = offset_coords
+            offset_props["offset_applied"] = True
+            offset_props["offset_distance_m"] = abs(actual_offset)
+            offset_props["overlap_count"] = overlap_count
+            
+            # Update stored coordinates for future overlap checks
+            stub_cable_coords_map[stub_id] = offset_coords
+        else:
+            offset_props["offset_applied"] = False
+            offset_props["offset_distance_m"] = 0.0
+        
+        offset_feature["geometry"] = offset_geometry
+        offset_feature["properties"] = offset_props
+        offset_stub_cables.append(offset_feature)
+    
+    if len(offset_stub_cables) != len(stub_cable_features):
+        print(f"  ⚠️  Warning: Stub cable count mismatch after offsetting")
+    
+    stub_cable_layer = create_geojson_layer(offset_stub_cables, "Stub Cable")
     with open(f"{output_dir}/stub_cable.geojson", "w") as f:
         json.dump(stub_cable_layer, f, indent=2)
-    print(f"  ✓ Saved: {output_dir}/stub_cable.geojson ({len(stub_cable_features)} features)")
+    
+    offset_count = sum(1 for f in offset_stub_cables if f.get("properties", {}).get("offset_applied", False))
+    print(f"  ✓ Saved: {output_dir}/stub_cable.geojson ({len(offset_stub_cables)} features, {offset_count} with offsets)")
     
     # ==========================================
     # LAYER 8: FDH

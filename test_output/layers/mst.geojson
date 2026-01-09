@@ -127,6 +127,29 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          389808.21264196356,
+          5062629.058500166
+        ]
+      },
+      "properties": {
+        "id": "T0004300",
+        "type": "MST",
+        "connected_onts": 6,
+        "connected_cable_id": "48FOC/F1000397/F1000398",
+        "connected_fosc_id": "F0000962",
+        "connected_aerial_terminal_id": "",
+        "stub_cable_id": "stub_T0004300_F0000962",
+        "stub_cable_length": 0.513211881784042,
+        "marker-color": "#800080",
+        "marker-size": "medium",
+        "marker-symbol": "triangle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           390843.6087425388,
           5062304.634102861
         ]
@@ -134,7 +157,7 @@
       "properties": {
         "id": "T0004301",
         "type": "MST",
-        "connected_onts": 2,
+        "connected_onts": 1,
         "connected_cable_id": "12FOC/F1000397/T1001719",
         "connected_fosc_id": null,
         "connected_aerial_terminal_id": "T0004707",
@@ -339,14 +362,14 @@
         ]
       },
       "properties": {
-        "id": "T0000033",
+        "id": "T0000034",
         "type": "MST",
-        "connected_onts": 10,
+        "connected_onts": 5,
         "connected_cable_id": "48FOC/F1000398/T1001731",
-        "connected_fosc_id": "F0004300",
-        "connected_aerial_terminal_id": null,
-        "stub_cable_id": "stub_T0000033_F0004300",
-        "stub_cable_length": 47.65318226724053,
+        "connected_fosc_id": "F0000962",
+        "connected_aerial_terminal_id": "",
+        "stub_cable_id": "stub_T0000034_F0000962",
+        "stub_cable_length": 165.0617877078165,
         "marker-color": "#800080",
         "marker-size": "medium",
         "marker-symbol": "triangle"

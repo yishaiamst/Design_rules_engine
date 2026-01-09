@@ -21,21 +21,21 @@
         "type": "FOSC",
         "merged": false,
         "connected_cables": [
-          "96FOC/F1000391/F1000397",
-          "96FOC/F1000395/F1000406",
-          "48FOC/F1000398/T1001731",
-          "12FOC/F1000397/T1001719",
-          "144FOC/F1000392/F1000390",
-          "144FOC/F1000396/F1000399",
           "24FOC/F1000391/FDH104010",
-          "144FOC/F1000391/FDH104010",
-          "144FOC/F1000391/F1000392",
           "48FOC/F1000392/T1001700",
+          "144FOC/F1000391/F1000392",
           "48FOC/F1000406/F1000394",
-          "48FOC/F1000397/F1000398",
           "144FOC/F1000393/F1000391",
+          "144FOC/F1000392/F1000390",
+          "96FOC/F1000391/F1000397",
+          "144FOC/F1000391/FDH104010",
+          "144FOC/F1000399/F1000393",
+          "48FOC/F1000398/T1001731",
+          "96FOC/F1000395/F1000406",
           "48FOC/F1000391/F1000412",
-          "144FOC/F1000399/F1000393"
+          "12FOC/F1000397/T1001719",
+          "144FOC/F1000396/F1000399",
+          "48FOC/F1000397/F1000398"
         ],
         "marker-color": "#0000FF",
         "marker-size": "medium",
@@ -59,10 +59,10 @@
         "type": "FOSC",
         "merged": false,
         "connected_cables": [
-          "144FOC/F1000391/F1000392",
-          "144FOC/F1000390/F1000502",
           "48FOC/F1000392/T1001700",
-          "144FOC/F1000392/F1000390"
+          "144FOC/F1000391/F1000392",
+          "144FOC/F1000392/F1000390",
+          "144FOC/F1000390/F1000502"
         ],
         "marker-color": "#0000FF",
         "marker-size": "medium",
@@ -117,9 +117,7 @@
         "marker-symbol": "circle",
         "offset_applied": false,
         "offset_distance_m": 0.0,
-        "overlaps_with": [
-          "F0004300"
-        ]
+        "overlaps_with": null
       }
     },
     {
@@ -196,32 +194,6 @@
         "offset_applied": false,
         "offset_distance_m": 0.0,
         "overlaps_with": null
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          389806.21264196356,
-          5062627.058500166
-        ]
-      },
-      "properties": {
-        "id": "F0004300",
-        "type": "FOSC",
-        "merged": false,
-        "connected_cables": [
-          "48FOC/F1000397/F1000398"
-        ],
-        "marker-color": "#0000FF",
-        "marker-size": "medium",
-        "marker-symbol": "circle",
-        "offset_applied": true,
-        "offset_distance_m": 2.8284271247461903,
-        "overlaps_with": [
-          "F0000962"
-        ]
       }
     }
   ]

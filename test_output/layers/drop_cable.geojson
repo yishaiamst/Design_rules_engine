@@ -871,6 +871,162 @@
         "type": "LineString",
         "coordinates": [
           [
+            390268.30054372514,
+            5062320.291914476
+          ],
+          [
+            389808.21264196356,
+            5062629.058500166
+          ]
+        ]
+      },
+      "properties": {
+        "id": "drop_O1007589_T0004300",
+        "ont_id": "O1007589",
+        "terminal_id": "T0004300",
+        "terminal_type": "MST",
+        "length_m": 554.0917629653189,
+        "stroke": "#FFA500",
+        "stroke-width": 2,
+        "stroke-opacity": 0.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            389909.88160543755,
+            5062398.215899
+          ],
+          [
+            389808.21264196356,
+            5062629.058500166
+          ]
+        ]
+      },
+      "properties": {
+        "id": "drop_O1007564_T0004300",
+        "ont_id": "O1007564",
+        "terminal_id": "T0004300",
+        "terminal_type": "MST",
+        "length_m": 252.23973645524111,
+        "stroke": "#FFA500",
+        "stroke-width": 2,
+        "stroke-opacity": 0.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            390103.78726835526,
+            5062371.040077387
+          ],
+          [
+            389808.21264196356,
+            5062629.058500166
+          ]
+        ]
+      },
+      "properties": {
+        "id": "drop_O1007611_T0004300",
+        "ont_id": "O1007611",
+        "terminal_id": "T0004300",
+        "terminal_type": "MST",
+        "length_m": 392.34916370472376,
+        "stroke": "#FFA500",
+        "stroke-width": 2,
+        "stroke-opacity": 0.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            389862.1189974814,
+            5062633.446743184
+          ],
+          [
+            389808.21264196356,
+            5062629.058500166
+          ]
+        ]
+      },
+      "properties": {
+        "id": "drop_O1007640_T0004300",
+        "ont_id": "O1007640",
+        "terminal_id": "T0004300",
+        "terminal_type": "MST",
+        "length_m": 54.08467289353122,
+        "stroke": "#FFA500",
+        "stroke-width": 2,
+        "stroke-opacity": 0.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            389958.4306072697,
+            5062373.804702689
+          ],
+          [
+            389808.21264196356,
+            5062629.058500166
+          ]
+        ]
+      },
+      "properties": {
+        "id": "drop_O1007651_T0004300",
+        "ont_id": "O1007651",
+        "terminal_id": "T0004300",
+        "terminal_type": "MST",
+        "length_m": 296.17551929084283,
+        "stroke": "#FFA500",
+        "stroke-width": 2,
+        "stroke-opacity": 0.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            389941.4308247541,
+            5062613.646946212
+          ],
+          [
+            389808.21264196356,
+            5062629.058500166
+          ]
+        ]
+      },
+      "properties": {
+        "id": "drop_O1007649_T0004300",
+        "ont_id": "O1007649",
+        "terminal_id": "T0004300",
+        "terminal_type": "MST",
+        "length_m": 134.10667478275954,
+        "stroke": "#FFA500",
+        "stroke-width": 2,
+        "stroke-opacity": 0.7
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
             390403.53603280033,
             5062272.053276105
           ],
@@ -886,32 +1042,6 @@
         "terminal_id": "T0004301",
         "terminal_type": "MST",
         "length_m": 441.2771239580445,
-        "stroke": "#FFA500",
-        "stroke-width": 2,
-        "stroke-opacity": 0.7
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
-            390268.30054372514,
-            5062320.291914476
-          ],
-          [
-            390843.6087425388,
-            5062304.634102861
-          ]
-        ]
-      },
-      "properties": {
-        "id": "drop_O1007589_T0004301",
-        "ont_id": "O1007589",
-        "terminal_id": "T0004301",
-        "terminal_type": "MST",
-        "length_m": 575.5212339147495,
         "stroke": "#FFA500",
         "stroke-width": 2,
         "stroke-opacity": 0.7
@@ -2561,84 +2691,6 @@
         "type": "LineString",
         "coordinates": [
           [
-            389909.88160543755,
-            5062398.215899
-          ],
-          [
-            389764.9588662584,
-            5062609.060083543
-          ]
-        ]
-      },
-      "properties": {
-        "id": "drop_O1007564_T0000033",
-        "ont_id": "O1007564",
-        "terminal_id": "T0000033",
-        "terminal_type": "MST",
-        "length_m": 255.8473577874069,
-        "stroke": "#FFA500",
-        "stroke-width": 2,
-        "stroke-opacity": 0.7
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
-            390103.78726835526,
-            5062371.040077387
-          ],
-          [
-            389764.9588662584,
-            5062609.060083543
-          ]
-        ]
-      },
-      "properties": {
-        "id": "drop_O1007611_T0000033",
-        "ont_id": "O1007611",
-        "terminal_id": "T0000033",
-        "terminal_type": "MST",
-        "length_m": 414.0751253067837,
-        "stroke": "#FFA500",
-        "stroke-width": 2,
-        "stroke-opacity": 0.7
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
-            389862.1189974814,
-            5062633.446743184
-          ],
-          [
-            389764.9588662584,
-            5062609.060083543
-          ]
-        ]
-      },
-      "properties": {
-        "id": "drop_O1007640_T0000033",
-        "ont_id": "O1007640",
-        "terminal_id": "T0000033",
-        "terminal_type": "MST",
-        "length_m": 100.17385021907839,
-        "stroke": "#FFA500",
-        "stroke-width": 2,
-        "stroke-opacity": 0.7
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
             389685.3475953291,
             5062469.06376749
           ],
@@ -2649,9 +2701,9 @@
         ]
       },
       "properties": {
-        "id": "drop_O1007643_T0000033",
+        "id": "drop_O1007643_T0000034",
         "ont_id": "O1007643",
-        "terminal_id": "T0000033",
+        "terminal_id": "T0000034",
         "terminal_type": "MST",
         "length_m": 161.049442617412,
         "stroke": "#FFA500",
@@ -2675,9 +2727,9 @@
         ]
       },
       "properties": {
-        "id": "drop_O1007647_T0000033",
+        "id": "drop_O1007647_T0000034",
         "ont_id": "O1007647",
-        "terminal_id": "T0000033",
+        "terminal_id": "T0000034",
         "terminal_type": "MST",
         "length_m": 191.52333247811694,
         "stroke": "#FFA500",
@@ -2701,9 +2753,9 @@
         ]
       },
       "properties": {
-        "id": "drop_O1007644_T0000033",
+        "id": "drop_O1007644_T0000034",
         "ont_id": "O1007644",
-        "terminal_id": "T0000033",
+        "terminal_id": "T0000034",
         "terminal_type": "MST",
         "length_m": 230.91549691671588,
         "stroke": "#FFA500",
@@ -2727,37 +2779,11 @@
         ]
       },
       "properties": {
-        "id": "drop_O1007650_T0000033",
+        "id": "drop_O1007650_T0000034",
         "ont_id": "O1007650",
-        "terminal_id": "T0000033",
+        "terminal_id": "T0000034",
         "terminal_type": "MST",
         "length_m": 184.5629462960377,
-        "stroke": "#FFA500",
-        "stroke-width": 2,
-        "stroke-opacity": 0.7
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
-            389958.4306072697,
-            5062373.804702689
-          ],
-          [
-            389764.9588662584,
-            5062609.060083543
-          ]
-        ]
-      },
-      "properties": {
-        "id": "drop_O1007651_T0000033",
-        "ont_id": "O1007651",
-        "terminal_id": "T0000033",
-        "terminal_type": "MST",
-        "length_m": 304.5922008041444,
         "stroke": "#FFA500",
         "stroke-width": 2,
         "stroke-opacity": 0.7
@@ -2779,37 +2805,11 @@
         ]
       },
       "properties": {
-        "id": "drop_O1007646_T0000033",
+        "id": "drop_O1007646_T0000034",
         "ont_id": "O1007646",
-        "terminal_id": "T0000033",
+        "terminal_id": "T0000034",
         "terminal_type": "MST",
         "length_m": 184.59772561041984,
-        "stroke": "#FFA500",
-        "stroke-width": 2,
-        "stroke-opacity": 0.7
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
-            389941.4308247541,
-            5062613.646946212
-          ],
-          [
-            389764.9588662584,
-            5062609.060083543
-          ]
-        ]
-      },
-      "properties": {
-        "id": "drop_O1007649_T0000033",
-        "ont_id": "O1007649",
-        "terminal_id": "T0000033",
-        "terminal_type": "MST",
-        "length_m": 176.53155934412288,
         "stroke": "#FFA500",
         "stroke-width": 2,
         "stroke-opacity": 0.7

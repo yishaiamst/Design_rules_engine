@@ -1837,7 +1837,7 @@
     {
       "type": "Feature",
       "properties": {
-        "ID": "48FOC/F1000397/F0004300",
+        "ID": "48FOC/F1000397/T0004300",
         "Size": "48F",
         "Owner": "Rock Networks",
         "CableCateg": "Distribution",
@@ -1876,12 +1876,12 @@
         "layer": "fiber cable",
         "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/fiber cable.shp",
         "ConStartDt": null,
-        "id": "48FOC/F1000397/F0004300",
+        "id": "48FOC/F1000397/T0004300",
         "original_id": "48FOC/F1000397/F1000398",
         "from_id": "F1000397",
         "from_type": "FOSC",
-        "to_id": "F0004300",
-        "to_type": "FOSC"
+        "to_id": "T0004300",
+        "to_type": "Terminal"
       },
       "geometry": {
         "type": "MultiLineString",
@@ -1990,7 +1990,7 @@
     {
       "type": "Feature",
       "properties": {
-        "ID": "48FOC/F0004300/UNKNOWN",
+        "ID": "48FOC/T0004300/UNKNOWN",
         "Size": "48F",
         "Owner": "Rock Networks",
         "CableCateg": "Distribution",
@@ -2029,10 +2029,10 @@
         "layer": "fiber cable",
         "path": "/Users/sandeepreddypailla/Downloads/Merge July 17th/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD_v1.4/PomeGran_Rock _SD1_OLT4_Central Manitoulin_HLD/fiber cable.shp",
         "ConStartDt": null,
-        "id": "48FOC/F0004300/UNKNOWN",
+        "id": "48FOC/T0004300/UNKNOWN",
         "original_id": "48FOC/F1000398/T1001731",
-        "from_id": "F0004300",
-        "from_type": "FOSC",
+        "from_id": "T0004300",
+        "from_type": "Terminal",
         "to_id": null,
         "to_type": null,
         "offset_applied": true,

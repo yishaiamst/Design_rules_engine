@@ -1167,7 +1167,35 @@ def main():
             offset_multiplier = (overlap_count % 2) * 2 - 1  # -1 or 1
             actual_offset = stub_offset_distance * offset_multiplier * (overlap_count + 1) / 2
             
+            # Apply perpendicular offset to middle points, but preserve endpoints
+            # Endpoints must remain at exact offset MST and FOSC positions
             offset_coords = offset_line_perpendicular(coords, actual_offset)
+            
+            # CRITICAL: Restore endpoints to exact offset positions
+            # Get terminal and FOSC IDs from stub_id
+            stub_parts = stub_id.split('_')
+            if len(stub_parts) >= 3:
+                terminal_id = stub_parts[1]
+                target_id = stub_parts[2]
+                
+                # Get exact offset positions from maps
+                if terminal_id in mst_positions_map:
+                    # Restore first point to exact offset MST position
+                    offset_coords[0] = [float(mst_positions_map[terminal_id][0]), 
+                                       float(mst_positions_map[terminal_id][1])]
+                
+                # Get FOSC or Aerial Terminal position
+                if target_id.startswith('F') and target_id in fosc_positions_map:
+                    # Restore last point to exact offset FOSC position
+                    offset_coords[-1] = [float(fosc_positions_map[target_id][0]), 
+                                        float(fosc_positions_map[target_id][1])]
+                elif target_id.startswith('T'):
+                    # Aerial Terminal - get from saved positions or original
+                    # Try to find in mst_positions_map (if it's an MST) or use original
+                    if target_id in mst_positions_map:
+                        offset_coords[-1] = [float(mst_positions_map[target_id][0]), 
+                                            float(mst_positions_map[target_id][1])]
+            
             offset_geometry["coordinates"] = offset_coords
             offset_props["offset_applied"] = True
             offset_props["offset_distance_m"] = abs(actual_offset)

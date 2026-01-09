@@ -410,30 +410,71 @@ All rules use **UTM Zone 17N (EPSG:32617)** coordinates - NO transformation duri
 - Example: `144FOC/T123456/F67890`
 - Example: `48FOC/F0000157/F0000171`
 
+**Critical Rule**: **Fiber cables MUST connect to FOSCs, not MSTs**
+- If both FOSC and MST are at the same location, prefer FOSC
+- MSTs are connected to FOSCs via stub cables, not directly via fiber cables
+- Only Aerial Terminals can be endpoints of fiber cables (not MSTs)
+
 **Criteria**:
 - For each cable, find FOSCs and terminals at start and end points (within 50m tolerance)
 - Extract fiber size from current cable ID or properties
 - Build new cable ID: `<size>FOC/<from_id>/<to_id>`
 - Where `from_id` and `to_id` are:
-  - Terminal IDs (T...) if terminal is at endpoint
-  - FOSC IDs (F...) if FOSC is at endpoint
+  - **FOSC IDs (F...)** - preferred if FOSC is at endpoint
+  - **Aerial Terminal IDs (T...)** - only if no FOSC is found (Aerial Terminals can be cable endpoints)
+  - **MST IDs are NOT used** - MSTs connect via stub cables, not directly to fiber cables
   - UNKNOWN if no element found at endpoint
 
 **Action**:
 - For each cable:
   1. Get start and end point coordinates
-  2. Find nearest FOSC or Terminal at each endpoint (within 50m)
-  3. Extract fiber size from current cable ID
-  4. Build new cable ID: `<size>FOC/<from_id>/<to_id>`
-  5. Update cable properties with new ID and endpoint information
+  2. Find nearest FOSC or Aerial Terminal at each endpoint (within 50m)
+  3. **Prefer FOSC over Terminal** if both are at same location
+  4. **Skip MSTs** - they don't connect directly to fiber cables
+  5. Extract fiber size from current cable ID
+  6. Build new cable ID: `<size>FOC/<from_id>/<to_id>`
+  7. Update cable properties with new ID and endpoint information
 
-**Rationale**: Cable IDs should accurately reflect the network topology. After FOSCs and terminals are placed and optimized, cable IDs should be updated to match the actual connections at cable endpoints. This ensures cable IDs are consistent with the network design.
+**Rationale**: Cable IDs should accurately reflect the network topology. Fiber cables connect infrastructure (FOSCs, Aerial Terminals), while MSTs connect via stub cables. After FOSCs and terminals are placed and optimized, cable IDs should be updated to match the actual connections at cable endpoints.
 
 **Example**: 
 - Cable `144FOC/F1000391/F1000392` has:
   - Start point near F0000157 (FOSC, 9.0m)
   - End point near F0000171 (FOSC, 2.4m)
 - Updated to: `144FOC/F0000157/F0000171`
+- Cable `48FOC/T0004300/UNKNOWN` where T0004300 is an MST:
+  - Should be updated to `48FOC/F0000962/UNKNOWN` (F0000962 is the FOSC T0004300 connects to)
+
+---
+
+## Visualization Offset Rules
+
+**Purpose**: Maintain logical connections when applying visual offsets for clarity.
+
+**Rule 1: Fiber Cables Always Connect to FOSCs**
+- Fiber cables connect to FOSCs or Aerial Terminals (not MSTs)
+- When updating cable IDs, prefer FOSCs over MSTs at the same location
+- MSTs connect to FOSCs via stub cables, not directly via fiber cables
+
+**Rule 2: Stub Cables Connect MST to FOSC/Terminal**
+- Stub cables connect MSTs to FOSCs or Aerial Terminals
+- When MST or FOSC is offset for visualization:
+  - Stub cable routing uses original positions for pathfinding (along fiber cables)
+  - Stub cable endpoints are adjusted to connect to offset positions
+  - Ensures stub cable visually connects to both offset MST and offset FOSC
+
+**Rule 3: Drop Cables Always Connect to MST/Terminal**
+- Drop cables connect ONTs to MSTs or Aerial Terminals
+- When MST or Aerial Terminal is offset for visualization:
+  - Drop cable terminal end uses offset position
+  - Drop cable ONT end remains at original position
+  - Ensures drop cable visually connects to offset terminal
+
+**Implementation**:
+- Store `visualization_offset` and `visualization_position` in terminal objects
+- Apply offsets after all logical connections are established
+- Update visualization features to use offset positions
+- Maintain original positions for routing and logical connections
 
 ---
 

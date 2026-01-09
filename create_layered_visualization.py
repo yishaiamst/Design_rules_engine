@@ -747,7 +747,7 @@ def main():
     print(f"  ✓ Saved: {output_dir}/fiber_cable.geojson ({len(offset_cables)} features)")
     
     # ==========================================
-    # LAYER 6: Drop Cables
+    # LAYER 6: Drop Cables (with offset for MST/Aerial Terminal visualization)
     # ==========================================
     print("Creating Drop Cables layer...")
     drop_cable_features = []
@@ -759,13 +759,22 @@ def main():
         if not terminal_pos or not connected_onts:
             continue
         
-        term_pos_utm = (terminal_pos[0], terminal_pos[1]) if isinstance(terminal_pos, list) else terminal_pos
+        # Use visualization position if offset was applied, otherwise use original position
+        if "visualization_position" in terminal:
+            term_pos_utm = terminal["visualization_position"]
+            offset_applied = terminal.get("visualization_offset", (0.0, 0.0)) != (0.0, 0.0)
+            offset_dist = ((terminal.get("visualization_offset", (0.0, 0.0))[0]**2 + terminal.get("visualization_offset", (0.0, 0.0))[1]**2)**0.5) if offset_applied else 0.0
+        else:
+            term_pos_utm = (terminal_pos[0], terminal_pos[1]) if isinstance(terminal_pos, list) else terminal_pos
+            offset_applied = False
+            offset_dist = 0.0
         
         for ont_id in connected_onts:
             if ont_id in onts_by_id:
                 ont_pos = onts_by_id[ont_id]
                 
                 # Drop cables are direct connections (not routed along fiber cables)
+                # Use offset terminal position so drop cable connects to visible MST/Aerial Terminal
                 length = euclidean_distance(
                     ont_pos[0], ont_pos[1],
                     term_pos_utm[0], term_pos_utm[1]
@@ -788,7 +797,9 @@ def main():
                         "length_m": length,
                         "stroke": "#FFA500",
                         "stroke-width": 2,
-                        "stroke-opacity": 0.7
+                        "stroke-opacity": 0.7,
+                        "terminal_offset_applied": offset_applied,
+                        "terminal_offset_distance_m": offset_dist
                     }
                 }
                 drop_cable_features.append(drop_cable)
@@ -819,22 +830,41 @@ def main():
         target_type = "FOSC" if connected_fosc_id else "Aerial Terminal"
         
         if terminal_type == "MST" and target_id and terminal_pos:
-            term_pos_utm = (terminal_pos[0], terminal_pos[1]) if isinstance(terminal_pos, list) else terminal_pos
+            # Use visualization position if offset was applied (so stub cable connects to visible MST)
+            if "visualization_position" in terminal:
+                term_pos_utm = terminal["visualization_position"]
+            else:
+                term_pos_utm = (terminal_pos[0], terminal_pos[1]) if isinstance(terminal_pos, list) else terminal_pos
             
             # Get target (FOSC or Aerial Terminal)
+            # Use visualization position if FOSC was offset
             target_pos = None
             target_connected_cables = []
             
             if connected_fosc_id:
                 target = next((f for f in foscs if f.get("fosc_id") == connected_fosc_id), None)
                 if target:
-                    target_pos = target.get("position")
+                    # Check if FOSC has visualization offset (from fosc_features)
+                    fosc_feature = next((f for f in fosc_features if f.get("properties", {}).get("id") == connected_fosc_id), None)
+                    if fosc_feature:
+                        # Use offset FOSC position if available
+                        fosc_coords = fosc_feature.get("geometry", {}).get("coordinates", [])
+                        if len(fosc_coords) >= 2:
+                            target_pos = (fosc_coords[0], fosc_coords[1])
+                        else:
+                            target_pos = target.get("position")
+                    else:
+                        target_pos = target.get("position")
                     target_connected_cables = target.get("connected_cables", [])
             elif connected_aerial_id:
                 # Find Aerial Terminal
                 target = next((t for t in terminals if t.get("terminal_id") == connected_aerial_id), None)
                 if target:
-                    target_pos = target.get("position")
+                    # Use visualization position if Aerial Terminal was offset
+                    if "visualization_position" in target:
+                        target_pos = target["visualization_position"]
+                    else:
+                        target_pos = target.get("position")
                     # Aerial Terminal is on a cable, use that cable for routing
                     aerial_cable_id = target.get("connected_cable_id", "")
                     if aerial_cable_id:
@@ -843,21 +873,52 @@ def main():
             if target_pos:
                 target_pos_utm = (target_pos[0], target_pos[1]) if isinstance(target_pos, list) else target_pos
                 
-                # Route stub cable along fiber cable
+                # Route stub cable along fiber cable (using original positions for routing logic)
+                # But the path will be adjusted to connect to offset positions
                 preferred_cable_id = None
                 if terminal_id in ["T0004288", "T0004601"] and connected_fosc_id == "F0000962":
                     preferred_cable_id = "48FOC/F1000398/T1001731"
                 elif connected_cable_id == "48FOC/F1000398/T1001731" and connected_fosc_id == "F0000962":
                     preferred_cable_id = "48FOC/F1000398/T1001731"
                 
-                path, length, routed = route_stub_cable_along_fiber(
-                    term_pos_utm,
-                    target_pos_utm,
-                    cables_list,
-                    terminal_cable_id=connected_cable_id,
-                    preferred_cable_id=preferred_cable_id,
-                    fosc_connected_cables=target_connected_cables if target_connected_cables else None
-                )
+                # Route using original positions for pathfinding
+                original_term_pos = (terminal_pos[0], terminal_pos[1]) if isinstance(terminal_pos, list) else terminal_pos
+                original_target_pos = None
+                if connected_fosc_id:
+                    original_target = next((f for f in foscs if f.get("fosc_id") == connected_fosc_id), None)
+                    if original_target:
+                        original_target_pos = original_target.get("position")
+                        if isinstance(original_target_pos, list):
+                            original_target_pos = (original_target_pos[0], original_target_pos[1])
+                elif connected_aerial_id:
+                    original_target = next((t for t in terminals if t.get("terminal_id") == connected_aerial_id), None)
+                    if original_target:
+                        original_target_pos = original_target.get("position")
+                        if isinstance(original_target_pos, list):
+                            original_target_pos = (original_target_pos[0], original_target_pos[1])
+                
+                if original_target_pos:
+                    # Route using original positions
+                    path, length, routed = route_stub_cable_along_fiber(
+                        original_term_pos,
+                        original_target_pos,
+                        cables_list,
+                        terminal_cable_id=connected_cable_id,
+                        preferred_cable_id=preferred_cable_id,
+                        fosc_connected_cables=target_connected_cables if target_connected_cables else None
+                    )
+                    
+                    # Adjust path endpoints to connect to offset positions
+                    if path and len(path) >= 2:
+                        # Update first point (MST end) to offset position
+                        path[0] = (term_pos_utm[0], term_pos_utm[1])
+                        # Update last point (FOSC/Terminal end) to offset position
+                        path[-1] = (target_pos_utm[0], target_pos_utm[1])
+                else:
+                    # Fallback: direct connection
+                    path = [term_pos_utm, target_pos_utm]
+                    length = euclidean_distance(term_pos_utm[0], term_pos_utm[1], target_pos_utm[0], target_pos_utm[1])
+                    routed = False
                 
                 if path is None:
                     # Stub cable cannot be routed along fiber - this is an error

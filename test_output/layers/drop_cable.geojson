@@ -30,7 +30,9 @@
         "length_m": 36.085240726743415,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -56,7 +58,9 @@
         "length_m": 922.9499890913878,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -82,7 +86,9 @@
         "length_m": 1849.659365321748,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -108,7 +114,9 @@
         "length_m": 2067.912166458534,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -134,7 +142,9 @@
         "length_m": 1356.6682566315733,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -160,7 +170,9 @@
         "length_m": 1378.828958357396,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -186,7 +198,9 @@
         "length_m": 1409.9412659605175,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -212,7 +226,9 @@
         "length_m": 1335.5302124788475,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -238,7 +254,9 @@
         "length_m": 1342.6719820883634,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -264,7 +282,9 @@
         "length_m": 1366.3674793223431,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -290,7 +310,9 @@
         "length_m": 1345.779943096119,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -316,7 +338,9 @@
         "length_m": 833.5896539376361,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -342,7 +366,9 @@
         "length_m": 1393.9336431072854,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -368,7 +394,9 @@
         "length_m": 216.48738782042767,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -394,7 +422,9 @@
         "length_m": 961.1580576162812,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -420,7 +450,9 @@
         "length_m": 742.3072340647808,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -446,7 +478,9 @@
         "length_m": 517.2520059754185,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -472,7 +506,9 @@
         "length_m": 449.303652166248,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -498,7 +534,9 @@
         "length_m": 1319.933472853433,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -524,7 +562,9 @@
         "length_m": 832.5811295686641,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -550,7 +590,9 @@
         "length_m": 43.83044351374144,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -576,7 +618,9 @@
         "length_m": 104.64299553459432,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -602,7 +646,9 @@
         "length_m": 159.7158522086687,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -628,7 +674,9 @@
         "length_m": 172.9502739410075,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -654,7 +702,9 @@
         "length_m": 157.2228817980836,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -680,7 +730,9 @@
         "length_m": 290.63362280528725,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -706,7 +758,9 @@
         "length_m": 299.77987302329365,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -732,7 +786,9 @@
         "length_m": 205.8263393145664,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -758,7 +814,9 @@
         "length_m": 625.354229947159,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -784,7 +842,9 @@
         "length_m": 1851.5935994218114,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -810,7 +870,9 @@
         "length_m": 1771.4982495492873,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -836,7 +898,9 @@
         "length_m": 121.36913412015117,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -862,7 +926,9 @@
         "length_m": 189.70669254650056,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -875,8 +941,8 @@
             5062320.291914476
           ],
           [
-            389808.21264196356,
-            5062629.058500166
+            389808.8906208666,
+            5062626.136113366
           ]
         ]
       },
@@ -885,10 +951,12 @@
         "ont_id": "O1007589",
         "terminal_id": "T0004300",
         "terminal_type": "MST",
-        "length_m": 554.0917629653189,
+        "length_m": 551.9041141498774,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": true,
+        "terminal_offset_distance_m": 3.0000000000000004
       }
     },
     {
@@ -901,8 +969,8 @@
             5062398.215899
           ],
           [
-            389808.21264196356,
-            5062629.058500166
+            389808.8906208666,
+            5062626.136113366
           ]
         ]
       },
@@ -911,10 +979,12 @@
         "ont_id": "O1007564",
         "terminal_id": "T0004300",
         "terminal_type": "MST",
-        "length_m": 252.23973645524111,
+        "length_m": 249.2926053482662,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": true,
+        "terminal_offset_distance_m": 3.0000000000000004
       }
     },
     {
@@ -927,8 +997,8 @@
             5062371.040077387
           ],
           [
-            389808.21264196356,
-            5062629.058500166
+            389808.8906208666,
+            5062626.136113366
           ]
         ]
       },
@@ -937,10 +1007,12 @@
         "ont_id": "O1007611",
         "terminal_id": "T0004300",
         "terminal_type": "MST",
-        "length_m": 392.34916370472376,
+        "length_m": 389.9205307137783,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": true,
+        "terminal_offset_distance_m": 3.0000000000000004
       }
     },
     {
@@ -953,8 +1025,8 @@
             5062633.446743184
           ],
           [
-            389808.21264196356,
-            5062629.058500166
+            389808.8906208666,
+            5062626.136113366
           ]
         ]
       },
@@ -963,10 +1035,12 @@
         "ont_id": "O1007640",
         "terminal_id": "T0004300",
         "terminal_type": "MST",
-        "length_m": 54.08467289353122,
+        "length_m": 53.72806887817692,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": true,
+        "terminal_offset_distance_m": 3.0000000000000004
       }
     },
     {
@@ -979,8 +1053,8 @@
             5062373.804702689
           ],
           [
-            389808.21264196356,
-            5062629.058500166
+            389808.8906208666,
+            5062626.136113366
           ]
         ]
       },
@@ -989,10 +1063,12 @@
         "ont_id": "O1007651",
         "terminal_id": "T0004300",
         "terminal_type": "MST",
-        "length_m": 296.17551929084283,
+        "length_m": 293.3144189223642,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": true,
+        "terminal_offset_distance_m": 3.0000000000000004
       }
     },
     {
@@ -1005,8 +1081,8 @@
             5062613.646946212
           ],
           [
-            389808.21264196356,
-            5062629.058500166
+            389808.8906208666,
+            5062626.136113366
           ]
         ]
       },
@@ -1015,10 +1091,12 @@
         "ont_id": "O1007649",
         "terminal_id": "T0004300",
         "terminal_type": "MST",
-        "length_m": 134.10667478275954,
+        "length_m": 133.12732605568797,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": true,
+        "terminal_offset_distance_m": 3.0000000000000004
       }
     },
     {
@@ -1044,7 +1122,9 @@
         "length_m": 441.2771239580445,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1070,7 +1150,9 @@
         "length_m": 53.86134989589181,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1096,7 +1178,9 @@
         "length_m": 61.17604414784921,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1122,7 +1206,9 @@
         "length_m": 191.82280173988792,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1148,7 +1234,9 @@
         "length_m": 233.54778153799305,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1174,7 +1262,9 @@
         "length_m": 703.5302851583417,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1200,7 +1290,9 @@
         "length_m": 816.3930854836514,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1226,7 +1318,9 @@
         "length_m": 52.06480971588622,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1252,7 +1346,9 @@
         "length_m": 161.62487665980254,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1278,7 +1374,9 @@
         "length_m": 212.73340304612665,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1304,7 +1402,9 @@
         "length_m": 115.86404294903252,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1330,7 +1430,9 @@
         "length_m": 874.9193716944029,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1356,7 +1458,9 @@
         "length_m": 34.793807524964,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1382,7 +1486,9 @@
         "length_m": 171.5069666798085,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1408,7 +1514,9 @@
         "length_m": 134.44524108279728,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1434,7 +1542,9 @@
         "length_m": 86.98868660877162,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1460,7 +1570,9 @@
         "length_m": 1386.4467145861133,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1486,7 +1598,9 @@
         "length_m": 1646.1897607262088,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1512,7 +1626,9 @@
         "length_m": 72.62643202108966,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1538,7 +1654,9 @@
         "length_m": 86.59389374672969,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1564,7 +1682,9 @@
         "length_m": 62.05940590179022,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1590,7 +1710,9 @@
         "length_m": 72.1962020433489,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1616,7 +1738,9 @@
         "length_m": 63.42549816801216,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1642,7 +1766,9 @@
         "length_m": 45.09236139828504,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1668,7 +1794,9 @@
         "length_m": 239.42158663277246,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1694,7 +1822,9 @@
         "length_m": 106.0058789818791,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1720,7 +1850,9 @@
         "length_m": 66.69767325058854,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1746,7 +1878,9 @@
         "length_m": 108.67573925905626,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1772,7 +1906,9 @@
         "length_m": 118.77821797325085,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1798,7 +1934,9 @@
         "length_m": 282.7081811322919,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1824,7 +1962,9 @@
         "length_m": 461.90715359109885,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1850,7 +1990,9 @@
         "length_m": 33.23369577463683,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1876,7 +2018,9 @@
         "length_m": 90.14319162000707,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1902,7 +2046,9 @@
         "length_m": 66.29635640183638,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1928,7 +2074,9 @@
         "length_m": 75.28743377666434,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1954,7 +2102,9 @@
         "length_m": 221.340648651841,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -1980,7 +2130,9 @@
         "length_m": 144.54786057346513,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2006,7 +2158,9 @@
         "length_m": 1292.2189601298203,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2032,7 +2186,9 @@
         "length_m": 275.28293235182844,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2058,7 +2214,9 @@
         "length_m": 650.8794760766791,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2084,7 +2242,9 @@
         "length_m": 589.3460818222404,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2110,7 +2270,9 @@
         "length_m": 148.82813378320998,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2136,7 +2298,9 @@
         "length_m": 70.52822155795508,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2162,7 +2326,9 @@
         "length_m": 65.51836862485591,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2188,7 +2354,9 @@
         "length_m": 43.54710026622957,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2214,7 +2382,9 @@
         "length_m": 244.77948287538487,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2240,7 +2410,9 @@
         "length_m": 628.6847241461257,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2266,7 +2438,9 @@
         "length_m": 652.879454351054,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2292,7 +2466,9 @@
         "length_m": 1110.173378329632,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2318,7 +2494,9 @@
         "length_m": 214.32167847687356,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2344,7 +2522,9 @@
         "length_m": 24.032801324578596,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2370,7 +2550,9 @@
         "length_m": 1949.7675409360947,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2396,7 +2578,9 @@
         "length_m": 508.32497203723386,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2422,7 +2606,9 @@
         "length_m": 56.91484812114498,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2448,7 +2634,9 @@
         "length_m": 28.532224739335632,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2474,7 +2662,9 @@
         "length_m": 66.7290888639016,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2500,7 +2690,9 @@
         "length_m": 471.66846662377645,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2526,7 +2718,9 @@
         "length_m": 513.1047376654111,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2552,7 +2746,9 @@
         "length_m": 133.44461974782936,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2578,7 +2774,9 @@
         "length_m": 294.63108780039573,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2604,7 +2802,9 @@
         "length_m": 377.8315247404708,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2630,7 +2830,9 @@
         "length_m": 204.30812434309922,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2656,7 +2858,9 @@
         "length_m": 222.09107179833092,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2682,7 +2886,9 @@
         "length_m": 509.20972019315406,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2708,7 +2914,9 @@
         "length_m": 161.049442617412,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2734,7 +2942,9 @@
         "length_m": 191.52333247811694,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2760,7 +2970,9 @@
         "length_m": 230.91549691671588,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2786,7 +2998,9 @@
         "length_m": 184.5629462960377,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2812,7 +3026,9 @@
         "length_m": 184.59772561041984,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2838,7 +3054,9 @@
         "length_m": 57.79017931124674,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2864,7 +3082,9 @@
         "length_m": 43.05551216229428,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2890,7 +3110,9 @@
         "length_m": 1213.1929304581047,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     },
     {
@@ -2916,7 +3138,9 @@
         "length_m": 278.80993687031923,
         "stroke": "#FFA500",
         "stroke-width": 2,
-        "stroke-opacity": 0.7
+        "stroke-opacity": 0.7,
+        "terminal_offset_applied": false,
+        "terminal_offset_distance_m": 0.0
       }
     }
   ]

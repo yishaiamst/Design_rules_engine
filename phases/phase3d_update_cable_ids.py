@@ -27,18 +27,32 @@ def find_nearest_element_at_point(
     point: Tuple[float, float],
     foscs: List[Dict[str, Any]],
     terminals: List[Dict[str, Any]],
-    tolerance: float = 50.0
+    tolerance: float = 50.0,
+    prefer_fosc: bool = True
 ) -> Tuple[Optional[str], Optional[str], float]:
     """
     Find the nearest FOSC or Terminal at a point.
+    
+    Rule: Fiber cables should connect to FOSCs, not MSTs.
+    If both FOSC and MST are at the same location, prefer FOSC.
+    
+    Args:
+        point: Point coordinates (x, y)
+        foscs: List of FOSC dictionaries
+        terminals: List of terminal dictionaries
+        tolerance: Distance tolerance for matching (default 50m)
+        prefer_fosc: If True, prefer FOSC over Terminal when both are at same location
     
     Returns:
         (element_id, element_type, distance)
         element_type: 'FOSC' or 'Terminal'
     """
-    min_dist = float('inf')
-    nearest_id = None
-    nearest_type = None
+    min_dist_fosc = float('inf')
+    nearest_fosc_id = None
+    
+    min_dist_terminal = float('inf')
+    nearest_terminal_id = None
+    nearest_terminal_type = None
     
     # Check FOSCs
     for fosc in foscs:
@@ -46,23 +60,46 @@ def find_nearest_element_at_point(
         if fosc_pos:
             fosc_pos_utm = (fosc_pos[0], fosc_pos[1]) if isinstance(fosc_pos, list) else fosc_pos
             dist = euclidean_distance(point[0], point[1], fosc_pos_utm[0], fosc_pos_utm[1])
-            if dist < min_dist and dist < tolerance:
-                min_dist = dist
-                nearest_id = fosc.get("fosc_id", "")
-                nearest_type = "FOSC"
+            if dist < min_dist_fosc and dist < tolerance:
+                min_dist_fosc = dist
+                nearest_fosc_id = fosc.get("fosc_id", "")
     
-    # Check Terminals
+    # Check Terminals (only Aerial Terminals, not MSTs - MSTs don't connect to fiber cables)
     for terminal in terminals:
+        term_type = terminal.get("type", "").upper()
+        # Skip MSTs - fiber cables should connect to FOSCs, not MSTs
+        if term_type == "MST":
+            continue
+        
         term_pos = terminal.get("position")
         if term_pos:
             term_pos_utm = (term_pos[0], term_pos[1]) if isinstance(term_pos, list) else term_pos
             dist = euclidean_distance(point[0], point[1], term_pos_utm[0], term_pos_utm[1])
-            if dist < min_dist and dist < tolerance:
-                min_dist = dist
-                nearest_id = terminal.get("terminal_id", "")
-                nearest_type = "Terminal"
+            if dist < min_dist_terminal and dist < tolerance:
+                min_dist_terminal = dist
+                nearest_terminal_id = terminal.get("terminal_id", "")
+                nearest_terminal_type = "Terminal"
     
-    return nearest_id, nearest_type, min_dist if nearest_id else float('inf')
+    # Prefer FOSC if both are found and prefer_fosc is True
+    if prefer_fosc and nearest_fosc_id and nearest_terminal_id:
+        # If FOSC is closer or within 1m of terminal, use FOSC
+        if min_dist_fosc <= min_dist_terminal + 1.0:
+            return nearest_fosc_id, "FOSC", min_dist_fosc
+        else:
+            return nearest_terminal_id, nearest_terminal_type, min_dist_terminal
+    
+    # Return whichever is found (or closest if both found)
+    if nearest_fosc_id and nearest_terminal_id:
+        if min_dist_fosc < min_dist_terminal:
+            return nearest_fosc_id, "FOSC", min_dist_fosc
+        else:
+            return nearest_terminal_id, nearest_terminal_type, min_dist_terminal
+    elif nearest_fosc_id:
+        return nearest_fosc_id, "FOSC", min_dist_fosc
+    elif nearest_terminal_id:
+        return nearest_terminal_id, nearest_terminal_type, min_dist_terminal
+    else:
+        return None, None, float('inf')
 
 
 def extract_fiber_size_from_cable_id(cable_id: str) -> Optional[str]:

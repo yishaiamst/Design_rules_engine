@@ -27,7 +27,11 @@
         "stub_cable_length": 2340.7625688046755,
         "marker-color": "#800080",
         "marker-size": "medium",
-        "marker-symbol": "triangle"
+        "marker-symbol": "triangle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null,
+        "overlaps_with_msts": null
       }
     },
     {
@@ -50,7 +54,11 @@
         "stub_cable_length": 834.7756859045195,
         "marker-color": "#800080",
         "marker-size": "medium",
-        "marker-symbol": "triangle"
+        "marker-symbol": "triangle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null,
+        "overlaps_with_msts": null
       }
     },
     {
@@ -73,7 +81,11 @@
         "stub_cable_length": 38.015713749574836,
         "marker-color": "#800080",
         "marker-size": "medium",
-        "marker-symbol": "triangle"
+        "marker-symbol": "triangle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null,
+        "overlaps_with_msts": null
       }
     },
     {
@@ -96,7 +108,11 @@
         "stub_cable_length": 852.8880515340808,
         "marker-color": "#800080",
         "marker-size": "medium",
-        "marker-symbol": "triangle"
+        "marker-symbol": "triangle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null,
+        "overlaps_with_msts": null
       }
     },
     {
@@ -119,7 +135,11 @@
         "stub_cable_length": 657.0249805746553,
         "marker-color": "#800080",
         "marker-size": "medium",
-        "marker-symbol": "triangle"
+        "marker-symbol": "triangle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null,
+        "overlaps_with_msts": null
       }
     },
     {
@@ -127,8 +147,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          389808.21264196356,
-          5062629.058500166
+          389808.8906208666,
+          5062626.136113366
         ]
       },
       "properties": {
@@ -142,7 +162,11 @@
         "stub_cable_length": 0.513211881784042,
         "marker-color": "#800080",
         "marker-size": "medium",
-        "marker-symbol": "triangle"
+        "marker-symbol": "triangle",
+        "offset_applied": true,
+        "offset_distance_m": 3.0000000000000004,
+        "overlaps_with_fosc": "F0000962",
+        "overlaps_with_msts": null
       }
     },
     {
@@ -165,7 +189,11 @@
         "stub_cable_length": 123.1754872817848,
         "marker-color": "#800080",
         "marker-size": "medium",
-        "marker-symbol": "triangle"
+        "marker-symbol": "triangle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null,
+        "overlaps_with_msts": null
       }
     },
     {
@@ -188,7 +216,11 @@
         "stub_cable_length": 660.6997411835221,
         "marker-color": "#800080",
         "marker-size": "medium",
-        "marker-symbol": "triangle"
+        "marker-symbol": "triangle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null,
+        "overlaps_with_msts": null
       }
     },
     {
@@ -211,7 +243,11 @@
         "stub_cable_length": 409.65978020016917,
         "marker-color": "#800080",
         "marker-size": "medium",
-        "marker-symbol": "triangle"
+        "marker-symbol": "triangle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null,
+        "overlaps_with_msts": null
       }
     },
     {
@@ -234,7 +270,11 @@
         "stub_cable_length": 607.8758023654975,
         "marker-color": "#800080",
         "marker-size": "medium",
-        "marker-symbol": "triangle"
+        "marker-symbol": "triangle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null,
+        "overlaps_with_msts": null
       }
     },
     {
@@ -257,7 +297,11 @@
         "stub_cable_length": 76.26835517812206,
         "marker-color": "#800080",
         "marker-size": "medium",
-        "marker-symbol": "triangle"
+        "marker-symbol": "triangle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null,
+        "overlaps_with_msts": null
       }
     },
     {
@@ -280,7 +324,11 @@
         "stub_cable_length": 1915.4251717117727,
         "marker-color": "#800080",
         "marker-size": "medium",
-        "marker-symbol": "triangle"
+        "marker-symbol": "triangle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null,
+        "overlaps_with_msts": null
       }
     },
     {
@@ -303,7 +351,11 @@
         "stub_cable_length": 34.501289294053976,
         "marker-color": "#800080",
         "marker-size": "medium",
-        "marker-symbol": "triangle"
+        "marker-symbol": "triangle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null,
+        "overlaps_with_msts": null
       }
     },
     {
@@ -326,7 +378,11 @@
         "stub_cable_length": 116.26110085435946,
         "marker-color": "#800080",
         "marker-size": "medium",
-        "marker-symbol": "triangle"
+        "marker-symbol": "triangle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null,
+        "overlaps_with_msts": null
       }
     },
     {
@@ -349,7 +405,11 @@
         "stub_cable_length": 476.37517377806506,
         "marker-color": "#800080",
         "marker-size": "medium",
-        "marker-symbol": "triangle"
+        "marker-symbol": "triangle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null,
+        "overlaps_with_msts": null
       }
     },
     {
@@ -372,7 +432,11 @@
         "stub_cable_length": 165.0617877078165,
         "marker-color": "#800080",
         "marker-size": "medium",
-        "marker-symbol": "triangle"
+        "marker-symbol": "triangle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null,
+        "overlaps_with_msts": null
       }
     },
     {
@@ -395,7 +459,11 @@
         "stub_cable_length": 74.39170075809552,
         "marker-color": "#800080",
         "marker-size": "medium",
-        "marker-symbol": "triangle"
+        "marker-symbol": "triangle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null,
+        "overlaps_with_msts": null
       }
     }
   ]

@@ -23,7 +23,10 @@
         "connected_cable_id": "144FOC/F1000399/F1000393",
         "marker-color": "#FF00FF",
         "marker-size": "medium",
-        "marker-symbol": "circle"
+        "marker-symbol": "circle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null
       }
     },
     {
@@ -42,7 +45,10 @@
         "connected_cable_id": "144FOC/F1000393/F1000391",
         "marker-color": "#FF00FF",
         "marker-size": "medium",
-        "marker-symbol": "circle"
+        "marker-symbol": "circle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null
       }
     },
     {
@@ -61,7 +67,10 @@
         "connected_cable_id": "144FOC/F1000390/F1000502",
         "marker-color": "#FF00FF",
         "marker-size": "medium",
-        "marker-symbol": "circle"
+        "marker-symbol": "circle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null
       }
     },
     {
@@ -80,7 +89,10 @@
         "connected_cable_id": "144FOC/F1000399/F1000393",
         "marker-color": "#FF00FF",
         "marker-size": "medium",
-        "marker-symbol": "circle"
+        "marker-symbol": "circle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null
       }
     },
     {
@@ -99,7 +111,10 @@
         "connected_cable_id": "48FOC/F1000391/F1000412",
         "marker-color": "#FF00FF",
         "marker-size": "medium",
-        "marker-symbol": "circle"
+        "marker-symbol": "circle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null
       }
     },
     {
@@ -118,7 +133,10 @@
         "connected_cable_id": "48FOC/F1000391/F1000412",
         "marker-color": "#FF00FF",
         "marker-size": "medium",
-        "marker-symbol": "circle"
+        "marker-symbol": "circle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null
       }
     },
     {
@@ -137,7 +155,10 @@
         "connected_cable_id": "144FOC/F1000390/F1000502",
         "marker-color": "#FF00FF",
         "marker-size": "medium",
-        "marker-symbol": "circle"
+        "marker-symbol": "circle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null
       }
     },
     {
@@ -156,7 +177,10 @@
         "connected_cable_id": "144FOC/F1000392/F1000390",
         "marker-color": "#FF00FF",
         "marker-size": "medium",
-        "marker-symbol": "circle"
+        "marker-symbol": "circle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null
       }
     },
     {
@@ -175,7 +199,10 @@
         "connected_cable_id": "48FOC/F1000406/F1000394",
         "marker-color": "#FF00FF",
         "marker-size": "medium",
-        "marker-symbol": "circle"
+        "marker-symbol": "circle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null
       }
     },
     {
@@ -194,7 +221,10 @@
         "connected_cable_id": "96FOC/F1000391/F1000397",
         "marker-color": "#FF00FF",
         "marker-size": "medium",
-        "marker-symbol": "circle"
+        "marker-symbol": "circle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null
       }
     },
     {
@@ -213,7 +243,10 @@
         "connected_cable_id": "12FOC/F1000397/T1001719",
         "marker-color": "#FF00FF",
         "marker-size": "medium",
-        "marker-symbol": "circle"
+        "marker-symbol": "circle",
+        "offset_applied": false,
+        "offset_distance_m": 0.0,
+        "overlaps_with_fosc": null
       }
     }
   ]

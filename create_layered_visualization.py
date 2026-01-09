@@ -321,30 +321,77 @@ def main():
     print(f"  ✓ Saved: {output_dir}/fosc.geojson ({len(fosc_features)} features)")
     
     # ==========================================
-    # LAYER 2: Aerial Terminal
+    # LAYER 2: Aerial Terminal (with offset for FOSC overlaps)
     # ==========================================
     print("Creating Aerial Terminal layer...")
+    # Build FOSC position map for overlap detection (use final positions after FOSC offsets)
+    fosc_final_positions_aerial = {}
+    for feature in fosc_features:
+        fosc_id = feature.get("properties", {}).get("id", "")
+        coords = feature.get("geometry", {}).get("coordinates", [])
+        if fosc_id and len(coords) >= 2:
+            fosc_final_positions_aerial[fosc_id] = (coords[0], coords[1])
+    
     aerial_features = []
+    aerial_positions = {}  # Track Aerial Terminal positions for overlap detection
+    
     for terminal in terminals:
         term_type = terminal.get("type", "").upper()
         if term_type == "AERIAL" or term_type == "AERIAL TERMINAL":
             term_pos = terminal.get("position")
             if term_pos:
                 term_pos_utm = (term_pos[0], term_pos[1]) if isinstance(term_pos, list) else term_pos
+                terminal_id = terminal.get("terminal_id", "")
+                
+                # Check for overlaps with FOSCs
+                offset_x, offset_y = 0.0, 0.0
+                overlapping_fosc = None
+                min_fosc_dist = float('inf')
+                
+                for fosc_id, fosc_pos in fosc_final_positions_aerial.items():
+                    dist = euclidean_distance(term_pos_utm[0], term_pos_utm[1], fosc_pos[0], fosc_pos[1])
+                    if dist < 1.0:  # Within 1 meter
+                        if dist < min_fosc_dist:
+                            min_fosc_dist = dist
+                            overlapping_fosc = fosc_id
+                
+                # Apply offset if overlapping with FOSC
+                if overlapping_fosc:
+                    fosc_pos = fosc_final_positions_aerial[overlapping_fosc]
+                    dx = term_pos_utm[0] - fosc_pos[0]
+                    dy = term_pos_utm[1] - fosc_pos[1]
+                    dist = math.sqrt(dx*dx + dy*dy) if (dx != 0 or dy != 0) else 1.0
+                    
+                    offset_distance = 3.0
+                    if dist > 0:
+                        offset_x = (dx / dist) * offset_distance
+                        offset_y = (dy / dist) * offset_distance
+                    else:
+                        offset_x = 3.0
+                        offset_y = 3.0
+                    
+                    print(f"  ⚠️  Aerial Terminal {terminal_id} overlaps with FOSC {overlapping_fosc} ({min_fosc_dist:.2f}m) - applying {offset_distance}m offset")
+                
+                # Store final position
+                aerial_positions[terminal_id] = (term_pos_utm[0] + offset_x, term_pos_utm[1] + offset_y)
+                
                 aerial_feature = {
                     "type": "Feature",
                     "geometry": {
                         "type": "Point",
-                        "coordinates": [term_pos_utm[0], term_pos_utm[1]]
+                        "coordinates": [term_pos_utm[0] + offset_x, term_pos_utm[1] + offset_y]
                     },
                     "properties": {
-                        "id": terminal.get("terminal_id", ""),
+                        "id": terminal_id,
                         "type": "Aerial Terminal",
                         "connected_onts": len(terminal.get("connected_onts", [])),
                         "connected_cable_id": terminal.get("connected_cable_id", ""),
                         "marker-color": "#FF00FF",
                         "marker-size": "medium",
-                        "marker-symbol": "circle"
+                        "marker-symbol": "circle",
+                        "offset_applied": offset_x != 0.0 or offset_y != 0.0,
+                        "offset_distance_m": ((offset_x**2 + offset_y**2)**0.5) if (offset_x != 0.0 or offset_y != 0.0) else 0.0,
+                        "overlaps_with_fosc": overlapping_fosc if overlapping_fosc else None
                     }
                 }
                 aerial_features.append(aerial_feature)
@@ -355,14 +402,24 @@ def main():
     print(f"  ✓ Saved: {output_dir}/aerial_terminal.geojson ({len(aerial_features)} features)")
     
     # ==========================================
-    # LAYER 3: MST
+    # LAYER 3: MST (with offset for FOSC overlaps)
     # ==========================================
     print("Creating MST layer...")
     # Build stub cable ID map first
     stub_cable_id_map = {}
     # We'll populate this when creating stub cables
     
+    # Build FOSC position map for overlap detection (use final positions after FOSC offsets)
+    fosc_final_positions = {}
+    for feature in fosc_features:
+        fosc_id = feature.get("properties", {}).get("id", "")
+        coords = feature.get("geometry", {}).get("coordinates", [])
+        if fosc_id and len(coords) >= 2:
+            fosc_final_positions[fosc_id] = (coords[0], coords[1])
+    
     mst_features = []
+    mst_positions = {}  # Track MST positions for MST-to-MST overlap detection
+    
     for terminal in terminals:
         term_type = terminal.get("type", "").upper()
         if term_type == "MST":
@@ -372,6 +429,59 @@ def main():
                 terminal_id = terminal.get("terminal_id", "")
                 connected_fosc_id = terminal.get("connected_fosc_id", "")
                 connected_aerial_id = terminal.get("connected_aerial_terminal_id", "")
+                
+                # Check for overlaps with FOSCs
+                offset_x, offset_y = 0.0, 0.0
+                overlapping_fosc = None
+                min_fosc_dist = float('inf')
+                
+                for fosc_id, fosc_pos in fosc_final_positions.items():
+                    dist = euclidean_distance(term_pos_utm[0], term_pos_utm[1], fosc_pos[0], fosc_pos[1])
+                    if dist < 1.0:  # Within 1 meter
+                        if dist < min_fosc_dist:
+                            min_fosc_dist = dist
+                            overlapping_fosc = fosc_id
+                
+                # Apply offset if overlapping with FOSC
+                # Offset MST away from FOSC (FOSC stays at original location)
+                if overlapping_fosc:
+                    # Calculate offset direction (away from FOSC)
+                    fosc_pos = fosc_final_positions[overlapping_fosc]
+                    dx = term_pos_utm[0] - fosc_pos[0]
+                    dy = term_pos_utm[1] - fosc_pos[1]
+                    dist = math.sqrt(dx*dx + dy*dy) if (dx != 0 or dy != 0) else 1.0
+                    
+                    # Normalize and apply 3m offset away from FOSC
+                    offset_distance = 3.0
+                    if dist > 0:
+                        offset_x = (dx / dist) * offset_distance
+                        offset_y = (dy / dist) * offset_distance
+                    else:
+                        # Same exact location - offset in a default direction
+                        offset_x = 3.0
+                        offset_y = 3.0
+                    
+                    print(f"  ⚠️  MST {terminal_id} overlaps with FOSC {overlapping_fosc} ({min_fosc_dist:.2f}m) - applying {offset_distance}m offset")
+                
+                # Check for overlaps with other MSTs (after FOSC offset)
+                final_mst_pos = (term_pos_utm[0] + offset_x, term_pos_utm[1] + offset_y)
+                overlapping_msts = []
+                for existing_mst_id, existing_mst_pos in mst_positions.items():
+                    dist = euclidean_distance(final_mst_pos[0], final_mst_pos[1], existing_mst_pos[0], existing_mst_pos[1])
+                    if dist < 1.0:
+                        overlapping_msts.append(existing_mst_id)
+                
+                # Apply additional offset if overlapping with other MSTs
+                if overlapping_msts:
+                    # Stagger MSTs: alternate offset direction
+                    mst_offset_multiplier = len(overlapping_msts) % 2 * 2 - 1  # -1 or 1
+                    additional_offset = 2.0 * mst_offset_multiplier
+                    offset_x += additional_offset
+                    offset_y += additional_offset
+                    print(f"  ⚠️  MST {terminal_id} also overlaps with MSTs {overlapping_msts} - applying additional offset")
+                
+                # Store final position for future overlap checks
+                mst_positions[terminal_id] = (term_pos_utm[0] + offset_x, term_pos_utm[1] + offset_y)
                 
                 # Generate stub cable ID (will be set when we create stub cables)
                 stub_cable_id = None
@@ -384,7 +494,7 @@ def main():
                     "type": "Feature",
                     "geometry": {
                         "type": "Point",
-                        "coordinates": [term_pos_utm[0], term_pos_utm[1]]
+                        "coordinates": [term_pos_utm[0] + offset_x, term_pos_utm[1] + offset_y]
                     },
                     "properties": {
                         "id": terminal_id,
@@ -397,7 +507,11 @@ def main():
                         "stub_cable_length": terminal.get("stub_cable_length"),
                         "marker-color": "#800080",
                         "marker-size": "medium",
-                        "marker-symbol": "triangle"
+                        "marker-symbol": "triangle",
+                        "offset_applied": offset_x != 0.0 or offset_y != 0.0,
+                        "offset_distance_m": ((offset_x**2 + offset_y**2)**0.5) if (offset_x != 0.0 or offset_y != 0.0) else 0.0,
+                        "overlaps_with_fosc": overlapping_fosc if overlapping_fosc else None,
+                        "overlaps_with_msts": overlapping_msts if overlapping_msts else None
                     }
                 }
                 mst_features.append(mst_feature)

@@ -797,8 +797,12 @@ def apply_all_optimization_rules(
     summary["stub_cables_switched_to_aerial"] = optimization_results.get("switched_to_aerial", 0)
     
     # Post-processing: Merge FOSCs within 1m (prevent duplicates from different rules)
-    filtered_foscs, close_merges = merge_very_close_foscs(filtered_foscs, merge_distance=1.0)
+    # Also updates terminal connections from removed FOSCs to kept FOSCs
+    filtered_foscs, close_merges, optimized_terminals = merge_very_close_foscs(
+        filtered_foscs, terminals=optimized_terminals, merge_distance=1.0
+    )
     summary["foscs_merged_post_processing"] = len(close_merges)
+    summary["terminal_connections_updated_post_merge"] = sum(1 for m in close_merges if m.get("removed"))
     
     # Rule 22: Update cable IDs based on FOSC and terminal positions at endpoints
     from phases.phase3d_update_cable_ids import update_cable_ids
@@ -1355,8 +1359,9 @@ def convert_terminal_to_fosc(
     new_foscs = []
     terminals_to_remove = []
     merged_with_existing = []
+    updated_terminals = terminals.copy()  # Work with copy to update connections
     
-    for terminal in terminals:
+    for terminal in updated_terminals:
         terminal_id = terminal.get("terminal_id", "")
         terminal_pos = terminal.get("position")
         connected_cable_id = terminal.get("connected_cable_id")
@@ -1378,10 +1383,21 @@ def convert_terminal_to_fosc(
         
         if nearby_fosc:
             # FOSC already exists at this location - don't create duplicate
-            # Just remove the terminal (FOSC will handle the connection)
-            terminals_to_remove.append(terminal_id)
+            # Update terminal to connect to existing FOSC instead
+            terminal["connected_fosc_id"] = nearby_fosc
+            # Recalculate stub cable length to existing FOSC
+            nearby_fosc_obj = next((f for f in existing_foscs if f.get("fosc_id") == nearby_fosc), None)
+            if nearby_fosc_obj:
+                fosc_pos = nearby_fosc_obj.get("position")
+                if fosc_pos:
+                    fosc_pos_utm = (fosc_pos[0], fosc_pos[1]) if isinstance(fosc_pos, list) else fosc_pos
+                    stub_length = euclidean_distance(term_pos_utm[0], term_pos_utm[1], fosc_pos_utm[0], fosc_pos_utm[1])
+                    terminal["stub_cable_length"] = stub_length
+                    terminal["stub_cable_id"] = f"stub_{terminal_id}_{nearby_fosc}"
+            # Don't remove terminal - just update its connection
             merged_with_existing.append((terminal_id, nearby_fosc, min_dist))
             print(f"  ⊘ Skipped {terminal_id} → FOSC {nearby_fosc} already exists ({min_dist:.2f}m away)")
+            print(f"    Updated terminal to connect to {nearby_fosc} instead")
             continue
         
         # Find the cable
@@ -1432,22 +1448,23 @@ def convert_terminal_to_fosc(
             print(f"  ✓ Converted {terminal_id} to FOSC {fosc_id}")
             print(f"    Cable: {connected_cable_id} ({total_length:.1f}m, curvature: {curvature_ratio:.2f})")
     
-    # Remove converted terminals
-    updated_terminals = [t for t in terminals if t.get("terminal_id") not in terminals_to_remove]
+    # Remove only terminals that were actually converted (not those that were just updated)
+    final_terminals = [t for t in updated_terminals if t.get("terminal_id") not in terminals_to_remove]
     
     print()
     print(f"Converted {len(new_foscs)} terminals to FOSCs")
     if merged_with_existing:
-        print(f"Merged {len(merged_with_existing)} terminals with existing FOSCs (avoided duplicates)")
+        print(f"Updated {len(merged_with_existing)} terminals to connect to existing FOSCs (avoided duplicates)")
     print()
     
-    return updated_terminals, new_foscs
+    return final_terminals, new_foscs
 
 
 def merge_very_close_foscs(
     foscs: List[Dict[str, Any]],
+    terminals: List[Dict[str, Any]] = None,
     merge_distance: float = 1.0
-) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
+) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], List[Dict[str, Any]]]:
     """
     Post-processing: Merge FOSCs that are very close together (within merge_distance).
     
@@ -1455,12 +1472,15 @@ def merge_very_close_foscs(
     For example, if Rule 7 creates a FOSC at a junction and Rule 9 converts a terminal
     at the same location, they should be merged.
     
+    Also updates all terminal connections from removed FOSCs to the kept FOSC.
+    
     Args:
         foscs: List of FOSC dictionaries
+        terminals: List of terminal dictionaries (to update connections)
         merge_distance: Maximum distance to merge (default 1.0m)
     
     Returns:
-        (merged_foscs, merge_summary)
+        (merged_foscs, merge_summary, updated_terminals)
     """
     print()
     print("=" * 80)
@@ -1471,7 +1491,10 @@ def merge_very_close_foscs(
     print()
     
     if not foscs:
-        return foscs, []
+        return foscs, [], terminals if terminals else []
+    
+    if terminals is None:
+        terminals = []
     
     # Build FOSC position map
     fosc_positions = {}
@@ -1481,6 +1504,9 @@ def merge_very_close_foscs(
         if fosc_pos:
             fosc_pos_utm = (fosc_pos[0], fosc_pos[1]) if isinstance(fosc_pos, list) else fosc_pos
             fosc_positions[fosc_id] = fosc_pos_utm
+    
+    # Build FOSC ID mapping for connection updates
+    fosc_id_mapping = {}  # removed_fosc_id -> kept_fosc_id
     
     # Find FOSCs to merge
     foscs_to_remove = set()
@@ -1562,6 +1588,10 @@ def merge_very_close_foscs(
             merged_foscs.append(merged_fosc)
             foscs_to_remove.update(remove_ids)
             
+            # Map removed FOSC IDs to kept FOSC ID
+            for removed_id in remove_ids:
+                fosc_id_mapping[removed_id] = keep_id
+            
             merges.append({
                 "kept": keep_id,
                 "removed": remove_ids,
@@ -1575,12 +1605,50 @@ def merge_very_close_foscs(
             # No nearby FOSCs, keep as-is
             merged_foscs.append(fosc1)
     
+    # Update terminal connections from removed FOSCs to kept FOSCs
+    updated_terminals = []
+    connection_updates = 0
+    
+    for terminal in terminals:
+        terminal_id = terminal.get("terminal_id", "")
+        connected_fosc_id = terminal.get("connected_fosc_id", "")
+        
+        if connected_fosc_id in fosc_id_mapping:
+            # This terminal was connected to a removed FOSC - update to kept FOSC
+            new_fosc_id = fosc_id_mapping[connected_fosc_id]
+            terminal["connected_fosc_id"] = new_fosc_id
+            
+            # Update stub cable ID
+            old_stub_id = terminal.get("stub_cable_id", "")
+            if old_stub_id:
+                # Update stub cable ID to reference new FOSC
+                terminal["stub_cable_id"] = f"stub_{terminal_id}_{new_fosc_id}"
+            
+            # Recalculate stub cable length
+            terminal_pos = terminal.get("position")
+            if terminal_pos:
+                term_pos_utm = (terminal_pos[0], terminal_pos[1]) if isinstance(terminal_pos, list) else terminal_pos
+                kept_fosc = next((f for f in merged_foscs if f.get("fosc_id") == new_fosc_id), None)
+                if kept_fosc:
+                    fosc_pos = kept_fosc.get("position")
+                    if fosc_pos:
+                        fosc_pos_utm = (fosc_pos[0], fosc_pos[1]) if isinstance(fosc_pos, list) else fosc_pos
+                        stub_length = euclidean_distance(term_pos_utm[0], term_pos_utm[1], fosc_pos_utm[0], fosc_pos_utm[1])
+                        terminal["stub_cable_length"] = stub_length
+            
+            connection_updates += 1
+            print(f"  ↻ Updated {terminal_id}: {connected_fosc_id} → {new_fosc_id}")
+        
+        updated_terminals.append(terminal)
+    
     print()
     print(f"Merged {len(merges)} groups of very close FOSCs")
     print(f"Removed {len(foscs_to_remove)} duplicate FOSCs")
+    if connection_updates > 0:
+        print(f"Updated {connection_updates} terminal connections to merged FOSCs")
     print()
     
-    return merged_foscs, merges
+    return merged_foscs, merges, updated_terminals
 
 
 def fix_incorrect_terminal_connections(

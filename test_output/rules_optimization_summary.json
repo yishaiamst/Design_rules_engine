@@ -15,7 +15,7 @@
   "foscs_converted_to_mst": 1,
   "msts_fixed_placement": 15,
   "all_on_cables_fixed": 2,
-  "onts_reconnected": 7,
+  "onts_reconnected": 13,
   "underutilized_msts_merged": 7,
   "unconnected_onts_found": 22648,
   "unconnected_onts_connected": 26,
@@ -23,5 +23,6 @@
   "stub_cables_optimized": 0,
   "stub_cables_switched_to_aerial": 4,
   "foscs_merged_post_processing": 0,
+  "terminal_connections_updated_post_merge": 0,
   "cable_ids_updated": 0
 }

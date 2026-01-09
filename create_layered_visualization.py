@@ -1075,16 +1075,23 @@ def main():
                 
                 stub_id = f"stub_{terminal_id}_{target_id}"
                 
-                # Use path_for_geojson (already in correct format with offset endpoints)
-                path_coords = path_for_geojson
-                
-                # CRITICAL: Final safety check - ensure endpoints are exact offset positions
-                # This is the last chance to fix endpoints before writing to GeoJSON
-                if len(path_coords) >= 2:
-                    # Force first point to exact offset MST position
-                    path_coords[0] = [float(term_pos_utm[0]), float(term_pos_utm[1])]
-                    # Force last point to exact offset FOSC position
-                    path_coords[-1] = [float(target_pos_utm[0]), float(target_pos_utm[1])]
+                # CRITICAL: Create a NEW list for path_coords with exact offset endpoints
+                # This ensures we're not modifying a shared reference
+                if path_for_geojson and len(path_for_geojson) >= 2:
+                    # Create new list with offset endpoints
+                    path_coords = []
+                    # First point: exact offset MST position
+                    path_coords.append([float(term_pos_utm[0]), float(term_pos_utm[1])])
+                    # Middle points: copy from path_for_geojson (if any)
+                    if len(path_for_geojson) > 2:
+                        for i in range(1, len(path_for_geojson) - 1):
+                            path_coords.append([float(path_for_geojson[i][0]), float(path_for_geojson[i][1])])
+                    # Last point: exact offset FOSC position
+                    path_coords.append([float(target_pos_utm[0]), float(target_pos_utm[1])])
+                else:
+                    # Fallback: direct connection with offset positions
+                    path_coords = [[float(term_pos_utm[0]), float(term_pos_utm[1])], 
+                                  [float(target_pos_utm[0]), float(target_pos_utm[1])]]
                 
                 # Debug: Verify final coordinates (for problematic cables)
                 if terminal_id in ["T0000034", "T0004300"]:

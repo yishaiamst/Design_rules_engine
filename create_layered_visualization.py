@@ -831,8 +831,11 @@ def main():
         
         if terminal_type == "MST" and target_id and terminal_pos:
             # Use visualization position if offset was applied (so stub cable connects to visible MST)
-            if "visualization_position" in terminal:
+            # Check visualization_position first (set during MST layer creation)
+            if "visualization_position" in terminal and terminal["visualization_position"]:
                 term_pos_utm = terminal["visualization_position"]
+                if isinstance(term_pos_utm, list):
+                    term_pos_utm = (term_pos_utm[0], term_pos_utm[1])
             else:
                 term_pos_utm = (terminal_pos[0], terminal_pos[1]) if isinstance(terminal_pos, list) else terminal_pos
             
@@ -845,16 +848,21 @@ def main():
                 target = next((f for f in foscs if f.get("fosc_id") == connected_fosc_id), None)
                 if target:
                     # Check if FOSC has visualization offset (from fosc_features)
+                    # FOSC features are created before stub cables, so they have offset positions
                     fosc_feature = next((f for f in fosc_features if f.get("properties", {}).get("id") == connected_fosc_id), None)
                     if fosc_feature:
-                        # Use offset FOSC position if available
+                        # Use offset FOSC position from GeoJSON feature
                         fosc_coords = fosc_feature.get("geometry", {}).get("coordinates", [])
                         if len(fosc_coords) >= 2:
-                            target_pos = (fosc_coords[0], fosc_coords[1])
+                            target_pos = (float(fosc_coords[0]), float(fosc_coords[1]))
                         else:
                             target_pos = target.get("position")
+                            if isinstance(target_pos, list):
+                                target_pos = (target_pos[0], target_pos[1])
                     else:
                         target_pos = target.get("position")
+                        if isinstance(target_pos, list):
+                            target_pos = (target_pos[0], target_pos[1])
                     target_connected_cables = target.get("connected_cables", [])
             elif connected_aerial_id:
                 # Find Aerial Terminal

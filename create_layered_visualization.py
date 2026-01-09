@@ -586,6 +586,47 @@ def main():
     print(f"  Updated {cable_id_summary.get('updated', 0)} cable IDs based on FOSC/terminal positions")
     print()
     
+    # Load exact offset positions of FOSCs and Aerial Terminals from saved GeoJSON files
+    # This ensures fiber cable endpoints connect to the exact visual positions
+    fosc_positions_map_fiber = {}  # fosc_id -> (x, y) offset position
+    aerial_positions_map_fiber = {}  # terminal_id -> (x, y) offset position
+    
+    # Load FOSC positions from saved file
+    try:
+        with open(f"{output_dir}/fosc.geojson", "r") as f:
+            fosc_geojson = json.load(f)
+            for feature in fosc_geojson.get("features", []):
+                fosc_id = feature.get("properties", {}).get("id", "")
+                coords = feature.get("geometry", {}).get("coordinates", [])
+                if fosc_id and len(coords) >= 2:
+                    fosc_positions_map_fiber[fosc_id] = (float(coords[0]), float(coords[1]))
+    except Exception as e:
+        print(f"  ⚠️  Could not load FOSC positions for fiber cable endpoints: {e}")
+        # Fall back to fosc_features if available
+        for feature in fosc_features:
+            fosc_id = feature.get("properties", {}).get("id", "")
+            coords = feature.get("geometry", {}).get("coordinates", [])
+            if fosc_id and len(coords) >= 2:
+                fosc_positions_map_fiber[fosc_id] = (float(coords[0]), float(coords[1]))
+    
+    # Load Aerial Terminal positions from saved file
+    try:
+        with open(f"{output_dir}/aerial_terminal.geojson", "r") as f:
+            aerial_geojson = json.load(f)
+            for feature in aerial_geojson.get("features", []):
+                terminal_id = feature.get("properties", {}).get("id", "")
+                coords = feature.get("geometry", {}).get("coordinates", [])
+                if terminal_id and len(coords) >= 2:
+                    aerial_positions_map_fiber[terminal_id] = (float(coords[0]), float(coords[1]))
+    except Exception as e:
+        print(f"  ⚠️  Could not load Aerial Terminal positions for fiber cable endpoints: {e}")
+        # Fall back to aerial_features if available
+        for feature in aerial_features:
+            terminal_id = feature.get("properties", {}).get("id", "")
+            coords = feature.get("geometry", {}).get("coordinates", [])
+            if terminal_id and len(coords) >= 2:
+                aerial_positions_map_fiber[terminal_id] = (float(coords[0]), float(coords[1]))
+    
     def offset_line_perpendicular(coords, offset_distance):
         """Offset a LineString perpendicular to its direction."""
         if len(coords) < 2:
@@ -679,11 +720,97 @@ def main():
     # Use updated extracted cables (with new IDs) for offsetting
     cables_to_offset = updated_extracted_cables if 'updated_extracted_cables' in locals() else extracted_cables
     
+    # STEP 1: Snap cable endpoints to exact FOSC/Terminal positions BEFORE offsetting
+    # This ensures the base geometry connects precisely to point features
+    print("  Snapping fiber cable endpoints to FOSC/Terminal positions...")
+    snapped_cables = []
+    for feature in cables_to_offset:
+        geometry = feature.get("geometry", {})
+        props = feature.get("properties", {})
+        
+        # Extract from_id and to_id
+        from_id = props.get("from_id")
+        to_id = props.get("to_id")
+        
+        # If not in properties, try to parse from cable ID (format: <size>FOC/From/To)
+        if not from_id or not to_id:
+            cable_id = props.get("ID") or props.get("id", "")
+            if cable_id and '/' in cable_id:
+                parts = cable_id.split('/')
+                if len(parts) >= 3:
+                    if not from_id:
+                        from_id = parts[1] if parts[1] != "UNKNOWN" else None
+                    if not to_id:
+                        to_id = parts[2] if parts[2] != "UNKNOWN" else None
+        
+        snapped_feature = feature.copy()
+        snapped_geometry = snapped_feature.get("geometry", {}).copy()
+        
+        if geometry.get("type") == "LineString":
+            coords = geometry.get("coordinates", [])
+            if len(coords) >= 2:
+                # Snap first point (from_id)
+                if from_id:
+                    target_pos = None
+                    if from_id.startswith('F') and from_id in fosc_positions_map_fiber:
+                        target_pos = fosc_positions_map_fiber[from_id]
+                    elif from_id.startswith('T') and from_id in aerial_positions_map_fiber:
+                        target_pos = aerial_positions_map_fiber[from_id]
+                    
+                    if target_pos:
+                        # Replace first point with exact target position
+                        coords[0] = [float(target_pos[0]), float(target_pos[1])]
+                
+                # Snap last point (to_id)
+                if to_id:
+                    target_pos = None
+                    if to_id.startswith('F') and to_id in fosc_positions_map_fiber:
+                        target_pos = fosc_positions_map_fiber[to_id]
+                    elif to_id.startswith('T') and to_id in aerial_positions_map_fiber:
+                        target_pos = aerial_positions_map_fiber[to_id]
+                    
+                    if target_pos:
+                        # Replace last point with exact target position
+                        coords[-1] = [float(target_pos[0]), float(target_pos[1])]
+                
+                snapped_geometry["coordinates"] = coords
+        elif geometry.get("type") == "MultiLineString":
+            lines = geometry.get("coordinates", [])
+            if lines:
+                # Snap first point of first line (from_id)
+                if from_id:
+                    target_pos = None
+                    if from_id.startswith('F') and from_id in fosc_positions_map_fiber:
+                        target_pos = fosc_positions_map_fiber[from_id]
+                    elif from_id.startswith('T') and from_id in aerial_positions_map_fiber:
+                        target_pos = aerial_positions_map_fiber[from_id]
+                    
+                    if target_pos and len(lines[0]) > 0:
+                        lines[0][0] = [float(target_pos[0]), float(target_pos[1])]
+                
+                # Snap last point of last line (to_id)
+                if to_id:
+                    target_pos = None
+                    if to_id.startswith('F') and to_id in fosc_positions_map_fiber:
+                        target_pos = fosc_positions_map_fiber[to_id]
+                    elif to_id.startswith('T') and to_id in aerial_positions_map_fiber:
+                        target_pos = aerial_positions_map_fiber[to_id]
+                    
+                    if target_pos and len(lines) > 0 and len(lines[-1]) > 0:
+                        lines[-1][-1] = [float(target_pos[0]), float(target_pos[1])]
+                
+                snapped_geometry["coordinates"] = lines
+        
+        snapped_feature["geometry"] = snapped_geometry
+        snapped_cables.append(snapped_feature)
+    
+    print(f"  ✓ Snapped {len(snapped_cables)} fiber cables to exact endpoint positions")
+    
     # Group cables by overlapping paths
     offset_cables = []
     offset_distance = 5.0  # 5 meters offset
     
-    for i, feature in enumerate(cables_to_offset):
+    for i, feature in enumerate(snapped_cables):
         geometry = feature.get("geometry", {})
         props = feature.get("properties", {})
         
@@ -695,11 +822,11 @@ def main():
         
         offset_feature = feature.copy()
         
-        # Check if this cable overlaps with any previous cable
+        # Check if this cable overlaps with any previous cable (use snapped cables for comparison)
         overlaps = False
         overlap_index = 0
         for j in range(i):
-            prev_feature = extracted_cables[j]
+            prev_feature = snapped_cables[j]
             prev_geometry = prev_feature.get("geometry", {})
             prev_coords_list = []
             if prev_geometry.get("type") == "LineString":
@@ -727,17 +854,156 @@ def main():
             if geometry.get("type") == "LineString":
                 coords = geometry.get("coordinates", [])
                 offset_coords = offset_line_perpendicular(coords, actual_offset)
+                
+                # CRITICAL: Restore endpoints to exact offset positions of connected FOSCs/Aerial Terminals
+                # Extract from_id and to_id from cable properties or cable ID
+                from_id = props.get("from_id")
+                to_id = props.get("to_id")
+                
+                # If not in properties, try to parse from cable ID (format: <size>FOC/From/To)
+                if not from_id or not to_id:
+                    cable_id = props.get("ID") or props.get("id", "")
+                    if cable_id and '/' in cable_id:
+                        parts = cable_id.split('/')
+                        if len(parts) >= 3:
+                            if not from_id:
+                                from_id = parts[1] if parts[1] != "UNKNOWN" else None
+                            if not to_id:
+                                to_id = parts[2] if parts[2] != "UNKNOWN" else None
+                
+                # Restore first point (from_id) to exact offset position
+                if from_id:
+                    if from_id.startswith('F') and from_id in fosc_positions_map_fiber:
+                        # FOSC - use exact offset position
+                        offset_coords[0] = [float(fosc_positions_map_fiber[from_id][0]), 
+                                           float(fosc_positions_map_fiber[from_id][1])]
+                    elif from_id.startswith('T') and from_id in aerial_positions_map_fiber:
+                        # Aerial Terminal - use exact offset position
+                        offset_coords[0] = [float(aerial_positions_map_fiber[from_id][0]), 
+                                           float(aerial_positions_map_fiber[from_id][1])]
+                
+                # Restore last point (to_id) to exact offset position
+                if to_id:
+                    if to_id.startswith('F') and to_id in fosc_positions_map_fiber:
+                        # FOSC - use exact offset position
+                        offset_coords[-1] = [float(fosc_positions_map_fiber[to_id][0]), 
+                                            float(fosc_positions_map_fiber[to_id][1])]
+                    elif to_id.startswith('T') and to_id in aerial_positions_map_fiber:
+                        # Aerial Terminal - use exact offset position
+                        offset_coords[-1] = [float(aerial_positions_map_fiber[to_id][0]), 
+                                            float(aerial_positions_map_fiber[to_id][1])]
+                
                 offset_feature["geometry"]["coordinates"] = offset_coords
             elif geometry.get("type") == "MultiLineString":
                 offset_lines = []
-                for line in geometry.get("coordinates", []):
+                for line_idx, line in enumerate(geometry.get("coordinates", [])):
                     offset_line = offset_line_perpendicular(line, actual_offset)
+                    
+                    # CRITICAL: Restore endpoints for each line segment
+                    # For MultiLineString, we need to handle first line's first point and last line's last point
+                    from_id = props.get("from_id")
+                    to_id = props.get("to_id")
+                    
+                    # If not in properties, try to parse from cable ID
+                    if not from_id or not to_id:
+                        cable_id = props.get("ID") or props.get("id", "")
+                        if cable_id and '/' in cable_id:
+                            parts = cable_id.split('/')
+                            if len(parts) >= 3:
+                                if not from_id:
+                                    from_id = parts[1] if parts[1] != "UNKNOWN" else None
+                                if not to_id:
+                                    to_id = parts[2] if parts[2] != "UNKNOWN" else None
+                    
+                    # First line's first point connects to from_id
+                    if line_idx == 0 and from_id:
+                        if from_id.startswith('F') and from_id in fosc_positions_map_fiber:
+                            offset_line[0] = [float(fosc_positions_map_fiber[from_id][0]), 
+                                             float(fosc_positions_map_fiber[from_id][1])]
+                        elif from_id.startswith('T') and from_id in aerial_positions_map_fiber:
+                            offset_line[0] = [float(aerial_positions_map_fiber[from_id][0]), 
+                                             float(aerial_positions_map_fiber[from_id][1])]
+                    
+                    # Last line's last point connects to to_id
+                    if line_idx == len(geometry.get("coordinates", [])) - 1 and to_id:
+                        if to_id.startswith('F') and to_id in fosc_positions_map_fiber:
+                            offset_line[-1] = [float(fosc_positions_map_fiber[to_id][0]), 
+                                              float(fosc_positions_map_fiber[to_id][1])]
+                        elif to_id.startswith('T') and to_id in aerial_positions_map_fiber:
+                            offset_line[-1] = [float(aerial_positions_map_fiber[to_id][0]), 
+                                              float(aerial_positions_map_fiber[to_id][1])]
+                    
                     offset_lines.append(offset_line)
                 offset_feature["geometry"]["coordinates"] = offset_lines
             
             # Add offset info to properties
             offset_feature["properties"]["offset_applied"] = True
             offset_feature["properties"]["offset_distance_m"] = actual_offset
+        else:
+            # Even if not overlapping, ensure endpoints connect to exact offset positions
+            # This handles cases where cables weren't offset but still need endpoint correction
+            from_id = props.get("from_id")
+            to_id = props.get("to_id")
+            
+            # If not in properties, try to parse from cable ID
+            if not from_id or not to_id:
+                cable_id = props.get("ID") or props.get("id", "")
+                if cable_id and '/' in cable_id:
+                    parts = cable_id.split('/')
+                    if len(parts) >= 3:
+                        if not from_id:
+                            from_id = parts[1] if parts[1] != "UNKNOWN" else None
+                        if not to_id:
+                            to_id = parts[2] if parts[2] != "UNKNOWN" else None
+            
+            if geometry.get("type") == "LineString":
+                coords = geometry.get("coordinates", [])
+                if len(coords) >= 2:
+                    # Restore first point
+                    if from_id:
+                        if from_id.startswith('F') and from_id in fosc_positions_map_fiber:
+                            coords[0] = [float(fosc_positions_map_fiber[from_id][0]), 
+                                        float(fosc_positions_map_fiber[from_id][1])]
+                        elif from_id.startswith('T') and from_id in aerial_positions_map_fiber:
+                            coords[0] = [float(aerial_positions_map_fiber[from_id][0]), 
+                                        float(aerial_positions_map_fiber[from_id][1])]
+                    
+                    # Restore last point
+                    if to_id:
+                        if to_id.startswith('F') and to_id in fosc_positions_map_fiber:
+                            coords[-1] = [float(fosc_positions_map_fiber[to_id][0]), 
+                                         float(fosc_positions_map_fiber[to_id][1])]
+                        elif to_id.startswith('T') and to_id in aerial_positions_map_fiber:
+                            coords[-1] = [float(aerial_positions_map_fiber[to_id][0]), 
+                                         float(aerial_positions_map_fiber[to_id][1])]
+                    
+                    offset_feature["geometry"]["coordinates"] = coords
+            elif geometry.get("type") == "MultiLineString":
+                lines = geometry.get("coordinates", [])
+                if lines:
+                    # Restore first point of first line
+                    if from_id:
+                        if from_id.startswith('F') and from_id in fosc_positions_map_fiber:
+                            if len(lines[0]) > 0:
+                                lines[0][0] = [float(fosc_positions_map_fiber[from_id][0]), 
+                                             float(fosc_positions_map_fiber[from_id][1])]
+                        elif from_id.startswith('T') and from_id in aerial_positions_map_fiber:
+                            if len(lines[0]) > 0:
+                                lines[0][0] = [float(aerial_positions_map_fiber[from_id][0]), 
+                                             float(aerial_positions_map_fiber[from_id][1])]
+                    
+                    # Restore last point of last line
+                    if to_id:
+                        if to_id.startswith('F') and to_id in fosc_positions_map_fiber:
+                            if len(lines[-1]) > 0:
+                                lines[-1][-1] = [float(fosc_positions_map_fiber[to_id][0]), 
+                                                float(fosc_positions_map_fiber[to_id][1])]
+                        elif to_id.startswith('T') and to_id in aerial_positions_map_fiber:
+                            if len(lines[-1]) > 0:
+                                lines[-1][-1] = [float(aerial_positions_map_fiber[to_id][0]), 
+                                                float(aerial_positions_map_fiber[to_id][1])]
+                    
+                    offset_feature["geometry"]["coordinates"] = lines
         
         offset_cables.append(offset_feature)
     

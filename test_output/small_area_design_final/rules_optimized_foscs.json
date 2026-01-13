@@ -1,0 +1,268 @@
+[
+  {
+    "fosc_id": "F1000390",
+    "position": [
+      390923.5721204817,
+      5069299.145389276
+    ],
+    "connected_cables": [
+      "48FOC/F1000509/T1002415"
+    ],
+    "created_for": "isolated_cable_connection",
+    "connected_isolated_cable": "48FOC/F1000509/T1002415",
+    "connection_distance_m": 2368.696325601065,
+    "extracted_from_cable_id": true
+  },
+  {
+    "fosc_id": "F0000002",
+    "position": [
+      394945.34168686776,
+      5065174.718011148
+    ],
+    "connected_cables": [
+      "144FOC/UNKNOWN/T0000003",
+      "144FOC/T0000003/T0000020"
+    ],
+    "created_for": "isolated_cable_connection",
+    "connected_isolated_cable": "144FOC/UNKNOWN/T0000003",
+    "connection_distance_m": 0.0
+  },
+  {
+    "fosc_id": "F0000003",
+    "position": [
+      394824.33080712677,
+      5063120.962291094
+    ],
+    "connected_cables": [
+      "48FOC/T0000005/UNKNOWN",
+      "96FOC/UNKNOWN/T0000005"
+    ],
+    "created_for": "isolated_cable_connection",
+    "connected_isolated_cable": "48FOC/T0000005/UNKNOWN",
+    "connection_distance_m": 0.0
+  },
+  {
+    "fosc_id": "F0000004",
+    "position": [
+      394824.33080712677,
+      5063120.962291094
+    ],
+    "connected_cables": [
+      "96FOC/UNKNOWN/T0000005",
+      "48FOC/T0000005/UNKNOWN"
+    ],
+    "created_for": "isolated_cable_connection",
+    "connected_isolated_cable": "96FOC/UNKNOWN/T0000005",
+    "connection_distance_m": 0.0
+  },
+  {
+    "fosc_id": "F0000005",
+    "position": [
+      394945.34168686776,
+      5065174.718011148
+    ],
+    "connected_cables": [
+      "144FOC/UNKNOWN/T0000003",
+      "144FOC/T0000003/T0000020"
+    ],
+    "created_for": "isolated_cable_connection",
+    "connected_isolated_cable": "144FOC/UNKNOWN/T0000003",
+    "connection_distance_m": 0.0
+  },
+  {
+    "fosc_id": "F0000007",
+    "position": [
+      394824.33080712677,
+      5063120.962291094
+    ],
+    "connected_cables": [
+      "48FOC/T0000005/UNKNOWN",
+      "96FOC/UNKNOWN/T0000005"
+    ],
+    "created_for": "isolated_cable_connection",
+    "connected_isolated_cable": "48FOC/T0000005/UNKNOWN",
+    "connection_distance_m": 0.0
+  },
+  {
+    "fosc_id": "F0000009",
+    "position": [
+      394824.33080712677,
+      5063120.962291094
+    ],
+    "connected_cables": [
+      "96FOC/UNKNOWN/T0000005",
+      "48FOC/T0000005/UNKNOWN"
+    ],
+    "created_for": "isolated_cable_connection",
+    "connected_isolated_cable": "96FOC/UNKNOWN/T0000005",
+    "connection_distance_m": 0.0
+  },
+  {
+    "fosc_id": "F0000008",
+    "position": [
+      394945.34168686776,
+      5065174.718011148
+    ],
+    "connected_cables": [
+      "144FOC/UNKNOWN/T0000003",
+      "144FOC/T0000003/T0000020"
+    ],
+    "created_for": "isolated_cable_connection",
+    "connected_isolated_cable": "144FOC/UNKNOWN/T0000003",
+    "connection_distance_m": 0.0
+  },
+  {
+    "fosc_id": "F0000010",
+    "position": [
+      394824.33080712677,
+      5063120.962291094
+    ],
+    "connected_cables": [
+      "48FOC/T0000005/UNKNOWN",
+      "96FOC/UNKNOWN/T0000005"
+    ],
+    "created_for": "isolated_cable_connection",
+    "connected_isolated_cable": "48FOC/T0000005/UNKNOWN",
+    "connection_distance_m": 0.0
+  },
+  {
+    "fosc_id": "F0000012",
+    "position": [
+      394824.33080712677,
+      5063120.962291094
+    ],
+    "connected_cables": [
+      "96FOC/UNKNOWN/T0000005",
+      "48FOC/T0000005/UNKNOWN"
+    ],
+    "created_for": "isolated_cable_connection",
+    "connected_isolated_cable": "96FOC/UNKNOWN/T0000005",
+    "connection_distance_m": 0.0
+  },
+  {
+    "fosc_id": "F0000011",
+    "position": [
+      394945.34168686776,
+      5065174.718011148
+    ],
+    "connected_cables": [
+      "144FOC/UNKNOWN/T0000003",
+      "144FOC/T0000003/T0000020"
+    ],
+    "created_for": "isolated_cable_connection",
+    "connected_isolated_cable": "144FOC/UNKNOWN/T0000003",
+    "connection_distance_m": 0.0
+  },
+  {
+    "fosc_id": "F0000013",
+    "position": [
+      394824.33080712677,
+      5063120.962291094
+    ],
+    "connected_cables": [
+      "48FOC/T0000005/UNKNOWN",
+      "96FOC/UNKNOWN/T0000005"
+    ],
+    "created_for": "isolated_cable_connection",
+    "connected_isolated_cable": "48FOC/T0000005/UNKNOWN",
+    "connection_distance_m": 0.0
+  },
+  {
+    "fosc_id": "F0000015",
+    "position": [
+      394824.33080712677,
+      5063120.962291094
+    ],
+    "connected_cables": [
+      "96FOC/UNKNOWN/T0000005",
+      "48FOC/T0000005/UNKNOWN"
+    ],
+    "created_for": "isolated_cable_connection",
+    "connected_isolated_cable": "96FOC/UNKNOWN/T0000005",
+    "connection_distance_m": 0.0
+  },
+  {
+    "fosc_id": "F0000014",
+    "position": [
+      394945.34168686776,
+      5065174.718011148
+    ],
+    "connected_cables": [
+      "144FOC/UNKNOWN/T0000003",
+      "144FOC/T0000003/T0000020"
+    ],
+    "created_for": "isolated_cable_connection",
+    "connected_isolated_cable": "144FOC/UNKNOWN/T0000003",
+    "connection_distance_m": 0.0
+  },
+  {
+    "fosc_id": "F0000016",
+    "position": [
+      394824.33080712677,
+      5063120.962291094
+    ],
+    "connected_cables": [
+      "48FOC/T0000005/UNKNOWN",
+      "96FOC/UNKNOWN/T0000005"
+    ],
+    "created_for": "isolated_cable_connection",
+    "connected_isolated_cable": "48FOC/T0000005/UNKNOWN",
+    "connection_distance_m": 0.0
+  },
+  {
+    "fosc_id": "F0000018",
+    "position": [
+      394824.33080712677,
+      5063120.962291094
+    ],
+    "connected_cables": [
+      "96FOC/UNKNOWN/T0000005",
+      "48FOC/T0000005/UNKNOWN"
+    ],
+    "created_for": "isolated_cable_connection",
+    "connected_isolated_cable": "96FOC/UNKNOWN/T0000005",
+    "connection_distance_m": 0.0
+  },
+  {
+    "fosc_id": "F0000017",
+    "position": [
+      394945.34168686776,
+      5065174.718011148
+    ],
+    "connected_cables": [
+      "144FOC/UNKNOWN/T0000003",
+      "144FOC/T0000003/T0000020"
+    ],
+    "created_for": "isolated_cable_connection",
+    "connected_isolated_cable": "144FOC/UNKNOWN/T0000003",
+    "connection_distance_m": 0.0
+  },
+  {
+    "fosc_id": "F0000019",
+    "position": [
+      394824.33080712677,
+      5063120.962291094
+    ],
+    "connected_cables": [
+      "48FOC/T0000005/UNKNOWN",
+      "96FOC/UNKNOWN/T0000005"
+    ],
+    "created_for": "isolated_cable_connection",
+    "connected_isolated_cable": "48FOC/T0000005/UNKNOWN",
+    "connection_distance_m": 0.0
+  },
+  {
+    "fosc_id": "F0000021",
+    "position": [
+      394824.33080712677,
+      5063120.962291094
+    ],
+    "connected_cables": [
+      "96FOC/UNKNOWN/T0000005",
+      "48FOC/T0000005/UNKNOWN"
+    ],
+    "created_for": "isolated_cable_connection",
+    "connected_isolated_cable": "96FOC/UNKNOWN/T0000005",
+    "connection_distance_m": 0.0
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "isolated_found": "multiple_passes",
+  "connected": 1,
+  "extended": 1,
+  "new_foscs": 1,
+  "iterations": 2,
+  "connections": [
+    {
+      "cable_id": "48FOC/F1000509/T1002415",
+      "fosc_id": "F0000001",
+      "connection_point": [
+        390917.18606025144,
+        5069277.470490215
+      ],
+      "distance_m": 2362.7737521429594,
+      "target_type": "cable",
+      "iteration": 1
+    }
+  ]
+}

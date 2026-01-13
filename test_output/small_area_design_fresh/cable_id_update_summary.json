@@ -1,0 +1,125 @@
+{
+  "updated": 17,
+  "unchanged": 0,
+  "updates": [
+    {
+      "old_id": "48FOC/F1000509/T1002415",
+      "new_id": "48FOC/UNKNOWN/F1000390",
+      "from": null,
+      "to": "F1000390",
+      "fiber_size": "48FOC"
+    },
+    {
+      "old_id": "144FOC/F1000391/FDH104010",
+      "new_id": "144FOC/F0000001/F0000001",
+      "from": "F0000001",
+      "to": "F0000001",
+      "fiber_size": "144FOC"
+    },
+    {
+      "old_id": "24FOC/F1000391/FDH104010",
+      "new_id": "24FOC/F0000001/F0000001",
+      "from": "F0000001",
+      "to": "F0000001",
+      "fiber_size": "24FOC"
+    },
+    {
+      "old_id": "144FOC/F1000390/F1000502",
+      "new_id": "144FOC/F1000390/UNKNOWN",
+      "from": "F1000390",
+      "to": null,
+      "fiber_size": "144FOC"
+    },
+    {
+      "old_id": "144FOC/F1000396/F1000399",
+      "new_id": "144FOC/UNKNOWN/T0000003",
+      "from": null,
+      "to": "T0000003",
+      "fiber_size": "144FOC"
+    },
+    {
+      "old_id": "144FOC/F1000399/F1000393",
+      "new_id": "144FOC/T0000003/T0000020",
+      "from": "T0000003",
+      "to": "T0000020",
+      "fiber_size": "144FOC"
+    },
+    {
+      "old_id": "144FOC/F1000391/F1000392",
+      "new_id": "144FOC/F0000001/F0000002",
+      "from": "F0000001",
+      "to": "F0000002",
+      "fiber_size": "144FOC"
+    },
+    {
+      "old_id": "144FOC/F1000392/F1000390",
+      "new_id": "144FOC/F0000002/F1000390",
+      "from": "F0000002",
+      "to": "F1000390",
+      "fiber_size": "144FOC"
+    },
+    {
+      "old_id": "144FOC/F1000393/F1000391",
+      "new_id": "144FOC/T0000020/F0000001",
+      "from": "T0000020",
+      "to": "F0000001",
+      "fiber_size": "144FOC"
+    },
+    {
+      "old_id": "48FOC/F1000391/F1000412",
+      "new_id": "48FOC/F0000001/UNKNOWN",
+      "from": "F0000001",
+      "to": null,
+      "fiber_size": "48FOC"
+    },
+    {
+      "old_id": "48FOC/F1000406/F1000394",
+      "new_id": "48FOC/T0000005/UNKNOWN",
+      "from": "T0000005",
+      "to": null,
+      "fiber_size": "48FOC"
+    },
+    {
+      "old_id": "48FOC/F1000397/F1000398",
+      "new_id": "48FOC/F0000003/F0000031",
+      "from": "F0000003",
+      "to": "F0000031",
+      "fiber_size": "48FOC"
+    },
+    {
+      "old_id": "48FOC/F1000398/T1001731",
+      "new_id": "48FOC/F0000031/UNKNOWN",
+      "from": "F0000031",
+      "to": null,
+      "fiber_size": "48FOC"
+    },
+    {
+      "old_id": "48FOC/F1000392/T1001700",
+      "new_id": "48FOC/F0000002/UNKNOWN",
+      "from": "F0000002",
+      "to": null,
+      "fiber_size": "48FOC"
+    },
+    {
+      "old_id": "96FOC/F1000395/F1000406",
+      "new_id": "96FOC/UNKNOWN/T0000005",
+      "from": null,
+      "to": "T0000005",
+      "fiber_size": "96FOC"
+    },
+    {
+      "old_id": "96FOC/F1000391/F1000397",
+      "new_id": "96FOC/F0000001/F0000003",
+      "from": "F0000001",
+      "to": "F0000003",
+      "fiber_size": "96FOC"
+    },
+    {
+      "old_id": "12FOC/F1000397/T1001719",
+      "new_id": "12FOC/F0000003/UNKNOWN",
+      "from": "F0000003",
+      "to": null,
+      "fiber_size": "12FOC"
+    }
+  ]
+}

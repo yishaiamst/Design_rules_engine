@@ -175,7 +175,8 @@ def create_drop_cables(
 def create_stub_cables(
     terminals: List[Dict[str, Any]],
     foscs: List[Dict[str, Any]],
-    config: Dict[str, Any]
+    config: Dict[str, Any],
+    fiber_cables: List[Dict[str, Any]] = None
 ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
     """
     Create stub cables from MST terminals to FOSCs.
@@ -234,10 +235,16 @@ def create_stub_cables(
             continue
         
         # Find FOSC for this MST
-        target_fosc_id = None
+        # CRITICAL: Use same logic as Rule 20 - prioritize FOSCs that can route along fiber
+        # First, check if terminal already has a connected_fosc_id (from Rule 20)
+        target_fosc_id = terminal.get("connected_fosc_id")
         target_fosc_pos = None
         
-        if nearest_fosc_id and nearest_fosc_id in fosc_positions:
+        if target_fosc_id and target_fosc_id in fosc_positions:
+            # Use the FOSC assigned by Rule 20 (which validates routing)
+            target_fosc_pos = fosc_positions[target_fosc_id]
+        elif nearest_fosc_id and nearest_fosc_id in fosc_positions:
+            # Fallback to nearest_fosc_id if Rule 20 didn't assign one
             target_fosc_id = nearest_fosc_id
             target_fosc_pos = fosc_positions[nearest_fosc_id]
         else:
@@ -253,20 +260,179 @@ def create_stub_cables(
                     target_fosc_id = fosc_id
                     target_fosc_pos = fosc_pos
         
+        # CRITICAL: If routing fails, try alternative FOSCs (same as Rule 20)
+        # This ensures we find a FOSC that can route along fiber
+        if fiber_cables and len(fiber_cables) > 0 and target_fosc_id:
+            try:
+                from utils.cable_routing import route_stub_cable_along_fiber
+                terminal_cable_id = terminal.get("connected_cable_id")
+                fosc = next((f for f in foscs if f.get("fosc_id") == target_fosc_id), None)
+                fosc_connected_cables = fosc.get("connected_cables", []) if fosc else []
+                
+                # Try routing to current FOSC
+                test_result = route_stub_cable_along_fiber(
+                    terminal_pos,
+                    target_fosc_pos,
+                    fiber_cables,
+                    terminal_cable_id=terminal_cable_id,
+                    preferred_cable_id=terminal_cable_id,
+                    fosc_connected_cables=fosc_connected_cables
+                )
+                
+                # If routing fails, find alternative FOSC that can route
+                if not test_result or len(test_result) != 3 or not test_result[2]:
+                    # Try all FOSCs to find one that can route
+                    best_fosc_id = None
+                    best_fosc_pos = None
+                    best_dist = float('inf')
+                    
+                    for alt_fosc_id, alt_fosc_pos in fosc_positions.items():
+                        if alt_fosc_id == target_fosc_id:
+                            continue
+                        alt_fosc = next((f for f in foscs if f.get("fosc_id") == alt_fosc_id), None)
+                        if alt_fosc:
+                            alt_fosc_connected_cables = alt_fosc.get("connected_cables", [])
+                            alt_result = route_stub_cable_along_fiber(
+                                terminal_pos,
+                                alt_fosc_pos,
+                                fiber_cables,
+                                terminal_cable_id=terminal_cable_id,
+                                preferred_cable_id=terminal_cable_id,
+                                fosc_connected_cables=alt_fosc_connected_cables
+                            )
+                            if alt_result and len(alt_result) == 3 and alt_result[2]:
+                                # This FOSC can route - check distance
+                                alt_dist = euclidean_distance(
+                                    terminal_pos[0], terminal_pos[1],
+                                    alt_fosc_pos[0], alt_fosc_pos[1]
+                                )
+                                if alt_dist < best_dist and alt_dist <= 1000.0:  # Within 1km
+                                    best_fosc_id = alt_fosc_id
+                                    best_fosc_pos = alt_fosc_pos
+                                    best_dist = alt_dist
+                    
+                    # Use best alternative if found
+                    if best_fosc_id:
+                        target_fosc_id = best_fosc_id
+                        target_fosc_pos = best_fosc_pos
+            except Exception:
+                # If validation fails, continue with original FOSC
+                pass
+        
         if not target_fosc_id or not target_fosc_pos:
             continue
-        
-        # Calculate stub cable length
-        length = euclidean_distance(
-            terminal_pos[0], terminal_pos[1],
-            target_fosc_pos[0], target_fosc_pos[1]
-        )
         
         # Get stub cable size from MST model
         # CRITICAL: Stub cable size MUST match MST port count
         # MST4=4F, MST6=6F, MST8=8F, MST12=12F
         # This is the key relationship: stub cable size = MST port count
         stub_size = mst_config.get(terminal_model, {}).get("ports", 12)
+        
+        # CRITICAL: Route stub cable along fiber cable paths, not straight line
+        # Use fiber_cables parameter if provided, otherwise try to get from config
+        if not fiber_cables:
+            fiber_cables = config.get("fiber_cables", [])
+        
+        # Route stub cable along fiber cables
+        # Use the same routing logic as Rule 20 (ensure_all_msts_connected_via_stub_cables)
+        path_coords = None
+        length = 0.0
+        routed_along_cable = False
+        
+        if fiber_cables and len(fiber_cables) > 0:
+            try:
+                from utils.cable_routing import route_stub_cable_along_fiber
+                terminal_cable_id = terminal.get("connected_cable_id")
+                fosc = next((f for f in foscs if f.get("fosc_id") == target_fosc_id), None)
+                # CRITICAL: Pass fosc_connected_cables like Rule 20 does
+                fosc_connected_cables = fosc.get("connected_cables", []) if fosc else []
+                
+                result = route_stub_cable_along_fiber(
+                    terminal_pos,
+                    target_fosc_pos,
+                    fiber_cables,
+                    terminal_cable_id=terminal_cable_id,
+                    preferred_cable_id=terminal_cable_id,
+                    fosc_connected_cables=fosc_connected_cables  # This is the key parameter!
+                )
+                
+                if result and len(result) == 3:
+                    path_coords, length, routed_along_cable = result
+                else:
+                    # Function returned None or wrong format
+                    path_coords = None
+            except Exception as e:
+                # Silently fall back to straight line if routing fails
+                path_coords = None
+        
+        # If routing failed, try to find ANY nearby cable and route along it
+        # This is a fallback to ensure stub cables always route along fiber when possible
+        if not path_coords or len(path_coords) < 2:
+            if fiber_cables and len(fiber_cables) > 0:
+                try:
+                    from phases.phase3b_refine_mst_placement import find_nearest_point_on_cable
+                    from utils.cable_routing import route_along_single_cable, calculate_path_length
+                    
+                    # Find nearest cable to terminal
+                    nearest_cable = None
+                    min_dist = float('inf')
+                    nearest_term_on_cable = None
+                    nearest_fosc_on_cable = None
+                    
+                    for cable in fiber_cables:
+                        term_point, term_dist = find_nearest_point_on_cable(terminal_pos, cable)
+                        fosc_point, fosc_dist = find_nearest_point_on_cable(target_fosc_pos, cable)
+                        combined_dist = term_dist + fosc_dist
+                        if combined_dist < min_dist:
+                            min_dist = combined_dist
+                            nearest_cable = cable
+                            nearest_term_on_cable = term_point
+                            nearest_fosc_on_cable = fosc_point
+                    
+                    # If we found a cable, route along it (even if points are far)
+                    # This ensures stub cables follow infrastructure
+                    if nearest_cable:
+                        path_along_cable = route_along_single_cable(
+                            nearest_term_on_cable,
+                            nearest_fosc_on_cable,
+                            nearest_cable
+                        )
+                        if path_along_cable and len(path_along_cable) > 2:
+                            # Build full path: terminal -> cable -> FOSC
+                            path_coords = []
+                            # Add terminal if off-cable
+                            term_to_cable_dist = euclidean_distance(
+                                terminal_pos[0], terminal_pos[1],
+                                nearest_term_on_cable[0], nearest_term_on_cable[1]
+                            )
+                            if term_to_cable_dist > 1.0:
+                                path_coords.append([terminal_pos[0], terminal_pos[1]])
+                            # Add path along cable
+                            path_coords.extend([[p[0], p[1]] for p in path_along_cable])
+                            # Update FOSC endpoint if off-cable
+                            fosc_to_cable_dist = euclidean_distance(
+                                target_fosc_pos[0], target_fosc_pos[1],
+                                nearest_fosc_on_cable[0], nearest_fosc_on_cable[1]
+                            )
+                            if fosc_to_cable_dist > 1.0:
+                                path_coords[-1] = [target_fosc_pos[0], target_fosc_pos[1]]
+                            length = calculate_path_length(path_coords)
+                            routed_along_cable = True
+                except Exception as e:
+                    # If fallback also fails, continue to straight line
+                    pass
+            
+            # Final fallback: straight line (only if no cable routing possible)
+            if not path_coords or len(path_coords) < 2:
+                path_coords = [
+                    [terminal_pos[0], terminal_pos[1]],
+                    [target_fosc_pos[0], target_fosc_pos[1]]
+                ]
+                length = euclidean_distance(
+                    terminal_pos[0], terminal_pos[1],
+                    target_fosc_pos[0], target_fosc_pos[1]
+                )
+                routed_along_cable = False
         
         # Create stub cable feature
         stub_cable_id = f"SC{stub_cable_id_counter:07d}"
@@ -278,12 +444,10 @@ def create_stub_cables(
             "to_type": "fosc",
             "size": stub_size,
             "length_m": length,
+            "routed_along_cable": routed_along_cable,
             "geometry": {
                 "type": "LineString",
-                "coordinates": [
-                    [terminal_pos[0], terminal_pos[1]],
-                    [target_fosc_pos[0], target_fosc_pos[1]]
-                ]
+                "coordinates": path_coords
             }
         }
         
@@ -336,7 +500,7 @@ def generate_drop_cable_geojson(drop_cables: List[Dict[str, Any]]) -> Dict[str, 
         feature = create_feature(geometry, properties)
         features.append(feature)
     
-    return create_feature_collection(features)
+    return create_feature_collection(features, crs="EPSG:32617")
 
 def generate_stub_cable_geojson(stub_cables: List[Dict[str, Any]]) -> Dict[str, Any]:
     """Generate GeoJSON for stub cables."""
@@ -355,5 +519,5 @@ def generate_stub_cable_geojson(stub_cables: List[Dict[str, Any]]) -> Dict[str, 
         feature = create_feature(geometry, properties)
         features.append(feature)
     
-    return create_feature_collection(features)
+    return create_feature_collection(features, crs="EPSG:32617")
 

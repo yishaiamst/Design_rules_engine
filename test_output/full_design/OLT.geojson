@@ -1,0 +1,396 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          414590.96362338087,
+          5074698.885848341
+        ]
+      },
+      "properties": {
+        "ID": "OLT_POCKET_0001_MERGED",
+        "pocket_id": "POCKET_0001_MERGED",
+        "ont_count": 10062,
+        "placement_method": "near_fiber_route",
+        "max_distance_km": 62.5288541855693,
+        "mean_distance_km": 20.933374097457627,
+        "violation_count": 3161,
+        "is_valid": false,
+        "nearest_cable_id": "288FOC/F1000343/F1000339",
+        "distance_to_cable_km": 0.3542823723067643,
+        "required_cable_size": 11232
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          270393.30501080013,
+          5159623.613233345
+        ]
+      },
+      "properties": {
+        "ID": "OLT_POCKET_0002_MERGED",
+        "pocket_id": "POCKET_0002_MERGED",
+        "ont_count": 82,
+        "placement_method": "centroid",
+        "max_distance_km": 11.376161727086675,
+        "mean_distance_km": 3.963324703653399,
+        "violation_count": 0,
+        "is_valid": true,
+        "nearest_cable_id": "144FOC/F4000129/F4000137",
+        "distance_to_cable_km": 1.07002989259115,
+        "required_cable_size": 144
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          290006.0187433355,
+          5132189.29694532
+        ]
+      },
+      "properties": {
+        "ID": "OLT_POCKET_0003_MERGED",
+        "pocket_id": "POCKET_0003_MERGED",
+        "ont_count": 7937,
+        "placement_method": "near_fiber_route",
+        "max_distance_km": 141.27867203184562,
+        "mean_distance_km": 25.716094359472084,
+        "violation_count": 3538,
+        "is_valid": false,
+        "nearest_cable_id": "48FOC/F4000349/F4000350",
+        "distance_to_cable_km": 0.745530476009812,
+        "required_cable_size": 8928
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          272334.9928587389,
+          5105633.435743747
+        ]
+      },
+      "properties": {
+        "ID": "OLT_POCKET_0005",
+        "pocket_id": "POCKET_0005",
+        "ont_count": 2,
+        "placement_method": "centroid",
+        "max_distance_km": 0.2346364865929406,
+        "mean_distance_km": 0.2346364865929406,
+        "violation_count": 0,
+        "is_valid": true,
+        "nearest_cable_id": "144FOC/F4000524/F4000523",
+        "distance_to_cable_km": 2.894566255100593,
+        "required_cable_size": 48
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          440876.3968079873,
+          5102110.746311911
+        ]
+      },
+      "properties": {
+        "ID": "OLT_POCKET_0006_MERGED",
+        "pocket_id": "POCKET_0006_MERGED",
+        "ont_count": 453,
+        "placement_method": "near_fiber_route",
+        "max_distance_km": 9.243777367608294,
+        "mean_distance_km": 3.0846832115776985,
+        "violation_count": 0,
+        "is_valid": true,
+        "nearest_cable_id": "144FOC/F1000029/F1000074",
+        "distance_to_cable_km": 0.06436532053597115,
+        "required_cable_size": 576
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          428697.3110535887,
+          5062864.973240017
+        ]
+      },
+      "properties": {
+        "ID": "OLT_POCKET_0008",
+        "pocket_id": "POCKET_0008",
+        "ont_count": 45,
+        "placement_method": "near_fiber_route",
+        "max_distance_km": 2.5043867052375783,
+        "mean_distance_km": 0.7875177179552213,
+        "violation_count": 0,
+        "is_valid": true,
+        "nearest_cable_id": "48FOC/F1000123/T1000552",
+        "distance_to_cable_km": 0.20750160795654957,
+        "required_cable_size": 72
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          394394.5543333463,
+          5089605.374813913
+        ]
+      },
+      "properties": {
+        "ID": "OLT_POCKET_0009",
+        "pocket_id": "POCKET_0009",
+        "ont_count": 1,
+        "placement_method": "centroid",
+        "max_distance_km": 0.0,
+        "mean_distance_km": 0.0,
+        "violation_count": 0,
+        "is_valid": true,
+        "nearest_cable_id": "48FOC/F1000474/F1000467",
+        "distance_to_cable_km": 2.703472206498434,
+        "required_cable_size": 48
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          347303.23516455374,
+          5087726.71844532
+        ]
+      },
+      "properties": {
+        "ID": "OLT_POCKET_0012_MERGED",
+        "pocket_id": "POCKET_0012_MERGED",
+        "ont_count": 265,
+        "placement_method": "centroid",
+        "max_distance_km": 18.088342149351075,
+        "mean_distance_km": 10.625856368383964,
+        "violation_count": 0,
+        "is_valid": true,
+        "nearest_cable_id": "48FOC/F1000630/F1000631",
+        "distance_to_cable_km": 3.3753470472229132,
+        "required_cable_size": 576
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          369185.09241202194,
+          5070791.284448717
+        ]
+      },
+      "properties": {
+        "ID": "OLT_POCKET_0017",
+        "pocket_id": "POCKET_0017",
+        "ont_count": 1,
+        "placement_method": "centroid",
+        "max_distance_km": 0.0,
+        "mean_distance_km": 0.0,
+        "violation_count": 0,
+        "is_valid": true,
+        "nearest_cable_id": "48FOC/F1000622/T1002615",
+        "distance_to_cable_km": 3.376799709427286,
+        "required_cable_size": 48
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          320049.09346639673,
+          5135121.276008183
+        ]
+      },
+      "properties": {
+        "ID": "OLT_POCKET_0018_MERGED",
+        "pocket_id": "POCKET_0018_MERGED",
+        "ont_count": 7,
+        "placement_method": "near_fiber_route",
+        "max_distance_km": 2.286431706143378,
+        "mean_distance_km": 1.3733314769765572,
+        "violation_count": 0,
+        "is_valid": true,
+        "nearest_cable_id": "48FOC/F2000168/T2000304",
+        "distance_to_cable_km": 0.7660043714578313,
+        "required_cable_size": 48
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          409931.82156112255,
+          5118798.138166168
+        ]
+      },
+      "properties": {
+        "ID": "OLT_POCKET_0020_MERGED",
+        "pocket_id": "POCKET_0020_MERGED",
+        "ont_count": 884,
+        "placement_method": "centroid",
+        "max_distance_km": 106.993780203253,
+        "mean_distance_km": 9.636040298295843,
+        "violation_count": 13,
+        "is_valid": false,
+        "nearest_cable_id": "48FOC/T3000410/T3000411",
+        "distance_to_cable_km": 1.2148152139442527,
+        "required_cable_size": 1152
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          438685.4233257344,
+          5125398.431243283
+        ]
+      },
+      "properties": {
+        "ID": "OLT_POCKET_0021_MERGED",
+        "pocket_id": "POCKET_0021_MERGED",
+        "ont_count": 655,
+        "placement_method": "near_fiber_route",
+        "max_distance_km": 15.236269093533226,
+        "mean_distance_km": 6.220262510172055,
+        "violation_count": 0,
+        "is_valid": true,
+        "nearest_cable_id": "48FOC/T5000130/T5000129",
+        "distance_to_cable_km": 0.1891513665758919,
+        "required_cable_size": 864
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          371751.824155491,
+          5147526.50301677
+        ]
+      },
+      "properties": {
+        "ID": "OLT_POCKET_0023_MERGED",
+        "pocket_id": "POCKET_0023_MERGED",
+        "ont_count": 314,
+        "placement_method": "near_fiber_route",
+        "max_distance_km": 21.54356628393151,
+        "mean_distance_km": 5.967370621394422,
+        "violation_count": 0,
+        "is_valid": true,
+        "nearest_cable_id": "48FOC/T3000012/T3000011",
+        "distance_to_cable_km": 0.24919225273924467,
+        "required_cable_size": 576
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          375252.70800466667,
+          5118719.9944207305
+        ]
+      },
+      "properties": {
+        "ID": "OLT_POCKET_0024_MERGED",
+        "pocket_id": "POCKET_0024_MERGED",
+        "ont_count": 192,
+        "placement_method": "near_fiber_route",
+        "max_distance_km": 15.542816158967378,
+        "mean_distance_km": 4.844018174849867,
+        "violation_count": 0,
+        "is_valid": true,
+        "nearest_cable_id": "144FOC/F3000086/T3000173",
+        "distance_to_cable_km": 0.34263420848151044,
+        "required_cable_size": 288
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          475899.60783442366,
+          5134015.888529634
+        ]
+      },
+      "properties": {
+        "ID": "OLT_POCKET_0035",
+        "pocket_id": "POCKET_0035",
+        "ont_count": 1676,
+        "placement_method": "centroid",
+        "max_distance_km": 21.89579843055941,
+        "mean_distance_km": 9.849522199199187,
+        "violation_count": 0,
+        "is_valid": true,
+        "nearest_cable_id": "144FOC/F5000114/T5000532",
+        "distance_to_cable_km": 1.2376739998956585,
+        "required_cable_size": 2016
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          449245.8909649762,
+          5135910.951169202
+        ]
+      },
+      "properties": {
+        "ID": "OLT_POCKET_0036",
+        "pocket_id": "POCKET_0036",
+        "ont_count": 139,
+        "placement_method": "near_fiber_route",
+        "max_distance_km": 1.013598610684103,
+        "mean_distance_km": 0.36711032070733624,
+        "violation_count": 0,
+        "is_valid": true,
+        "nearest_cable_id": "144FOC/T5000168/T5000452",
+        "distance_to_cable_km": 0.056277370121380565,
+        "required_cable_size": 288
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          445928.8041763795,
+          5112676.079614875
+        ]
+      },
+      "properties": {
+        "ID": "OLT_POCKET_0038_MERGED",
+        "pocket_id": "POCKET_0038_MERGED",
+        "ont_count": 80,
+        "placement_method": "near_fiber_route",
+        "max_distance_km": 4.745873072522606,
+        "mean_distance_km": 1.5464532471816794,
+        "violation_count": 0,
+        "is_valid": true,
+        "nearest_cable_id": "144FOC/F5000181/T5000598",
+        "distance_to_cable_km": 0.2338391360824883,
+        "required_cable_size": 144
+      }
+    }
+  ]
+}

@@ -1,0 +1,611 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          394950.3571820097,
+          5065174.301545836
+        ]
+      },
+      "properties": {
+        "ID": "T0000003",
+        "Type": "Aerial Terminal",
+        "Model": "AER-TRM12",
+        "ONTCount": 0,
+        "ConnectedCableID": "144FOC/F1000396/F1000399",
+        "ConnectedFOSCID": "",
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": null
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          394820.0422374255,
+          5063121.123515518
+        ]
+      },
+      "properties": {
+        "ID": "T0000005",
+        "Type": "Aerial Terminal",
+        "Model": "AER-TRM12",
+        "ONTCount": 0,
+        "ConnectedCableID": "48FOC/F1000406/F1000394",
+        "ConnectedFOSCID": "",
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": null
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          392876.2711081014,
+          5063158.167034049
+        ]
+      },
+      "properties": {
+        "ID": "T0000008",
+        "Type": "MST",
+        "Model": "MST12",
+        "ONTCount": 7,
+        "ConnectedCableID": "48FOC/F1000406/F1000394",
+        "ConnectedFOSCID": null,
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 2329.291210264626
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390996.0963944411,
+          5069298.443432263
+        ]
+      },
+      "properties": {
+        "ID": "T0000009",
+        "Type": "MST",
+        "Model": "MST12",
+        "ONTCount": 2,
+        "ConnectedCableID": "144FOC/F1000390/F1000502",
+        "ConnectedFOSCID": "F1000390",
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 2117.952229431085
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          393634.09664300125,
+          5063147.496814919
+        ]
+      },
+      "properties": {
+        "ID": "T0000013",
+        "Type": "MST",
+        "Model": "MST12",
+        "ONTCount": 1,
+        "ConnectedCableID": "48FOC/F1000406/F1000394",
+        "ConnectedFOSCID": null,
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 3411.013210828826
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          395928.0294986735,
+          5065148.616693889
+        ]
+      },
+      "properties": {
+        "ID": "T0000017",
+        "Type": "MST",
+        "Model": "MST12",
+        "ONTCount": 1,
+        "ConnectedCableID": "144FOC/F1000396/F1000399",
+        "ConnectedFOSCID": null,
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 5094.5880223501945
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          395205.583215845,
+          5065167.703685458
+        ]
+      },
+      "properties": {
+        "ID": "T0000018",
+        "Type": "MST",
+        "Model": "MST12",
+        "ONTCount": 1,
+        "ConnectedCableID": "144FOC/F1000396/F1000399",
+        "ConnectedFOSCID": null,
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 4398.045120115518
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          394115.1743233391,
+          5065196.541852355
+        ]
+      },
+      "properties": {
+        "ID": "T0000019",
+        "Type": "Aerial Terminal",
+        "Model": "AER-TRM12",
+        "ONTCount": 1,
+        "ConnectedCableID": "144FOC/F1000399/F1000393",
+        "ConnectedFOSCID": "F0000001",
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 3237.0039207069626
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          392878.36661641236,
+          5065218.439487889
+        ]
+      },
+      "properties": {
+        "ID": "T0000020",
+        "Type": "Aerial Terminal",
+        "Model": "AER-TRM12",
+        "ONTCount": 1,
+        "ConnectedCableID": "144FOC/F1000393/F1000391",
+        "ConnectedFOSCID": "F0000001",
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 2003.8816914987272
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          389024.6184527319,
+          5062292.542221931
+        ]
+      },
+      "properties": {
+        "ID": "T0000022",
+        "Type": "MST",
+        "Model": "MST12",
+        "ONTCount": 4,
+        "ConnectedCableID": "48FOC/F1000398/T1001731",
+        "ConnectedFOSCID": null,
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 1968.414217807642
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390996.63510565256,
+          5069727.697271082
+        ]
+      },
+      "properties": {
+        "ID": "T0000024",
+        "Type": "Aerial Terminal",
+        "Model": "AER-TRM12",
+        "ONTCount": 1,
+        "ConnectedCableID": "144FOC/F1000390/F1000502",
+        "ConnectedFOSCID": "F0000002",
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 2468.182900552425
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          389475.8143167175,
+          5069314.85346769
+        ]
+      },
+      "properties": {
+        "ID": "T0000025",
+        "Type": "MST",
+        "Model": "MST12",
+        "ONTCount": 1,
+        "ConnectedCableID": "48FOC/F1000509/T1002415",
+        "ConnectedFOSCID": "F0000002",
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 2571.8393361513067
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          392964.538116926,
+          5067228.402294833
+        ]
+      },
+      "properties": {
+        "ID": "T0000028",
+        "Type": "MST",
+        "Model": "MST12",
+        "ONTCount": 1,
+        "ConnectedCableID": "48FOC/F1000392/T1001700",
+        "ConnectedFOSCID": null,
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 3205.745453225466
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390841.218386047,
+          5062181.528428488
+        ]
+      },
+      "properties": {
+        "ID": "T0000029",
+        "Type": "MST",
+        "Model": "MST12",
+        "ONTCount": 4,
+        "ConnectedCableID": "12FOC/F1000397/T1001719",
+        "ConnectedFOSCID": "F0000003",
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 1277.219490693519
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          395602.30341665045,
+          5065154.786341899
+        ]
+      },
+      "properties": {
+        "ID": "T0000036",
+        "Type": "Aerial Terminal",
+        "Model": "AER-TRM12",
+        "ONTCount": 2,
+        "ConnectedCableID": "144FOC/F1000396/F1000399",
+        "ConnectedFOSCID": "F0000001",
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 4725.903966500694
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          393354.0326982822,
+          5065219.1009332845
+        ]
+      },
+      "properties": {
+        "ID": "T0000037",
+        "Type": "MST",
+        "Model": "MST12",
+        "ONTCount": 4,
+        "ConnectedCableID": "144FOC/F1000399/F1000393",
+        "ConnectedFOSCID": null,
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 2475.119768834257
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          394413.39293539984,
+          5063131.7080200715
+        ]
+      },
+      "properties": {
+        "ID": "T0000039",
+        "Type": "Aerial Terminal",
+        "Model": "AER-TRM12",
+        "ONTCount": 3,
+        "ConnectedCableID": "48FOC/F1000406/F1000394",
+        "ConnectedFOSCID": "F0000003",
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 3581.250385281617
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          389707.36740379117,
+          5065275.546962532
+        ]
+      },
+      "properties": {
+        "ID": "T0000040",
+        "Type": "Aerial Terminal",
+        "Model": "AER-TRM12",
+        "ONTCount": 2,
+        "ConnectedCableID": "48FOC/F1000391/F1000412",
+        "ConnectedFOSCID": "F0000001",
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 1173.25356041291
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          392287.0858693039,
+          5067234.0132427635
+        ]
+      },
+      "properties": {
+        "ID": "T0000042",
+        "Type": "Aerial Terminal",
+        "Model": "AER-TRM12",
+        "ONTCount": 1,
+        "ConnectedCableID": "48FOC/F1000392/T1001700",
+        "ConnectedFOSCID": "F0000002",
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 1337.5825447823202
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          392631.16258162685,
+          5067228.563366821
+        ]
+      },
+      "properties": {
+        "ID": "T0000043",
+        "Type": "Aerial Terminal",
+        "Model": "AER-TRM12",
+        "ONTCount": 1,
+        "ConnectedCableID": "48FOC/F1000392/T1001700",
+        "ConnectedFOSCID": "F0000002",
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 1686.753425489787
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390797.8242968553,
+          5065249.846846382
+        ]
+      },
+      "properties": {
+        "ID": "T0000045",
+        "Type": "MST",
+        "Model": "MST12",
+        "ONTCount": 4,
+        "ConnectedCableID": "48FOC/F1000391/F1000412",
+        "ConnectedFOSCID": "F0000001",
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 84.52538396408856
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          388234.03390232514,
+          5069334.318017802
+        ]
+      },
+      "properties": {
+        "ID": "T0000048",
+        "Type": "MST",
+        "Model": "MST12",
+        "ONTCount": 1,
+        "ConnectedCableID": "48FOC/F1000509/T1002415",
+        "ConnectedFOSCID": "F1000390",
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 2763.395565185947
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390933.73330779135,
+          5067234.199151389
+        ]
+      },
+      "properties": {
+        "ID": "T0000052",
+        "Type": "MST",
+        "Model": "MST12",
+        "ONTCount": 4,
+        "ConnectedCableID": "144FOC/F1000391/F1000392",
+        "ConnectedFOSCID": "F0000002",
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 71.47930237335018
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          389812.0056131762,
+          5069306.1341128675
+        ]
+      },
+      "properties": {
+        "ID": "T0000057",
+        "Type": "Aerial Terminal",
+        "Model": "AER-TRM12",
+        "ONTCount": 1,
+        "ConnectedCableID": "48FOC/F1000509/T1002415",
+        "ConnectedFOSCID": "F0000002",
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 2437.261126029037
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390280.0560332881,
+          5069293.994900072
+        ]
+      },
+      "properties": {
+        "ID": "T0000059",
+        "Type": "Aerial Terminal",
+        "Model": "AER-TRM12",
+        "ONTCount": 2,
+        "ConnectedCableID": "48FOC/F1000509/T1002415",
+        "ConnectedFOSCID": "F0000002",
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 2170.466860833066
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          395191.79043485306,
+          5063112.199239559
+        ]
+      },
+      "properties": {
+        "ID": "T0000060",
+        "Type": "MST",
+        "Model": "MST12",
+        "ONTCount": 1,
+        "ConnectedCableID": "96FOC/F1000395/F1000406",
+        "ConnectedFOSCID": null,
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 4359.912971461178
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          389186.5729186698,
+          5062502.721341933
+        ]
+      },
+      "properties": {
+        "ID": "T0000065",
+        "Type": "Aerial Terminal",
+        "Model": "AER-TRM12",
+        "ONTCount": 1,
+        "ConnectedCableID": "48FOC/F1000398/T1001731",
+        "ConnectedFOSCID": "F0000003",
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 1728.5506432516077
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390835.53977316123,
+          5063219.047312011
+        ]
+      },
+      "properties": {
+        "ID": "T0000069",
+        "Type": "MST",
+        "Model": "MST12",
+        "ONTCount": 1,
+        "ConnectedCableID": "96FOC/F1000391/F1000397",
+        "ConnectedFOSCID": "F0000003",
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 619.2941095196054
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          391350.1981943462,
+          5065246.601831825
+        ]
+      },
+      "properties": {
+        "ID": "T0000070",
+        "Type": "MST",
+        "Model": "AER-TRM12",
+        "ONTCount": 2,
+        "ConnectedCableID": "144FOC/F1000393/F1000391",
+        "ConnectedFOSCID": "F0000001",
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 472.8785325534612
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          389296.8302222243,
+          5065285.132390901
+        ]
+      },
+      "properties": {
+        "ID": "T0000072",
+        "Type": "MST",
+        "Model": "MST12",
+        "ONTCount": 1,
+        "ConnectedCableID": "48FOC/F1000391/F1000412",
+        "ConnectedFOSCID": null,
+        "DistanceToCableM": 0.0,
+        "DistanceToFOSCM": 2736.3049492574387
+      }
+    }
+  ],
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::32617"
+    }
+  }
+}

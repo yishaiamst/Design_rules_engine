@@ -266,6 +266,15 @@ def update_cable_ids(
     updated_geojson = cables_geojson.copy()
     updated_geojson["features"] = updated_features
     
+    # Ensure CRS is included for map visualization
+    if "crs" not in updated_geojson:
+        updated_geojson["crs"] = {
+            "type": "name",
+            "properties": {
+                "name": "urn:ogc:def:crs:EPSG::32617"
+            }
+        }
+    
     print(f"Updated {len(updates)} cable IDs")
     print(f"Unchanged: {len(unchanged)} cable IDs")
     print()

@@ -449,6 +449,6 @@ def generate_fosc_geojson(foscs: List[Dict[str, Any]]) -> Dict[str, Any]:
         feature = create_feature(geometry, properties)
         features.append(feature)
     
-    return create_feature_collection(features)
+    return create_feature_collection(features, crs="EPSG:32617")
 
 

@@ -992,5 +992,5 @@ def generate_terminal_geojson(terminals: List[Dict[str, Any]]) -> Dict[str, Any]
         )
         features.append(feature)
     
-    return create_feature_collection(features)
+    return create_feature_collection(features, crs="EPSG:32617")
 

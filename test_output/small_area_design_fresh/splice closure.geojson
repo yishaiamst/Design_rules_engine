@@ -1,0 +1,89 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390880.07478560234,
+          5065250.043315676
+        ]
+      },
+      "properties": {
+        "ID": "F0000001",
+        "trigger": "junction",
+        "placement_method": "unknown",
+        "cable_count": 6
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390953.3747359137,
+          5067269.905330332
+        ]
+      },
+      "properties": {
+        "ID": "F0000002",
+        "trigger": "junction",
+        "placement_method": "unknown",
+        "cable_count": 3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390833.46449794626,
+          5063209.265020215
+        ]
+      },
+      "properties": {
+        "ID": "F0000003",
+        "trigger": "junction",
+        "placement_method": "unknown",
+        "cable_count": 3
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          390923.5721204817,
+          5069299.145389276
+        ]
+      },
+      "properties": {
+        "ID": "F1000390",
+        "trigger": "unknown",
+        "placement_method": "unknown"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          389808.21264196356,
+          5062629.058500166
+        ]
+      },
+      "properties": {
+        "ID": "F0000031",
+        "trigger": "unknown",
+        "placement_method": "unknown"
+      }
+    }
+  ],
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:EPSG::32617"
+    }
+  }
+}

@@ -455,5 +455,5 @@ def generate_olt_geojson(olts: List[Dict[str, Any]]) -> Dict[str, Any]:
         )
         features.append(feature)
     
-    return create_feature_collection(features)
+    return create_feature_collection(features, crs="EPSG:32617")
 

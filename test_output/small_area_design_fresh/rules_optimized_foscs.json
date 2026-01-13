@@ -1,0 +1,101 @@
+[
+  {
+    "fosc_id": "F0000001",
+    "model": "FOSC-48",
+    "position": [
+      390880.07478560234,
+      5065250.043315676
+    ],
+    "trigger": "junction",
+    "junction_type": "4+ way",
+    "cable_count": 6,
+    "cable_indices": [
+      1,
+      2,
+      6,
+      8,
+      9,
+      15
+    ],
+    "detection_method": "geometric",
+    "on_cable": true,
+    "connected_cables": [
+      "24FOC/F1000391/FDH104010"
+    ]
+  },
+  {
+    "fosc_id": "F0000002",
+    "model": "FOSC-48",
+    "position": [
+      390953.3747359137,
+      5067269.905330332
+    ],
+    "trigger": "junction",
+    "junction_type": "Y",
+    "cable_count": 3,
+    "cable_indices": [
+      13,
+      6,
+      7
+    ],
+    "detection_method": "geometric",
+    "on_cable": true,
+    "connected_cables": [
+      "144FOC/F1000392/F1000390"
+    ]
+  },
+  {
+    "fosc_id": "F0000003",
+    "model": "FOSC-48",
+    "position": [
+      390833.46449794626,
+      5063209.265020215
+    ],
+    "trigger": "junction",
+    "junction_type": "Y",
+    "cable_count": 3,
+    "cable_indices": [
+      16,
+      11,
+      15
+    ],
+    "detection_method": "geometric",
+    "on_cable": true,
+    "connected_cables": [
+      "96FOC/F1000391/F1000397",
+      "48FOC/F1000397/F1000398"
+    ],
+    "merged": true,
+    "merged_from": [
+      "F0000035"
+    ],
+    "merge_distance": 74.46666453971297
+  },
+  {
+    "fosc_id": "F1000390",
+    "position": [
+      390923.5721204817,
+      5069299.145389276
+    ],
+    "connected_cables": [
+      "144FOC/F1000390/F1000502",
+      "144FOC/F1000392/F1000390"
+    ],
+    "junction_segment": "F1000390",
+    "created_by": "Rule 7 (cable junction)"
+  },
+  {
+    "fosc_id": "F0000031",
+    "position": [
+      389808.21264196356,
+      5062629.058500166
+    ],
+    "connected_cables": [
+      "48FOC/F1000397/F1000398"
+    ],
+    "converted_from": "T0000031",
+    "created_by": "Rule 9 (long non-straight cable)",
+    "cable_length": 1522.3181620065668,
+    "curvature_ratio": 1.2948950083380393
+  }
+]

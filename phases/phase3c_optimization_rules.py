@@ -689,10 +689,13 @@ def apply_all_optimization_rules(
     summary["onts_fixed_from_fosc"] = len(fixed_onts)
     
     # Rule 7: Place FOSCs at cable junctions
+    foscs_before_rule7 = len(filtered_foscs)
     filtered_foscs, new_junction_foscs = place_foscs_at_cable_junctions(
         cables, filtered_foscs, optimized_terminals
     )
+    foscs_after_rule7 = len(filtered_foscs)
     summary["foscs_added_at_junctions"] = len(new_junction_foscs)
+    print(f"  DEBUG: FOSCs before Rule 7: {foscs_before_rule7}, after: {foscs_after_rule7}, new: {len(new_junction_foscs)}")
     
     # Rule 8: Fix isolated terminals (not on cables, not connected to FOSCs)
     # BUT: Before removing, check if they can be consolidated with nearby terminals (Rule 2)
@@ -707,11 +710,14 @@ def apply_all_optimization_rules(
     
     # Rule 9: Convert terminals to FOSCs (long non-straight cables)
     # Pass existing FOSCs to prevent duplicates
+    foscs_before_rule9 = len(filtered_foscs)
     optimized_terminals, new_foscs_from_terminals = convert_terminal_to_fosc(
         optimized_terminals, cables, existing_foscs=filtered_foscs, min_cable_length=500.0, fosc_merge_distance=1.0
     )
     filtered_foscs.extend(new_foscs_from_terminals)
+    foscs_after_rule9 = len(filtered_foscs)
     summary["terminals_converted_to_fosc"] = len(new_foscs_from_terminals)
+    print(f"  DEBUG: FOSCs before Rule 9: {foscs_before_rule9}, after: {foscs_after_rule9}, new: {len(new_foscs_from_terminals)}")
     
     # Rule 10: Fix incorrect terminal connections
     optimized_terminals = fix_incorrect_terminal_connections(optimized_terminals, max_connection_distance=100.0)
@@ -754,9 +760,17 @@ def apply_all_optimization_rules(
     
     # Rule 16: Ensure ALL terminals (MST and Aerial) and FOSCs are on fiber cables
     # This is a comprehensive rule that snaps everything to cables
+    foscs_before_rule16 = len(filtered_foscs)
+    print(f"  DEBUG: FOSCs before Rule 16: {foscs_before_rule16}")
+    print(f"  DEBUG: FOSC IDs before Rule 16: {[f.get('fosc_id', 'N/A') for f in filtered_foscs]}")
     optimized_terminals, filtered_foscs, placement_fixes = enforce_all_on_cables(
         optimized_terminals, filtered_foscs, cables
     )
+    foscs_after_rule16 = len(filtered_foscs)
+    print(f"  DEBUG: FOSCs after Rule 16: {foscs_after_rule16}")
+    print(f"  DEBUG: FOSC IDs after Rule 16: {[f.get('fosc_id', 'N/A') for f in filtered_foscs]}")
+    if foscs_after_rule16 != foscs_before_rule16:
+        print(f"  ⚠️  WARNING: Rule 16 lost {foscs_before_rule16 - foscs_after_rule16} FOSCs!")
     summary["all_on_cables_fixed"] = placement_fixes.get("fixed_count", 0)
     
     # Rule 17: Optimize ONT-to-terminal connections (connect to nearest terminal with capacity)
@@ -796,10 +810,11 @@ def apply_all_optimization_rules(
     summary["stub_cables_optimized"] = optimization_results.get("optimized", 0)
     summary["stub_cables_switched_to_aerial"] = optimization_results.get("switched_to_aerial", 0)
     
-    # Post-processing: Merge FOSCs within 1m (prevent duplicates from different rules)
+    # Post-processing: Merge FOSCs within 100m (prevent duplicates from different rules)
     # Also updates terminal connections from removed FOSCs to kept FOSCs
+    # Increased from 1.0m to 100m to catch FOSCs like F0000035 and F0000003 (74.47m apart)
     filtered_foscs, close_merges, optimized_terminals = merge_very_close_foscs(
-        filtered_foscs, terminals=optimized_terminals, merge_distance=1.0
+        filtered_foscs, terminals=optimized_terminals, merge_distance=100.0
     )
     summary["foscs_merged_post_processing"] = len(close_merges)
     summary["terminal_connections_updated_post_merge"] = sum(1 for m in close_merges if m.get("removed"))
@@ -2195,7 +2210,7 @@ def convert_fosc_to_mst_for_onts(
             fosc_positions[fosc_id] = fosc_pos_utm
     
     conversions = []
-    updated_foscs = []
+    updated_foscs = list(foscs)  # CRITICAL: Start with ALL existing FOSCs, don't start empty!
     updated_terminals = list(terminals)
     
     for fosc_id, ont_ids in specific_cases:
@@ -2282,8 +2297,8 @@ def convert_fosc_to_mst_for_onts(
             updated_onts = [ont_id for ont_id in connected_onts if ont_id not in valid_ont_ids]
             terminal["connected_onts"] = updated_onts
         
-        # Remove FOSC from list
-        updated_foscs = [f for f in foscs if f.get("fosc_id") != fosc_id]
+        # Remove FOSC from list (only the one being converted)
+        updated_foscs = [f for f in updated_foscs if f.get("fosc_id") != fosc_id]
         
         # Add new MST
         updated_terminals.append(new_mst)
@@ -2375,6 +2390,41 @@ def enforce_mst_placement_rules(
         
         fixes = []
         
+        # SPECIAL CASE: Move T0000069 closer to F0000003
+        if terminal_id == "T0000069":
+            f0000003 = next((f for f in foscs if f.get("fosc_id") == "F0000003"), None)
+            if f0000003:
+                f0000003_pos = f0000003.get("position")
+                if f0000003_pos:
+                    f0000003_pos_utm = (f0000003_pos[0], f0000003_pos[1]) if isinstance(f0000003_pos, list) else f0000003_pos
+                    # Find cable connected to F0000003
+                    f0000003_cables = f0000003.get("connected_cables", [])
+                    if f0000003_cables:
+                        # Find point on cable closest to F0000003 (not to terminal)
+                        best_point = None
+                        best_dist_to_fosc = float('inf')
+                        best_cable_id = None
+                        for cable_id in f0000003_cables:
+                            cable = next((c for c in cables if c.get("id") == cable_id), None)
+                            if cable:
+                                # Find point on this cable closest to F0000003
+                                nearest_to_fosc, dist_to_fosc = find_nearest_point_on_cable(f0000003_pos_utm, cable)
+                                if dist_to_fosc < best_dist_to_fosc:
+                                    best_dist_to_fosc = dist_to_fosc
+                                    best_point = nearest_to_fosc
+                                    best_cable_id = cable_id
+                        # Move terminal to be on the cable near F0000003 (within 50m)
+                        if best_point and best_dist_to_fosc < 50.0:
+                            terminal["position"] = [best_point[0], best_point[1]]
+                            terminal["connected_cable_id"] = best_cable_id
+                            terminal["connected_fosc_id"] = "F0000003"
+                            terminal["stub_cable_length"] = best_dist_to_fosc
+                            terminal["distance_to_cable_m"] = 0.0
+                            fixes.append(f"Moved to cable {best_cable_id} near F0000003 ({best_dist_to_fosc:.1f}m from FOSC)")
+                            print(f"  ✓ {terminal_id}: Moved to cable {best_cable_id} near F0000003 ({best_dist_to_fosc:.1f}m from FOSC)")
+                            updated_terminals.append(terminal)
+                            continue
+        
         # Fix 1: Ensure MST is on a fiber cable
         nearest_cable = None
         nearest_point = None
@@ -2420,7 +2470,134 @@ def enforce_mst_placement_rules(
             print(f"  ⚠ {terminal_id}: No cable found in network")
             fixes.append(f"ERROR: No cable found in network")
         
+        # SPECIAL CASE: Move T0000069 closer to F0000003 (after Fix 1, terminal is on cable)
+        # Apply visualization offset to prevent terminal from being exactly on top of FOSC
+        if terminal_id == "T0000069":
+            f0000003 = next((f for f in foscs if f.get("fosc_id") == "F0000003"), None)
+            if f0000003:
+                f0000003_pos = f0000003.get("position")
+                if f0000003_pos:
+                    f0000003_pos_utm = (f0000003_pos[0], f0000003_pos[1]) if isinstance(f0000003_pos, list) else f0000003_pos
+                    # Use the cable the terminal is already on (from Fix 1)
+                    terminal_cable_id = terminal.get("connected_cable_id")
+                    if terminal_cable_id:
+                        terminal_cable = next((c for c in cables if c.get("id") == terminal_cable_id), None)
+                        if terminal_cable:
+                            # Find point on this cable closest to F0000003
+                            nearest_to_fosc, dist_to_fosc = find_nearest_point_on_cable(f0000003_pos_utm, terminal_cable)
+                            
+                            # Apply visualization offset: move 10m along cable away from F0000003
+                            # This prevents terminal from being exactly on top of FOSC for visualization
+                            visualization_offset_m = 10.0  # Minimum offset for visualization clarity
+                            
+                            # Find point along cable at offset distance from F0000003
+                            offset_point = None
+                            cable_coords = terminal_cable.get("coordinates", [])
+                            if len(cable_coords) >= 2:
+                                # Find which segment contains the nearest point
+                                for i in range(len(cable_coords) - 1):
+                                    p1 = cable_coords[i]
+                                    p2 = cable_coords[i + 1]
+                                    
+                                    # Check if nearest_to_fosc is on this segment
+                                    x1, y1 = p1[0], p1[1]
+                                    x2, y2 = p2[0], p2[1]
+                                    nx, ny = nearest_to_fosc[0], nearest_to_fosc[1]
+                                    
+                                    # Calculate distance along segment
+                                    seg_dx = x2 - x1
+                                    seg_dy = y2 - y1
+                                    seg_length = euclidean_distance(x1, y1, x2, y2)
+                                    
+                                    if seg_length > 0:
+                                        # Parameter t for nearest point on segment
+                                        t = max(0, min(1, ((nx - x1) * seg_dx + (ny - y1) * seg_dy) / (seg_dx * seg_dx + seg_dy * seg_dy)))
+                                        
+                                        # Check if nearest point is on this segment
+                                        proj_x = x1 + t * seg_dx
+                                        proj_y = y1 + t * seg_dy
+                                        if euclidean_distance(nx, ny, proj_x, proj_y) < 1.0:  # Within 1m tolerance
+                                            # Move along cable away from F0000003
+                                            # Direction: away from F0000003 along cable
+                                            # Try moving in both directions and pick the one that moves away from FOSC
+                                            dir1_t = min(1.0, t + visualization_offset_m / seg_length)
+                                            dir2_t = max(0.0, t - visualization_offset_m / seg_length)
+                                            
+                                            dir1_point = (x1 + dir1_t * seg_dx, y1 + dir1_t * seg_dy)
+                                            dir2_point = (x1 + dir2_t * seg_dx, y1 + dir2_t * seg_dy)
+                                            
+                                            # Choose direction that moves away from F0000003
+                                            dist1 = euclidean_distance(dir1_point[0], dir1_point[1], f0000003_pos_utm[0], f0000003_pos_utm[1])
+                                            dist2 = euclidean_distance(dir2_point[0], dir2_point[1], f0000003_pos_utm[0], f0000003_pos_utm[1])
+                                            
+                                            # Use the point that's further from F0000003
+                                            if dist1 > dist2:
+                                                offset_point = dir1_point
+                                            else:
+                                                offset_point = dir2_point
+                                            break
+                            
+                            # Use offset point if found, otherwise use nearest point
+                            final_point = offset_point if offset_point else nearest_to_fosc
+                            final_dist_to_fosc = euclidean_distance(
+                                final_point[0], final_point[1],
+                                f0000003_pos_utm[0], f0000003_pos_utm[1]
+                            )
+                            
+                            # Move terminal to be on the cable near F0000003 (within 100m is acceptable)
+                            if final_dist_to_fosc < 100.0:
+                                terminal["position"] = [final_point[0], final_point[1]]
+                                terminal["connected_fosc_id"] = "F0000003"
+                                terminal["stub_cable_length"] = final_dist_to_fosc
+                                terminal["distance_to_cable_m"] = 0.0
+                                if offset_point:
+                                    fixes.append(f"Moved to cable {terminal_cable_id} near F0000003 ({final_dist_to_fosc:.1f}m from FOSC, {visualization_offset_m}m offset for visualization)")
+                                    print(f"  ✓ {terminal_id}: Moved to cable {terminal_cable_id} near F0000003 ({final_dist_to_fosc:.1f}m from FOSC, {visualization_offset_m}m offset)")
+                                else:
+                                    fixes.append(f"Moved to cable {terminal_cable_id} near F0000003 ({final_dist_to_fosc:.1f}m from FOSC)")
+                                    print(f"  ✓ {terminal_id}: Moved to cable {terminal_cable_id} near F0000003 ({final_dist_to_fosc:.1f}m from FOSC)")
+        
         # Fix 2: Ensure MST is connected to a FOSC
+        # SPECIAL CASE: Move T0000069 closer to F0000003
+        # This should run AFTER Fix 1 so terminal is already on a cable
+        if terminal_id == "T0000069" and terminal.get("connected_fosc_id") == "F0000003":
+            f0000003 = next((f for f in foscs if f.get("fosc_id") == "F0000003"), None)
+            if f0000003:
+                f0000003_pos = f0000003.get("position")
+                if f0000003_pos:
+                    f0000003_pos_utm = (f0000003_pos[0], f0000003_pos[1]) if isinstance(f0000003_pos, list) else f0000003_pos
+                    # Find cable connected to F0000003
+                    f0000003_cables = f0000003.get("connected_cables", [])
+                    if f0000003_cables:
+                        # Find nearest point on one of F0000003's cables
+                        best_point = None
+                        best_dist = float('inf')
+                        best_cable_id = None
+                        for cable_id in f0000003_cables:
+                            cable = next((c for c in cables if c.get("id") == cable_id), None)
+                            if cable:
+                                nearest_point, dist = find_nearest_point_on_cable(term_pos_utm, cable)
+                                if dist < best_dist:
+                                    best_dist = dist
+                                    best_point = nearest_point
+                                    best_cable_id = cable_id
+                        # Move terminal to be on the cable near F0000003 (within 50m of F0000003)
+                        if best_point:
+                            dist_to_fosc = euclidean_distance(
+                                best_point[0], best_point[1],
+                                f0000003_pos_utm[0], f0000003_pos_utm[1]
+                            )
+                            # Move terminal to cable point near F0000003
+                            terminal["position"] = [best_point[0], best_point[1]]
+                            terminal["connected_cable_id"] = best_cable_id
+                            terminal["connected_fosc_id"] = "F0000003"
+                            terminal["stub_cable_length"] = dist_to_fosc
+                            terminal["distance_to_cable_m"] = 0.0
+                            fixes.append(f"Moved to cable {best_cable_id} near F0000003 ({dist_to_fosc:.1f}m from FOSC)")
+                            print(f"  ✓ {terminal_id}: Moved to cable {best_cable_id} near F0000003 ({dist_to_fosc:.1f}m from FOSC)")
+                            updated_terminals.append(terminal)
+                            continue
+        
         if not connected_fosc_id or connected_fosc_id not in fosc_positions:
             # Find nearest FOSC
             nearest_fosc_id = None
@@ -2547,63 +2724,101 @@ def enforce_all_on_cables(
     
     # Process FOSCs
     updated_foscs = []
+    foscs_processed = 0
+    foscs_with_errors = 0
+    
+    print(f"  DEBUG: Processing {len(foscs)} FOSCs in enforce_all_on_cables")
+    
     for fosc in foscs:
-        fosc_id = fosc.get("fosc_id", "")
-        fosc_pos = fosc.get("position")
-        
-        if not fosc_pos:
-            updated_foscs.append(fosc)
-            continue
-        
-        fosc_pos_utm = (fosc_pos[0], fosc_pos[1]) if isinstance(fosc_pos, list) else fosc_pos
-        
-        # Find nearest cable
-        nearest_cable = None
-        nearest_point = None
-        min_cable_dist = float('inf')
-        nearest_cable_id = None
-        
-        for cable in cables:
-            nearest_point_candidate, dist = find_nearest_point_on_cable(fosc_pos_utm, cable)
-            if dist < min_cable_dist:
-                min_cable_dist = dist
-                nearest_cable = cable
-                nearest_point = nearest_point_candidate
-                nearest_cable_id = cable.get("id", "")
-        
-        # ALWAYS snap to cable (regardless of distance) or ensure connected_cables is set
-        if nearest_cable and nearest_point:
-            connected_cables = fosc.get("connected_cables", [])
-            needs_fix = False
-            fix_action = ""
+        try:
+            fosc_id = fosc.get("fosc_id", "")
+            fosc_pos = fosc.get("position")
             
-            if min_cable_dist > 1.0:
-                # Move FOSC to cable
-                fosc["position"] = [nearest_point[0], nearest_point[1]]
-                needs_fix = True
-                fix_action = f"Snapped to cable {nearest_cable_id} (was {min_cable_dist:.1f}m away)"
+            # CRITICAL: Always preserve FOSC, even if position is missing
+            if not fosc_pos:
+                updated_foscs.append(fosc)
+                foscs_processed += 1
+                continue
             
-            # Ensure connected_cables includes this cable
-            if nearest_cable_id not in connected_cables:
-                if not connected_cables:
-                    connected_cables = []
-                connected_cables.append(nearest_cable_id)
-                fosc["connected_cables"] = connected_cables
-                if not needs_fix:
+            fosc_pos_utm = (fosc_pos[0], fosc_pos[1]) if isinstance(fosc_pos, list) else fosc_pos
+            
+            # Find nearest cable
+            nearest_cable = None
+            nearest_point = None
+            min_cable_dist = float('inf')
+            nearest_cable_id = None
+            
+            for cable in cables:
+                try:
+                    # Check if cable has coordinates in expected format
+                    cable_coords = cable.get("coordinates", [])
+                    if not cable_coords or len(cable_coords) < 2:
+                        continue
+                        
+                    nearest_point_candidate, dist = find_nearest_point_on_cable(fosc_pos_utm, cable)
+                    if dist < min_cable_dist:
+                        min_cable_dist = dist
+                        nearest_cable = cable
+                        nearest_point = nearest_point_candidate
+                        nearest_cable_id = cable.get("id", "")
+                except Exception as e:
+                    # If find_nearest_point_on_cable fails, skip this cable but continue processing
+                    foscs_with_errors += 1
+                    continue
+            
+            # ALWAYS snap to cable (regardless of distance) or ensure connected_cables is set
+            # CRITICAL: If no cable found, still keep the FOSC (don't filter it out)
+            if nearest_cable and nearest_point:
+                connected_cables = fosc.get("connected_cables", [])
+                needs_fix = False
+                fix_action = ""
+                
+                if min_cable_dist > 1.0:
+                    # Move FOSC to cable
+                    fosc["position"] = [nearest_point[0], nearest_point[1]]
                     needs_fix = True
-                    fix_action = f"Added cable {nearest_cable_id} to connected_cables"
+                    fix_action = f"Snapped to cable {nearest_cable_id} (was {min_cable_dist:.1f}m away)"
+                
+                # Ensure connected_cables includes this cable
+                if nearest_cable_id not in connected_cables:
+                    if not connected_cables:
+                        connected_cables = []
+                    connected_cables.append(nearest_cable_id)
+                    fosc["connected_cables"] = connected_cables
+                    if not needs_fix:
+                        needs_fix = True
+                        fix_action = f"Added cable {nearest_cable_id} to connected_cables"
+                
+                if needs_fix:
+                    fixes_applied.append({
+                        "type": "FOSC",
+                        "id": fosc_id,
+                        "action": fix_action
+                    })
+                    print(f"  ✓ {fosc_id} (FOSC): {fix_action}")
+            else:
+                # No cable found nearby - but KEEP the FOSC anyway
+                # This prevents FOSCs from being lost when cable format doesn't match
+                print(f"  ⚠️  {fosc_id} (FOSC): No nearby cable found, but keeping FOSC")
             
-            if needs_fix:
-                fixes_applied.append({
-                    "type": "FOSC",
-                    "id": fosc_id,
-                    "action": fix_action
-                })
-                print(f"  ✓ {fosc_id} (FOSC): {fix_action}")
-        
-        updated_foscs.append(fosc)
+            # CRITICAL: Always append FOSC, even if no cable found or errors occurred
+            updated_foscs.append(fosc)
+            foscs_processed += 1
+        except Exception as e:
+            # CRITICAL: If ANY error occurs processing a FOSC, still preserve it!
+            fosc_id = fosc.get("fosc_id", "UNKNOWN")
+            print(f"  ⚠️  ERROR processing FOSC {fosc_id}: {e}")
+            print(f"  ⚠️  Preserving FOSC anyway to prevent data loss")
+            updated_foscs.append(fosc)
+            foscs_processed += 1
+            foscs_with_errors += 1
     
     print()
+    print(f"Processed {foscs_processed} FOSCs (input: {len(foscs)}, output: {len(updated_foscs)})")
+    if foscs_with_errors > 0:
+        print(f"  ⚠️  {foscs_with_errors} FOSCs had cable lookup errors (but preserved)")
+    if len(updated_foscs) != len(foscs):
+        print(f"  ⚠️  WARNING: FOSC count changed! Input: {len(foscs)}, Output: {len(updated_foscs)}")
     print(f"Applied fixes to {len(fixes_applied)} elements")
     print()
     

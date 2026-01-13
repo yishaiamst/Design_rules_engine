@@ -1,0 +1,119 @@
+{
+  "isolated_found": "multiple_passes",
+  "connected": 10,
+  "extended": 10,
+  "new_foscs": 10,
+  "iterations": 5,
+  "connections": [
+    {
+      "cable_id": "144FOC/UNKNOWN/T0000003",
+      "fosc_id": "F0000001",
+      "connection_point": [
+        392900.81384134013,
+        5065218.643922737
+      ],
+      "distance_m": 2044.9996569307125,
+      "target_type": "cable",
+      "iteration": 1
+    },
+    {
+      "cable_id": "48FOC/T0000005/UNKNOWN",
+      "fosc_id": "F0000003",
+      "connection_point": [
+        390842.14107817813,
+        5063250.1640966395
+      ],
+      "distance_m": 2036.2093306340214,
+      "target_type": "cable",
+      "iteration": 1
+    },
+    {
+      "cable_id": "144FOC/UNKNOWN/T0000003",
+      "fosc_id": "F1000392",
+      "connection_point": [
+        390953.25118110335,
+        5067265.50091165
+      ],
+      "distance_m": 2825.353756366117,
+      "target_type": "fosc_from_cable_id",
+      "iteration": 2
+    },
+    {
+      "cable_id": "96FOC/UNKNOWN/T0000005",
+      "fosc_id": "F0000005",
+      "connection_point": [
+        392900.81384134013,
+        5065218.643922737
+      ],
+      "distance_m": 2846.0825261054583,
+      "target_type": "cable",
+      "iteration": 2
+    },
+    {
+      "cable_id": "144FOC/UNKNOWN/T0000003",
+      "fosc_id": "F0000005",
+      "connection_point": [
+        390953.25118110335,
+        5067265.50091165
+      ],
+      "distance_m": 0.0,
+      "target_type": "cable",
+      "iteration": 3
+    },
+    {
+      "cable_id": "96FOC/UNKNOWN/T0000005",
+      "fosc_id": "F0000007",
+      "connection_point": [
+        392900.81384134013,
+        5065218.643922737
+      ],
+      "distance_m": 0.0,
+      "target_type": "cable",
+      "iteration": 3
+    },
+    {
+      "cable_id": "144FOC/UNKNOWN/T0000003",
+      "fosc_id": "F0000007",
+      "connection_point": [
+        390953.25118110335,
+        5067265.50091165
+      ],
+      "distance_m": 0.0,
+      "target_type": "cable",
+      "iteration": 4
+    },
+    {
+      "cable_id": "96FOC/UNKNOWN/T0000005",
+      "fosc_id": "F0000009",
+      "connection_point": [
+        392900.81384134013,
+        5065218.643922737
+      ],
+      "distance_m": 0.0,
+      "target_type": "cable",
+      "iteration": 4
+    },
+    {
+      "cable_id": "144FOC/UNKNOWN/T0000003",
+      "fosc_id": "F0000009",
+      "connection_point": [
+        390953.25118110335,
+        5067265.50091165
+      ],
+      "distance_m": 0.0,
+      "target_type": "cable",
+      "iteration": 5
+    },
+    {
+      "cable_id": "96FOC/UNKNOWN/T0000005",
+      "fosc_id": "F0000011",
+      "connection_point": [
+        392900.81384134013,
+        5065218.643922737
+      ],
+      "distance_m": 0.0,
+      "target_type": "cable",
+      "iteration": 5
+    }
+  ]
+}

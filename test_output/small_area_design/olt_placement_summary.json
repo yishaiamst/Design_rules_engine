@@ -1,0 +1,46 @@
+{
+  "summary": {
+    "total_olts": 1,
+    "valid_placements": 1,
+    "invalid_placements": 0,
+    "total_violations": 0,
+    "placement_methods": {
+      "on_fiber_route": 0,
+      "near_fiber_route": 1,
+      "centroid": 0
+    }
+  },
+  "olts": [
+    {
+      "olt_id": "OLT_POCKET_0001",
+      "pocket_id": "POCKET_0001",
+      "position": [
+        391505.44490577636,
+        5065244.194897148
+      ],
+      "ont_count": 112,
+      "ont_centroid": [
+        391508.6258161232,
+        5064852.144574689
+      ],
+      "placement_method": "near_fiber_route",
+      "required_cable_size": 144,
+      "nearest_cable": {
+        "id": "144FOC/F1000393/F1000391",
+        "distance_km": 0.39206322644556046
+      },
+      "placement_optimization": {
+        "distance_to_centroid_km": 0.39206322644556046
+      },
+      "validation": {
+        "max_distance_km": 5.048250892098352,
+        "mean_distance_km": 2.961371318334252,
+        "min_distance_km": 0.1335732685441898,
+        "violations": [],
+        "violation_count": 0,
+        "total_onts": 112
+      },
+      "is_valid": true
+    }
+  ]
+}

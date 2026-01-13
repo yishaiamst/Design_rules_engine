@@ -879,21 +879,21 @@ def evaluate_adaptive_r12(node_id: str, metrics: Dict, thresholds: Dict) -> Dict
 
 def learn_adaptive_rules(graph_path: str = "logical_fiber_graph.json") -> Dict[str, Any]:
     """Main adaptive learning pipeline."""
-    print("=" * 80)
     print("LEARNING ADAPTIVE PLACEMENT RULES")
-    print("=" * 80)
+    print("=" * 60)
     
     # Load graph
     graph = load_logical_graph(graph_path)
     
     # Step 1: Compute statistical baselines
+    print("Computing baselines...")
     baselines = compute_statistical_baselines(graph)
     
     # Step 2: Calculate adaptive thresholds
     thresholds = calculate_adaptive_thresholds(baselines)
     
     # Step 3: Build graph structures
-    print("\nBuilding graph structures...")
+    print("Building graph structures...")
     nodes, adjacency, reverse_adjacency = build_graph_structures(graph)
     
     # Step 4: Pre-compute metrics
@@ -901,9 +901,7 @@ def learn_adaptive_rules(graph_path: str = "logical_fiber_graph.json") -> Dict[s
     ont_counts = precompute_ont_counts()
     
     # Step 5: Re-evaluate with adaptive thresholds
-    print("\n" + "=" * 80)
-    print("RE-EVALUATING WITH ADAPTIVE THRESHOLDS")
-    print("=" * 80)
+    print("Re-evaluating with adaptive thresholds...")
     
     adaptive_results = []
     
@@ -971,14 +969,12 @@ def learn_adaptive_rules(graph_path: str = "logical_fiber_graph.json") -> Dict[s
         avg_confidence = statistics.mean([r.get("confidence_score", 0) for r in results])
         avg_confidence_by_rule[rule_id] = round(avg_confidence, 3)
     
-    print(f"\n  Total adaptive evaluations: {len(adaptive_results)}")
-    print(f"  Terminals processed: {terminal_count}")
-    print(f"  FOSCs processed: {fosc_count}")
-    print(f"\n  Results by rule:")
+    print(f"\n  Evaluations: {len(adaptive_results)} | Terminals: {terminal_count} | FOSCs: {fosc_count}")
+    print(f"  Results by rule:")
     for rule_id, results in sorted(by_rule.items()):
         matches = matches_by_rule[rule_id]
         avg_conf = avg_confidence_by_rule[rule_id]
-        print(f"    {rule_id}: {len(results)} evaluations, {matches} matches ({matches/len(results)*100:.1f}%), avg confidence: {avg_conf}")
+        print(f"    {rule_id}: {matches}/{len(results)} matches ({matches/len(results)*100:.1f}%), conf: {avg_conf}")
     
     # Generate long-reach comparison
     long_reach_comparison = generate_long_reach_comparison(by_rule, matches_by_rule, avg_confidence_by_rule)
@@ -1153,55 +1149,27 @@ def generate_adaptive_report(adaptive_data: Dict[str, Any]) -> None:
         if "ADAPTIVE" in rule_id:
             adaptive_by_rule[rule_id].append(result)
     
-    report = "=" * 80 + "\n"
-    report += "ADAPTIVE RULES REPORT\n"
-    report += "=" * 80 + "\n\n"
-    report += "Comparing Static (Refined) vs Adaptive (Learned) Thresholds\n\n"
+    report = "ADAPTIVE RULES REPORT\n"
+    report += "=" * 60 + "\n\n"
     
-    # Statistical Baselines
-    report += "=" * 80 + "\n"
-    report += "STATISTICAL BASELINES\n"
-    report += "=" * 80 + "\n\n"
-    
+    # Statistical Baselines (condensed)
     baselines = adaptive_data["baselines"]
-    report += f"Drop Cable Lengths:\n"
-    report += f"  Mean: {baselines['drop_cable_lengths']['mean']}m ± {baselines['drop_cable_lengths']['std']}m\n"
-    report += f"  Range: {baselines['drop_cable_lengths']['min']}-{baselines['drop_cable_lengths']['max']}m\n"
-    report += f"  Median: {baselines['drop_cable_lengths']['median']}m\n\n"
+    report += "BASELINES:\n"
+    report += f"  Drop: {baselines['drop_cable_lengths']['mean']:.0f}m (med: {baselines['drop_cable_lengths']['median']:.0f}m)\n"
+    report += f"  Stub: {baselines['stub_cable_lengths']['mean']:.0f}m (med: {baselines['stub_cable_lengths']['median']:.0f}m)\n"
+    report += f"  ONTs/Terminal: {baselines['onts_per_terminal']['mean']:.1f} (med: {baselines['onts_per_terminal']['median']:.1f})\n\n"
     
-    report += f"Stub Cable Lengths:\n"
-    report += f"  Mean: {baselines['stub_cable_lengths']['mean']}m ± {baselines['stub_cable_lengths']['std']}m\n"
-    report += f"  Range: {baselines['stub_cable_lengths']['min']}-{baselines['stub_cable_lengths']['max']}m\n"
-    report += f"  Median: {baselines['stub_cable_lengths']['median']}m\n\n"
-    
-    report += f"ONTs per Terminal:\n"
-    report += f"  Mean: {baselines['onts_per_terminal']['mean']} ± {baselines['onts_per_terminal']['std']}\n"
-    report += f"  Range: {baselines['onts_per_terminal']['min']}-{baselines['onts_per_terminal']['max']}\n"
-    report += f"  Median: {baselines['onts_per_terminal']['median']}\n\n"
-    
-    # Adaptive Thresholds
-    report += "=" * 80 + "\n"
-    report += "ADAPTIVE THRESHOLDS (Learned from Data)\n"
-    report += "=" * 80 + "\n\n"
-    
+    # Adaptive Thresholds (condensed)
+    report += "ADAPTIVE THRESHOLDS:\n"
     thresholds = adaptive_data["adaptive_thresholds"]
-    
     for rule_id, threshold_data in thresholds.items():
-        report += f"{rule_id}:\n"
-        for key, value in threshold_data.items():
-            if key not in ["original", "adjustment"]:
-                report += f"  {key}: {value}\n"
-        if "original" in threshold_data:
-            report += f"  Original thresholds: {threshold_data['original']}\n"
-        if "adjustment" in threshold_data:
-            report += f"  Adjustments: {threshold_data['adjustment']}\n"
-        report += "\n"
+        report += f"  {rule_id}: "
+        key_vals = [f"{k}={v}" for k, v in threshold_data.items() if k not in ["original", "adjustment"]]
+        report += ", ".join(key_vals[:3]) + "\n"  # Limit to first 3 values
+    report += "\n"
     
-    # Comparison
-    report += "=" * 80 + "\n"
-    report += "STATIC vs ADAPTIVE COMPARISON\n"
-    report += "=" * 80 + "\n\n"
-    
+    # Comparison (condensed)
+    report += "STATIC vs ADAPTIVE:\n"
     rule_mapping = {
         "R10_AERIAL_TERMINAL_REFINED": "R10_AERIAL_TERMINAL_ADAPTIVE",
         "R11_MST_REFINED": "R11_MST_ADAPTIVE",
@@ -1221,21 +1189,13 @@ def generate_adaptive_report(adaptive_data: Dict[str, Any]) -> None:
         original_avg_conf = statistics.mean([r.get("confidence_score", 0) for r in original_results]) if original_results else 0
         adaptive_avg_conf = statistics.mean([r.get("confidence_score", 0) for r in adaptive_results]) if adaptive_results else 0
         
-        report += f"{original_rule}:\n"
-        report += f"  Static (Refined):\n"
-        report += f"    Evaluations: {len(original_results)}\n"
-        report += f"    Matches: {original_matches} ({original_matches/len(original_results)*100:.1f}%)\n"
-        report += f"    Avg Confidence: {original_avg_conf:.3f}\n"
-        report += f"  Adaptive (Learned):\n"
-        report += f"    Evaluations: {len(adaptive_results)}\n"
-        report += f"    Matches: {adaptive_matches} ({adaptive_matches/len(adaptive_results)*100:.1f}%)\n"
-        report += f"    Avg Confidence: {adaptive_avg_conf:.3f}\n"
-        report += f"  Improvement: {((adaptive_matches - original_matches) / len(adaptive_results) * 100) if adaptive_results else 0:.1f}% more matches\n"
-        report += "\n"
+        improvement = ((adaptive_matches - original_matches) / len(adaptive_results) * 100) if adaptive_results else 0
+        report += f"  {original_rule}:\n"
+        report += f"    Static: {original_matches}/{len(original_results)} ({original_matches/len(original_results)*100:.1f}%), conf: {original_avg_conf:.3f}\n"
+        report += f"    Adaptive: {adaptive_matches}/{len(adaptive_results)} ({adaptive_matches/len(adaptive_results)*100:.1f}%), conf: {adaptive_avg_conf:.3f}\n"
+        report += f"    Improvement: {improvement:+.1f}%\n\n"
     
-    report += "=" * 80 + "\n"
-    report += "END OF REPORT\n"
-    report += "=" * 80 + "\n"
+    report += "=" * 60 + "\n"
     
     with open("adaptive_rules_report.txt", "w", encoding="utf-8") as f:
         f.write(report)
@@ -1252,70 +1212,32 @@ def generate_long_reach_outputs(comparison: Dict[str, Any]) -> None:
     
     print(f"  ✓ Saved mst_long_reach_comparison.json")
     
-    # Generate summary text
-    summary = "=" * 80 + "\n"
-    summary += "MST LONG-REACH REFINEMENT SUMMARY\n"
-    summary += "=" * 80 + "\n\n"
+    # Generate concise summary text
+    summary = "MST LONG-REACH REFINEMENT SUMMARY\n"
+    summary += "=" * 60 + "\n\n"
+    summary += "R11 Threshold: 500m → 2500m\n\n"
     
-    summary += "R11 Threshold Expansion: 500m → 2500m\n\n"
+    summary += f"BEFORE: {comparison['before']['matches']}/{comparison['before']['evaluations']} matches "
+    summary += f"({comparison['before']['match_rate']:.1f}%), conf: {comparison['before']['avg_confidence']:.3f}\n"
     
-    summary += "BEFORE (Standard R11_MST_ADAPTIVE):\n"
-    summary += f"  Evaluations: {comparison['before']['evaluations']}\n"
-    summary += f"  Matches: {comparison['before']['matches']} ({comparison['before']['match_rate']:.1f}%)\n"
-    summary += f"  Avg Confidence: {comparison['before']['avg_confidence']:.3f}\n"
-    summary += f"  Max Stub Threshold: {comparison['before']['max_stub_threshold']}m\n"
-    if comparison['before']['stub_distance_stats']:
-        stats = comparison['before']['stub_distance_stats']
-        summary += f"  Stub Distance Stats: Mean={stats.get('mean', 0)}m, Median={stats.get('median', 0)}m\n"
-    summary += "\n"
+    summary += f"AFTER: {comparison['after']['matches']}/{comparison['after']['evaluations']} matches "
+    summary += f"({comparison['after']['match_rate']:.1f}%), conf: {comparison['after']['avg_confidence']:.3f}\n\n"
     
-    summary += "AFTER (Long-Reach R11_MST_LONG_REACH):\n"
-    summary += f"  Evaluations: {comparison['after']['evaluations']}\n"
-    summary += f"  Matches: {comparison['after']['matches']} ({comparison['after']['match_rate']:.1f}%)\n"
-    summary += f"  Avg Confidence: {comparison['after']['avg_confidence']:.3f}\n"
-    summary += f"  Max Stub Threshold: {comparison['after']['max_stub_threshold']}m\n"
-    if comparison['after']['stub_distance_stats']:
-        stats = comparison['after']['stub_distance_stats']
-        summary += f"  Stub Distance Stats: Mean={stats.get('mean', 0)}m, Median={stats.get('median', 0)}m\n"
-    summary += "\n"
+    summary += f"IMPROVEMENT: +{comparison['improvement']['additional_matches']} matches "
+    summary += f"({comparison['improvement']['percentage_increase']:.1f}% increase)\n"
+    summary += f"Total: {comparison['improvement']['total_matches']} matches\n\n"
     
-    summary += "IMPROVEMENT:\n"
-    summary += f"  Additional Matches (long-reach): {comparison['improvement']['additional_matches']}\n"
-    summary += f"  Percentage of Total Stub Terminals: {comparison['improvement']['percentage_increase']:.1f}%\n"
-    summary += f"  Total Matches (combined): {comparison['improvement']['total_matches']}\n"
-    summary += f"  Newly Classified (long-reach only): {comparison['improvement']['newly_classified']}\n"
-    if comparison['improvement'].get('previous_adaptive_matches'):
-        summary += f"  Previous Adaptive Matches: {comparison['improvement']['previous_adaptive_matches']}\n"
-        summary += f"  Improvement Over Previous: +{comparison['improvement']['improvement_over_previous']} matches\n"
-    summary += "\n"
-    
-    summary += "STUB DISTANCE DISTRIBUTION:\n"
+    summary += "Distance Distribution:\n"
     for range_name, count in comparison['stub_distance_distribution'].items():
-        summary += f"  {range_name}: {count}\n"
-    summary += "\n"
+        if count > 0:
+            summary += f"  {range_name}: {count}\n"
     
     if comparison['combined_stub_stats']:
         stats = comparison['combined_stub_stats']
-        summary += "COMBINED STUB DISTANCE STATISTICS:\n"
-        summary += f"  Count: {stats.get('count', 0)}\n"
-        summary += f"  Mean: {stats.get('mean', 0)}m ± {stats.get('std', 0)}m\n"
-        summary += f"  Median: {stats.get('median', 0)}m\n"
-        summary += f"  Range: {stats.get('min', 0)}-{stats.get('max', 0)}m\n"
-        summary += "\n"
+        summary += f"\nStats: Mean={stats.get('mean', 0)}m, Median={stats.get('median', 0)}m, "
+        summary += f"Range={stats.get('min', 0)}-{stats.get('max', 0)}m\n"
     
-    summary += "=" * 80 + "\n"
-    summary += "CONCLUSION\n"
-    summary += "=" * 80 + "\n"
-    summary += f"Expanding MST stub length threshold from 500m to 2500m captures "
-    summary += f"{comparison['improvement']['additional_matches']} additional MST terminals "
-    summary += f"({comparison['improvement']['percentage_increase']:.1f}% of total terminals with stubs).\n"
-    summary += "\n"
-    summary += "Long-reach MSTs (500-2500m) are now correctly recognized as valid MST deployments.\n"
-    summary += f"Distribution: {comparison['stub_distance_distribution']['500-1000m']} in 500-1000m, "
-    summary += f"{comparison['stub_distance_distribution']['1000-1500m']} in 1000-1500m, "
-    summary += f"{comparison['stub_distance_distribution']['1500-2000m']} in 1500-2000m, "
-    summary += f"{comparison['stub_distance_distribution']['2000-2500m']} in 2000-2500m range.\n"
-    summary += "=" * 80 + "\n"
+    summary += "\n" + "=" * 60 + "\n"
     
     with open("mst_long_reach_summary.txt", "w", encoding="utf-8") as f:
         f.write(summary)
@@ -1333,9 +1255,7 @@ def main():
     adaptive_data = learn_adaptive_rules()
     
     # Generate outputs
-    print("\n" + "=" * 80)
-    print("GENERATING OUTPUTS")
-    print("=" * 80)
+    print("\nGenerating outputs...")
     
     generate_adaptive_summary(adaptive_data)
     generate_adaptive_report(adaptive_data)
@@ -1344,19 +1264,14 @@ def main():
     if "long_reach_comparison" in adaptive_data:
         generate_long_reach_outputs(adaptive_data["long_reach_comparison"])
     
-    print("\n" + "=" * 80)
-    print("✅ ADAPTIVE LEARNING COMPLETE")
-    print("=" * 80)
-    print(f"\nGenerated {adaptive_data['summary']['total_evaluations']} adaptive evaluations")
-    print(f"  Total matches: {sum(adaptive_data['summary']['matches_by_rule'].values())}")
+    print("\n✅ ADAPTIVE LEARNING COMPLETE")
+    print(f"Evaluations: {adaptive_data['summary']['total_evaluations']}, "
+          f"Matches: {sum(adaptive_data['summary']['matches_by_rule'].values())}")
     
     if "long_reach_comparison" in adaptive_data:
         comp = adaptive_data["long_reach_comparison"]
-        print(f"\nLong-Reach MST Results:")
-        print(f"  Standard R11 matches: {comp['before']['matches']}")
-        print(f"  Long-Reach R11 matches: {comp['after']['matches']}")
-        print(f"  Additional matches: {comp['improvement']['additional_matches']}")
-        print(f"  Improvement: {comp['improvement']['percentage_increase']:.1f}%")
+        print(f"Long-Reach: {comp['before']['matches']} → {comp['after']['matches']} "
+              f"(+{comp['improvement']['additional_matches']}, {comp['improvement']['percentage_increase']:.1f}%)")
 
 
 if __name__ == "__main__":

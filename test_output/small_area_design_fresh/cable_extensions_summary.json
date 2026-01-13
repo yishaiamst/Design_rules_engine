@@ -1,0 +1,36 @@
+{
+  "drop_cables": {
+    "total_drop_cables": 111,
+    "total_length_m": 51950.03172025299,
+    "by_terminal_type": {
+      "MST": 82,
+      "Aerial Terminal": 29
+    },
+    "terminals_at_capacity": 0,
+    "onts_not_connected": 0,
+    "length_stats": {
+      "min": 24.39243642828357,
+      "max": 1948.7902738415587,
+      "total": 51950.03172025299,
+      "count": 111,
+      "average": 468.018303786063,
+      "median": 216.48738782042767
+    }
+  },
+  "stub_cables": {
+    "total_stub_cables": 17,
+    "total_length_m": 33592.38866858633,
+    "by_mst_type": {
+      "MST12": 16,
+      "AER-TRM12": 1
+    },
+    "length_stats": {
+      "min": 6.830994785112273,
+      "max": 5050.036321935566,
+      "total": 33592.38866858633,
+      "count": 17,
+      "average": 1976.0228628580196,
+      "median": 2012.3769223009003
+    }
+  }
+}

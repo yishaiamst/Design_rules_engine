@@ -1,0 +1,41 @@
+{
+  "updated": 5,
+  "unchanged": 12,
+  "updates": [
+    {
+      "old_id": "144FOC/F1000396/F1000399",
+      "new_id": "144FOC/UNKNOWN/T0000003",
+      "from": null,
+      "to": "T0000003",
+      "fiber_size": "144FOC"
+    },
+    {
+      "old_id": "144FOC/F1000399/F1000393",
+      "new_id": "144FOC/T0000003/T0000020",
+      "from": "T0000003",
+      "to": "T0000020",
+      "fiber_size": "144FOC"
+    },
+    {
+      "old_id": "144FOC/F1000393/F1000391",
+      "new_id": "144FOC/T0000020/UNKNOWN",
+      "from": "T0000020",
+      "to": null,
+      "fiber_size": "144FOC"
+    },
+    {
+      "old_id": "48FOC/F1000406/F1000394",
+      "new_id": "48FOC/T0000005/UNKNOWN",
+      "from": "T0000005",
+      "to": null,
+      "fiber_size": "48FOC"
+    },
+    {
+      "old_id": "96FOC/F1000395/F1000406",
+      "new_id": "96FOC/UNKNOWN/T0000005",
+      "from": null,
+      "to": "T0000005",
+      "fiber_size": "96FOC"
+    }
+  ]
+}

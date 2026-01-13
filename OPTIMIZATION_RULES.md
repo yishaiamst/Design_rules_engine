@@ -489,6 +489,38 @@ All rules use **UTM Zone 17N (EPSG:32617)** coordinates - NO transformation duri
 
 ---
 
+## Rule 23: Connect Isolated Fiber Cables
+
+**Purpose**: Ensure all fiber cables are part of a connected network so OLTs can serve all ONTs.
+
+**Problem**: User input may contain isolated fiber cables that are not connected to the main network. These isolated cables create "islands" where ONTs cannot be served by OLTs.
+
+**Criteria**:
+- Cable endpoints don't connect to any FOSC (within 50m tolerance)
+- Cable endpoints don't share location with other cable endpoints (within 50m tolerance)
+- Cable has UNKNOWN endpoints (indicates isolation)
+
+**Action**:
+1. Detect isolated cables
+2. For each isolated cable:
+   - Find nearest cable or FOSC (within 1000m, extended to 2000m for UNKNOWN endpoints)
+   - Extend isolated cable to connect to nearest cable/FOSC
+   - Place FOSC at the new connection point
+   - Update cable geometry to include extension
+3. If connecting to existing FOSC, add cable to FOSC's connected_cables list
+4. If connecting to another cable, create new FOSC at intersection
+
+**Rationale**: All fiber cables must be part of a connected network for proper OLT-to-ONT service. Isolated cables are extended to the nearest network element, and a FOSC is placed at the connection point to maintain proper network topology.
+
+**Example**: 
+- Cable `48FOC/F0000961/UNKNOWN` is isolated
+- Nearest cable found at 850m
+- Cable extended to connection point
+- FOSC F0000123 created at connection point
+- Cable now connects to main network
+
+---
+
 ## Rule Application Order
 
 1. **Rule 1**: Merge nearby FOSCs (consolidate first)
@@ -511,8 +543,9 @@ All rules use **UTM Zone 17N (EPSG:32617)** coordinates - NO transformation duri
 18. **Rule 21**: Optimize stub cable connections (prefer shorter paths, FOSC over Aerial Terminal)
 19. **Post-processing**: Merge very close FOSCs (within 1m) to prevent duplicates
 20. **Rule 22**: Update cable IDs based on FOSC and terminal positions at endpoints
-21. **Rule 5**: Filter distant ONTs (final cleanup)
-22. **Rule 6**: Fix ONT-to-FOSC connections (ensure topology)
+21. **Rule 23**: Connect isolated fiber cables (ensure network connectivity)
+22. **Rule 5**: Filter distant ONTs (final cleanup)
+23. **Rule 6**: Fix ONT-to-FOSC connections (ensure topology)
 
 **Note**: Stub cable routing along fiber cables is handled in the visualization step using `route_stub_cable_along_fiber()`, which finds paths along existing fiber cable infrastructure.
 

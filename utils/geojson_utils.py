@@ -66,20 +66,32 @@ def create_feature(geometry: Dict[str, Any], properties: Dict[str, Any], feature
     
     return feature
 
-def create_feature_collection(features: List[Dict[str, Any]]) -> Dict[str, Any]:
+def create_feature_collection(features: List[Dict[str, Any]], crs: Optional[str] = "EPSG:32617") -> Dict[str, Any]:
     """
-    Create a GeoJSON FeatureCollection.
+    Create a GeoJSON FeatureCollection with CRS.
     
     Args:
         features: List of GeoJSON features
+        crs: Coordinate Reference System (default: EPSG:32617 for UTM Zone 17N)
         
     Returns:
-        GeoJSON FeatureCollection dictionary
+        GeoJSON FeatureCollection dictionary with CRS
     """
-    return {
+    feature_collection = {
         "type": "FeatureCollection",
         "features": features
     }
+    
+    # Add CRS if specified
+    if crs:
+        feature_collection["crs"] = {
+            "type": "name",
+            "properties": {
+                "name": f"urn:ogc:def:crs:EPSG::{crs.split(':')[-1]}" if ":" in crs else f"urn:ogc:def:crs:EPSG::{crs}"
+            }
+        }
+    
+    return feature_collection
 
 def extract_points(geojson: Dict[str, Any]) -> List[Tuple[float, float, Dict[str, Any]]]:
     """

@@ -100,9 +100,22 @@ def main():
     ont_geojson = load_geojson("ONT.geojson")
     fiber_cable_geojson = load_geojson("fiber cable.geojson")
     
-    # Try to load FDH and Vault data
+    # Try to load OLT, FDH and Vault data
+    olt_geojson = None
     fdh_geojson = None
     vault_geojson = None
+    
+    # Try to load OLT from generated design output first, then from root
+    try:
+        olt_geojson = load_geojson("test_output/small_area_design/OLT.geojson")
+        print("  Loaded OLT data from design output")
+    except Exception as e:
+        try:
+            olt_geojson = load_geojson("OLT.geojson")
+            print("  Loaded OLT data")
+        except Exception as e2:
+            print(f"  Warning: Could not load OLT data: {e2}")
+    
     try:
         fdh_geojson = load_geojson("fdh.geojson")
         print("  Loaded FDH data")
@@ -182,6 +195,25 @@ def main():
                 if dist <= radius_m:
                     extracted_fdhs.append(feature)
     
+    # Extract OLTs (if available)
+    extracted_olts = []
+    if olt_geojson:
+        for feature in olt_geojson.get("features", []):
+            geometry = feature.get("geometry", {})
+            coords = None
+            if geometry.get("type") == "Point":
+                coords = geometry.get("coordinates", [])
+            elif geometry.get("type") == "MultiPoint":
+                coords_list = geometry.get("coordinates", [])
+                if coords_list:
+                    coords = coords_list[0]
+            
+            if coords and len(coords) >= 2:
+                olt_pos_utm = (float(coords[0]), float(coords[1]))
+                dist = euclidean_distance(center_utm[0], center_utm[1], olt_pos_utm[0], olt_pos_utm[1])
+                if dist <= radius_m:
+                    extracted_olts.append(feature)
+    
     # Extract Vaults (if available)
     extracted_vaults = []
     if vault_geojson:
@@ -202,6 +234,8 @@ def main():
                     extracted_vaults.append(feature)
     
     print(f"  Extracted: {len(extracted_onts)} ONTs, {len(extracted_cables)} cables")
+    if extracted_olts:
+        print(f"  Extracted: {len(extracted_olts)} OLTs")
     if extracted_fdhs:
         print(f"  Extracted: {len(extracted_fdhs)} FDHs")
     if extracted_vaults:
@@ -1488,7 +1522,38 @@ def main():
     print(f"  ✓ Saved: {output_dir}/stub_cable.geojson ({len(offset_stub_cables)} features, {offset_count} with offsets)")
     
     # ==========================================
-    # LAYER 8: FDH
+    # LAYER 8: OLT
+    # ==========================================
+    print("Creating OLT layer...")
+    if extracted_olts:
+        # Enhance OLT features with styling
+        olt_features = []
+        for feature in extracted_olts:
+            props = feature.get("properties", {})
+            olt_id = props.get("ID") or props.get("id", "")
+            
+            enhanced_feature = feature.copy()
+            enhanced_props = enhanced_feature.get("properties", {})
+            enhanced_props["marker-color"] = "#FF0000"  # Red for OLT
+            enhanced_props["marker-size"] = "large"
+            enhanced_props["marker-symbol"] = "star"
+            enhanced_props["type"] = "OLT"
+            enhanced_feature["properties"] = enhanced_props
+            olt_features.append(enhanced_feature)
+        
+        olt_layer = create_geojson_layer(olt_features, "OLT")
+        with open(f"{output_dir}/olt.geojson", "w") as f:
+            json.dump(olt_layer, f, indent=2)
+        print(f"  ✓ Saved: {output_dir}/olt.geojson ({len(olt_features)} features)")
+    else:
+        # Create empty layer
+        olt_layer = create_geojson_layer([], "OLT")
+        with open(f"{output_dir}/olt.geojson", "w") as f:
+            json.dump(olt_layer, f, indent=2)
+        print(f"  ✓ Saved: {output_dir}/olt.geojson (0 features - no OLT data in area)")
+    
+    # ==========================================
+    # LAYER 9: FDH
     # ==========================================
     print("Creating FDH layer...")
     if extracted_fdhs:
@@ -1504,7 +1569,7 @@ def main():
         print(f"  ✓ Saved: {output_dir}/fdh.geojson (0 features - no FDH data in area)")
     
     # ==========================================
-    # LAYER 9: Vaults
+    # LAYER 10: Vaults
     # ==========================================
     print("Creating Vaults layer...")
     if extracted_vaults:
@@ -1523,6 +1588,7 @@ def main():
     print("=" * 80)
     print("LAYER SUMMARY")
     print("=" * 80)
+    print(f"  OLT:               {len(extracted_olts)} features")
     print(f"  FOSC:              {len(fosc_features)} features")
     print(f"  Aerial Terminal:   {len(aerial_features)} features")
     print(f"  MST:               {len(mst_features)} features")

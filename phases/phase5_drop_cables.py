@@ -212,6 +212,7 @@ def create_stub_cables(
         "total_stub_cables": 0,
         "total_length_m": 0.0,
         "by_mst_type": defaultdict(int),
+        "skipped_no_route": 0,
         "length_stats": {
             "min": float('inf'),
             "max": 0.0,
@@ -422,17 +423,12 @@ def create_stub_cables(
                     # If fallback also fails, continue to straight line
                     pass
             
-            # Final fallback: straight line (only if no cable routing possible)
-            if not path_coords or len(path_coords) < 2:
-                path_coords = [
-                    [terminal_pos[0], terminal_pos[1]],
-                    [target_fosc_pos[0], target_fosc_pos[1]]
-                ]
-                length = euclidean_distance(
-                    terminal_pos[0], terminal_pos[1],
-                    target_fosc_pos[0], target_fosc_pos[1]
-                )
-                routed_along_cable = False
+        # Final rule: stub cables must follow fiber cable paths
+        # If we cannot route along fiber, skip this stub cable
+        if not path_coords or len(path_coords) < 2 or not routed_along_cable:
+            summary["skipped_no_route"] += 1
+            print(f"    ⚠️  Skipping stub cable for {terminal_id} → {target_fosc_id} (no fiber path)")
+            continue
         
         # Create stub cable feature
         stub_cable_id = f"SC{stub_cable_id_counter:07d}"
@@ -480,6 +476,8 @@ def create_stub_cables(
     print(f"    Average length: {summary['length_stats']['average']:.1f}m")
     print(f"    Median length: {summary['length_stats']['median']:.1f}m")
     print(f"    By MST type: {dict(summary['by_mst_type'])}")
+    if summary["skipped_no_route"] > 0:
+        print(f"    ⚠️  Skipped {summary['skipped_no_route']} stub cables (no fiber path)")
     
     return (stub_cables, summary)
 

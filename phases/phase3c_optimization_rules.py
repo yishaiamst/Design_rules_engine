@@ -514,6 +514,89 @@ def convert_aerial_to_mst_near_foscs(terminals: List[Dict[str, Any]], foscs: Lis
     return converted + connected
 
 
+def convert_nearby_aerial_terminals_to_mst(
+    terminals: List[Dict[str, Any]],
+    max_distance: float = 500.0,
+    max_aerial_capacity: int = 12
+) -> List[Dict[str, Any]]:
+    """
+    Convert one of two nearby Aerial Terminals to MSTs.
+
+    If two Aerial Terminals are within max_distance, convert one to MST unless the
+    Aerial Terminal already serves max_aerial_capacity ONTs.
+    """
+    print()
+    print("=" * 80)
+    print("RULE 4B: CONVERTING NEARBY AERIAL TERMINALS TO MSTs")
+    print("=" * 80)
+    print()
+    print(f"Checking Aerial Terminals within {max_distance}m (capacity {max_aerial_capacity})...")
+
+    aerials = [t for t in terminals if t.get("type") == "Aerial Terminal"]
+    converted = []
+    converted_ids = set()
+
+    for i, t1 in enumerate(aerials):
+        t1_id = t1.get("terminal_id")
+        t1_pos = t1.get("position")
+        if not t1_id or not t1_pos or t1_id in converted_ids:
+            continue
+
+        t1_onts = len(t1.get("connected_onts", []))
+
+        for j in range(i + 1, len(aerials)):
+            t2 = aerials[j]
+            t2_id = t2.get("terminal_id")
+            t2_pos = t2.get("position")
+            if not t2_id or not t2_pos or t2_id in converted_ids:
+                continue
+
+            dist = euclidean_distance(t1_pos[0], t1_pos[1], t2_pos[0], t2_pos[1])
+            if dist > max_distance:
+                continue
+
+            t2_onts = len(t2.get("connected_onts", []))
+
+            # Decide which one to convert
+            # Prefer converting the one that is NOT at capacity and has fewer ONTs
+            t1_at_capacity = t1_onts >= max_aerial_capacity
+            t2_at_capacity = t2_onts >= max_aerial_capacity
+
+            if t1_at_capacity and t2_at_capacity:
+                continue
+
+            if t1_at_capacity and not t2_at_capacity:
+                to_convert = t2
+            elif t2_at_capacity and not t1_at_capacity:
+                to_convert = t1
+            else:
+                # Neither at capacity: convert the one with fewer ONTs
+                to_convert = t1 if t1_onts <= t2_onts else t2
+
+            to_convert_id = to_convert.get("terminal_id")
+            if not to_convert_id or to_convert_id in converted_ids:
+                continue
+
+            to_convert["type"] = "MST"
+            if not str(to_convert.get("model", "")).startswith("MST"):
+                to_convert["model"] = "MST12"
+            converted_ids.add(to_convert_id)
+            converted.append({
+                "terminal_id": to_convert_id,
+                "reason": "nearby_aerial_terminal",
+                "distance_m": dist
+            })
+            print(f"  ✓ Converted {to_convert_id} to MST ({dist:.1f}m from nearby aerial)")
+
+            # Only convert one per nearby pair
+            break
+
+    print()
+    print(f"Converted {len(converted)} Aerial Terminals to MSTs (nearby rule)")
+    print()
+
+    return converted
+
 def filter_distant_onts(terminals: List[Dict[str, Any]], ont_geojson: Dict[str, Any], max_drop_distance: float = 1000.0) -> List[str]:
     """
     Rule 5: Filter ONTs that are >max_drop_distance from their terminal.
@@ -636,6 +719,7 @@ def apply_all_optimization_rules(
         "msts_consolidated": 0,
         "foscs_removed": 0,
         "aerial_converted": 0,
+        "aerial_converted_nearby": 0,
         "msts_connected": 0,
         "onts_filtered": 0
     }
@@ -663,6 +747,14 @@ def apply_all_optimization_rules(
     conversions = convert_aerial_to_mst_near_foscs(terminals, filtered_foscs, max_distance=1000.0)
     summary["aerial_converted"] = len([c for c in conversions if "Converted" in str(c)])
     summary["msts_connected"] = len([c for c in conversions if "Connected" in str(c)])
+
+    # Rule 4B: Convert nearby Aerial Terminals to MSTs (within 500m)
+    nearby_conversions = convert_nearby_aerial_terminals_to_mst(
+        terminals,
+        max_distance=500.0,
+        max_aerial_capacity=12
+    )
+    summary["aerial_converted_nearby"] = len(nearby_conversions)
     
     # Rule 2: Consolidate nearby MSTs (after conversion, so we consolidate the new MSTs too)
     # Include specific merges: T0004278, T0004280 -> T0004266, T0004292 -> T0004473
@@ -837,6 +929,7 @@ def apply_all_optimization_rules(
     print(f"Terminals converted to FOSCs: {summary['terminals_converted_to_fosc']}")
     print(f"Isolated terminals removed: {summary['isolated_terminals_removed']}")
     print(f"Aerial Terminals converted to MST: {summary['aerial_converted']}")
+    print(f"Aerial Terminals converted (nearby rule): {summary['aerial_converted_nearby']}")
     print(f"MSTs connected to FOSCs: {summary['msts_connected']}")
     print(f"MSTs consolidated: {summary['msts_consolidated']}")
     print(f"ONTs filtered (>1km): {summary['onts_filtered']}")
@@ -1018,6 +1111,76 @@ def place_foscs_at_cable_junctions(
     print()
     print("Detecting cable junctions and placing FOSCs...")
     print()
+
+    def segment_intersection(
+        a1: Tuple[float, float],
+        a2: Tuple[float, float],
+        b1: Tuple[float, float],
+        b2: Tuple[float, float],
+        eps: float = 1e-6
+    ) -> Optional[Tuple[float, float]]:
+        # Line segment intersection (returns intersection point or None)
+        x1, y1 = a1
+        x2, y2 = a2
+        x3, y3 = b1
+        x4, y4 = b2
+
+        denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+        if abs(denom) < eps:
+            return None
+
+        px = ((x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)) / denom
+        py = ((x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4)) / denom
+
+        def on_segment(p: Tuple[float, float], s1: Tuple[float, float], s2: Tuple[float, float]) -> bool:
+            return (
+                min(s1[0], s2[0]) - eps <= p[0] <= max(s1[0], s2[0]) + eps
+                and min(s1[1], s2[1]) - eps <= p[1] <= max(s1[1], s2[1]) + eps
+            )
+
+        p = (px, py)
+        if on_segment(p, a1, a2) and on_segment(p, b1, b2):
+            return p
+        return None
+
+    def point_to_segment_distance(
+        p: Tuple[float, float], a: Tuple[float, float], b: Tuple[float, float]
+    ) -> float:
+        # Perpendicular distance to line segment
+        x0, y0 = p
+        x1, y1 = a
+        x2, y2 = b
+        dx = x2 - x1
+        dy = y2 - y1
+        if dx == 0 and dy == 0:
+            return euclidean_distance(x0, y0, x1, y1)
+        t = max(0.0, min(1.0, ((x0 - x1) * dx + (y0 - y1) * dy) / (dx * dx + dy * dy)))
+        px = x1 + t * dx
+        py = y1 + t * dy
+        return euclidean_distance(x0, y0, px, py)
+
+    def fosc_or_terminal_near(point: Tuple[float, float], tol: float = 50.0) -> bool:
+        for fosc_pos in existing_fosc_positions.values():
+            if euclidean_distance(point[0], point[1], fosc_pos[0], fosc_pos[1]) < tol:
+                return True
+        for term_pos in terminal_positions.values():
+            if euclidean_distance(point[0], point[1], term_pos[0], term_pos[1]) < tol:
+                return True
+        for fosc in new_foscs:
+            pos = fosc.get("position")
+            if pos and euclidean_distance(point[0], point[1], pos[0], pos[1]) < tol:
+                return True
+        return False
+
+    def fosc_near(point: Tuple[float, float], tol: float = 50.0) -> bool:
+        for fosc_pos in existing_fosc_positions.values():
+            if euclidean_distance(point[0], point[1], fosc_pos[0], fosc_pos[1]) < tol:
+                return True
+        for fosc in new_foscs:
+            pos = fosc.get("position")
+            if pos and euclidean_distance(point[0], point[1], pos[0], pos[1]) < tol:
+                return True
+        return False
     
     # Parse cable IDs to extract segments
     # Format: "SIZEFOC/ID1/ID2" or "SIZEFOC/ID1/TID"
@@ -1153,6 +1316,85 @@ def place_foscs_at_cable_junctions(
             
             print(f"  ✓ Created FOSC {fosc_id} at junction {segment_id}")
             print(f"    Cables: {', '.join(cable_ids[:3])}{'...' if len(cable_ids) > 3 else ''}")
+
+    # Additional junctions: intersection of connection cables with other cables
+    connection_cables = [c for c in cables if str(c.get("id", "")).startswith("CONNECTION/")]
+    if connection_cables:
+        print("Detecting junctions for connection cables...")
+
+    for conn_cable in connection_cables:
+        conn_coords = conn_cable.get("coordinates", [])
+        if len(conn_coords) < 2:
+            continue
+        conn_id = conn_cable.get("id", "")
+
+        # Collect all intersection points with non-connection cables
+        intersection_points: List[Tuple[float, float]] = []
+        for other_cable in cables:
+            other_id = other_cable.get("id", "")
+            if other_id == conn_id or str(other_id).startswith("CONNECTION/"):
+                continue
+            other_coords = other_cable.get("coordinates", [])
+            if len(other_coords) < 2:
+                continue
+
+            intersection_point = None
+            # Try segment intersections
+            for i in range(len(conn_coords) - 1):
+                a1 = conn_coords[i]
+                a2 = conn_coords[i + 1]
+                for j in range(len(other_coords) - 1):
+                    b1 = other_coords[j]
+                    b2 = other_coords[j + 1]
+                    inter = segment_intersection(a1, a2, b1, b2)
+                    if inter:
+                        intersection_point = inter
+                        break
+                if intersection_point:
+                    break
+
+            # If no true intersection, check for near-coincident endpoints
+            if not intersection_point:
+                for ep in [conn_coords[0], conn_coords[-1]]:
+                    for j in range(len(other_coords) - 1):
+                        dist = point_to_segment_distance(ep, other_coords[j], other_coords[j + 1])
+                        if dist < 10.0:
+                            intersection_point = ep
+                            break
+                    if intersection_point:
+                        break
+
+            if not intersection_point:
+                continue
+
+            # Deduplicate within 5m
+            if any(euclidean_distance(intersection_point[0], intersection_point[1], p[0], p[1]) < 5.0 for p in intersection_points):
+                continue
+            intersection_points.append(intersection_point)
+
+        for intersection_point in intersection_points:
+            # For connection intersections, allow FOSC even if terminal is nearby
+            if fosc_near(intersection_point, tol=50.0):
+                continue
+
+            fosc_id = f"F{conn_id.replace('CONNECTION/', 'CONN_')}"
+            existing_ids = {f.get("fosc_id", "") for f in updated_foscs}
+            counter = 1
+            original_fosc_id = fosc_id
+            while fosc_id in existing_ids:
+                fosc_id = f"{original_fosc_id}_{counter}"
+                counter += 1
+
+            new_fosc = {
+                "fosc_id": fosc_id,
+                "position": [intersection_point[0], intersection_point[1]],
+                "connected_cables": [conn_id],
+                "junction_segment": "connection_intersection",
+                "created_by": "Rule 7 (connection intersection)"
+            }
+            new_foscs.append(new_fosc)
+            updated_foscs.append(new_fosc)
+            print(f"  ✓ Created FOSC {fosc_id} at connection intersection")
     
     print()
     print(f"Created {len(new_foscs)} new FOSCs at cable junctions")

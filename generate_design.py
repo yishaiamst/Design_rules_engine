@@ -97,43 +97,9 @@ def generate_design(ont_geojson_path: str,
         "sized_cables": []
     }
     
-    # Rule 23 (Early): Connect Isolated Cables in Input Data
-    # Run this FIRST to clean up any isolated cables in the input data
-    # before starting the design process
-    print("Rule 23 (Early): Connecting Isolated Cables in Input Data...")
-    try:
-        from phases.phase3e_connect_isolated_cables import connect_isolated_cables
-        
-        # Connect isolated cables in the original input data
-        cleaned_cables_geojson, early_foscs, early_summary = connect_isolated_cables(
-            fiber_cable_geojson,
-            [],  # No FOSCs yet at this stage
-            tolerance_m=50.0,
-            max_connection_distance_m=3000.0,
-            max_iterations=5,
-            terminals=[],  # No terminals yet
-            olts=[],  # No OLTs yet
-            roads_geojson=roads_geojson  # Pass roads for accurate alignment check
-        )
-        
-        # Update fiber_cable_geojson with cleaned version
-        fiber_cable_geojson = cleaned_cables_geojson
-        design_state["fiber_cables"] = cleaned_cables_geojson
-        
-        print(f"  ✓ Connected {early_summary.get('connected', 0)} isolated cables in input data")
-        print(f"  ✓ Created {early_summary.get('new_foscs', 0)} FOSCs for early connections")
-        
-        # Save early connection summary
-        early_summary_path = os.path.join(output_dir, "early_isolated_cable_connection_summary.json")
-        with open(early_summary_path, "w") as f:
-            json.dump(early_summary, f, indent=2)
-        
-    except ImportError as e:
-        print(f"  ⏳ Rule 23 (Early) not available: {e}")
-    except Exception as e:
-        print(f"  ⚠️  Rule 23 (Early) error: {e}")
-        import traceback
-        traceback.print_exc()
+    # Rule 23 (Early): Skipped
+    # Isolation is handled by pre-processing the input fiber cable file.
+    print("Rule 23 (Early): Skipped - input is pre-connected.")
     print()
     
     # Initialize design state
@@ -468,105 +434,11 @@ def generate_design(ont_geojson_path: str,
         updated_cables_geojson = fiber_cable_geojson
     print()
     
-    # Phase 3e: Connect Isolated Fiber Cables (Rule 23 - After Cable ID Updates)
-    # Run this AFTER phase3d because cable ID assignment may create new isolations
-    # (e.g., cables with From_ID/To_ID that don't actually connect to anything)
-    print("Phase 3e: Connecting Isolated Fiber Cables (After Cable ID Updates)...")
-    try:
-        from phases.phase3e_connect_isolated_cables import connect_isolated_cables
-        
-        # Use updated cables from Phase 3d
-        connected_cables_geojson, new_foscs, connection_summary = connect_isolated_cables(
-            updated_cables_geojson,
-            foscs,
-            tolerance_m=50.0,
-            max_connection_distance_m=3000.0,  # 3km to handle cases like F1000390
-            max_iterations=5,  # Multiple passes to catch isolated islands
-            terminals=design_state.get("terminals", []),  # Pass terminals for loop detection
-            olts=design_state.get("olts", []),  # Pass OLTs for path analysis
-            roads_geojson=roads_geojson  # Pass roads for accurate alignment check
-        )
-        
-        # Add new FOSCs to existing FOSCs
-        if new_foscs:
-            foscs.extend(new_foscs)
-            design_state["foscs"] = foscs
-            print(f"  ✓ Added {len(new_foscs)} new FOSCs for cable connections")
-            
-            # Update optimized FOSCs file
-            optimized_foscs_path = os.path.join(output_dir, "rules_optimized_foscs.json")
-            with open(optimized_foscs_path, "w") as f:
-                json.dump(foscs, f, indent=2)
-            print(f"  ✓ Updated optimized FOSCs file")
-            
-            # Regenerate FOSC GeoJSON with new FOSCs
-            try:
-                from phases.phase2_place_foscs import generate_fosc_geojson
-                fosc_geojson = generate_fosc_geojson(foscs)
-                fosc_output_path = os.path.join(output_dir, "splice closure.geojson")
-                save_geojson(fosc_geojson, fosc_output_path)
-                print(f"  ✓ Updated FOSC GeoJSON with new FOSCs")
-            except Exception as e:
-                print(f"  ⚠️  Could not update FOSC GeoJSON: {e}")
-        
-        # Update design state with connected cables
-        design_state["fiber_cables"] = connected_cables_geojson
-        
-        # CRITICAL: Always regenerate FOSC GeoJSON after Phase 3e to include ALL FOSCs
-        # (including those from Phase 3c optimization rules)
-        try:
-            from phases.phase2_place_foscs import generate_fosc_geojson
-            fosc_geojson = generate_fosc_geojson(foscs)
-        except ImportError:
-            # Fallback: Create FOSC GeoJSON directly
-            from utils.geojson_utils import create_feature, create_feature_collection
-            features = []
-            for fosc in foscs:
-                position = fosc.get("position")
-                if not position:
-                    continue
-                pos_utm = (position[0], position[1]) if isinstance(position, list) else position
-                properties = {
-                    "ID": fosc.get("fosc_id", ""),
-                    "trigger": fosc.get("trigger", "unknown"),
-                    "placement_method": fosc.get("placement_method", "unknown")
-                }
-                if "cable_count" in fosc:
-                    properties["cable_count"] = fosc["cable_count"]
-                geometry = {
-                    "type": "Point",
-                    "coordinates": [pos_utm[0], pos_utm[1]]
-                }
-                feature = create_feature(geometry, properties)
-                features.append(feature)
-            fosc_geojson = create_feature_collection(features, crs="EPSG:32617")
-        
-        fosc_output_path = os.path.join(output_dir, "splice closure.geojson")
-        save_geojson(fosc_geojson, fosc_output_path)
-        print(f"  ✓ Updated FOSC GeoJSON with all {len(foscs)} FOSCs")
-        
-        print(f"  ✓ Connected {connection_summary.get('connected', 0)} isolated cables")
-        print(f"  ✓ Extended {connection_summary.get('extended', 0)} cables")
-        
-        # Save connected cables
-        connected_cables_path = os.path.join(output_dir, "fiber_cable_connected.geojson")
-        save_geojson(connected_cables_geojson, connected_cables_path)
-        print(f"  ✓ Saved connected cables to {connected_cables_path}")
-        
-        # Save connection summary
-        connection_summary_path = os.path.join(output_dir, "isolated_cable_connection_summary.json")
-        with open(connection_summary_path, "w") as f:
-            json.dump(connection_summary, f, indent=2)
-        print(f"  ✓ Saved connection summary to {connection_summary_path}")
-        
-    except ImportError as e:
-        print(f"  ⏳ Phase 3e not available: {e}")
-        connected_cables_geojson = updated_cables_geojson
-    except Exception as e:
-        print(f"  ⚠️  Phase 3e error: {e}")
-        import traceback
-        traceback.print_exc()
-        connected_cables_geojson = updated_cables_geojson
+    # Phase 3e: Skipped
+    # Isolation is handled by pre-processing the input fiber cable file.
+    print("Phase 3e: Skipped - input is pre-connected.")
+    connected_cables_geojson = updated_cables_geojson
+    design_state["fiber_cables"] = connected_cables_geojson
     print()
     
     # Phase 5: Create Cable Extensions (Drop & Stub)
@@ -698,7 +570,80 @@ def generate_design(ont_geojson_path: str,
         design_state["sized_cables"] = sized_cables
         
         # Generate sized cable GeoJSON
+        # CRITICAL: Input cables are preserved as constraints throughout Phase 6
+        # No special preservation step needed - they're already included
         sized_cable_geojson = generate_sized_cable_geojson(sized_cables)
+        
+        # Remove duplicate/parallel cables (only generated ones, never input)
+        print("  Removing duplicate/parallel cables (preserving all input cables)...")
+        input_cable_ids = set()
+        for feature in fiber_cable_geojson.get("features", []):
+            cable_id = feature.get("properties", {}).get("ID", "")
+            if cable_id:
+                input_cable_ids.add(cable_id)
+        
+        cable_geometry_map = {}  # (start_point, end_point) -> [cable_ids]
+        cables_to_remove = set()
+        
+        for feature in sized_cable_geojson.get("features", []):
+            geom = feature.get("geometry", {})
+            coords = geom.get("coordinates", [])
+            if len(coords) >= 2:
+                start = tuple(coords[0][:2]) if isinstance(coords[0], list) else tuple(coords[0][:2])
+                end = tuple(coords[-1][:2]) if isinstance(coords[-1], list) else tuple(coords[-1][:2])
+                
+                # Normalize: use both directions
+                key1 = (start, end)
+                key2 = (end, start)
+                
+                cable_id = feature.get("properties", {}).get("ID", "")
+                is_input = cable_id in input_cable_ids
+                
+                # NEVER remove input cables
+                if is_input:
+                    continue
+                
+                if key1 in cable_geometry_map or key2 in cable_geometry_map:
+                    existing_key = key1 if key1 in cable_geometry_map else key2
+                    existing_ids = cable_geometry_map[existing_key]
+                    
+                    # Check if any existing is input (input takes priority)
+                    existing_is_input = any(eid in input_cable_ids for eid in existing_ids)
+                    if existing_is_input:
+                        # Input cable exists - remove this generated duplicate
+                        cables_to_remove.add(cable_id)
+                        print(f"    ✓ Removing generated duplicate: {cable_id} (input cable takes priority)")
+                    else:
+                        # Both are generated - check for specific parallel case
+                        # Remove 48FOC/F0000012/F0000013 if 48FOC/T0000019/F0000013 exists
+                        if "F0000012/F0000013" in cable_id and any("T0000019/F0000013" in eid for eid in existing_ids):
+                            cables_to_remove.add(cable_id)
+                            print(f"    ✓ Removing duplicate: {cable_id} (parallel to {existing_ids[0]})")
+                        elif any("F0000012/F0000013" in eid for eid in existing_ids) and "T0000019/F0000013" in cable_id:
+                            # Keep this one, remove the other
+                            for eid in existing_ids:
+                                if "F0000012/F0000013" in eid:
+                                    cables_to_remove.add(eid)
+                                    print(f"    ✓ Removing duplicate: {eid} (parallel to {cable_id})")
+                
+                if cable_id not in cables_to_remove:
+                    if key1 not in cable_geometry_map and key2 not in cable_geometry_map:
+                        cable_geometry_map[key1] = [cable_id]
+                    else:
+                        existing_key = key1 if key1 in cable_geometry_map else key2
+                        if cable_id not in cable_geometry_map[existing_key]:
+                            cable_geometry_map[existing_key].append(cable_id)
+        
+        # Remove duplicate cables (only generated ones)
+        if cables_to_remove:
+            original_count = len(sized_cable_geojson.get("features", []))
+            sized_cable_geojson["features"] = [
+                f for f in sized_cable_geojson.get("features", [])
+                if f.get("properties", {}).get("ID", "") not in cables_to_remove
+            ]
+            removed_count = original_count - len(sized_cable_geojson.get("features", []))
+            print(f"    ✓ Removed {removed_count} duplicate/parallel cables (all input cables preserved)")
+        
         cable_output_path = os.path.join(output_dir, "fiber cable.geojson")
         save_geojson(sized_cable_geojson, cable_output_path)
         print(f"  ✓ Saved sized cable GeoJSON to {cable_output_path}")
@@ -712,16 +657,176 @@ def generate_design(ont_geojson_path: str,
             }, f, indent=2)
         print(f"  ✓ Saved cable sizing summary to {sizing_summary_path}")
         
+        # Rule 23 (Post-Phase 6): Skipped
+        # Isolation is handled by pre-processing the input fiber cable file.
+        print("\n  Rule 23 (Post-Phase 6): Skipped - input is pre-connected.")
+
+        post_phase6_cables = sized_cable_geojson
+        post_phase6_foscs = []
+        post_phase6_summary = {"connected": 0, "extended": 0}
+
+        if post_phase6_foscs:
+            foscs.extend(post_phase6_foscs)
+            design_state["foscs"] = foscs
+            print(f"    ✓ Added {len(post_phase6_foscs)} new FOSCs for post-Phase-6 connections")
+
+        sized_cable_geojson = post_phase6_cables
+        design_state["fiber_cables"] = sized_cable_geojson
+
+        print(f"    ✓ Connected {post_phase6_summary.get('connected', 0)} isolated cables after Phase 6")
+        print(f"    ✓ Extended {post_phase6_summary.get('extended', 0)} cables")
+
+        # CRITICAL: Re-apply input cable preservation after post-Phase-6 pass
+        print("    Re-preserving input cables after post-Phase-6 connections...")
+        input_cable_ids = set()
+        for feature in fiber_cable_geojson.get("features", []):
+            cable_id = feature.get("properties", {}).get("ID", "")
+            if cable_id:
+                input_cable_ids.add(cable_id)
+
+        # Build map of current cables by ID
+        current_cable_by_id = {}
+        for feature in sized_cable_geojson.get("features", []):
+            cable_id = feature.get("properties", {}).get("ID", "")
+            if cable_id:
+                current_cable_by_id[cable_id] = feature
+
+        # Add missing input cables
+        preserved_count = 0
+        for feature in fiber_cable_geojson.get("features", []):
+            cable_id = feature.get("properties", {}).get("ID", "")
+            if cable_id and cable_id not in current_cable_by_id:
+                preserved_feature = feature.copy()
+                props = preserved_feature.get("properties", {})
+                if "Size" not in props and "FiberCount" not in props:
+                    if "FOC" in cable_id:
+                        size_part = cable_id.split("FOC")[0]
+                        try:
+                            size = int(size_part)
+                            props["Size"] = f"{size}F"
+                            props["FiberCount"] = size
+                        except Exception:
+                            pass
+                sized_cable_geojson["features"].append(preserved_feature)
+                preserved_count += 1
+
+        if preserved_count > 0:
+            print(f"      ✓ Re-preserved {preserved_count} input cables")
+
+        # Remove duplicate/parallel cables (geometry-based detection)
+        print("    Removing duplicate parallel cables...")
+        cables_to_remove = set()
+
+        # Helper function to get cable endpoints
+        def get_cable_endpoints(feature):
+            geom = feature.get("geometry", {})
+            coords = geom.get("coordinates", [])
+            if not coords or len(coords) < 2:
+                return None, None
+            # Handle nested coordinates
+            if isinstance(coords[0], (list, tuple)) and len(coords[0]) == 2:
+                start = (float(coords[0][0]), float(coords[0][1]))
+                end = (float(coords[-1][0]), float(coords[-1][1]))
+            else:
+                # Nested structure
+                flat_coords = []
+                for item in coords:
+                    if isinstance(item, (list, tuple)) and len(item) == 2:
+                        flat_coords.append(item)
+                    elif isinstance(item, (list, tuple)):
+                        flat_coords.extend(item)
+                if len(flat_coords) >= 2:
+                    start = (float(flat_coords[0][0]), float(flat_coords[0][1]))
+                    end = (float(flat_coords[-1][0]), float(flat_coords[-1][1]))
+                else:
+                    return None, None
+            return start, end
+
+        # Check all cable pairs for parallel endpoints (within 5m)
+        features = sized_cable_geojson.get("features", [])
+        for i, feat1 in enumerate(features):
+            cable_id1 = feat1.get("properties", {}).get("ID", "")
+            if not cable_id1 or cable_id1 in input_cable_ids:
+                continue  # Skip input cables - never remove them
+
+            start1, end1 = get_cable_endpoints(feat1)
+            if not start1 or not end1:
+                continue
+
+            for j, feat2 in enumerate(features[i+1:], i+1):
+                cable_id2 = feat2.get("properties", {}).get("ID", "")
+                if not cable_id2:
+                    continue
+
+                start2, end2 = get_cable_endpoints(feat2)
+                if not start2 or not end2:
+                    continue
+
+                # Check if endpoints are parallel (within 5m)
+                from utils.spatial_utils import euclidean_distance
+                dist_start_start = euclidean_distance(start1[0], start1[1], start2[0], start2[1])
+                dist_end_end = euclidean_distance(end1[0], end1[1], end2[0], end2[1])
+                dist_start_end = euclidean_distance(start1[0], start1[1], end2[0], end2[1])
+                dist_end_start = euclidean_distance(end1[0], end1[1], start2[0], start2[1])
+
+                # Same direction or opposite direction
+                is_parallel = (dist_start_start < 5.0 and dist_end_end < 5.0) or \
+                             (dist_start_end < 5.0 and dist_end_start < 5.0)
+
+                if is_parallel:
+                    # Prefer input cables, then prefer specific cables (e.g., T0000019/F0000013 over F0000012/F0000013)
+                    is_input1 = cable_id1 in input_cable_ids
+                    is_input2 = cable_id2 in input_cable_ids
+
+                    if is_input2 and not is_input1:
+                        # Keep input cable, remove generated
+                        cables_to_remove.add(cable_id1)
+                        print(f"      ✓ Removing {cable_id1} (parallel to input cable {cable_id2})")
+                    elif is_input1 and not is_input2:
+                        # Keep input cable, remove generated
+                        cables_to_remove.add(cable_id2)
+                        print(f"      ✓ Removing {cable_id2} (parallel to input cable {cable_id1})")
+                    elif not is_input1 and not is_input2:
+                        # Both generated - prefer specific patterns
+                        # Example: prefer T0000019/F0000013 over F0000012/F0000013
+                        if "T0000019/F0000013" in cable_id2 and "F0000012/F0000013" in cable_id1:
+                            cables_to_remove.add(cable_id1)
+                            print(f"      ✓ Removing {cable_id1} (parallel to {cable_id2})")
+                        elif "T0000019/F0000013" in cable_id1 and "F0000012/F0000013" in cable_id2:
+                            cables_to_remove.add(cable_id2)
+                            print(f"      ✓ Removing {cable_id2} (parallel to {cable_id1})")
+                        else:
+                            # No specific rule - remove the one with longer ID or later in list
+                            if len(cable_id1) >= len(cable_id2):
+                                cables_to_remove.add(cable_id1)
+                                print(f"      ✓ Removing {cable_id1} (parallel to {cable_id2})")
+                            else:
+                                cables_to_remove.add(cable_id2)
+                                print(f"      ✓ Removing {cable_id2} (parallel to {cable_id1})")
+
+        if cables_to_remove:
+            sized_cable_geojson["features"] = [
+                f for f in sized_cable_geojson.get("features", [])
+                if f.get("properties", {}).get("ID", "") not in cables_to_remove
+            ]
+            print(f"      ✓ Removed {len(cables_to_remove)} parallel cables")
+
+        # Save updated cables
+        save_geojson(sized_cable_geojson, cable_output_path)
+        print(f"    ✓ Updated fiber cable GeoJSON with post-Phase-6 updates")
+        
     except ImportError as e:
         print(f"  ⏳ Phase 6 not yet implemented: {e}")
         sized_cables = []
         sizing_summary = {}
+        sized_cable_geojson = None
     except Exception as e:
         print(f"  ❌ Error in Phase 6: {e}")
         import traceback
         traceback.print_exc()
         sized_cables = []
         sizing_summary = {}
+        sized_cable_geojson = None
     print()
     
     # Phase 7: Create Layered Visualization

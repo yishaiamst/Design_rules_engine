@@ -57,6 +57,63 @@ def generate_design(ont_geojson_path: str,
     print(f"  ✓ Configuration loaded from {config_path}")
     print()
     
+    # Optional Phase: Generate ONTs from OSM buildings
+    ont_gen = config.get("ont_generation", {})
+    if ont_gen.get("enabled"):
+        try:
+            provider = ont_gen.get("provider", "osm_address")
+
+            center_lat = ont_gen.get("center_lat")
+            center_lon = ont_gen.get("center_lon")
+            radius_km = ont_gen.get("radius_km", 5.0)
+            overpass_url = ont_gen.get("overpass_url", "https://overpass-api.de/api/interpreter")
+            output_path = ont_gen.get("output_path", "ONT_generated.geojson")
+            max_ms_tiles = ont_gen.get("max_ms_tiles", 50)
+
+            if center_lat is None or center_lon is None:
+                raise ValueError("ont_generation.center_lat and center_lon are required when enabled.")
+
+            print("Phase -1: Generating ONTs from OSM buildings...")
+            if provider == "microsoft_buildings":
+                from utils.ms_buildings import fetch_ms_buildings, ms_buildings_to_ont_geojson
+
+                bbox = (
+                    center_lon - (radius_km / 111.0),
+                    center_lat - (radius_km / 111.0),
+                    center_lon + (radius_km / 111.0),
+                    center_lat + (radius_km / 111.0)
+                )
+                ms_features = fetch_ms_buildings(bbox, max_tiles=max_ms_tiles)
+                ont_generated = ms_buildings_to_ont_geojson(ms_features)
+            elif provider == "openaddresses":
+                from utils.openaddresses import generate_ont_from_openaddresses
+                tile_url = ont_gen.get(
+                    "openaddresses_tile_url",
+                    "https://results.openaddresses.io/tiles/{lon}/{lat}.zip"
+                )
+                ont_generated = generate_ont_from_openaddresses(
+                    center_lat, center_lon, radius_km, tile_url, max_tiles=9
+                )
+            else:
+                from utils.ont_generation import generate_ont_from_osm
+                ont_generated = generate_ont_from_osm(center_lat, center_lon, radius_km, overpass_url)
+
+            # Resolve output path relative to repo if needed
+            if not os.path.isabs(output_path):
+                output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), output_path)
+
+            save_geojson(ont_generated, output_path)
+            print(f"  ✓ Generated ONT GeoJSON: {output_path}")
+
+            # Use generated ONTs as input
+            ont_geojson_path = output_path
+            print()
+        except Exception as e:
+            print(f"  ⚠️  ONT generation error: {e}")
+            import traceback
+            traceback.print_exc()
+            print()
+
     # Load input data
     print("Loading input data...")
     ont_geojson = load_geojson(ont_geojson_path)
@@ -107,6 +164,7 @@ def generate_design(ont_geojson_path: str,
         "config": config,
         "onts": ont_geojson,
         "fiber_cables": fiber_cable_geojson,
+        "roads": roads_geojson,
         "community_pockets": [],
         "olts": [],
         "fdhs": [],
@@ -501,11 +559,18 @@ def generate_design(ont_geojson_path: str,
                         cable_dict["id"] = cable_id
                         fiber_cables_list.append(cable_dict)
         
+        roads_for_stub = design_state.get("roads")
+        if roads_for_stub and roads_for_stub.get("features"):
+            print(f"    ✓ Stub routing will use {len(roads_for_stub.get('features', []))} road segments")
+        else:
+            print("    ⚠️  Stub routing has no road layer available")
+
         stub_cables, stub_summary = create_stub_cables(
             design_state.get("terminals", []),
             design_state.get("foscs", []),
             config,
-            fiber_cables=fiber_cables_list
+            fiber_cables=fiber_cables_list,
+            roads_geojson=roads_for_stub
         )
         design_state["stub_cables"] = stub_cables
         

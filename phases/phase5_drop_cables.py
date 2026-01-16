@@ -11,10 +11,180 @@ Strategy:
 """
 
 import json
-from typing import Dict, List, Any, Tuple
+import math
+from typing import Dict, List, Any, Tuple, Optional
 from collections import defaultdict
 from utils.spatial_utils import euclidean_distance
 from utils.geojson_utils import create_feature, create_feature_collection
+
+
+def _point_distance(a: Tuple[float, float], b: Tuple[float, float]) -> float:
+    return euclidean_distance(a[0], a[1], b[0], b[1])
+
+
+def _flatten_lines(geometry: Dict[str, Any]) -> List[List[List[float]]]:
+    if geometry.get("type") == "LineString":
+        return [geometry.get("coordinates", [])]
+    if geometry.get("type") == "MultiLineString":
+        return geometry.get("coordinates", [])
+    return []
+
+
+def _is_wgs84_coords(sample: Tuple[float, float]) -> bool:
+    x, y = sample
+    return -180.0 <= x <= 180.0 and -90.0 <= y <= 90.0
+
+
+def _nearest_point_on_segment(
+    px: float, py: float, x1: float, y1: float, x2: float, y2: float
+) -> Tuple[float, float]:
+    dx = x2 - x1
+    dy = y2 - y1
+    if dx == 0 and dy == 0:
+        return (x1, y1)
+    t = ((px - x1) * dx + (py - y1) * dy) / (dx * dx + dy * dy)
+    t = max(0.0, min(1.0, t))
+    return (x1 + t * dx, y1 + t * dy)
+
+
+def _add_node(
+    point: Tuple[float, float],
+    nodes: List[Tuple[float, float]],
+    snap_tol: float,
+) -> int:
+    for idx, p in enumerate(nodes):
+        if _point_distance(point, p) <= snap_tol:
+            return idx
+    nodes.append(point)
+    return len(nodes) - 1
+
+
+def _build_road_graph(
+    road_polylines: List[List[Tuple[float, float]]],
+    snap_tol: float,
+) -> Tuple[List[Tuple[float, float]], Dict[int, List[Tuple[int, float]]], List[Dict[str, Any]]]:
+    nodes: List[Tuple[float, float]] = []
+    adjacency: Dict[int, List[Tuple[int, float]]] = {}
+    segments: List[Dict[str, Any]] = []
+
+    for poly in road_polylines:
+        for i in range(len(poly) - 1):
+            a = poly[i]
+            b = poly[i + 1]
+            n1 = _add_node(a, nodes, snap_tol)
+            n2 = _add_node(b, nodes, snap_tol)
+            d = _point_distance(a, b)
+            adjacency.setdefault(n1, []).append((n2, d))
+            adjacency.setdefault(n2, []).append((n1, d))
+            segments.append({"a": a, "b": b, "n1": n1, "n2": n2})
+    return nodes, adjacency, segments
+
+
+def _insert_projection_node(
+    point: Tuple[float, float],
+    nodes: List[Tuple[float, float]],
+    adjacency: Dict[int, List[Tuple[int, float]]],
+    segments: List[Dict[str, Any]],
+    snap_tol: float,
+    max_snap_m: float,
+) -> Optional[Tuple[int, Tuple[float, float], float]]:
+    best = None
+    for i, seg in enumerate(segments):
+        a = seg["a"]
+        b = seg["b"]
+        proj = _nearest_point_on_segment(point[0], point[1], a[0], a[1], b[0], b[1])
+        d = _point_distance(point, proj)
+        if best is None or d < best[2]:
+            best = (proj, i, d)
+    if best is None or best[2] > max_snap_m:
+        return None
+
+    proj, seg_index, dist = best
+    node_id = _add_node(proj, nodes, snap_tol)
+    seg = segments[seg_index]
+    n1 = seg["n1"]
+    n2 = seg["n2"]
+    adjacency.setdefault(node_id, [])
+    adjacency[node_id].append((n1, _point_distance(proj, seg["a"])))
+    adjacency[node_id].append((n2, _point_distance(proj, seg["b"])))
+    adjacency.setdefault(n1, []).append((node_id, _point_distance(proj, seg["a"])))
+    adjacency.setdefault(n2, []).append((node_id, _point_distance(proj, seg["b"])))
+    return node_id, proj, dist
+
+
+def _dijkstra(
+    adjacency: Dict[int, List[Tuple[int, float]]],
+    start: int,
+    goal: int,
+) -> Optional[List[int]]:
+    import heapq
+
+    dist = {start: 0.0}
+    prev: Dict[int, int] = {}
+    heap = [(0.0, start)]
+    visited = set()
+
+    while heap:
+        d, u = heapq.heappop(heap)
+        if u in visited:
+            continue
+        visited.add(u)
+        if u == goal:
+            break
+        for v, w in adjacency.get(u, []):
+            nd = d + w
+            if v not in dist or nd < dist[v]:
+                dist[v] = nd
+                prev[v] = u
+                heapq.heappush(heap, (nd, v))
+    if goal not in dist:
+        return None
+    path = [goal]
+    while path[-1] != start:
+        path.append(prev[path[-1]])
+    path.reverse()
+    return path
+
+
+def _path_length(coords: List[Tuple[float, float]]) -> float:
+    total = 0.0
+    for i in range(len(coords) - 1):
+        total += _point_distance(coords[i], coords[i + 1])
+    return total
+
+
+def _normalize_roads(roads_geojson: Dict[str, Any]) -> List[List[Tuple[float, float]]]:
+    polylines: List[List[Tuple[float, float]]] = []
+    sample_coord = None
+    for feature in roads_geojson.get("features", [])[:1]:
+        geometry = feature.get("geometry", {})
+        coords = geometry.get("coordinates", [])
+        if coords:
+            if isinstance(coords[0], list) and len(coords[0]) >= 2:
+                sample_coord = coords[0]
+            elif len(coords) >= 2:
+                sample_coord = coords[0]
+            break
+
+    needs_conversion = False
+    if sample_coord:
+        needs_conversion = _is_wgs84_coords((float(sample_coord[0]), float(sample_coord[1])))
+
+    for feature in roads_geojson.get("features", []):
+        geometry = feature.get("geometry", {})
+        for part in _flatten_lines(geometry):
+            if len(part) < 2:
+                continue
+            coords = []
+            for p in part:
+                x, y = float(p[0]), float(p[1])
+                if needs_conversion:
+                    from phases.phase3e_connect_isolated_cables import convert_wgs84_to_utm_coords
+                    x, y = convert_wgs84_to_utm_coords(x, y, utm_zone=17)
+                coords.append((x, y))
+            if len(coords) >= 2:
+                polylines.append(coords)
+    return polylines
 
 def get_terminal_port_capacity(terminal: Dict[str, Any], config: Dict[str, Any]) -> int:
     """Get port capacity for a terminal based on its type and model."""
@@ -176,7 +346,8 @@ def create_stub_cables(
     terminals: List[Dict[str, Any]],
     foscs: List[Dict[str, Any]],
     config: Dict[str, Any],
-    fiber_cables: List[Dict[str, Any]] = None
+    fiber_cables: List[Dict[str, Any]] = None,
+    roads_geojson: Dict[str, Any] = None
 ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
     """
     Create stub cables from MST terminals to FOSCs.
@@ -197,14 +368,34 @@ def create_stub_cables(
     
     # Build FOSC position map
     fosc_positions = {}
+    fosc_meta = {}
     for fosc in foscs:
         fosc_id = fosc.get("fosc_id")
         fosc_pos = fosc.get("position")
         if fosc_id and fosc_pos:
             fosc_positions[fosc_id] = fosc_pos
+            fosc_meta[fosc_id] = {
+                "cable_count": fosc.get("cable_count", 0)
+            }
     
     print(f"    Loaded {len(fosc_positions)} FOSCs")
     
+    # Prepare road graph (optional)
+    road_nodes = None
+    road_adjacency = None
+    road_segments = None
+    if roads_geojson and roads_geojson.get("features"):
+        road_polylines = _normalize_roads(roads_geojson)
+        if road_polylines:
+            road_nodes, road_adjacency, road_segments = _build_road_graph(
+                road_polylines,
+                snap_tol=float(config.get("routing", {}).get("road_node_snap_m", 0.5))
+            )
+        else:
+            print("    ⚠️  No road polylines found; stub routing will use fiber only")
+    else:
+        print("    ⚠️  No road layer provided; stub routing will use fiber only")
+
     # Create stub cables for MST terminals
     stub_cables = []
     stub_cable_id_counter = 1
@@ -213,6 +404,8 @@ def create_stub_cables(
         "total_length_m": 0.0,
         "by_mst_type": defaultdict(int),
         "skipped_no_route": 0,
+        "routed_along_roads": 0,
+        "routed_along_fiber": 0,
         "length_stats": {
             "min": float('inf'),
             "max": 0.0,
@@ -221,6 +414,10 @@ def create_stub_cables(
         }
     }
     
+    routing_config = config.get("routing", {})
+    max_road_snap_m = float(routing_config.get("max_road_snap_m", 50.0))
+    max_fosc_candidates = int(routing_config.get("max_fosc_candidates", 8))
+    road_path_tolerance_m = float(routing_config.get("road_path_tolerance_m", 25.0))
     for terminal in terminals:
         terminal_type = terminal.get("type", "")
         if terminal_type != "MST":
@@ -261,9 +458,58 @@ def create_stub_cables(
                     target_fosc_id = fosc_id
                     target_fosc_pos = fosc_pos
         
-        # CRITICAL: If routing fails, try alternative FOSCs (same as Rule 20)
-        # This ensures we find a FOSC that can route along fiber
-        if fiber_cables and len(fiber_cables) > 0 and target_fosc_id:
+        # Road-based routing: choose shortest road path to a FOSC when roads are provided
+        road_path_coords = None
+        road_path_length = 0.0
+        if road_nodes and road_adjacency and road_segments:
+            # Build candidate list from nearest FOSCs
+            fosc_candidates = []
+            for fosc_id, fosc_pos in fosc_positions.items():
+                dist = _point_distance(terminal_pos, fosc_pos)
+                fosc_candidates.append((dist, fosc_id, fosc_pos, fosc_meta.get(fosc_id, {}).get("cable_count", 0)))
+            fosc_candidates.sort(key=lambda x: x[0])
+            fosc_candidates = fosc_candidates[:max_fosc_candidates]
+            # Ensure connected_fosc_id is included if available
+            if target_fosc_id and target_fosc_pos:
+                if all(fid != target_fosc_id for _, fid, _, _ in fosc_candidates):
+                    fosc_candidates.insert(0, (_point_distance(terminal_pos, target_fosc_pos), target_fosc_id, target_fosc_pos, fosc_meta.get(target_fosc_id, {}).get("cable_count", 0)))
+
+            best = None
+            for _, fosc_id, fosc_pos, cable_count in fosc_candidates:
+                start = _insert_projection_node(
+                    terminal_pos, road_nodes, road_adjacency, road_segments,
+                    snap_tol=float(routing_config.get("road_node_snap_m", 0.5)),
+                    max_snap_m=max_road_snap_m
+                )
+                end = _insert_projection_node(
+                    fosc_pos, road_nodes, road_adjacency, road_segments,
+                    snap_tol=float(routing_config.get("road_node_snap_m", 0.5)),
+                    max_snap_m=max_road_snap_m
+                )
+                if not start or not end:
+                    continue
+                path = _dijkstra(road_adjacency, start[0], end[0])
+                if not path or len(path) < 2:
+                    continue
+                coords = [road_nodes[n] for n in path]
+                # Add terminal and fosc endpoints if off-road
+                if _point_distance(terminal_pos, coords[0]) > 1.0:
+                    coords = [terminal_pos] + coords
+                if _point_distance(fosc_pos, coords[-1]) > 1.0:
+                    coords = coords + [fosc_pos]
+                length = _path_length(coords)
+                if best is None:
+                    best = (length, fosc_id, fosc_pos, coords, cable_count)
+                else:
+                    if length < best[0] - road_path_tolerance_m:
+                        best = (length, fosc_id, fosc_pos, coords, cable_count)
+                    elif abs(length - best[0]) <= road_path_tolerance_m and cable_count > best[4]:
+                        best = (length, fosc_id, fosc_pos, coords, cable_count)
+            if best:
+                road_path_length, target_fosc_id, target_fosc_pos, road_path_coords, _ = best
+
+        # CRITICAL: If road routing not available, fall back to fiber routing
+        if not road_path_coords and fiber_cables and len(fiber_cables) > 0 and target_fosc_id:
             try:
                 from utils.cable_routing import route_stub_cable_along_fiber
                 terminal_cable_id = terminal.get("connected_cable_id")
@@ -329,18 +575,22 @@ def create_stub_cables(
         # This is the key relationship: stub cable size = MST port count
         stub_size = mst_config.get(terminal_model, {}).get("ports", 12)
         
-        # CRITICAL: Route stub cable along fiber cable paths, not straight line
+        # CRITICAL: Route stub cable along roads when available, otherwise along fiber
         # Use fiber_cables parameter if provided, otherwise try to get from config
         if not fiber_cables:
             fiber_cables = config.get("fiber_cables", [])
         
-        # Route stub cable along fiber cables
-        # Use the same routing logic as Rule 20 (ensure_all_msts_connected_via_stub_cables)
         path_coords = None
         length = 0.0
         routed_along_cable = False
+        routed_along_roads = False
+
+        if road_path_coords:
+            path_coords = [[p[0], p[1]] for p in road_path_coords]
+            length = road_path_length
+            routed_along_roads = True
         
-        if fiber_cables and len(fiber_cables) > 0:
+        if not routed_along_roads and fiber_cables and len(fiber_cables) > 0:
             try:
                 from utils.cable_routing import route_stub_cable_along_fiber
                 terminal_cable_id = terminal.get("connected_cable_id")
@@ -368,7 +618,7 @@ def create_stub_cables(
         
         # If routing failed, try to find ANY nearby cable and route along it
         # This is a fallback to ensure stub cables always route along fiber when possible
-        if not path_coords or len(path_coords) < 2:
+        if not routed_along_roads and (not path_coords or len(path_coords) < 2):
             if fiber_cables and len(fiber_cables) > 0:
                 try:
                     from phases.phase3b_refine_mst_placement import find_nearest_point_on_cable
@@ -423,11 +673,10 @@ def create_stub_cables(
                     # If fallback also fails, continue to straight line
                     pass
             
-        # Final rule: stub cables must follow fiber cable paths
-        # If we cannot route along fiber, skip this stub cable
-        if not path_coords or len(path_coords) < 2 or not routed_along_cable:
+        # Final rule: stub cables must follow roads (preferred) or fiber if no roads
+        if not path_coords or len(path_coords) < 2 or (not routed_along_roads and not routed_along_cable):
             summary["skipped_no_route"] += 1
-            print(f"    ⚠️  Skipping stub cable for {terminal_id} → {target_fosc_id} (no fiber path)")
+            print(f"    ⚠️  Skipping stub cable for {terminal_id} → {target_fosc_id} (no valid road or fiber path)")
             continue
         
         # Create stub cable feature
@@ -441,6 +690,7 @@ def create_stub_cables(
             "size": stub_size,
             "length_m": length,
             "routed_along_cable": routed_along_cable,
+            "routed_along_roads": routed_along_roads,
             "geometry": {
                 "type": "LineString",
                 "coordinates": path_coords
@@ -452,6 +702,10 @@ def create_stub_cables(
         summary["total_stub_cables"] += 1
         summary["total_length_m"] += length
         summary["by_mst_type"][terminal_model] += 1
+        if routed_along_roads:
+            summary["routed_along_roads"] += 1
+        elif routed_along_cable:
+            summary["routed_along_fiber"] += 1
         
         # Update length stats
         if length < summary["length_stats"]["min"]:
@@ -476,6 +730,7 @@ def create_stub_cables(
     print(f"    Average length: {summary['length_stats']['average']:.1f}m")
     print(f"    Median length: {summary['length_stats']['median']:.1f}m")
     print(f"    By MST type: {dict(summary['by_mst_type'])}")
+    print(f"    Routed via roads: {summary['routed_along_roads']}, fiber: {summary['routed_along_fiber']}")
     if summary["skipped_no_route"] > 0:
         print(f"    ⚠️  Skipped {summary['skipped_no_route']} stub cables (no fiber path)")
     

@@ -685,7 +685,8 @@ def apply_all_optimization_rules(
     foscs: List[Dict[str, Any]],
     cables: List[Dict[str, Any]],
     ont_geojson: Dict[str, Any],
-    config: Dict[str, Any] = None
+    config: Dict[str, Any] = None,
+    roads_geojson: Dict[str, Any] = None
 ) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]], Dict[str, Any]]:
     """
     Apply all optimization rules in sequence.
@@ -783,7 +784,7 @@ def apply_all_optimization_rules(
     # Rule 7: Place FOSCs at cable junctions
     foscs_before_rule7 = len(filtered_foscs)
     filtered_foscs, new_junction_foscs = place_foscs_at_cable_junctions(
-        cables, filtered_foscs, optimized_terminals
+        cables, filtered_foscs, optimized_terminals, roads_geojson=roads_geojson
     )
     foscs_after_rule7 = len(filtered_foscs)
     summary["foscs_added_at_junctions"] = len(new_junction_foscs)
@@ -1088,7 +1089,8 @@ def fix_ont_to_fosc_connections(
 def place_foscs_at_cable_junctions(
     cables: List[Dict[str, Any]],
     existing_foscs: List[Dict[str, Any]],
-    terminals: List[Dict[str, Any]]
+    terminals: List[Dict[str, Any]],
+    roads_geojson: Dict[str, Any] = None
 ) -> Tuple[List[Dict[str, Any]], List[Dict[str, Any]]]:
     """
     Rule 7: Place FOSCs at cable junctions where multiple cables meet.
@@ -1235,6 +1237,95 @@ def place_foscs_at_cable_junctions(
     # For each junction, check if FOSC exists nearby
     new_foscs = []
     updated_foscs = existing_foscs.copy()
+
+    # Road-intersection-based junctions (preferred when roads are available)
+    if roads_geojson and roads_geojson.get("features"):
+        print("Using road intersections to detect junction FOSCs...")
+
+        def is_wgs84(point: Tuple[float, float]) -> bool:
+            return -180.0 <= point[0] <= 180.0 and -90.0 <= point[1] <= 90.0
+
+        def flatten_lines(geometry: Dict[str, Any]) -> List[List[Tuple[float, float]]]:
+            if geometry.get("type") == "LineString":
+                return [geometry.get("coordinates", [])]
+            if geometry.get("type") == "MultiLineString":
+                return geometry.get("coordinates", [])
+            return []
+
+        road_segments: List[Tuple[Tuple[float, float], Tuple[float, float]]] = []
+        for feature in roads_geojson.get("features", []):
+            geometry = feature.get("geometry", {})
+            for part in flatten_lines(geometry):
+                if len(part) < 2:
+                    continue
+                coords = []
+                for p in part:
+                    x, y = float(p[0]), float(p[1])
+                    if is_wgs84((x, y)):
+                        from phases.phase3e_connect_isolated_cables import convert_wgs84_to_utm_coords
+                        x, y = convert_wgs84_to_utm_coords(x, y, utm_zone=17)
+                    coords.append((x, y))
+                for i in range(len(coords) - 1):
+                    road_segments.append((coords[i], coords[i + 1]))
+
+        cable_segments_list = []
+        for idx, cable in enumerate(cables):
+            cable_id = cable.get("id") or f"cable_{idx}"
+            coords = cable.get("coordinates", [])
+            if len(coords) < 2:
+                continue
+            for i in range(len(coords) - 1):
+                cable_segments_list.append((coords[i], coords[i + 1], cable_id))
+
+        # Build candidate junction points: endpoints + segment intersections
+        candidate_points = []
+        for a1, a2 in road_segments:
+            candidate_points.append(a1)
+            candidate_points.append(a2)
+        for i in range(len(road_segments)):
+            a1, a2 = road_segments[i]
+            for j in range(i + 1, len(road_segments)):
+                b1, b2 = road_segments[j]
+                inter = segment_intersection(a1, a2, b1, b2)
+                if inter:
+                    candidate_points.append(inter)
+
+        # Deduplicate candidates
+        dedup = {}
+        snap_m = 5.0
+        for p in candidate_points:
+            key = (round(p[0] / snap_m), round(p[1] / snap_m))
+            if key not in dedup:
+                dedup[key] = p
+
+        # Place FOSCs at road junctions (degree >= 3) near 2+ cables
+        for point in dedup.values():
+            # Count road segments touching this point
+            road_touch = 0
+            for a, b in road_segments:
+                if point_to_segment_distance(point, a, b) <= 5.0:
+                    road_touch += 1
+            if road_touch < 3:
+                continue
+
+            cable_ids = set()
+            for a, b, cable_id in cable_segments_list:
+                if point_to_segment_distance(point, a, b) <= 10.0:
+                    cable_ids.add(cable_id)
+            if len(cable_ids) < 2:
+                continue
+            if fosc_or_terminal_near(point, tol=50.0):
+                continue
+            fosc_id = f"F{len(updated_foscs) + len(new_foscs) + 1:07d}"
+            new_foscs.append({
+                "fosc_id": fosc_id,
+                "position": [point[0], point[1]],
+                "connected_cables": list(cable_ids),
+                "created_by": "Rule 7 (road intersection)"
+            })
+            updated_foscs.append(new_foscs[-1])
+
+        print(f"Placed {len(new_foscs)} new FOSCs at road intersections")
     
     for segment_id, cable_ids in junctions.items():
         # Find cables that form this junction
@@ -1276,23 +1367,8 @@ def place_foscs_at_cable_junctions(
         if not junction_point:
             continue
         
-        # Check if FOSC already exists nearby (<50m)
-        fosc_exists = False
-        for fosc_pos in existing_fosc_positions.values():
-            dist = euclidean_distance(junction_point[0], junction_point[1], fosc_pos[0], fosc_pos[1])
-            if dist < 50.0:
-                fosc_exists = True
-                break
-        
-        # Check if terminal exists nearby (<50m) - might be serving as junction
-        terminal_exists = False
-        for term_pos in terminal_positions.values():
-            dist = euclidean_distance(junction_point[0], junction_point[1], term_pos[0], term_pos[1])
-            if dist < 50.0:
-                terminal_exists = True
-                break
-        
-        if not fosc_exists and not terminal_exists:
+        # Skip if a FOSC or terminal already exists nearby (<50m)
+        if not fosc_or_terminal_near(junction_point, tol=50.0):
             # Create new FOSC at junction
             fosc_id = f"F{segment_id}" if not segment_id.startswith("F") else f"F{segment_id[1:]}"
             # Ensure unique ID
@@ -1618,6 +1694,19 @@ def convert_terminal_to_fosc(
     merged_with_existing = []
     updated_terminals = terminals.copy()  # Work with copy to update connections
     
+    def point_to_segment_distance(p: Tuple[float, float], a: Tuple[float, float], b: Tuple[float, float]) -> float:
+        x0, y0 = p
+        x1, y1 = a
+        x2, y2 = b
+        dx = x2 - x1
+        dy = y2 - y1
+        if dx == 0 and dy == 0:
+            return euclidean_distance(x0, y0, x1, y1)
+        t = max(0.0, min(1.0, ((x0 - x1) * dx + (y0 - y1) * dy) / (dx * dx + dy * dy)))
+        px = x1 + t * dx
+        py = y1 + t * dy
+        return euclidean_distance(x0, y0, px, py)
+
     for terminal in updated_terminals:
         terminal_id = terminal.get("terminal_id", "")
         terminal_pos = terminal.get("position")
@@ -1686,6 +1775,21 @@ def convert_terminal_to_fosc(
         curvature_ratio = total_length / straight_distance if straight_distance > 0 else 1.0
         
         if curvature_ratio > 1.2:
+            # Require at least 2 nearby cables to justify FOSC
+            nearby_cables = set()
+            for other in cables:
+                other_id = other.get("id")
+                other_coords = other.get("coordinates", [])
+                if not other_coords or len(other_coords) < 2:
+                    continue
+                for i in range(len(other_coords) - 1):
+                    dist = point_to_segment_distance(term_pos_utm, other_coords[i], other_coords[i + 1])
+                    if dist <= 10.0:
+                        nearby_cables.add(other_id)
+                        break
+            if len(nearby_cables) < 2:
+                continue
+
             # Convert terminal to FOSC
             fosc_id = f"F{terminal_id[1:]}" if terminal_id.startswith("T") else f"F{terminal_id}"
             

@@ -365,7 +365,8 @@ def generate_design(ont_geojson_path: str,
             foscs,
             cables_list,
             ont_geojson,
-            config
+            config,
+            roads_geojson=design_state.get("roads")
         )
         
         terminals = optimized_terminals

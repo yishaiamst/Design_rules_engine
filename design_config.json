@@ -156,6 +156,28 @@
     },
     "cable_auto_extend": true,
     "description": "cable_auto_extend: If true, automatically extend cables to reach OLTs if they are within max_distance_to_fiber_route_km but not directly on the cable"
+  },
+
+  "routing": {
+    "drop_road_snap_m": 100.0,
+    "max_road_snap_m": 50.0,
+    "road_node_snap_m": 0.5,
+    "road_path_tolerance_m": 25.0,
+    "max_fosc_candidates": 8,
+    "description": "Routing settings. drop_road_snap_m controls ONT snap to road for drop cables."
+  },
+
+  "ont_generation": {
+    "enabled": false,
+    "provider": "osm_address",
+    "radius_km": 5.0,
+    "center_lat": null,
+    "center_lon": null,
+    "overpass_url": "https://overpass-api.de/api/interpreter",
+    "output_path": "ONT_generated.geojson",
+    "max_ms_tiles": 50,
+    "openaddresses_tile_url": "https://results.openaddresses.io/tiles/{lon}/{lat}.zip",
+    "description": "Generate ONT points from OSM addresses, OpenAddresses, or Microsoft Buildings."
   }
 }
 

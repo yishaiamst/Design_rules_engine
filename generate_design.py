@@ -507,18 +507,8 @@ def generate_design(ont_geojson_path: str,
             generate_drop_cable_geojson, generate_stub_cable_geojson
         )
         
-        # Create drop cables (Terminal → ONT)
-        drop_cables, drop_summary = create_drop_cables(
-            design_state.get("terminals", []),
-            ont_geojson,
-            config
-        )
-        design_state["drop_cables"] = drop_cables
-        
-        # Create stub cables (MST → FOSC)
-        # Pass fiber cables so stub cables can route along them
+        # Build fiber cable list for routing (drop + stub)
         # CRITICAL: Use ORIGINAL input cables (before sizing/ID updates) for routing
-        # This ensures stub cables route along the actual infrastructure paths
         fiber_cables_list = []
         # Try original input first (most reliable for routing)
         if fiber_cable_geojson and "features" in fiber_cable_geojson:
@@ -558,6 +548,20 @@ def generate_design(ont_geojson_path: str,
                         cable_id = props.get("ID", props.get("id", ""))
                         cable_dict["id"] = cable_id
                         fiber_cables_list.append(cable_dict)
+
+        # Create drop cables (Terminal → ONT)
+        drop_cables, drop_summary = create_drop_cables(
+            design_state.get("terminals", []),
+            ont_geojson,
+            config,
+            fiber_cables=fiber_cables_list,
+            roads_geojson=design_state.get("roads")
+        )
+        design_state["drop_cables"] = drop_cables
+        
+        # Create stub cables (MST → FOSC)
+        # Pass fiber cables so stub cables can route along them
+        # CRITICAL: Use ORIGINAL input cables (before sizing/ID updates) for routing
         
         roads_for_stub = design_state.get("roads")
         if roads_for_stub and roads_for_stub.get("features"):

@@ -47,6 +47,35 @@ def _nearest_point_on_segment(
     return (x1 + t * dx, y1 + t * dy)
 
 
+def _nearest_point_on_polyline(
+    point: Tuple[float, float],
+    polyline: List[Tuple[float, float]]
+) -> Tuple[Tuple[float, float], float]:
+    best = None
+    for i in range(len(polyline) - 1):
+        a = polyline[i]
+        b = polyline[i + 1]
+        q = _nearest_point_on_segment(point[0], point[1], a[0], a[1], b[0], b[1])
+        d = _point_distance(point, q)
+        if best is None or d < best[1]:
+            best = (q, d)
+    return best if best is not None else ((point[0], point[1]), float("inf"))
+
+
+def _nearest_point_on_roads(
+    point: Tuple[float, float],
+    road_polylines: List[List[Tuple[float, float]]]
+) -> Tuple[Tuple[float, float], float]:
+    best_point = (point[0], point[1])
+    best_dist = float("inf")
+    for poly in road_polylines:
+        q, d = _nearest_point_on_polyline(point, poly)
+        if d < best_dist:
+            best_dist = d
+            best_point = q
+    return best_point, best_dist
+
+
 def _add_node(
     point: Tuple[float, float],
     nodes: List[Tuple[float, float]],
@@ -205,7 +234,9 @@ def get_terminal_port_capacity(terminal: Dict[str, Any], config: Dict[str, Any])
 def create_drop_cables(
     terminals: List[Dict[str, Any]],
     ont_geojson: Dict[str, Any],
-    config: Dict[str, Any]
+    config: Dict[str, Any],
+    fiber_cables: List[Dict[str, Any]] = None,
+    roads_geojson: Dict[str, Any] = None
 ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
     """
     Create drop cables from terminals to ONTs.
@@ -239,6 +270,15 @@ def create_drop_cables(
     
     print(f"    Loaded {len(onts)} ONTs")
     
+    # Prepare road polylines (optional)
+    road_polylines: List[List[Tuple[float, float]]] = []
+    if roads_geojson and roads_geojson.get("features"):
+        road_polylines = _normalize_roads(roads_geojson)
+
+    routing_config = config.get("routing", {})
+    max_road_snap_m = float(routing_config.get("max_road_snap_m", 50.0))
+    drop_road_snap_m = float(routing_config.get("drop_road_snap_m", 500.0))
+
     # Create drop cables for each terminal
     drop_cables = []
     drop_cable_id_counter = 1
@@ -248,6 +288,9 @@ def create_drop_cables(
         "by_terminal_type": defaultdict(int),
         "terminals_at_capacity": 0,
         "onts_not_connected": 0,
+        "routed_along_cable": 0,
+        "routed_via_roads": 0,
+        "routing_fallbacks": 0,
         "length_stats": {
             "min": float('inf'),
             "max": 0.0,
@@ -284,13 +327,71 @@ def create_drop_cables(
                 continue
             
             ont_pos = onts[ont_id]["position"]
-            
-            # Calculate drop cable length
-            length = euclidean_distance(
-                terminal_pos[0], terminal_pos[1],
-                ont_pos[0], ont_pos[1]
-            )
-            
+
+            # Route: ONT -> nearest road/fiber point -> along fiber to terminal
+            path_coords = None
+            length = 0.0
+            routed_along_cable = False
+            routed_via_roads = False
+
+            # Determine whether to snap ONT to nearest road or nearest fiber
+            ont_anchor = ont_pos
+            if fiber_cables:
+                # Nearest fiber distance
+                from phases.phase3b_refine_mst_placement import find_nearest_point_on_cable
+                nearest_fiber_point = None
+                nearest_fiber_dist = float("inf")
+                for cable in fiber_cables:
+                    nearest_point, dist = find_nearest_point_on_cable(ont_pos, cable)
+                    if dist < nearest_fiber_dist:
+                        nearest_fiber_dist = dist
+                        nearest_fiber_point = nearest_point
+
+                if road_polylines:
+                    road_point, road_dist = _nearest_point_on_roads(ont_pos, road_polylines)
+                    if road_dist <= drop_road_snap_m and road_dist < nearest_fiber_dist:
+                        ont_anchor = road_point
+                        routed_via_roads = True
+
+            # Route along fiber from anchor to terminal
+            if fiber_cables and len(fiber_cables) > 0:
+                try:
+                    from utils.cable_routing import route_drop_cable_along_fiber
+                    terminal_cable_id = terminal.get("connected_cable_id")
+                    result = route_drop_cable_along_fiber(
+                        ont_anchor,
+                        terminal_pos,
+                        fiber_cables,
+                        terminal_cable_id=terminal_cable_id,
+                        max_search_distance=500.0
+                    )
+                    if result and len(result) == 3:
+                        path_coords, length, routed_along_cable = result
+                except Exception:
+                    path_coords = None
+
+            if not path_coords or len(path_coords) < 2:
+                # Fallback: straight line
+                path_coords = [ont_pos, terminal_pos]
+                length = euclidean_distance(
+                    terminal_pos[0], terminal_pos[1],
+                    ont_pos[0], ont_pos[1]
+                )
+                summary["routing_fallbacks"] += 1
+
+            # If we used a road anchor, prepend ONT position
+            if routed_via_roads and path_coords:
+                if _point_distance(ont_pos, path_coords[0]) > 1.0:
+                    path_coords = [ont_pos] + path_coords
+                    length = _path_length([(p[0], p[1]) for p in path_coords])
+
+            # Ensure geometry starts at terminal (From) and ends at ONT (To)
+            if path_coords and len(path_coords) >= 2:
+                start_dist = _point_distance(terminal_pos, path_coords[0])
+                end_dist = _point_distance(terminal_pos, path_coords[-1])
+                if end_dist < start_dist:
+                    path_coords = list(reversed(path_coords))
+
             # Create drop cable feature
             drop_cable_id = f"DC{drop_cable_id_counter:07d}"
             drop_cable = {
@@ -301,12 +402,11 @@ def create_drop_cables(
                 "to_type": "ont",
                 "size": default_drop_size,
                 "length_m": length,
+                "routed_along_cable": routed_along_cable,
+                "routed_via_roads": routed_via_roads,
                 "geometry": {
                     "type": "LineString",
-                    "coordinates": [
-                        [terminal_pos[0], terminal_pos[1]],
-                        [ont_pos[0], ont_pos[1]]
-                    ]
+                    "coordinates": [[p[0], p[1]] for p in path_coords]
                 }
             }
             
@@ -315,6 +415,10 @@ def create_drop_cables(
             summary["total_drop_cables"] += 1
             summary["total_length_m"] += length
             summary["by_terminal_type"][terminal_type] += 1
+            if routed_along_cable:
+                summary["routed_along_cable"] += 1
+            if routed_via_roads:
+                summary["routed_via_roads"] += 1
             
             # Update length stats
             if length < summary["length_stats"]["min"]:
@@ -339,6 +443,9 @@ def create_drop_cables(
     print(f"    Average length: {summary['length_stats']['average']:.1f}m")
     print(f"    Median length: {summary['length_stats']['median']:.1f}m")
     print(f"    By type: {dict(summary['by_terminal_type'])}")
+    print(f"    Routed along cable: {summary['routed_along_cable']}, via roads: {summary['routed_via_roads']}")
+    if summary["routing_fallbacks"] > 0:
+        print(f"    ⚠️  Routing fallbacks (straight line): {summary['routing_fallbacks']}")
     
     return (drop_cables, summary)
 

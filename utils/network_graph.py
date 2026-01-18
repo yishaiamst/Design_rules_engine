@@ -46,69 +46,50 @@ class NetworkGraph:
         return self.nodes[node_id]
     
     def add_cable(self, cable_idx: int, cable_data: Dict[str, Any]):
-        """Add a cable to the graph and create nodes at its endpoints."""
+        """Add a cable to the graph and create nodes along its geometry."""
         self.cables.append(cable_data)
         coords = cable_data.get("coordinates", [])
         if len(coords) < 2:
             return
-        
-        start = coords[0]
-        end = coords[-1]
-        
-        # Create nodes at endpoints
-        start_key = self._round_position(start)
-        end_key = self._round_position(end)
-        
-        start_node_id = f"cable_{cable_idx}_start"
-        end_node_id = f"cable_{cable_idx}_end"
-        
-        # Check if nodes already exist at these positions (junction)
-        existing_start = self._find_node_at_position(start, start_node_id)
-        existing_end = self._find_node_at_position(end, end_node_id)
-        
-        if existing_start:
-            start_node_id = existing_start
-            # Update existing node to include this cable
-            if cable_idx not in self.node_to_cables.get(start_node_id, []):
-                self.node_to_cables[start_node_id].append(cable_idx)
-        else:
-            self.add_node(start_node_id, "cable_endpoint", start, {"cable_idx": cable_idx, "endpoint": "start"})
-        
-        if existing_end:
-            end_node_id = existing_end
-            # Update existing node to include this cable
-            if cable_idx not in self.node_to_cables.get(end_node_id, []):
-                self.node_to_cables[end_node_id].append(cable_idx)
-        else:
-            self.add_node(end_node_id, "cable_endpoint", end, {"cable_idx": cable_idx, "endpoint": "end"})
-        
-        # Link cable to nodes
-        self.cable_to_nodes[cable_idx].extend([start_node_id, end_node_id])
-        self.node_to_cables[start_node_id].append(cable_idx)
-        self.node_to_cables[end_node_id].append(cable_idx)
-        
-        # Create edge between start and end (bidirectional)
-        start_node = self.nodes[start_node_id]
-        end_node = self.nodes[end_node_id]
-        
-        if (end_node_id, cable_idx, "forward") not in start_node.edges:
-            start_node.edges.append((end_node_id, cable_idx, "forward"))
-        if (start_node_id, cable_idx, "backward") not in end_node.edges:
-            end_node.edges.append((start_node_id, cable_idx, "backward"))
+
+        prev_node_id = None
+        for i, coord in enumerate(coords):
+            node_id = f"cable_{cable_idx}_{i}"
+            existing_node_id = self._find_node_at_position(coord, node_id)
+            if existing_node_id:
+                node_id = existing_node_id
+            else:
+                self.add_node(node_id, "cable_endpoint", coord, {"cable_idx": cable_idx, "index": i})
+
+            if cable_idx not in self.node_to_cables.get(node_id, []):
+                self.node_to_cables[node_id].append(cable_idx)
+            if node_id not in self.cable_to_nodes[cable_idx]:
+                self.cable_to_nodes[cable_idx].append(node_id)
+
+            if prev_node_id:
+                prev_node = self.nodes[prev_node_id]
+                curr_node = self.nodes[node_id]
+                if (node_id, cable_idx, "forward") not in prev_node.edges:
+                    prev_node.edges.append((node_id, cable_idx, "forward"))
+                if (prev_node_id, cable_idx, "backward") not in curr_node.edges:
+                    curr_node.edges.append((prev_node_id, cable_idx, "backward"))
+
+            prev_node_id = node_id
     
     def add_olt(self, olt_id: str, position: Tuple[float, float], data: Dict[str, Any] = None):
         """Add an OLT to the graph and connect it to nearest cable."""
         node = self.add_node(olt_id, "olt", position, data)
         
-        # Find nearest cable endpoint
-        nearest_cable_idx, nearest_node_id, distance = self._find_nearest_cable_node(position)
+        # Find nearest point on cable and connect via inserted node
+        nearest_cable_idx, seg_index, proj_point, distance = self._find_nearest_cable_point(position)
         if nearest_cable_idx is not None and distance <= self.tolerance_m * 2:
-            # Connect OLT to cable node
-            cable_node = self.nodes[nearest_node_id]
-            if (olt_id, nearest_cable_idx, "olt_connection") not in cable_node.edges:
-                cable_node.edges.append((olt_id, nearest_cable_idx, "olt_connection"))
-            if (nearest_node_id, nearest_cable_idx, "olt_connection") not in node.edges:
-                node.edges.append((nearest_node_id, nearest_cable_idx, "olt_connection"))
+            cable_node_id = self._insert_cable_node(nearest_cable_idx, seg_index, proj_point)
+            if cable_node_id:
+                cable_node = self.nodes[cable_node_id]
+                if (olt_id, nearest_cable_idx, "olt_connection") not in cable_node.edges:
+                    cable_node.edges.append((olt_id, nearest_cable_idx, "olt_connection"))
+                if (cable_node_id, nearest_cable_idx, "olt_connection") not in node.edges:
+                    node.edges.append((cable_node_id, nearest_cable_idx, "olt_connection"))
     
     def add_ont(self, ont_id: str, position: Tuple[float, float], terminal_id: Optional[str] = None, data: Dict[str, Any] = None):
         """Add an ONT to the graph and connect it to terminal or nearest cable."""
@@ -147,14 +128,16 @@ class NetworkGraph:
             if (terminal_node_id, None, "drop_cable") not in node.edges:
                 node.edges.append((terminal_node_id, None, "drop_cable"))
         else:
-            # Find nearest cable endpoint (for direct connection)
-            nearest_cable_idx, nearest_node_id, distance = self._find_nearest_cable_node(position)
+            # Find nearest point on cable (for direct connection)
+            nearest_cable_idx, seg_index, proj_point, distance = self._find_nearest_cable_point(position)
             if nearest_cable_idx is not None and distance <= self.tolerance_m * 2:
-                cable_node = self.nodes[nearest_node_id]
-                if (ont_id, nearest_cable_idx, "drop_cable") not in cable_node.edges:
-                    cable_node.edges.append((ont_id, nearest_cable_idx, "drop_cable"))
-                if (nearest_node_id, nearest_cable_idx, "drop_cable") not in node.edges:
-                    node.edges.append((nearest_node_id, nearest_cable_idx, "drop_cable"))
+                cable_node_id = self._insert_cable_node(nearest_cable_idx, seg_index, proj_point)
+                if cable_node_id:
+                    cable_node = self.nodes[cable_node_id]
+                    if (ont_id, nearest_cable_idx, "drop_cable") not in cable_node.edges:
+                        cable_node.edges.append((ont_id, nearest_cable_idx, "drop_cable"))
+                    if (cable_node_id, nearest_cable_idx, "drop_cable") not in node.edges:
+                        node.edges.append((cable_node_id, nearest_cable_idx, "drop_cable"))
     
     def add_fosc(self, fosc_id: str, position: Tuple[float, float], data: Dict[str, Any] = None):
         """Add a FOSC to the graph at a junction point."""
@@ -166,8 +149,19 @@ class NetworkGraph:
             node.type = "fosc"
             node.data.update(data or {})
             node.data["fosc_id"] = fosc_id
+            fosc_node_id = existing_node
         else:
             node = self.add_node(fosc_id, "fosc", position, data)
+            fosc_node_id = fosc_id
+
+        # Connect FOSC to all nearby cable nodes (projection-based)
+        nearby = self._find_cable_nodes_near(position, self.tolerance_m * 2)
+        for cable_idx, cable_node_id in nearby:
+            cable_node = self.nodes[cable_node_id]
+            if (fosc_node_id, cable_idx, "fosc_connection") not in cable_node.edges:
+                cable_node.edges.append((fosc_node_id, cable_idx, "fosc_connection"))
+            if (cable_node_id, cable_idx, "fosc_connection") not in node.edges:
+                node.edges.append((cable_node_id, cable_idx, "fosc_connection"))
     
     def add_terminal(self, terminal_id: str, position: Tuple[float, float], data: Dict[str, Any] = None):
         """Add a terminal to the graph at a junction point."""
@@ -179,8 +173,19 @@ class NetworkGraph:
             node.type = "terminal"
             node.data.update(data or {})
             node.data["terminal_id"] = terminal_id
+            terminal_node_id = existing_node
         else:
             node = self.add_node(terminal_id, "terminal", position, data)
+            terminal_node_id = terminal_id
+
+        # Connect terminal to nearby cable nodes (projection)
+        nearby = self._find_cable_nodes_near(position, self.tolerance_m * 2)
+        for cable_idx, cable_node_id in nearby:
+            cable_node = self.nodes[cable_node_id]
+            if (terminal_node_id, cable_idx, "terminal_connection") not in cable_node.edges:
+                cable_node.edges.append((terminal_node_id, cable_idx, "terminal_connection"))
+            if (cable_node_id, cable_idx, "terminal_connection") not in node.edges:
+                node.edges.append((cable_node_id, cable_idx, "terminal_connection"))
     
     def find_path_ont_to_olt(self, ont_id: str, olt_id: str) -> Optional[List[Tuple[str, int]]]:
         """
@@ -221,8 +226,8 @@ class NetworkGraph:
         ont_to_olt = {}
         for ont_feature in ont_geojson.get("features", []):
             ont_props = ont_feature.get("properties", {})
-            ont_id = ont_props.get("id") or ont_props.get("ont_id", "")
-            olt_id = ont_props.get("olt_id") or ont_props.get("oltid", "")
+            ont_id = ont_props.get("id") or ont_props.get("ID") or ont_props.get("ont_id", "")
+            olt_id = ont_props.get("olt_id") or ont_props.get("OLT_ID") or ont_props.get("oltid", "")
             
             if ont_id and olt_id:
                 ont_to_olt[ont_id] = olt_id
@@ -302,6 +307,134 @@ class NetworkGraph:
                         nearest_cable_idx = cable_indices[0]  # Use first cable at this node
         
         return nearest_cable_idx, nearest_node_id, min_dist
+
+    def _project_point_to_segment(
+        self,
+        point: Tuple[float, float],
+        seg_start: Tuple[float, float],
+        seg_end: Tuple[float, float]
+    ) -> Tuple[Tuple[float, float], float, float]:
+        """Project point onto a segment and return (projected_point, t, distance)."""
+        px, py = point
+        ax, ay = seg_start
+        bx, by = seg_end
+        vx = bx - ax
+        vy = by - ay
+        denom = vx * vx + vy * vy
+        if denom == 0:
+            proj = (ax, ay)
+            dist = euclidean_distance(px, py, ax, ay)
+            return proj, 0.0, dist
+        t = ((px - ax) * vx + (py - ay) * vy) / denom
+        t = max(0.0, min(1.0, t))
+        proj = (ax + t * vx, ay + t * vy)
+        dist = euclidean_distance(px, py, proj[0], proj[1])
+        return proj, t, dist
+
+    def _find_nearest_cable_point(
+        self,
+        position: Tuple[float, float]
+    ) -> Tuple[Optional[int], Optional[int], Optional[Tuple[float, float]], float]:
+        """Find nearest point on any cable segment."""
+        best_dist = float('inf')
+        best_cable_idx = None
+        best_seg_index = None
+        best_point = None
+        for cable_idx, cable in enumerate(self.cables):
+            coords = cable.get("coordinates", [])
+            seg_index, proj, dist = self._find_nearest_point_on_cable(position, coords)
+            if dist < best_dist:
+                best_dist = dist
+                best_cable_idx = cable_idx
+                best_seg_index = seg_index
+                best_point = proj
+        return best_cable_idx, best_seg_index, best_point, best_dist
+
+    def _find_nearest_point_on_cable(
+        self,
+        position: Tuple[float, float],
+        coords: List[Tuple[float, float]]
+    ) -> Tuple[Optional[int], Optional[Tuple[float, float]], float]:
+        """Find nearest point on a single cable polyline."""
+        if len(coords) < 2:
+            return None, None, float("inf")
+        best_dist = float("inf")
+        best_seg_index = None
+        best_point = None
+        for i in range(len(coords) - 1):
+            proj, _, dist = self._project_point_to_segment(position, coords[i], coords[i + 1])
+            if dist < best_dist:
+                best_dist = dist
+                best_seg_index = i
+                best_point = proj
+        return best_seg_index, best_point, best_dist
+
+    def _find_cable_nodes_near(
+        self,
+        position: Tuple[float, float],
+        max_dist: float
+    ) -> List[Tuple[int, str]]:
+        """Find or insert cable nodes near a position for all cables within max_dist."""
+        results = []
+        for cable_idx, cable in enumerate(self.cables):
+            coords = cable.get("coordinates", [])
+            seg_index, proj_point, dist = self._find_nearest_point_on_cable(position, coords)
+            if dist <= max_dist and seg_index is not None and proj_point is not None:
+                cable_node_id = self._insert_cable_node(cable_idx, seg_index, proj_point)
+                if cable_node_id:
+                    results.append((cable_idx, cable_node_id))
+        return results
+
+    def _insert_cable_node(
+        self,
+        cable_idx: int,
+        seg_index: int,
+        position: Tuple[float, float]
+    ) -> Optional[str]:
+        """Insert a cable node at a projected position along a segment."""
+        if cable_idx not in self.cable_to_nodes:
+            return None
+        nodes = self.cable_to_nodes[cable_idx]
+        if not nodes:
+            return None
+        if len(nodes) < 2:
+            node_id = nodes[0]
+            if cable_idx not in self.node_to_cables.get(node_id, []):
+                self.node_to_cables[node_id].append(cable_idx)
+            return node_id
+        if seg_index is None or seg_index >= len(nodes) - 1:
+            return nodes[-1]
+        node_id = self._find_node_at_position(position)
+        if not node_id:
+            node_id = f"cable_{cable_idx}_p{len(nodes)}"
+            self.add_node(node_id, "cable_endpoint", position, {"cable_idx": cable_idx, "index": seg_index})
+        if cable_idx not in self.node_to_cables.get(node_id, []):
+            self.node_to_cables[node_id].append(cable_idx)
+        if node_id in nodes:
+            return node_id
+        # Insert into cable path and connect edges
+        nodes.insert(seg_index + 1, node_id)
+        start_id = nodes[seg_index]
+        end_id = nodes[seg_index + 2]
+        if start_id == end_id or node_id in (start_id, end_id):
+            return node_id
+
+        def _remove_edge(a: str, b: str):
+            node = self.nodes[a]
+            node.edges = [e for e in node.edges if not (e[0] == b and e[1] == cable_idx)]
+
+        def _add_edge(a: str, b: str, direction: str):
+            node = self.nodes[a]
+            if (b, cable_idx, direction) not in node.edges:
+                node.edges.append((b, cable_idx, direction))
+
+        _remove_edge(start_id, end_id)
+        _remove_edge(end_id, start_id)
+        _add_edge(start_id, node_id, "forward")
+        _add_edge(node_id, start_id, "backward")
+        _add_edge(node_id, end_id, "forward")
+        _add_edge(end_id, node_id, "backward")
+        return node_id
     
     def get_junctions(self) -> Dict[Tuple[float, float], List[str]]:
         """Get all junction points (where 2+ cables meet)."""

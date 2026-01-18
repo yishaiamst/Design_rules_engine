@@ -160,18 +160,27 @@ def add_drop_cables_to_graph(
         if ont_id not in graph.nodes:
             graph.add_node(ont_id, "ont", ont_pos, {"ont_id": ont_id})
         
-        # Ensure terminal node exists (should already exist from Phase 3)
+        # Ensure terminal node exists (may be snapped onto a cable node)
         terminal_pos = coords[-1]
+        terminal_node_id = terminal_id
         if terminal_id not in graph.nodes:
-            graph.add_node(terminal_id, "terminal", terminal_pos, {"terminal_id": terminal_id})
+            # Try to find terminal by matching data on existing nodes
+            for node_id, node in graph.nodes.items():
+                if node.type == "terminal":
+                    term_id = node.data.get("terminal_id") or node.data.get("id", "")
+                    if term_id == terminal_id:
+                        terminal_node_id = node_id
+                        break
+        if terminal_node_id not in graph.nodes:
+            graph.add_node(terminal_node_id, "terminal", terminal_pos, {"terminal_id": terminal_id})
         
         # Create edge between ONT and terminal
         ont_node = graph.nodes[ont_id]
-        terminal_node = graph.nodes[terminal_id]
+        terminal_node = graph.nodes[terminal_node_id]
         
         # Add edge from ONT to terminal
-        if (terminal_id, None, "drop_cable") not in ont_node.edges:
-            ont_node.edges.append((terminal_id, None, "drop_cable"))
+        if (terminal_node_id, None, "drop_cable") not in ont_node.edges:
+            ont_node.edges.append((terminal_node_id, None, "drop_cable"))
         
         # Add edge from terminal to ONT
         if (ont_id, None, "drop_cable") not in terminal_node.edges:

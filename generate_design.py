@@ -133,6 +133,13 @@ def generate_design(ont_geojson_path: str,
     
     ont_count = len(ont_geojson.get("features", []))
     cable_count = len(fiber_cable_geojson.get("features", []))
+
+    # Ensure ONTs have a stable id field for downstream graph logic
+    for feature in ont_geojson.get("features", []):
+        props = feature.get("properties", {})
+        ont_id = props.get("ID") or props.get("id", "")
+        if ont_id and "id" not in props:
+            props["id"] = ont_id
     
     print(f"  ✓ Loaded {ont_count} ONTs from {ont_geojson_path}")
     print(f"  ✓ Loaded {cable_count} fiber cable segments from {fiber_cable_geojson_path}")
@@ -292,6 +299,11 @@ def generate_design(ont_geojson_path: str,
         
         print(f"  ✓ Placed {len(terminals)} terminals")
         print(f"  ✓ Total FOSCs: {len(foscs)}")
+
+        # Save ONTs with updated OLT association
+        ont_output_path = os.path.join(output_dir, "ONT.geojson")
+        save_geojson(ont_geojson, ont_output_path)
+        print(f"  ✓ Saved ONTs with OLT_ID to {ont_output_path}")
         
     except ImportError as e:
         print(f"  ⏳ Phase 3 not yet implemented: {e}")
@@ -383,6 +395,46 @@ def generate_design(ont_geojson_path: str,
         with open(optimization_summary_path, "w") as f:
             json.dump(optimization_summary, f, indent=2)
         print(f"  ✓ Saved optimization summary to {optimization_summary_path}")
+
+        # Align OLTs to the nearest high-intersection FOSC (for sizing paths)
+        if foscs and olts:
+            fosc_candidates = []
+            for fosc in foscs:
+                fosc_id = fosc.get("fosc_id") or fosc.get("ID") or ""
+                pos = fosc.get("position")
+                if not fosc_id or not pos:
+                    continue
+                cable_count = fosc.get("cable_count")
+                if cable_count is None:
+                    connected = fosc.get("connected_cables", [])
+                    cable_count = len(connected) if connected else 0
+                fosc_candidates.append((fosc_id, pos, cable_count))
+
+            if fosc_candidates:
+                max_count = max(c[2] for c in fosc_candidates)
+                top_foscs = [c for c in fosc_candidates if c[2] == max_count]
+                for olt in olts:
+                    olt_pos = olt.get("position")
+                    if not olt_pos:
+                        continue
+                    best = None
+                    for fosc_id, pos, _ in top_foscs:
+                        dist = ((olt_pos[0] - pos[0]) ** 2 + (olt_pos[1] - pos[1]) ** 2) ** 0.5
+                        if best is None or dist < best[0]:
+                            best = (dist, fosc_id, pos)
+                    if best:
+                        _, fosc_id, pos = best
+                        olt["position"] = [pos[0], pos[1]]
+                        olt["placed_at_fosc_id"] = fosc_id
+                # Re-save OLT GeoJSON with updated positions
+                try:
+                    from phases.phase1_place_olts import generate_olt_geojson
+                    olt_geojson = generate_olt_geojson(olts)
+                    olt_output_path = os.path.join(output_dir, "OLT.geojson")
+                    save_geojson(olt_geojson, olt_output_path)
+                    print("  ✓ Updated OLT positions at FOSCs")
+                except Exception:
+                    pass
         
     except ImportError as e:
         print(f"  ⏳ Phase 3c not available: {e}")
@@ -629,7 +681,7 @@ def generate_design(ont_geojson_path: str,
         foscs_for_sizing = design_state.get("foscs", foscs) if "foscs" in design_state else foscs
         terminals_for_sizing = design_state.get("terminals", terminals) if "terminals" in design_state else terminals
         
-        sized_cables, sizing_summary = size_cables(
+        sized_cables, sizing_summary, graph_debug = size_cables(
             cables_for_sizing,
             foscs_for_sizing,
             terminals_for_sizing,
@@ -726,6 +778,12 @@ def generate_design(ont_geojson_path: str,
                 "sized_cables": sized_cables
             }, f, indent=2)
         print(f"  ✓ Saved cable sizing summary to {sizing_summary_path}")
+
+        # Save cable graph debug data
+        graph_debug_path = os.path.join(output_dir, "cable_graph_debug.json")
+        with open(graph_debug_path, "w") as f:
+            json.dump(graph_debug, f, indent=2)
+        print(f"  ✓ Saved cable graph debug to {graph_debug_path}")
         
         # Rule 23 (Post-Phase 6): Skipped
         # Isolation is handled by pre-processing the input fiber cable file.
@@ -754,18 +812,48 @@ def generate_design(ont_geojson_path: str,
             if cable_id:
                 input_cable_ids.add(cable_id)
 
-        # Build map of current cables by ID
-        current_cable_by_id = {}
+        # Build map of current cables by geometry (endpoint pairs)
+        def _geometry_key(feature):
+            geom = feature.get("geometry", {})
+            coords = geom.get("coordinates", [])
+            if not coords or len(coords) < 2:
+                return None, None
+            if isinstance(coords[0], (list, tuple)) and len(coords[0]) == 2:
+                start = tuple(coords[0][:2])
+                end = tuple(coords[-1][:2])
+            else:
+                # Handle nested coordinates
+                start = tuple(coords[0][0][:2]) if coords and coords[0] else None
+                end = tuple(coords[-1][-1][:2]) if coords and coords[-1] else None
+            if not start or not end:
+                return None, None
+            return (start, end), (end, start)
+
+        current_cable_by_key = {}
         for feature in sized_cable_geojson.get("features", []):
-            cable_id = feature.get("properties", {}).get("ID", "")
-            if cable_id:
-                current_cable_by_id[cable_id] = feature
+            key1, key2 = _geometry_key(feature)
+            if key1:
+                current_cable_by_key[key1] = feature
+                current_cable_by_key[key2] = feature
+        existing_original_ids = {
+            f.get("properties", {}).get("original_id")
+            for f in sized_cable_geojson.get("features", [])
+            if f.get("properties", {}).get("original_id")
+        }
 
         # Add missing input cables
         preserved_count = 0
         for feature in fiber_cable_geojson.get("features", []):
             cable_id = feature.get("properties", {}).get("ID", "")
-            if cable_id and cable_id not in current_cable_by_id:
+            orig_id = feature.get("properties", {}).get("original_id") or cable_id
+            key1, key2 = _geometry_key(feature)
+            if (
+                cable_id
+                and key1
+                and key1 not in current_cable_by_key
+                and key2 not in current_cable_by_key
+                and orig_id not in existing_original_ids
+            ):
                 preserved_feature = feature.copy()
                 props = preserved_feature.get("properties", {})
                 if "Size" not in props and "FiberCount" not in props:
@@ -782,6 +870,31 @@ def generate_design(ont_geojson_path: str,
 
         if preserved_count > 0:
             print(f"      ✓ Re-preserved {preserved_count} input cables")
+
+        # Normalize cable IDs to include size prefix
+        infrastructure_config = config.get("cables", {}).get("infrastructure_cable", {})
+        standard_sizes = infrastructure_config.get("standard_sizes", [12, 24, 48, 72, 96, 144, 288])
+        min_infrastructure_size = min(standard_sizes) if standard_sizes else 12
+
+        for feature in sized_cable_geojson.get("features", []):
+            props = feature.get("properties", {})
+            size = props.get("FiberCount")
+            if not size:
+                size_str = str(props.get("Size", "")).replace("F", "")
+                try:
+                    size = int(size_str)
+                except Exception:
+                    size = None
+            if not size or size <= 0:
+                size = min_infrastructure_size
+            props["Size"] = f"{size}F"
+            props["FiberCount"] = size
+
+            from_id = props.get("from_id") or props.get("From") or "UNKNOWN"
+            to_id = props.get("to_id") or props.get("To") or "UNKNOWN"
+            cable_id = props.get("ID", "")
+            if "FOC/" not in cable_id:
+                props["ID"] = f"{size}FOC/{from_id}/{to_id}"
 
         # Remove duplicate/parallel cables (geometry-based detection)
         print("    Removing duplicate parallel cables...")
@@ -844,6 +957,11 @@ def generate_design(ont_geojson_path: str,
                              (dist_start_end < 5.0 and dist_end_start < 5.0)
 
                 if is_parallel:
+                    # Preserve parallel cables that originate from different input IDs
+                    orig1 = feat1.get("properties", {}).get("original_id")
+                    orig2 = feat2.get("properties", {}).get("original_id")
+                    if orig1 and orig2 and orig1 != orig2:
+                        continue
                     # Prefer input cables, then prefer specific cables (e.g., T0000019/F0000013 over F0000012/F0000013)
                     is_input1 = cable_id1 in input_cable_ids
                     is_input2 = cable_id2 in input_cable_ids

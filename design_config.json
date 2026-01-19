@@ -107,7 +107,7 @@
     "service_per_ont_gbps": 1.0,
     "olt_port_capacity_gbps": 1.0,
     "oversubscription_ratios": [8, 16, 32, 64],
-    "default_oversubscription": 32,
+    "default_oversubscription": 1,
     "max_subscribers_per_port": 256,
     "future_growth_percentage": 10.0,
     "description": "Service configuration for capacity planning. max_subscribers_per_port is a hard limit regardless of service level."
@@ -126,6 +126,7 @@
     "infrastructure_cable": {
       "standard_sizes": [12, 24, 48, 72, 96, 144, 288],
       "default_size_override": null,
+      "size_selection": "max",
       "max_size": 288,
       "description": "Infrastructure cables are multiples of 12F. default_size_override: If set (e.g., 96), all infrastructure cables will use this size (takes priority over formula). max_size: Maximum cable size allowed (default 288F)."
     }

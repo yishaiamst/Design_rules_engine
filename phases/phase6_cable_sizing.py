@@ -288,19 +288,11 @@ def split_cables_by_junctions(
     tolerance_m: float = 10.0
 ) -> Dict[str, Any]:
     """
-    Split cables wherever they cross a FOSC or terminal position.
+    Split cables wherever they cross a FOSC position.
     """
     junctions = []
     for fosc in foscs:
         pos = fosc.get("position")
-        if pos:
-            junctions.append(tuple(pos))
-    for terminal in terminals:
-        pos = terminal.get("position")
-        if pos:
-            junctions.append(tuple(pos))
-    for olt in olts:
-        pos = olt.get("position")
         if pos:
             junctions.append(tuple(pos))
 
@@ -363,6 +355,117 @@ def split_cables_by_junctions(
             features.append(create_feature(geometry, new_props))
 
     return create_feature_collection(features, crs="EPSG:32617")
+
+def merge_cables_without_fosc(
+    fiber_cable_geojson: Dict[str, Any],
+    foscs: List[Dict[str, Any]],
+    tolerance_m: float = 10.0
+) -> Dict[str, Any]:
+    """
+    Merge cable segments that meet at endpoints where there is no FOSC.
+    This prevents false breaks when input cables are split without a FOSC.
+    """
+    fosc_positions = []
+    for fosc in foscs or []:
+        pos = fosc.get("position")
+        if pos:
+            fosc_positions.append((pos[0], pos[1]))
+
+    def is_fosc_near(pt):
+        for fx, fy in fosc_positions:
+            if euclidean_distance(pt[0], pt[1], fx, fy) <= tolerance_m:
+                return True
+        return False
+
+    def coord_key(pt):
+        return (int(pt[0] / tolerance_m), int(pt[1] / tolerance_m))
+
+    features = fiber_cable_geojson.get("features", [])
+    changed = True
+    angle_tol_deg = 20.0
+    while changed:
+        changed = False
+        # Build endpoint index per original_id
+        endpoint_map = defaultdict(list)  # key -> [(feat_idx, is_start)]
+        for idx, feat in enumerate(features):
+            coords = feat.get("geometry", {}).get("coordinates", [])
+            if len(coords) < 2:
+                continue
+            start = coords[0][:2]
+            end = coords[-1][:2]
+            endpoint_map[coord_key(start)].append((idx, True))
+            endpoint_map[coord_key(end)].append((idx, False))
+
+        merge_pair = None
+        for key, endpoints in endpoint_map.items():
+            if len(endpoints) != 2:
+                continue
+            # Only consider the first pair found for a simple iterative merge
+            (idx_a, a_is_start), (idx_b, b_is_start) = endpoints[0], endpoints[1]
+            if idx_a == idx_b:
+                continue
+            coords_a = features[idx_a].get("geometry", {}).get("coordinates", [])
+            coords_b = features[idx_b].get("geometry", {}).get("coordinates", [])
+            if len(coords_a) < 2 or len(coords_b) < 2:
+                continue
+            shared = coords_a[0][:2] if a_is_start else coords_a[-1][:2]
+            if is_fosc_near(shared):
+                continue
+            # Check collinearity at shared endpoint to avoid merging branches
+            other_a = coords_a[1][:2] if a_is_start else coords_a[-2][:2]
+            other_b = coords_b[1][:2] if b_is_start else coords_b[-2][:2]
+            va = (other_a[0] - shared[0], other_a[1] - shared[1])
+            vb = (other_b[0] - shared[0], other_b[1] - shared[1])
+            mag_a = math.hypot(va[0], va[1])
+            mag_b = math.hypot(vb[0], vb[1])
+            if mag_a == 0 or mag_b == 0:
+                continue
+            cosang = (va[0] * vb[0] + va[1] * vb[1]) / (mag_a * mag_b)
+            cosang = max(-1.0, min(1.0, cosang))
+            angle = math.degrees(math.acos(cosang))
+            if abs(180.0 - angle) > angle_tol_deg:
+                continue
+            merge_pair = (idx_a, a_is_start, idx_b, b_is_start)
+            break
+
+        if not merge_pair:
+            break
+
+        idx_a, a_is_start, idx_b, b_is_start = merge_pair
+        feat_a = features[idx_a]
+        feat_b = features[idx_b]
+        coords_a = feat_a.get("geometry", {}).get("coordinates", [])
+        coords_b = feat_b.get("geometry", {}).get("coordinates", [])
+
+        # Orient segments to connect at shared endpoint
+        if a_is_start:
+            coords_a = list(reversed(coords_a))
+        if b_is_start:
+            coords_b = coords_b
+        else:
+            coords_b = list(reversed(coords_b))
+
+        # Merge, dropping duplicate shared point
+        merged_coords = coords_a + coords_b[1:]
+        feat_a["geometry"]["coordinates"] = merged_coords
+        # Preserve merged original IDs when combining different sources
+        props_a = feat_a.get("properties", {})
+        props_b = feat_b.get("properties", {})
+        orig_a = props_a.get("original_id") or props_a.get("ID") or props_a.get("id")
+        orig_b = props_b.get("original_id") or props_b.get("ID") or props_b.get("id")
+        if orig_a and orig_b and orig_a != orig_b:
+            merged = list(dict.fromkeys([orig_a, orig_b]))
+            props_a["merged_original_ids"] = merged
+
+        # Remove feature b
+        features.pop(idx_b)
+        changed = True
+
+    return {
+        "type": "FeatureCollection",
+        "features": features,
+        "crs": fiber_cable_geojson.get("crs")
+    }
 
 def build_cable_network_from_geometry(
     cables: List[Dict[str, Any]],
@@ -514,6 +617,7 @@ def size_cables(
     default_size_override = infrastructure_config.get("default_size_override")  # User override (e.g., 96F)
     max_size = infrastructure_config.get("max_size", 288)  # Maximum cable size (default 288F)
     min_infrastructure_size = min(standard_sizes) if standard_sizes else 12
+    size_selection = infrastructure_config.get("size_selection", "max")  # min|max|formula_only
     
     # Check if user wants to override all cable sizes
     if default_size_override is not None:
@@ -525,6 +629,9 @@ def size_cables(
     print("    Extracting cables (preserving all input cables as constraints)...")
     fiber_cable_geojson = split_cables_by_junctions(
         fiber_cable_geojson, foscs or [], terminals or [], olts or [], tolerance_m=10.0
+    )
+    fiber_cable_geojson = merge_cables_without_fosc(
+        fiber_cable_geojson, foscs or [], tolerance_m=10.0
     )
     # Remove duplicate/overlapping cable segments by geometry within same original_id
     deduped_features = []
@@ -582,6 +689,24 @@ def size_cables(
                 })
     
     print(f"    Loaded {len(cables)} cables ({len(input_cable_ids)} input cables) ({time.time() - start_time:.1f}s)")
+
+    def _extract_size_hint(props: Dict[str, Any], cable_id: str) -> Optional[int]:
+        if not props:
+            props = {}
+        if "FiberCount" in props and isinstance(props["FiberCount"], (int, float)):
+            return int(props["FiberCount"])
+        if "Size" in props:
+            size_str = str(props["Size"]).replace("F", "").replace("FOC", "")
+            if size_str.isdigit():
+                return int(size_str)
+        if cable_id and "FOC" in cable_id:
+            try:
+                size_part = cable_id.split("FOC")[0]
+                if size_part.isdigit():
+                    return int(size_part)
+            except Exception:
+                pass
+        return None
     
     # Check if default_size_override is set - if so, use it for all cables
     if default_size_override is not None:
@@ -657,24 +782,63 @@ def size_cables(
     cable_ont_counts = defaultdict(int)  # cable_idx -> total ONT count
     cable_olt_info = defaultdict(list)  # cable_idx -> [olt_info] (for tracking)
 
+    # Build geometry key map for deduping identical paths
+    def _geometry_key(coords, precision=3):
+        rounded = tuple((round(p[0], precision), round(p[1], precision)) for p in coords)
+        rev = tuple(reversed(rounded))
+        return min(rounded, rev)
+
+    cable_geom_key = {}
+    for c in cables:
+        coords = c.get("coordinates", [])
+        idx = c.get("index")
+        if idx is None or len(coords) < 2:
+            continue
+        cable_geom_key[idx] = _geometry_key(coords)
+
+    # Build unique ONT->OLT paths by geometry sequence
+    unique_paths = {}
     for ont_id, path in ont_to_olt_paths.items():
         ont_count = ont_counts.get(ont_id, 1)
-        cable_indices = graph.get_cables_on_path(path)
 
-        # Find OLT for this ONT
-        ont_feature = None
-        for feature in ont_geojson.get("features", []):
-            props = feature.get("properties", {})
-            if (props.get("id") or props.get("ont_id", "")) == ont_id:
-                ont_feature = feature
-                break
-        olt_id = None
-        if ont_feature:
-            props = ont_feature.get("properties", {})
-            olt_id = props.get("olt_id") or props.get("OLT_ID") or props.get("oltid", "")
+        ordered = []
+        seen = set()
+        for _, cable_idx in path:
+            if cable_idx is None or cable_idx in seen:
+                continue
+            seen.add(cable_idx)
+            ordered.append(cable_idx)
 
-        for cable_idx in cable_indices:
-            cable_ont_counts[cable_idx] += ont_count
+        geom_seq = tuple(cable_geom_key.get(i) for i in ordered if i in cable_geom_key)
+        if not geom_seq:
+            continue
+
+        if geom_seq not in unique_paths:
+            unique_paths[geom_seq] = {
+                "ordered": ordered,
+                "ont_count": 0,
+                "olt_id": None
+            }
+        unique_paths[geom_seq]["ont_count"] += ont_count
+
+        # Resolve OLT for this ONT (first seen wins)
+        if unique_paths[geom_seq]["olt_id"] is None:
+            ont_feature = None
+            for feature in ont_geojson.get("features", []):
+                props = feature.get("properties", {})
+                if (props.get("id") or props.get("ont_id", "")) == ont_id:
+                    ont_feature = feature
+                    break
+            if ont_feature:
+                props = ont_feature.get("properties", {})
+                unique_paths[geom_seq]["olt_id"] = props.get("olt_id") or props.get("OLT_ID") or props.get("oltid", "")
+
+    # Apply counts across unique paths
+    for info in unique_paths.values():
+        group_count = info["ont_count"]
+        olt_id = info.get("olt_id")
+        for cable_idx in info["ordered"]:
+            cable_ont_counts[cable_idx] += group_count
             if olt_id:
                 existing_olt_ids = {o.get("olt_id") for o in cable_olt_info.get(cable_idx, [])}
                 if olt_id not in existing_olt_ids:
@@ -687,6 +851,7 @@ def size_cables(
 
     # Always aggregate by cable connectivity to enforce direction toward OLT
     ont_feature_count = len(ont_geojson.get("features", []))
+    cable_direct_counts = defaultdict(int)
     if ont_feature_count:
         # Build ONT -> OLT map
         ont_to_olt = {}
@@ -698,7 +863,6 @@ def size_cables(
                 ont_to_olt[ont_id] = olt_id
 
         # Direct ONT counts per cable from terminals
-        cable_direct_counts = defaultdict(int)
         for terminal in terminals:
             cable_id = terminal.get("connected_cable_id")
             if not cable_id:
@@ -872,6 +1036,9 @@ def size_cables(
         olt_connections = cable_olt_info.get(cable_idx, [])
         total_onts = cable_ont_counts.get(cable_idx, 0)
         
+        cable_id = cable.get("id", "")
+        size_hint = _extract_size_hint(cable.get("properties", {}), cable_id)
+
         if required_fibers > 0:
             # Select smallest standard size that meets fiber requirement
             # Ensure minimum infrastructure size (48F)
@@ -879,42 +1046,52 @@ def size_cables(
             
             matching_sizes = [s for s in standard_sizes if s >= required_fibers]
             if matching_sizes:
-                cable_size = min(matching_sizes)
+                computed_size = min(matching_sizes)
             else:
                 # Exceeds largest size - use multiple cables or largest size
-                cable_size = max(standard_sizes)
+                computed_size = max(standard_sizes)
             
-            # Cap at max_size
+            # Combine computed size with size hint if present
+            if size_hint and size_selection in ("min", "max"):
+                if size_selection == "min":
+                    cable_size = min(computed_size, size_hint)
+                else:
+                    cable_size = max(computed_size, size_hint)
+            else:
+                cable_size = computed_size
+            
+            # Enforce bounds
+            cable_size = max(cable_size, min_infrastructure_size)
             cable_size = min(cable_size, max_size)
-            
-            sized_cable = {
-                "index": cable_idx,
-                "original_id": cable.get("id", ""),
-                "coordinates": cable["coordinates"],
-                "fiber_count": cable_size,
-                "required_fibers": required_fibers,
-                "downstream_onts": total_onts,
-                "olt_connections": olt_connections,
-                "connected_olts": [olt.get("olt_id") for olt in olt_connections],
-                "sizing_method": "graph_path_based",
-                "properties": cable.get("properties", {}),
-                "extended": False
-            }
         else:
             # No OLT connection - use minimum infrastructure size (48F)
-            sized_cable = {
-                "index": cable_idx,
-                "original_id": cable.get("id", ""),
-                "coordinates": cable["coordinates"],
-                "fiber_count": min_infrastructure_size,
-                "required_fibers": 0,
-                "downstream_onts": 0,
-                "olt_connections": [],
-                "connected_olts": [],
-                "sizing_method": "minimum_default",
-                "properties": cable.get("properties", {}),
-                "extended": False
-            }
+            cable_size = min_infrastructure_size
+            if size_hint and size_selection in ("min", "max"):
+                if size_selection == "min":
+                    cable_size = max(min_infrastructure_size, min(cable_size, size_hint))
+                else:
+                    cable_size = max(cable_size, size_hint)
+            cable_size = min(cable_size, max_size)
+            required_fibers = 0
+            total_onts = 0
+            olt_connections = []
+
+        sized_cable = {
+            "index": cable_idx,
+            "original_id": cable.get("properties", {}).get("original_id") or cable.get("id", ""),
+            "coordinates": cable["coordinates"],
+            "fiber_count": cable_size,
+            "required_fibers": required_fibers,
+            "downstream_onts": total_onts,
+            "associated_onts": cable_direct_counts.get(cable_idx, 0),
+            "aggregated_onts": total_onts,
+            "olt_connections": olt_connections,
+            "connected_olts": [olt.get("olt_id") for olt in olt_connections],
+            "sizing_method": "graph_path_based" if required_fibers > 0 else "minimum_default",
+            "properties": cable.get("properties", {}),
+            "is_input_cable": cable.get("is_input_cable", False),
+            "extended": False
+        }
         
         # Enforce a non-zero size for all cables
         if sized_cable.get("fiber_count", 0) <= 0:
@@ -1321,6 +1498,73 @@ def size_cables(
     # Input cable geometries are constraints - they must remain, but IDs/sizes can change
     print("  Assigning cable IDs...")
     sized_cables = assign_cable_ids(sized_cables, foscs, terminals, olts)
+
+    # Propagate ONT counts across duplicate geometries (same coordinates)
+    # This keeps input duplicates consistent when only one copy appears on BFS paths.
+    def _geometry_key(coords, precision=3):
+        rounded = tuple((round(p[0], precision), round(p[1], precision)) for p in coords)
+        rev = tuple(reversed(rounded))
+        return min(rounded, rev)
+
+    geom_groups = defaultdict(list)
+    for cable in sized_cables:
+        coords = cable.get("coordinates", [])
+        if len(coords) < 2:
+            continue
+        geom_groups[_geometry_key(coords)].append(cable)
+
+    for group in geom_groups.values():
+        donor = None
+        for c in group:
+            if c.get("aggregated_onts", 0) > 0:
+                if not donor or c.get("aggregated_onts", 0) > donor.get("aggregated_onts", 0):
+                    donor = c
+        if not donor:
+            continue
+
+        donor_agg = donor.get("aggregated_onts", 0)
+        donor_req = calculate_required_fibers_from_onts(donor_agg, config)
+        donor_req = max(donor_req, min_infrastructure_size)
+        matching_sizes = [s for s in standard_sizes if s >= donor_req]
+        donor_size = min(matching_sizes) if matching_sizes else max_size
+
+        for c in group:
+            if not c.get("is_input_cable"):
+                continue
+            if c.get("aggregated_onts", 0) > 0:
+                continue
+            c["aggregated_onts"] = donor_agg
+            c["downstream_onts"] = donor_agg
+            c["required_fibers"] = donor_req
+            if c.get("fiber_count", 0) < donor_size:
+                c["fiber_count"] = donor_size
+            if donor.get("olt_connections"):
+                c["olt_connections"] = donor.get("olt_connections", [])
+                c["connected_olts"] = donor.get("connected_olts", [])
+            c["sizing_method"] = "duplicate_geometry_propagation"
+
+    # Re-assign IDs in case fiber_count changed during propagation
+    sized_cables = assign_cable_ids(sized_cables, foscs, terminals, olts)
+
+    # Remove duplicate base_id cables with no ONT contribution
+    base_max_agg = defaultdict(int)
+    for cable in sized_cables:
+        base_id = cable.get("base_id")
+        if not base_id:
+            continue
+        base_max_agg[base_id] = max(base_max_agg[base_id], cable.get("aggregated_onts", 0))
+    filtered_cables = []
+    for cable in sized_cables:
+        base_id = cable.get("base_id")
+        agg = cable.get("aggregated_onts", 0)
+        assoc = cable.get("associated_onts", 0)
+        if cable.get("is_input_cable"):
+            filtered_cables.append(cable)
+            continue
+        if base_id and base_max_agg.get(base_id, 0) > 0 and agg == 0 and assoc == 0:
+            continue
+        filtered_cables.append(cable)
+    sized_cables = filtered_cables
     
     # Generate summary
     total_time = time.time() - start_time
@@ -1342,7 +1586,24 @@ def size_cables(
     print(f"    FOSC aggregations: {fosc_aggregations}")
     print(f"    Max size limit: {max_size}F")
     print(f"    ONT paths found: {len(ont_to_olt_paths)}")
+    # Build ONT -> cable ID path map for debugging/visualization
+    cable_id_by_index = {c.get("index"): c.get("base_id") or c.get("cable_id") for c in sized_cables}
+    ont_cable_paths = {}
+    for ont_id, path in ont_to_olt_paths.items():
+        ordered_cables = []
+        seen = set()
+        for _, cable_idx in path:
+            if cable_idx is None or cable_idx in seen:
+                continue
+            seen.add(cable_idx)
+            ordered_cables.append(cable_idx)
+        ont_cable_paths[ont_id] = [
+            cable_id_by_index.get(i)
+            for i in ordered_cables
+            if cable_id_by_index.get(i)
+        ]
     
+    graph_debug["ont_cable_paths"] = ont_cable_paths
     return (sized_cables, summary, graph_debug)
 
 def assign_cable_ids(
@@ -1364,24 +1625,16 @@ def assign_cable_ids(
     Returns:
         Updated sized_cables with cable_id, from_id, to_id
     """
-    # Build index of nodes by position
-    node_by_position = {}
+    # Build index of FOSC nodes by position
+    fosc_positions = []
     tolerance_m = 50.0
     
     for fosc in foscs:
         pos = fosc.get("position")
         if pos:
-            node_by_position[tuple(pos)] = fosc.get("fosc_id", "")
+            fosc_positions.append((fosc.get("fosc_id", ""), (pos[0], pos[1])))
     
-    for terminal in terminals:
-        pos = terminal.get("position")
-        if pos:
-            node_by_position[tuple(pos)] = terminal.get("terminal_id", "")
-    
-    for olt in olts:
-        pos = olt.get("position")
-        if pos:
-            node_by_position[tuple(pos)] = olt.get("olt_id", "")
+    # Cable IDs are based only on FOSCs for now
     
     # Assign IDs
     cable_id_counter = 1
@@ -1392,7 +1645,7 @@ def assign_cable_ids(
         if not coords:
             continue
         
-        # Find FROM and TO nodes
+        # Find FROM and TO nodes (FOSC-only)
         start_point = coords[0]
         end_point = coords[-1]
         
@@ -1401,7 +1654,7 @@ def assign_cable_ids(
         min_dist_start = float('inf')
         min_dist_end = float('inf')
         
-        for pos, node_id in node_by_position.items():
+        for node_id, pos in fosc_positions:
             dist_start = euclidean_distance(start_point[0], start_point[1], pos[0], pos[1])
             dist_end = euclidean_distance(end_point[0], end_point[1], pos[0], pos[1])
             
@@ -1413,14 +1666,22 @@ def assign_cable_ids(
                 min_dist_end = dist_end
                 to_node = node_id
         
+        # Avoid false FOSC-to-same-FOSC IDs
+        if from_node and to_node and from_node == to_node:
+            if min_dist_end >= min_dist_start:
+                to_node = None
+            else:
+                from_node = None
+
         # Generate placeholder IDs if needed
         if not from_node:
-            from_node = f"F{cable_id_counter:07d}"
+            from_node = "UNKNOWN"
         if not to_node:
-            to_node = f"F{cable_id_counter + 1:07d}"
+            to_node = "UNKNOWN"
         
         cable_id = f"{size}FOC/{from_node}/{to_node}"
         cable["cable_id"] = cable_id
+        cable["base_id"] = f"{from_node}/{to_node}"
         cable["from_id"] = from_node
         cable["to_id"] = to_node
         
@@ -1454,16 +1715,22 @@ def generate_sized_cable_geojson(sized_cables: List[Dict[str, Any]]) -> Dict[str
         props["ID"] = cable.get("cable_id") or cable.get("original_id", "")
         props["Size"] = f"{cable.get('fiber_count', 0)}F"
         props["FiberCount"] = cable.get("fiber_count", 0)
+        props["base_id"] = cable.get("base_id", "")
         props["from_id"] = cable.get("from_id", "")
         props["to_id"] = cable.get("to_id", "")
         props["required_fibers"] = cable.get("required_fibers", 0)
         props["downstream_onts"] = cable.get("downstream_onts", 0)
+        props["associated_onts"] = cable.get("associated_onts", 0)
+        props["aggregated_onts"] = cable.get("aggregated_onts", props.get("downstream_onts", 0))
         props["connected_olts"] = cable.get("connected_olts", [])
+        if "ont_count" in props:
+            del props["ont_count"]
         
         # Mark if this was an input cable (geometry preserved)
         if cable.get("is_input_cable", False):
             props["geometry_preserved"] = True
             props["original_id"] = cable.get("original_id", "")
+            props["is_input_cable"] = True
         
         feature = create_feature(
             geometry={

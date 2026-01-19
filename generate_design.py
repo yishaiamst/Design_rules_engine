@@ -447,6 +447,12 @@ def generate_design(ont_geojson_path: str,
     # Save optimized terminals and FOSCs for visualization
     optimized_terminals_path = os.path.join(output_dir, "rules_optimized_terminals.json")
     optimized_foscs_path = os.path.join(output_dir, "rules_optimized_foscs.json")
+    # Ensure terminal ont_count matches connected_onts before saving
+    for terminal in terminals:
+        ont_ids = terminal.get("connected_onts") or []
+        unique_onts = list(dict.fromkeys(ont_ids))
+        terminal["connected_onts"] = unique_onts
+        terminal["ont_count"] = len(unique_onts)
     with open(optimized_terminals_path, "w") as f:
         json.dump(terminals, f, indent=2)
     with open(optimized_foscs_path, "w") as f:
@@ -454,16 +460,24 @@ def generate_design(ont_geojson_path: str,
     print(f"  ✓ Saved optimized data for visualization")
     print()
     
-    # Generate Terminal and FOSC GeoJSON
-    print("Generating Terminal and FOSC GeoJSON...")
+    # Generate Terminal and MST GeoJSON
+    print("Generating Terminal and MST GeoJSON...")
     try:
         from phases.phase3_place_terminals import generate_terminal_geojson
-        terminal_geojson = generate_terminal_geojson(terminals)
+        aerial_terminals = [t for t in terminals if t.get("type") == "Aerial Terminal"]
+        msts = [t for t in terminals if t.get("type") != "Aerial Terminal"]
+
+        terminal_geojson = generate_terminal_geojson(aerial_terminals)
         terminal_output_path = os.path.join(output_dir, "terminal.geojson")
         save_geojson(terminal_geojson, terminal_output_path)
         print(f"  ✓ Saved Terminal GeoJSON to {terminal_output_path}")
+
+        mst_geojson = generate_terminal_geojson(msts)
+        mst_output_path = os.path.join(output_dir, "mst.geojson")
+        save_geojson(mst_geojson, mst_output_path)
+        print(f"  ✓ Saved MST GeoJSON to {mst_output_path}")
     except Exception as e:
-        print(f"  ⚠️  Error generating Terminal GeoJSON: {e}")
+        print(f"  ⚠️  Error generating Terminal/MST GeoJSON: {e}")
         import traceback
         traceback.print_exc()
     
@@ -784,6 +798,79 @@ def generate_design(ont_geojson_path: str,
         with open(graph_debug_path, "w") as f:
             json.dump(graph_debug, f, indent=2)
         print(f"  ✓ Saved cable graph debug to {graph_debug_path}")
+
+        # Save ONT -> cable ID paths for visualization/debugging
+        ont_paths_path = os.path.join(output_dir, "ont_cable_paths.json")
+        with open(ont_paths_path, "w") as f:
+            json.dump(graph_debug.get("ont_cable_paths", {}), f, indent=2)
+        print(f"  ✓ Saved ONT cable paths to {ont_paths_path}")
+
+        # Save ONT -> OLT path geometry as GeoJSON for visual debugging
+        try:
+            from utils.geojson_utils import create_feature, create_feature_collection
+            from utils.coordinate_transform import transform_geojson_to_wgs84
+            import copy
+            ont_paths = graph_debug.get("ont_cable_paths", {})
+            base_id_to_coords = {}
+            for feat in sized_cable_geojson.get("features", []):
+                props = feat.get("properties", {})
+                base_id = props.get("base_id")
+                coords = feat.get("geometry", {}).get("coordinates", [])
+                if base_id and coords:
+                    base_id_to_coords.setdefault(base_id, []).append(coords)
+
+            ont_to_olt = {}
+            for feat in ont_geojson.get("features", []):
+                props = feat.get("properties", {})
+                ont_id = props.get("id") or props.get("ID") or props.get("ont_id")
+                olt_id = props.get("olt_id") or props.get("OLT_ID") or props.get("oltid")
+                if ont_id and olt_id:
+                    ont_to_olt[ont_id] = olt_id
+
+            path_features = []
+            for ont_id, base_path in ont_paths.items():
+                segments = []
+                for base_id in base_path:
+                    for coords in base_id_to_coords.get(base_id, []):
+                        segments.append(coords)
+                if not segments:
+                    continue
+                geom = {"type": "MultiLineString", "coordinates": segments}
+                props = {
+                    "ONT_ID": ont_id,
+                    "OLT_ID": ont_to_olt.get(ont_id, ""),
+                    "base_path": base_path
+                }
+                path_features.append(create_feature(geom, props))
+
+            paths_geojson = create_feature_collection(path_features, crs="EPSG:32617")
+            paths_output_path = os.path.join(output_dir, "ont_to_olt_paths.geojson")
+            save_geojson(paths_geojson, paths_output_path)
+            print(f"  ✓ Saved ONT to OLT paths GeoJSON to {paths_output_path}")
+            # Also save WGS84 version for map viewers
+            paths_geojson_wgs84 = transform_geojson_to_wgs84(copy.deepcopy(paths_geojson), source_epsg=32617)
+            paths_wgs84_path = os.path.join(output_dir, "ont_to_olt_paths_wgs84.geojson")
+            save_geojson(paths_geojson_wgs84, paths_wgs84_path)
+            print(f"  ✓ Saved WGS84 ONT paths to {paths_wgs84_path}")
+
+            # Save per-ONT path GeoJSON files
+            per_ont_dir = os.path.join(output_dir, "ont_to_olt_paths")
+            os.makedirs(per_ont_dir, exist_ok=True)
+            per_ont_dir_wgs84 = os.path.join(output_dir, "ont_to_olt_paths_wgs84")
+            os.makedirs(per_ont_dir_wgs84, exist_ok=True)
+            for feature in path_features:
+                ont_id = feature.get("properties", {}).get("ONT_ID") or "UNKNOWN"
+                safe_id = "".join(c if c.isalnum() or c in ("-", "_") else "_" for c in ont_id)
+                per_ont_path = os.path.join(per_ont_dir, f"{safe_id}.geojson")
+                single = create_feature_collection([copy.deepcopy(feature)], crs="EPSG:32617")
+                save_geojson(single, per_ont_path)
+                single_wgs84 = transform_geojson_to_wgs84(single, source_epsg=32617)
+                per_ont_path_wgs84 = os.path.join(per_ont_dir_wgs84, f"{safe_id}.geojson")
+                save_geojson(single_wgs84, per_ont_path_wgs84)
+            print(f"  ✓ Saved per-ONT path GeoJSON files to {per_ont_dir}")
+            print(f"  ✓ Saved per-ONT WGS84 paths to {per_ont_dir_wgs84}")
+        except Exception as e:
+            print(f"  ⚠️  Error saving ONT to OLT paths GeoJSON: {e}")
         
         # Rule 23 (Post-Phase 6): Skipped
         # Isolation is handled by pre-processing the input fiber cable file.

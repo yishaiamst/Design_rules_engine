@@ -168,6 +168,11 @@
     "description": "Routing settings. drop_road_snap_m controls ONT snap to road for drop cables."
   },
 
+  "output": {
+    "generate_ont_paths": false,
+    "description": "Generate ONT->OLT path GeoJSON layers for debugging."
+  },
+
   "ont_generation": {
     "enabled": false,
     "provider": "osm_address",
